@@ -20,7 +20,7 @@
                 type="places"
                 place="place:folder=-1"
                 context="placesContext"
-                onclick="if (event.button != 0) return;var node = event.target.node || event.target._placesNode;if (node) if (PlacesUtils.nodeIsURI(node)) gBrowser.selectedTab = event.target.tab || gBrowser.addTab(node.uri);"
+                onclick="if (event.button != 0) return;var node = event.target._placesNode;if (node) if (PlacesUtils.nodeIsURI(node)) gBrowser.selectedTab = event.target.tab || gBrowser.addTab(node.uri);"
                 onpopupshowing="BookmarksEventHandler.onPopupShowing(event);"
                 tooltip="bhTooltip" popupsinherittooltip="true">
         <xul:hbox>
@@ -58,7 +58,6 @@
                      flex="1"
                      xbl:inherits="orient,align,pack,dir">
         <children/>
-        <xul:spacer anonid="spacer" style="pointer-events: none;"/>
       </xul:scrollbox>
       <xul:toolbarbutton class="scrollbutton-down" collapsed="true"
                          xbl:inherits="orient"
@@ -89,7 +88,7 @@
           });
           TU_hookCode("PinnedTabsBar.prototype._rebuild", "}", "gBrowser.mTabContainer.positionPinnedTabs(true);");
 
-          ["nodeInserted", "nodeRemoved", "nodeMoved", "nodeReplaced"].forEach(function(aMethod) {
+          ["nodeInserted", "nodeRemoved", "nodeMoved"].forEach(function(aMethod) {
             TU_hookCode.call(PinnedTabsBar.prototype, aMethod,
               [/.*_removeChild\((.*)\).*/, "var tab = $1.tab;$&"],
               ["this.updateChevron();", "$&;var tab;if (tab) gBrowser.mTabContainer.positionPinnedTab(tab);gBrowser.mTabContainer.positionPinnedTabs();"]
@@ -110,11 +109,8 @@
 
           pinnedbox.__defineSetter__("place", function(val) {
             let view = this.parentNode.parentNode._placesView;
-            if (view) {
+            if (view)
               view.uninit();
-              if (view._controller) //Fx 4.0 - 6.0
-                view._viewElt.controllers.removeController(view._controller);
-            }
 
             new PinnedTabsBar(val);
             return val;
@@ -128,9 +124,6 @@
 
       <field name="_pinnedbox">
         document.getElementById("PinnedTabsBarItems")
-      </field>
-      <field name="_spacer">
-        document.getAnonymousElementByAttribute(this, "anonid", "spacer")
       </field>
 
       <method name="_canScrollToElement">

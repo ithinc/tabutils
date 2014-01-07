@@ -76,10 +76,6 @@ menuseparator:last-child {
   visibility: hidden;
 }
 
-.tabbrowser-tab[concealed] {
-  display: none;
-}
-
 /* Pinned Tab */
 .tabbrowser-tab[faviconized] {
   min-width: -moz-min-content !important;
@@ -262,4 +258,16 @@ toolbar[iconsize="small"] #undoclosetab-button .toolbarbutton-icon {
 
 #statusbar-loadinforeground[checked="false"] {
   -moz-image-region: rect(32px, 32px, 48px, 16px);
+}
+
+/*  Full Screen UI */
+#fullscr-toggler-bottom {
+  height: 1px;
+  background: black;
+}
+
+#fullscr-toggler-left,
+#fullscr-toggler-right {
+  width: 1px;
+  background: black;
 }

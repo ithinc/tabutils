@@ -54,6 +54,7 @@
       <preference id="restoreOriginalPosition" name="extensions.tabutils.restoreOriginalPosition" type="bool"/>
       <preference id="reuseBlank" name="extensions.tabutils.reuseBlank" type="int"/>
       <preference id="loadInNewTab" name="extensions.tabutils.loadInNewTab" type="int" onchange="loadInNewTab();"/>
+      <preference id="markNewAsBlank" name="extensions.tabutils.markNewAsBlank" type="bool" inverted="true"/>
       <preference id="selectOnClose" name="extensions.tabutils.selectOnClose" type="int"/>
       <preference id="removeUnintentionalBlank" name="extensions.tabutils.removeUnintentionalBlank" type="bool" suggest="true"/>
       <preference id="closeLastWindowWithLastTab" name="extensions.tabutils.closeLastWindowWithLastTab" type="bool" inverted="true"/>
@@ -97,7 +98,7 @@
             <checkbox preference="keepOrder" label="&keepOrder.label;"/>
           </groupbox>
 
-          <groupbox>
+          <groupbox hidden="true">
             <caption label="&reuseBlank.caption;"/>
             <hbox>
               <checkbox preference="reuseBlank" label="&reuseBlank.current.label;"
@@ -152,7 +153,7 @@
             <hbox class="indent" align="center">
               <label value="&userDefinedURL.label;" control="c.userDefinedURL" observes="b.loadInNewTab"/>
               <textbox id="c.userDefinedURL" preference="userDefinedURL" class="padded uri-element" flex="1" type="autocomplete" autocompletesearch="history"
-                       onbroadcast="if (!this.disabled) {this.focus();this.select();}">
+                       onbroadcast="if (!this.disabled) this.focus();" onfocus="this.select();">
                 <observes element="b.loadInNewTab" attribute="disabled"/>
               </textbox>
             </hbox>
@@ -316,14 +317,14 @@
       <preference id="leftClickTabDelay" name="extensions.tabutils.leftClickTabDelay" type="int"/>
       <preference id="middleClickTab" name="extensions.tabutils.middleClickTab" type="int"/>
       <preference id="rightClickTab" name="extensions.tabutils.rightClickTab" type="int"/>
-      <preference id="dblClickTab" name="extensions.tabutils.dblClickTab" type="int" suggest="4"/>
-      <preference id="ctrlClickTab" name="extensions.tabutils.ctrlClickTab" type="int" suggest="31"/>
-      <preference id="altClickTab" name="extensions.tabutils.altClickTab" type="int" suggest="22"/>
-      <preference id="shiftClickTab" name="extensions.tabutils.shiftClickTab" type="int" suggest="32"/>
-      <preference id="ctrlShiftClickTab" name="extensions.tabutils.ctrlShiftClickTab" type="int" suggest="33"/>
+      <preference id="dblClickTab" name="extensions.tabutils.dblClickTab" type="int"/>
+      <preference id="ctrlClickTab" name="extensions.tabutils.ctrlClickTab" type="int"/>
+      <preference id="altClickTab" name="extensions.tabutils.altClickTab" type="int"/>
+      <preference id="shiftClickTab" name="extensions.tabutils.shiftClickTab" type="int"/>
+      <preference id="ctrlShiftClickTab" name="extensions.tabutils.ctrlShiftClickTab" type="int"/>
 
-      <preference id="leftClickTabBar" name="extensions.tabutils.leftClickTabBar" type="int" suggest="35"/>
-      <preference id="middleClickTabBar" name="extensions.tabutils.middleClickTabBar" type="int" suggest="5"/>
+      <preference id="leftClickTabBar" name="extensions.tabutils.leftClickTabBar" type="int"/>
+      <preference id="middleClickTabBar" name="extensions.tabutils.middleClickTabBar" type="int"/>
       <preference id="rightClickTabBar" name="extensions.tabutils.rightClickTabBar" type="int" suggest="12"/>
       <preference id="dblClickTabBar" name="extensions.tabutils.dblClickTabBar" type="int" onchange="$('dragBindingAlive').value = this.value == 0;"/>
       <preference id="dragBindingAlive" name="extensions.tabutils.dragBindingAlive" type="bool"/>
@@ -448,7 +449,7 @@
                 <spacer/>
                 <hbox align="center">
                   <label value="&leftClickTabDelay.label;" observes="b.clickCurrentTab"/>
-                  <textbox preference="leftClickTabDelay" type="number" size="4" maxlength="4" observes="b.clickCurrentTab"/>
+                  <textbox preference="leftClickTabDelay" type="number" increment="50" size="4" maxlength="4" observes="b.clickCurrentTab"/>
                   <label value="&time.label;" observes="b.clickCurrentTab"/>
                 </hbox>
               </row>
@@ -514,10 +515,7 @@
       <preference id="context_readTab" name="extensions.tabutils.menu.context_readTab" type="bool"/>
       <preference id="context_protectTab" name="extensions.tabutils.menu.context_protectTab" type="bool" suggest="true"/>
       <preference id="context_lockTab" name="extensions.tabutils.menu.context_lockTab" type="bool" suggest="true"/>
-      <preference id="context_freezeTab" name="extensions.tabutils.menu.context_freezeTab" type="bool"/>
       <preference id="context_faviconizeTab" name="extensions.tabutils.menu.context_faviconizeTab" type="bool" suggest="true"/>
-      <preference id="context_pegTab" name="extensions.tabutils.menu.context_pegTab" type="bool"/>
-      <preference id="context_hideTab" name="extensions.tabutils.menu.context_hideTab" type="bool"/>
       <preference id="context_renameTab" name="extensions.tabutils.menu.context_renameTab" type="bool"/>
       <preference id="context_restartTab" name="extensions.tabutils.menu.context_restartTab" type="bool" suggest="true"/>
       <preference id="context_closeLeftTabs" name="extensions.tabutils.menu.context_closeLeftTabs" type="bool"/>
@@ -534,10 +532,7 @@
       <preference id="context_readAllTabs" name="extensions.tabutils.menu.context_readAllTabs" type="bool"/>
       <preference id="context_protectAllTabs" name="extensions.tabutils.menu.context_protectAllTabs" type="bool" suggest="true"/>
       <preference id="context_lockAllTabs" name="extensions.tabutils.menu.context_lockAllTabs" type="bool" suggest="true"/>
-      <preference id="context_freezeAllTabs" name="extensions.tabutils.menu.context_freezeAllTabs" type="bool"/>
       <preference id="context_faviconizeAllTabs" name="extensions.tabutils.menu.context_faviconizeAllTabs" type="bool" suggest="true"/>
-      <preference id="context_pegAllTabs" name="extensions.tabutils.menu.context_pegAllTabs" type="bool"/>
-      <preference id="context_hideAllTabs" name="extensions.tabutils.menu.context_hideAllTabs" type="bool"/>
       <preference id="context_restartAllTabs" name="extensions.tabutils.menu.context_restartAllTabs" type="bool" suggest="true"/>
       <preference id="context_closeAllTabs" name="extensions.tabutils.menu.context_closeAllTabs" type="bool" suggest="true"/>
       <preference id="context_closeAllDuplicateTabs" name="extensions.tabutils.menu.context_closeAllDuplicateTabs" type="bool" suggest="true"/>
@@ -560,7 +555,7 @@
           <groupbox>
             <caption label="&tabBarFeatures.caption;"/>
             <hbox align="center">
-              <checkbox preference="autoHide" label="&showTabBar.label;"/>
+              <checkbox preference="showAllTabs" label="&showAllTabs.label;"/>
               <menulist preference="tabBarPosition" value="0">
                 <menupopup>
                   <menuitem value="0" label="&tabBarPosition.0.label;"/>
@@ -570,7 +565,6 @@
                 </menupopup>
               </menulist>
             </hbox>
-            <checkbox preference="showAllTabs" label="&showAllTabs.label;"/>
           </groupbox>
           <groupbox>
             <caption label="&showOnTabBar.caption;"/>
@@ -594,7 +588,7 @@
                     </menupopup>
                   </menulist>
                   <hbox align="center">
-                    <textbox id="c.tabClipWidth" preference="tabClipWidth" type="number" size="3" maxlength="3"/>
+                    <textbox id="c.tabClipWidth" preference="tabClipWidth" type="number" increment="10" size="3" maxlength="3"/>
                     <label value="&pixel.label;" control="c.tabClipWidth"/>
                   </hbox>
                 </row>
@@ -692,14 +686,13 @@
                 <row align="center">
                   <label value="&tabWidth.label;"/>
                   <hbox align="center">
-                    <textbox preference="tabMinWidth" type="number" size="3" maxlength="3"/>
+                    <textbox preference="tabMinWidth" type="number" increment="10" size="3" maxlength="3"/>
                     <label value="&to.label;"/>
-                    <textbox preference="tabMaxWidth" type="number" size="3" maxlength="4"/>
+                    <textbox preference="tabMaxWidth" type="number" increment="10" size="3" maxlength="3"/>
                     <label value="&pixel.label;"/>
                   </hbox>
-                  <!--checkbox preference="tabFitTitle" label="&tabFitTitle.label;"/-->
                 </row>
-                <row align="center">
+                <row align="center" hidden="true">
                   <label value="&tabHeight.label;"/>
                   <hbox align="center">
                     <textbox preference="tabMinHeight" type="number" size="3" maxlength="3"/>
@@ -726,10 +719,7 @@
               <checkbox preference="context_readTab" label="&readTab.label;"/>
               <checkbox preference="context_protectTab" label="&protectTab.label;" tooltiptext="&protectTab.tooltip;"/>
               <checkbox preference="context_lockTab" label="&lockTab.label;" tooltiptext="&lockTab.tooltip;"/>
-              <checkbox preference="context_freezeTab" label="&freezeTab.label;" tooltiptext="&freezeTab.tooltip;" hidden="true"/>
               <checkbox preference="context_faviconizeTab" label="&faviconizeTab.label;" tooltiptext="&faviconizeTab.tooltip;"/>
-              <checkbox preference="context_pegTab" label="&pegTab.label;" tooltiptext="&pegTab.tooltip;" hidden="true"/>
-              <checkbox preference="context_hideTab" label="&hideTab.label;" tooltiptext="&hideTab.tooltip;" hidden="true"/>
               <checkbox preference="context_renameTab" label="&renameTab.label;"/>
               <checkbox preference="context_restartTab" label="&restartTab.label;"/>
               <separator class="groove"/>
@@ -754,10 +744,7 @@
               <checkbox preference="context_readAllTabs" label="&readAllTabs.label;"/>
               <checkbox preference="context_protectAllTabs" label="&protectAllTabs.label;"/>
               <checkbox preference="context_lockAllTabs" label="&lockAllTabs.label;"/>
-              <checkbox preference="context_freezeAllTabs" label="&freezeAllTabs.label;" hidden="true"/>
               <checkbox preference="context_faviconizeAllTabs" label="&faviconizeAllTabs.label;"/>
-              <checkbox preference="context_pegAllTabs" label="&pegAllTabs.label;" hidden="true"/>
-              <checkbox preference="context_hideAllTabs" label="&hideAllTabs.label;" hidden="true"/>
               <checkbox preference="context_restartAllTabs" label="&restartAllTabs.label;"/>
               <separator class="groove"/>
               <checkbox preference="context_closeAllTabs" label="&closeAllTabs.label;"/>
@@ -845,10 +832,9 @@
       <menuseparator/>
       <menuitem value="21" label="&protectTab.label;" tooltiptext="&protectTab.tooltip;"/>
       <menuitem value="22" label="&lockTab.label;" tooltiptext="&lockTab.tooltip;"/>
-      <menuitem value="23" label="&freezeTab.label;" tooltiptext="&freezeTab.tooltip;" hidden="true"/>
+      <menuitem value="23" label="&freezeTab.label;" tooltiptext="&freezeTab.tooltip;"/>
       <menuitem value="24" label="&faviconizeTab.label;" tooltiptext="&faviconizeTab.tooltip;"/>
       <menuitem value="25" label="&pegTab.label;" tooltiptext="&pegTab.tooltip;"/>
-      <menuitem value="26" label="&hideTab.label;" tooltiptext="&hideTab.tooltip;" hidden="true"/>
       <menuitem value="27" label="&renameTab.label;"/>
       <menuitem value="28" label="&restartTab.label;"/>
       <menuitem value="29" label="&reloadEvery.label;"/>
@@ -876,7 +862,7 @@
     <menupopup id="settingsPopup" position="before_start">
       <menuitem label="&settings.import;" oncommand="onImport();"/>
       <menuitem label="&settings.export;" oncommand="onExport();"/>
-      <menuitem label="&advancedJS.label;" oncommand="openDialog('about:config?filter=extensions.tabutils.', '', 'chrome,titlebar,toolbar,centerscreen,dialog=no,resizable').focus();"/>
+      <menuitem label="&advancedFonts.label;" oncommand="openDialog('about:config?filter=extensions.tabutils.', '', 'chrome,titlebar,toolbar,centerscreen,dialog=no,resizable').focus();"/>
       <menuseparator/>
       <menuitem label="&settings.default;" oncommand="onDefault();"/>
       <menuitem label="&settings.suggest;" oncommand="onSuggest();"/>

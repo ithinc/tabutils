@@ -8,7 +8,7 @@
     );
     TU_hookCode("BookmarkPropertiesPanel._getTransactionsForURIList",
       [/(?=.*_getURITitleFromHistory.*)/, "var annos; if (!(uri instanceof Ci.nsIURI)) [uri, annos] = uri;"],
-      [/.*(createItem|PlacesCreateBookmarkTransaction).*/, function(s) s.replace("title", "$&, null, annos")]
+      [/title(?=\))/, "$&, null, annos"]
     );
   ]]>
   </script>

@@ -1,5 +1,4 @@
-TU_hookCode = TU_hookMethod;
-function TU_hookMethod(aStr) {
+function TU_hookCode(aStr) {
   try {
     var namespaces = aStr.split(".");
 
@@ -56,16 +55,16 @@ function TU_hookSetter(aStr) {
 
 function TU_hookFunc(aFunc) {
   var myCode = aFunc.toString();
+  var orgCode, newCode, flags;
+
   for (var i = 1; i < arguments.length;) {
-    if (arguments[i].constructor.name == "Array") {
-      var [orgCode, newCode, flags] = arguments[i++];
-    }
-    else {
-      var [orgCode, newCode, flags] = [arguments[i++], arguments[i++], arguments[i++]];
-    }
+    if (arguments[i].constructor.name == "Array")
+      [orgCode, newCode, flags] = arguments[i++];
+    else
+      [orgCode, newCode, flags] = [arguments[i++], arguments[i++], arguments[i++]];
 
     if (typeof newCode == "function" && newCode.length == 0)
-      newCode = newCode.toString().replace(/^.*{|.*}$/g, "");
+      newCode = newCode.toString().replace(/^.*{|}$/g, "");
 
     switch (orgCode) {
       case "{": [orgCode, newCode] = [/{/, "$&\n" + newCode];break;
@@ -78,55 +77,53 @@ function TU_hookFunc(aFunc) {
     myCode = myCode.replace(orgCode, newCode);
   }
 
-//  myCode = myCode.replace(/^(.*){([\s\S]*)}$/, <![CDATA[
-//    $1 {
-//      try {
-////        switch (arguments.callee.name) {
-////          case "set_selectedTab":
-////            Cu.reportError(arguments.callee.caller.name + '*' + arguments.callee.name + '*' + (val && val._tPos));break;
-////          case "BrowserOpenTab":
-////            Cu.reportError(arguments.callee.caller.name + '*' + arguments.callee.name );break;
-////        }
-//        $2
-//      } catch (e) {
-//        Cu.reportError([arguments.callee.name ,e]);
-//        Cu.reportError(arguments.callee.stack);
-//        Cu.reportError(arguments.callee);
-//      }
+//  Cu.reportError(myCode);
+//  myCode = myCode.replace(/(^.*\n?{)([\s\S]*)(}$)/, function(s, s1, s2, s3) (function() {
+//    $1
+//    try {
+////      switch (arguments.callee.name) {
+////        case "set_selectedTab":
+////          Cu.reportError(arguments.callee.caller.name + '*' + arguments.callee.name + '*' + (val && val._tPos));break;
+////        case "BrowserOpenTab":
+////          Cu.reportError(arguments.callee.caller.name + '*' + arguments.callee.name );break;
+////      }
+//      $2
+//    } catch (e) {
+//      Cu.reportError([arguments.callee.name ,e]);
+//      Cu.reportError(arguments.callee.stack);
+//      Cu.reportError(arguments.callee);
 //    }
-//  ]]>);
+//    $3
+//  }).toString().replace(/^.*{|}$/g, "").replace("$1", s1).replace("$2", s2).replace("$3", s3));
 
   return eval("(" + myCode + ")");
 }
 
-if (!window.gPrefService)
-  gPrefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-
 function TU_getPref(aPrefName, aDefault) {
-  switch (gPrefService.getPrefType(aPrefName)) {
-    case gPrefService.PREF_BOOL: return gPrefService.getBoolPref(aPrefName);
-    case gPrefService.PREF_INT: return gPrefService.getIntPref(aPrefName);
-    case gPrefService.PREF_STRING: return gPrefService.getComplexValue(aPrefName, Components.interfaces.nsISupportsString).data;
+  switch (Services.prefs.getPrefType(aPrefName)) {
+    case Services.prefs.PREF_BOOL: return Services.prefs.getBoolPref(aPrefName);
+    case Services.prefs.PREF_INT: return Services.prefs.getIntPref(aPrefName);
+    case Services.prefs.PREF_STRING: return Services.prefs.getComplexValue(aPrefName, Components.interfaces.nsISupportsString).data;
     default:
       switch (typeof aDefault) {
-        case "boolean": gPrefService.setBoolPref(aPrefName, aDefault);break;
-        case "number": gPrefService.setIntPref(aPrefName, aDefault);break;
-        case "string": gPrefService.setCharPref(aPrefName, aDefault);break;
+        case "boolean": Services.prefs.setBoolPref(aPrefName, aDefault);break;
+        case "number": Services.prefs.setIntPref(aPrefName, aDefault);break;
+        case "string": Services.prefs.setCharPref(aPrefName, aDefault);break;
       }
       return aDefault;
   }
 }
 
 function TU_setPref(aPrefName, aValue) {
-  switch (gPrefService.getPrefType(aPrefName)) {
-    case gPrefService.PREF_BOOL: return gPrefService.setBoolPref(aPrefName, aValue);
-    case gPrefService.PREF_INT: return gPrefService.setIntPref(aPrefName, aValue);
-    case gPrefService.PREF_STRING: return gPrefService.setCharPref(aPrefName, aValue);
+  switch (Services.prefs.getPrefType(aPrefName)) {
+    case Services.prefs.PREF_BOOL: Services.prefs.setBoolPref(aPrefName, aValue);break;
+    case Services.prefs.PREF_INT: Services.prefs.setIntPref(aPrefName, aValue);break;
+    case Services.prefs.PREF_STRING: Services.prefs.setCharPref(aPrefName, aValue);break;
     default:
       switch (typeof aValue) {
-        case "boolean": return gPrefService.setBoolPref(aPrefName, aValue);
-        case "number": return gPrefService.setIntPref(aPrefName, aValue);
-        case "string": return gPrefService.setCharPref(aPrefName, aValue);
+        case "boolean": Services.prefs.setBoolPref(aPrefName, aValue);break;
+        case "number": Services.prefs.setIntPref(aPrefName, aValue);break;
+        case "string": Services.prefs.setCharPref(aPrefName, aValue);break;
       }
   }
 }

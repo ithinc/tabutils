@@ -1,0 +1,4 @@
+/* Toolbar buttons */
+window[v21="true"] #closetab-button {
+  list-style-image: url("chrome://global/skin/icons/close.png");
+}

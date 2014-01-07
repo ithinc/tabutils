@@ -3,6 +3,7 @@
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx4.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx6.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx14.css" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx21.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_mac.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_linux.css" type="text/css"?>
 
@@ -18,6 +19,10 @@
 <overlay id="tabutils-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/javascript" src="tulib.js"/>
   <script type="application/javascript" src="tabutils.js"/>
+  <script type="application/javascript" src="tabutils-pt.js"/>
+  <script type="application/javascript" src="tabutils-mt.js"/>
+  <script type="application/javascript" src="tabutils-vt.js"/>
+  <script type="application/javascript" src="tabutils-st.js"/>
   <script type="application/javascript">
   <![CDATA[
     TU_hookCode("goDoCommand", /.*doCommand.*/, "$& else {let cmd = top.document.getElementById(arguments[1]);if (cmd) cmd.doCommand();}");
@@ -50,8 +55,6 @@
     <key id="key_freezeTab" key="F" modifiers="accel,alt" oncommand="gBrowser.freezeTab(gBrowser.mCurrentTab);"/>
     <key id="key_faviconizeTab" key="I" modifiers="accel,alt" oncommand="gBrowser.faviconizeTab(gBrowser.mCurrentTab);"/>
     <key id="key_pinTab" key="P" modifiers="accel,alt" oncommand="gBrowser.pinTab(gBrowser.mCurrentTab);"/>
-    <key id="key_hideTab" key="H" modifiers="accel,alt" oncommand="gBrowser.concealTab(gBrowser.mCurrentTab);"/>
-    <key id="key_hideAllTabs" key="H" modifiers="accel,alt,shift" oncommand="gBrowser.concealTab(gBrowser.allTabs);"/>
     <key id="key_closeLeftTabs" oncommand="gBrowser.closeLeftTabs(gBrowser.mCurrentTab);" keycode="VK_F3" modifiers="accel,shift"/>
     <key id="key_closeAllTabs" oncommand="gBrowser.closeAllTabs();" keycode="VK_F4" modifiers="accel,shift"/>
     <key id="key_closeRightTabs" oncommand="gBrowser.closeRightTabs(gBrowser.mCurrentTab);" keycode="VK_F5" modifiers="accel,shift"/>
@@ -162,13 +165,6 @@
                 type="checkbox"
                 multiselected="any"
                 oncommand="gBrowser.lockTab(gBrowser.mContextTabs);"/>
-      <menuitem id="context_freezeTab"
-                label="&freezeTab.label;"
-                accesskey="&freezeTab.accesskey;"
-                key="key_freezeTab"
-                type="checkbox"
-                multiselected="any"
-                oncommand="gBrowser.freezeTab(gBrowser.mContextTabs);"/>
       <menuitem id="context_faviconizeTab"
                 label="&faviconizeTab.label;"
                 accesskey="&faviconizeTab.accesskey;"
@@ -176,20 +172,6 @@
                 type="checkbox"
                 multiselected="any"
                 oncommand="gBrowser.faviconizeTab(gBrowser.mContextTabs);"/>
-      <menuitem id="context_pegTab"
-                label="&pegTab.label;"
-                accesskey="&pegTab.accesskey;"
-                key="key_pinTab"
-                type="checkbox"
-                multiselected="any"
-                oncommand="gBrowser.pinTab(gBrowser.mContextTabs);"/>
-      <menuitem id="context_hideTab"
-                label="&hideTab.label;"
-                accesskey="&hideTab.accesskey;"
-                key="key_hideTab"
-                type="checkbox"
-                multiselected="any"
-                oncommand="gBrowser.concealTab(gBrowser.mContextTabs);"/>
       <menuitem id="context_renameTab"
                 label="&renameTab.label;"
                 accesskey="&renameTab.accesskey;"
@@ -322,22 +304,10 @@
                 label="&lockAllTabs.label;"
                 type="checkbox"
                 oncommand="gBrowser.lockTab(gBrowser.allTabs);"/>
-      <menuitem id="context_freezeAllTabs"
-                label="&freezeAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.freezeTab(gBrowser.allTabs);"/>
       <menuitem id="context_faviconizeAllTabs"
                 label="&faviconizeAllTabs.label;"
                 type="checkbox"
                 oncommand="gBrowser.faviconizeTab(gBrowser.allTabs);"/>
-      <menuitem id="context_pegAllTabs"
-                label="&pegAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.pinTab(gBrowser.allTabs);"/>
-      <menuitem id="context_hideAllTabs"
-                label="&hideAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.concealTab(gBrowser.allTabs);"/>
       <menuitem id="context_restartAllTabs"
                 label="&restartAllTabs.label;"
                 oncommand="gBrowser.allTabs.forEach(gBrowser.restartTab, gBrowser);"/>
@@ -354,7 +324,7 @@
     <menupopup id="tabStackPopup"
                onpopupshowing="gBrowser.updateTabStackPopup(event.target);"
                oncommand="gBrowser.selectedTab = gBrowser.mTabs[event.originalTarget.value];"
-               onclick="if (event.button > 0) {var item = event.originalTarget, tab = gBrowser.mTabs[item.value]; gBrowser.removeTab(tab); if (!tab.hasAttribute('removing')) return; while (item = item.nextSibling) item.value--; this.removeChild(event.originalTarget);}"/>
+               onclick="if (event.button > 0) {var item = event.originalTarget, tab = gBrowser.mTabs[item.value]; gBrowser.removeTab(tab); if (tab.parentNode) return; while (item = item.nextSibling) item.value--; this.removeChild(event.originalTarget);}"/>
 
     <menupopup id="undoCloseTabPopup"
                onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
@@ -399,12 +369,6 @@
               oncommand="BrowserOpenTab();">
     </menuitem>
     <menuseparator insertbefore="context_reloadTab"/>
-    <menuitem id="context_pinTab"
-              multiselected="any"
-              oncommand="gBrowser.pinTab(gBrowser.mContextTabs, true);"/>
-    <menuitem id="context_unpinTab"
-              multiselected="any"
-              oncommand="gBrowser.pinTab(gBrowser.mContextTabs, false);"/>
     <menu id="context_tabViewMenu"
           multiselected="any">
       <menupopup id="context_tabViewMenuPopup"
@@ -466,6 +430,15 @@
            toolbarname="&tabsToolbarCmd.label;" accesskey="&tabsToolbarCmd.accesskey;"
            toolboxid="navigator-toolbox"
            key="key_toggleTabsToolbar"/>
+
+  <vbox id="browser-panel">
+    <hbox id="fullscr-toggler" collapsed="true" insertbefore="browser"/>
+    <hbox id="browser">
+      <vbox id="fullscr-toggler-left" collapsed="true" insertbefore="appcontent"/>
+      <vbox id="fullscr-toggler-right" collapsed="true" insertafter="appcontent"/>
+    </hbox>
+    <hbox id="fullscr-toggler-bottom" collapsed="true" insertafter="browser"/>
+  </vbox>
 
   <statusbar id="status-bar">
     <statusbarpanel id="statusbar-openintab"

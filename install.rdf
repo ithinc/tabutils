@@ -4,7 +4,7 @@
     <em:id>tabutils@ithinc.cn</em:id>
     <em:type>2</em:type>
     <em:name>Tab Utilities</em:name>
-    <em:version>1.5.1</em:version>
+    <em:version>1.5.20</em:version>
     <em:creator>ithinc</em:creator>
     <em:contributor>Leszek(teo)Życzkowski</em:contributor>
     <em:contributor>Emanuele Alimonda</em:contributor>
@@ -25,7 +25,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- Firefox -->
         <em:minVersion>17.0</em:minVersion>
-        <em:maxVersion>19.*</em:maxVersion>
+        <em:maxVersion>28.0a2</em:maxVersion>
       </Description>
     </em:targetApplication>
     <em:strictCompatibility>true</em:strictCompatibility>
