@@ -1,0 +1,96 @@
+/* Tab Highlighting */
+window[OS="Linux"] .tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
+  list-style-image: url("jar:resource://app/chrome/classic.jar!/skin/classic/browser/Secure.png");
+	-moz-image-region: auto;
+}
+
+window[OS="Linux"][v4="true"] .tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
+  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Secure.png");
+}
+
+window[OS="Linux"][v6="true"] .tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
+  list-style-image: url("resource://app/chrome/browser/skin/classic/browser/Secure.png");
+}
+
+window[OS="Linux"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
+  list-style-image: url("jar:resource://app/chrome/classic.jar!/skin/classic/browser/Toolbar-small.png") !important;
+	-moz-image-region: rect(0px, 32px, 16px, 16px) !important;
+}
+
+window[OS="Linux"][v4="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
+  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Toolbar-small.png") !important;
+}
+
+window[OS="Linux"][v6="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
+  list-style-image: url("resource://app/chrome/browser/skin/classic/browser/Toolbar-small.png") !important;
+}
+
+/* Toolbar buttons */
+window[OS="Linux"] #closetab-button {
+  list-style-image: url("moz-icon://stock/gtk-close?size=toolbar");
+  -moz-image-region: auto;
+}
+
+window[OS="Linux"] #closetab-button[disabled="true"] {
+  list-style-image: url("moz-icon://stock/gtk-close?size=toolbar&state=disabled");
+}
+
+window[OS="Linux"] toolbar[iconsize="small"] #closetab-button {
+  list-style-image: url("moz-icon://stock/gtk-close?size=menu");
+}
+
+window[OS="Linux"] toolbar[iconsize="small"] #closetab-button[disabled="true"] {
+  list-style-image: url("moz-icon://stock/gtk-close?size=menu&state=disabled");
+}
+
+window[OS="Linux"] #undoclosetab-button {
+  list-style-image: url("moz-icon://stock/gtk-undelete?size=toolbar");
+  -moz-image-region: auto;
+}
+
+window[OS="Linux"] #undoclosetab-button[disabled="true"] {
+  list-style-image: url("moz-icon://stock/gtk-undelete?size=toolbar&state=disabled");
+}
+
+window[OS="Linux"] toolbar[iconsize="small"] #undoclosetab-button {
+  list-style-image: url("moz-icon://stock/gtk-undelete?size=menu");
+}
+
+window[OS="Linux"] toolbar[iconsize="small"] #undoclosetab-button[disabled="true"] {
+  list-style-image: url("moz-icon://stock/gtk-undelete?size=menu&state=disabled");
+}
+
+window[OS="Linux"] #closetab-button .toolbarbutton-icon,
+window[OS="Linux"] #undoclosetab-button .toolbarbutton-icon {
+  width: auto;
+  height: auto;
+  margin: 0px;
+}
+
+/* Status bar buttons */
+window[OS="Linux"] #statusbar-openintab {
+  list-style-image: url("moz-icon://stock/gtk-add?size=menu");
+  -moz-image-region: auto;
+}
+
+window[OS="Linux"] #statusbar-openintab[checked="false"] {
+  list-style-image: url("moz-icon://stock/gtk-add?size=menu&state=disabled");
+}
+
+window[OS="Linux"] #statusbar-loadinbackground {
+  list-style-image: url("moz-icon://stock/gtk-go-back?size=menu");
+  -moz-image-region: auto;
+}
+
+window[OS="Linux"] #statusbar-loadinbackground[checked="false"] {
+  list-style-image: url("moz-icon://stock/gtk-go-back?size=menu&state=disabled");
+}
+
+window[OS="Linux"] #statusbar-loadinforeground {
+  list-style-image: url("moz-icon://stock/gtk-go-forward?size=menu");
+  -moz-image-region: auto;
+}
+
+window[OS="Linux"] #statusbar-loadinforeground[checked="false"] {
+  list-style-image: url("moz-icon://stock/gtk-go-forward?size=menu&state=disabled");
+}

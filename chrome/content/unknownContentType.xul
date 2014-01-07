@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<overlay id="tabutils-unknownContentType" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/javascript">
+  <![CDATA[
+    var win = window.opener;
+    if (win && win._closeTimer) {
+      win.clearTimeout(win._closeTimer);
+      window.addEventListener("unload", function() {
+        win && win.setTimeout(function() {this.close();}, 250);
+      }, false);
+    }
+  ]]>
+  </script>
+</overlay>

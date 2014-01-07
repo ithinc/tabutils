@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay [
+<!ENTITY % tabutilsDTD SYSTEM "chrome://tabutils/locale/tabutils.dtd">
+%tabutilsDTD;
+]>
+
+<overlay id="tabutils-TabsPaneOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <vbox id="tabPrefsBox">
+    <spacer height="8"/>
+    <button id="button_tuOptions"
+            label="&tuOptions.label;"
+            oncommand="openDialog('chrome://tabutils/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=no').focus();"/>
+  </vbox>
+</overlay>

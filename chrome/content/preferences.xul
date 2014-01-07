@@ -1,0 +1,1332 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/preferences.css" type="text/css"?>
+
+<!DOCTYPE prefwindow [
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
+%browserDTD;
+<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
+%tabBrowserDTD;
+<!ENTITY % tabsDTD SYSTEM "chrome://browser/locale/preferences/tabs.dtd">
+%tabsDTD;
+<!ENTITY % contentDTD SYSTEM "chrome://browser/locale/preferences/content.dtd">
+%contentDTD;
+<!ENTITY % customizeToolbarDTD SYSTEM "chrome://global/locale/customizeToolbar.dtd">
+%customizeToolbarDTD;
+<!ENTITY % tabutilsDTD SYSTEM "chrome://tabutils/locale/tabutils.dtd">
+%tabutilsDTD;
+<!ENTITY % preferencesDTD SYSTEM "chrome://tabutils/locale/preferences.dtd">
+%preferencesDTD;
+]>
+
+<prefwindow id="tabutils-preferences"
+            title="&prefwindow.title;"
+            helpURI="http://addons.mozilla.org/addon/59961"
+            buttons="accept,cancel,extra1,extra2"
+            buttonlabelcancel="&prefwindow.close;"
+            buttonlabelextra1="&prefwindow.apply;"
+            buttonlabelextra2="&prefwindow.settings;"
+            buttonlabelreset="&prefwindow.reset;"
+            buttonlabelclose="&prefwindow.close;"
+            onload="onLoad();"
+            onunload="onUnload();"
+            ondialogextra1="onApply();"
+            ondialogextra2="onDefault();"
+            ondialogcancel="return onCancel();"
+            ondialoghelp="openHelp();"
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <prefpane id="pane1" label="&pane1.title;" helpTopic2="pane1" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
+    <preferences>
+      <preference id="openBookmarksInTab" name="extensions.tabutils.openBookmarksInTab" type="bool"/>
+      <preference id="openHomepageInTab" name="extensions.tabutils.openHomepageInTab" type="bool"/>
+      <preference id="openUrlInTab" name="extensions.tabutils.openUrlInTab" type="bool"/>
+      <preference id="loadHomepageInBackground" name="extensions.tabutils.loadHomepageInBackground" type="bool" inverted="true"/>
+      <preference id="loadUrlInBackground" name="extensions.tabutils.loadUrlInBackground" type="bool" inverted="true"/>
+      <preference id="loadSearchInBackground" name="extensions.tabutils.loadSearchInBackground" type="bool" inverted="true"/>
+      <preference id="loadNewInBackground" name="extensions.tabutils.loadNewInBackground" type="bool" inverted="true"/>
+      <preference id="loadDuplicateInBackground" name="extensions.tabutils.loadDuplicateInBackground" type="bool" inverted="true"/>
+      <preference id="loadAllInBackground" name="extensions.tabutils.loadAllInBackground" type="bool" onchange="loadAllInBackground();"/>
+      <preference id="loadAllInForeground" name="extensions.tabutils.loadAllInForeground" type="bool" onchange="loadAllInForeground();"/>
+      <preference id="openTabNext" name="extensions.tabutils.openTabNext" type="int" suggest="1" onchange="openTabNext();"/>
+      <preference id="keepOrder" name="extensions.tabutils.openTabNext.keepOrder" type="bool"/>
+      <preference id="openDuplicateNext" name="extensions.tabutils.openDuplicateNext" type="bool"/>
+      <preference id="restoreOriginalPosition" name="extensions.tabutils.restoreOriginalPosition" type="bool"/>
+      <preference id="reuseBlank" name="extensions.tabutils.reuseBlank" type="int"/>
+      <preference id="loadInNewTab" name="extensions.tabutils.loadInNewTab" type="int" onchange="loadInNewTab();"/>
+      <preference id="selectOnClose" name="extensions.tabutils.selectOnClose" type="int"/>
+      <preference id="removeUnintentionalBlank" name="extensions.tabutils.removeUnintentionalBlank" type="bool" suggest="true"/>
+      <preference id="closeLastWindowWithLastTab" name="extensions.tabutils.closeLastWindowWithLastTab" type="bool" inverted="true"/>
+      <preference id="handleCtrlTab" name="extensions.tabutils.handleCtrlTab" type="bool" suggest="true"/>
+      <preference id="handleCtrlArrow" name="extensions.tabutils.handleCtrlArrow" type="bool"/>
+      <preference id="handleCtrl" name="extensions.tabutils.handleCtrl" type="bool"/>
+
+      <preference id="openSearchInTab" name="browser.search.openintab" type="bool" suggest="true"/>
+      <preference id="loadBookmarksInBackground" name="browser.tabs.loadBookmarksInBackground" type="bool" inverted="true"/>
+      <preference id="loadDivertedInBackground" name="browser.tabs.loadDivertedInBackground" type="bool" inverted="true"/>
+      <preference id="loadInBackground" name="browser.tabs.loadInBackground" type="bool" inverted="true"/>
+      <preference id="maxTabsUndo" name="browser.sessionstore.max_tabs_undo" type="int" suggest="15"/>
+      <preference id="userDefinedURL" name="browser.newtab.url" type="string"/>
+    </preferences>
+
+    <tabbox>
+      <tabs>
+        <tab label="&pane1.tab1.title;"/>
+        <tab label="&pane1.tab2.title;"/>
+      </tabs>
+      <tabpanels>
+        <tabpanel orient="vertical">
+          <groupbox>
+            <caption label="&openTabFor.caption;"/>
+            <hbox>
+              <checkbox preference="openBookmarksInTab" label="&bookmarksMenu.label;/&historyMenu.label;"/>
+              <checkbox preference="openHomepageInTab" label="&homeButton.label;"/>
+              <checkbox preference="openUrlInTab" label="&loadUrlInBackground.label;"/>
+              <checkbox preference="openSearchInTab" label="&loadSearchInBackground.label;"/>
+            </hbox>
+          </groupbox>
+
+          <groupbox>
+            <caption label="&openTabNext.label;"/>
+            <radiogroup preference="openTabNext" value="1" orient="horizontal">
+              <radio label="&all.label;" value="1"/>
+              <radio label="&allBut.label;" value="2"/>
+              <radio label="&noneBut.label;" value="3"/>
+              <radio label="&none.label;" value="0"/>
+            </radiogroup>
+            <checkbox preference="keepOrder" label="&keepOrder.label;"/>
+          </groupbox>
+
+          <groupbox>
+            <caption label="&reuseBlank.caption;"/>
+            <hbox>
+              <checkbox preference="reuseBlank" label="&reuseBlank.current.label;"
+                        onsyncfrompreference="return $('reuseBlank').value &amp; 1;"
+                        onsynctopreference="return this.checked ? $('reuseBlank').value | 1 : $('reuseBlank').value &amp; ~1;"/>
+              <checkbox preference="reuseBlank" label="&reuseBlank.last.label;"
+                        onsyncfrompreference="return $('reuseBlank').value &amp; 2;"
+                        onsynctopreference="return this.checked ? $('reuseBlank').value | 2 : $('reuseBlank').value &amp; ~2;"/>
+              <checkbox preference="reuseBlank" label="&reuseBlank.all.label;"
+                        onsyncfrompreference="return $('reuseBlank').value &amp; 4;"
+                        onsynctopreference="return this.checked ? $('reuseBlank').value | 4 : $('reuseBlank').value &amp; ~4;"/>
+            </hbox>
+          </groupbox>
+
+          <groupbox>
+            <caption label="&loadInBackground.caption;"/>
+            <grid>
+              <rows>
+                <row>
+                  <checkbox preference="loadBookmarksInBackground" label="&bookmarksMenu.label;/&historyMenu.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadHomepageInBackground" label="&homeButton.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadUrlInBackground" label="&loadUrlInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadSearchInBackground" label="&loadSearchInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                </row>
+                <row>
+                  <checkbox preference="loadDivertedInBackground" label="&loadDivertedInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadInBackground" label="&loadInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadNewInBackground" label="&loadNewInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadDuplicateInBackground" label="&loadDuplicateInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                </row>
+                <row>
+                  <checkbox preference="loadAllInForeground" label="&all.label;" tooltiptext="&loadAllInForeground.tooltip;"/>
+                  <spacer/>
+                  <spacer/>
+                  <checkbox preference="loadAllInBackground" label="&none.label;" tooltiptext="&loadAllInBackground.tooltip;"/>
+                </row>
+              </rows>
+            </grid>
+          </groupbox>
+
+          <groupbox>
+            <hbox align="center">
+              <label value="&loadInNewTab.label;" control="c.loadInNewTab"/>
+              <menulist id="c.loadInNewTab" value="0" preference="loadInNewTab">
+                <menupopup>
+                  <menuitem value="0" label="&loadInNewTab.0.label;"/>
+                  <menuitem value="1" label="&loadInNewTab.1.label;"/>
+                  <menuitem value="2" label="&loadInNewTab.2.label;"/>
+                </menupopup>
+              </menulist>
+            </hbox>
+            <hbox class="indent" align="center">
+              <label value="&userDefinedURL.label;" control="c.userDefinedURL" observes="b.loadInNewTab"/>
+              <textbox id="c.userDefinedURL" preference="userDefinedURL" class="padded uri-element" flex="1" type="autocomplete" autocompletesearch="history"
+                       onbroadcast="if (!this.disabled) {this.focus();this.select();}">
+                <observes element="b.loadInNewTab" attribute="disabled"/>
+              </textbox>
+            </hbox>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel orient="vertical">
+          <groupbox>
+            <caption label="&selectOnClose.label;"/>
+            <grid>
+              <rows>
+                <row>
+                  <checkbox preference="selectOnClose"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0xe0;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0xe0 | (this.checked &amp;&amp; this.nextSibling.value);"/>
+                  <menulist preference="selectOnClose" value="64" style="margin-left: 0px;"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0xe0 || this.value;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0xe0 | this.value;">
+                    <menupopup>
+                      <menuitem value="224" label="&unreadRelatedTabs.label;"/>
+                      <menuitem value="64" label="&relatedTabs.label;" tooltiptext="&relatedTabs.tooltip;"/>
+                      <menuitem value="32" label="&unreadTabs.label;"/>
+                    </menupopup>
+                  </menulist>
+                </row>
+                <row>
+                  <checkbox preference="selectOnClose"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0x03;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0x03 | (this.checked &amp;&amp; this.nextSibling.value);"/>
+                  <menulist preference="selectOnClose" value="2" style="margin-left: 0px;"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0x03 || this.value;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0x03 | this.value;">
+                    <menupopup>
+                      <menuitem value="1" label="&leftTab.label;"/>
+                      <menuitem value="2" label="&rightTab.label;"/>
+                    </menupopup>
+                  </menulist>
+                </row>
+                <row>
+                  <checkbox preference="selectOnClose"
+                            onsyncfrompreference="return this.disabled = $('selectOnClose').value &amp; 0x1c;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0x1c | (this.checked &amp;&amp; this.nextSibling.value);"/>
+                  <menulist preference="selectOnClose" value="8" style="margin-left: 0px;"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0x1c || this.value;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0x1c | this.value;">
+                    <menupopup>
+                      <menuitem value="4" label="&firstTab.label;"/>
+                      <menuitem value="8" label="&lastTab.label;"/>
+                      <menuitem value="16" label="&lastSelectedTab.label;"/>
+                    </menupopup>
+                  </menulist>
+                </row>
+              </rows>
+            </grid>
+          </groupbox>
+          <groupbox>
+            <caption label="&closeOtherTab.caption;"/>
+            <checkbox preference="removeUnintentionalBlank" label="&removeUnintentionalBlank.label;"/>
+          </groupbox>
+          <groupbox>
+            <caption label="&undoCloseTab.label;"/>
+            <hbox align="center">
+              <label value="&maxTabsUndo.label;" control="c.maxTabsUndo"/>
+              <textbox id="c.maxTabsUndo" preference="maxTabsUndo" type="number" size="2" maxlength="3"/>
+            </hbox>
+          </groupbox>
+          <groupbox>
+            <caption label="&handleCtrlTab.caption;"/>
+            <checkbox preference="handleCtrlTab" label="&handleCtrlTab.label;"/>
+            <checkbox preference="handleCtrlArrow" label="&handleCtrlArrow.label;"/>
+          </groupbox>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
+  </prefpane>
+
+  <prefpane id="pane2" label="&pane2.title;" helpTopic2="pane2" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
+    <preferences>
+      <preference id="singleWindowMode" name="extensions.tabutils.singleWindowMode" type="bool" onchange="singleWindowMode();"/>
+      <preference id="openLinkInTab" name="extensions.tabutils.openLinkInTab" type="bool"/>
+      <preference id="openExternalInTab" name="extensions.tabutils.openExternalInTab" type="bool"/>
+      <preference id="openLinkWithHistory" name="extensions.tabutils.openLinkWithHistory" type="bool"/>
+
+      <preference id="openExternal" name="browser.link.open_external" type="int"/>
+      <preference id="openNewWindow" name="browser.link.open_newwindow" type="int" onchange="openNewWindow();"/>
+      <preference id="openNewWindowRestriction" name="browser.link.open_newwindow.restriction" type="int" onchange="openNewWindowRestriction();"/>
+    </preferences>
+
+    <groupbox>
+      <caption label="&openNewWindow.caption;"/>
+      <grid>
+        <rows>
+          <row align="center">
+            <label value="&openExternal.label;" control="c.openExternal"/>
+            <menulist id="c.openExternal" value="3" preference="openExternal">
+              <menupopup>
+                <menuitem value="2" label="&openNewWindow.2.label;" observes="b.singleWindowMode"/>
+                <menuitem value="3" label="&openNewWindow.3.label;"/>
+                <menuitem value="1" label="&openNewWindow.1.label;"/>
+              </menupopup>
+            </menulist>
+          </row>
+          <row align="center">
+            <label value="&openNewWindow.label;" control="c.openNewWindow"/>
+            <menulist id="c.openNewWindow" value="3" preference="openNewWindow">
+              <menupopup>
+                <menuitem value="2" label="&openNewWindow.2.label;" observes="b.singleWindowMode"/>
+                <menuitem value="3" label="&openNewWindow.3.label;"/>
+                <menuitem value="1" label="&openNewWindow.1.label;"/>
+              </menupopup>
+            </menulist>
+          </row>
+          <row align="center">
+            <checkbox preference="openNewWindowRestriction" label="&openNewWindowRestriction.label;" class="indent"
+                      onsyncfrompreference="return $('openNewWindowRestriction').value != 0;"
+                      onsynctopreference="return this.checked ? this.nextSibling.value : 0;"
+                      onbroadcast="this.disabled = $('b.openNewWindow').hasAttribute('disabled') || $('b.singleWindowMode').hasAttribute('disabled');">
+              <observes element="b.openNewWindow" attribute="disabled"/>
+              <observes element="b.singleWindowMode" attribute="disabled"/>
+            </checkbox>
+            <menulist preference="openNewWindowRestriction" value="2"
+                      onsyncfrompreference="return $('openNewWindowRestriction').value == 0 ? this.value : $('openNewWindowRestriction').value;"
+                      onbroadcast="this.disabled = $('b.openNewWindow').hasAttribute('disabled') || $('b.openNewWindowRestriction').hasAttribute('disabled') || $('b.singleWindowMode').hasAttribute('disabled');">
+              <menupopup>
+                <menuitem value="0" label="&openNewWindowRestriction.0.label;" hidden="true"/>
+                <menuitem value="1" label="&openNewWindowRestriction.1.label;" disabled="true"/>
+                <menuitem value="2" label="&openNewWindowRestriction.2.label;"/>
+              </menupopup>
+              <observes element="b.openNewWindow" attribute="disabled"/>
+              <observes element="b.openNewWindowRestriction" attribute="disabled"/>
+              <observes element="b.singleWindowMode" attribute="disabled"/>
+            </menulist>
+          </row>
+        </rows>
+      </grid>
+      <checkbox preference="singleWindowMode" label="&singleWindowMode.label;"/>
+      <separator class="groove"/>
+      <checkbox preference="openLinkInTab" label="&openLinkInTab.label;"/>
+      <checkbox preference="openExternalInTab" label="&openExternalInTab.label;"/>
+    </groupbox>
+
+    <groupbox>
+      <caption label="&openLinkWithHistory.caption;"/>
+      <checkbox preference="openLinkWithHistory" label="&openLinkWithHistory.label;"/>
+    </groupbox>
+  </prefpane>
+
+  <prefpane id="pane3" label="&pane3.title;" helpTopic2="pane3" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
+    <preferences>
+      <preference id="middleClickBookmarks" name="extensions.tabutils.middleClickBookmarks" type="int"/>
+      <preference id="rightClickBookmarks" name="extensions.tabutils.rightClickBookmarks" type="int"/>
+      <preference id="ctrlClickBookmarks" name="extensions.tabutils.ctrlClickBookmarks" type="int"/>
+      <preference id="shiftClickBookmarks" name="extensions.tabutils.shiftClickBookmarks" type="int"/>
+
+      <preference id="middleClickLinks" name="extensions.tabutils.middleClickLinks" type="int"/>
+      <preference id="rightClickLinks" name="extensions.tabutils.rightClickLinks" type="int" suggest="1"/>
+      <preference id="ctrlClickLinks" name="extensions.tabutils.ctrlClickLinks" type="int" suggest="1"/>
+      <preference id="shiftClickLinks" name="extensions.tabutils.shiftClickLinks" type="int" suggest="1"/>
+
+      <preference id="leftClickTab" name="extensions.tabutils.leftClickTab" type="int" suggest="7"/>
+      <preference id="leftClickTabDelay" name="extensions.tabutils.leftClickTabDelay" type="int"/>
+      <preference id="middleClickTab" name="extensions.tabutils.middleClickTab" type="int"/>
+      <preference id="rightClickTab" name="extensions.tabutils.rightClickTab" type="int"/>
+      <preference id="dblClickTab" name="extensions.tabutils.dblClickTab" type="int" suggest="4"/>
+      <preference id="ctrlClickTab" name="extensions.tabutils.ctrlClickTab" type="int" suggest="31"/>
+      <preference id="altClickTab" name="extensions.tabutils.altClickTab" type="int" suggest="22"/>
+      <preference id="shiftClickTab" name="extensions.tabutils.shiftClickTab" type="int" suggest="32"/>
+      <preference id="ctrlShiftClickTab" name="extensions.tabutils.ctrlShiftClickTab" type="int" suggest="33"/>
+
+      <preference id="leftClickTabBar" name="extensions.tabutils.leftClickTabBar" type="int" suggest="35"/>
+      <preference id="middleClickTabBar" name="extensions.tabutils.middleClickTabBar" type="int" suggest="5"/>
+      <preference id="rightClickTabBar" name="extensions.tabutils.rightClickTabBar" type="int" suggest="12"/>
+      <preference id="dblClickTabBar" name="extensions.tabutils.dblClickTabBar" type="int" onchange="$('dragBindingAlive').value = this.value == 0;"/>
+      <preference id="dragBindingAlive" name="extensions.tabutils.dragBindingAlive" type="bool"/>
+      <preference id="ctrlClickTabBar" name="extensions.tabutils.ctrlClickTabBar" type="int" suggest="34"/>
+      <preference id="altClickTabBar" name="extensions.tabutils.altClickTabBar" type="int"/>
+      <preference id="shiftClickTabBar" name="extensions.tabutils.shiftClickTabBar" type="int"/>
+
+      <preference id="middleClickNewTabButton" name="extensions.tabutils.middleClickNewTabButton" type="int" suggest="6"/>
+      <preference id="rightClickNewTabButton" name="extensions.tabutils.rightClickNewTabButton" type="int" suggest="15"/>
+      <preference id="ctrlClickNewTabButton" name="extensions.tabutils.ctrlClickNewTabButton" type="int"/>
+      <preference id="altClickNewTabButton" name="extensions.tabutils.altClickNewTabButton" type="int"/>
+      <preference id="shiftClickNewTabButton" name="extensions.tabutils.shiftClickNewTabButton" type="int"/>
+
+
+      <preference id="dragAndGo" name="extensions.tabutils.dragAndGo" type="bool" suggest="true"/>
+      <preference id="mouseReleaseSelect" name="extensions.tabutils.mouseReleaseSelect" type="bool" suggest="true"/>
+      <preference id="mouseHoverSelect" name="extensions.tabutils.mouseHoverSelect" type="bool" onchange="mouseHoverSelect();"/>
+      <preference id="mouseHoverSelectDelay" name="extensions.tabutils.mouseHoverSelectDelay" type="int"/>
+      <preference id="mouseScrollSelect" name="extensions.tabutils.mouseScrollSelect" type="bool" onchange="mouseScrollSelect();"/>
+      <preference id="mouseScrollSelectDir" name="extensions.tabutils.mouseScrollSelectDir" type="bool"/>
+      <preference id="mouseScrollSelectWrap" name="extensions.tabutils.mouseScrollSelectWrap" type="bool"/>
+    </preferences>
+
+    <tabbox>
+      <tabs id="tabClickingTabs" onselect="onTabClickingTabSelect();">
+        <tab label="&pane3.tab1.title;"/>
+        <tab label="&pane3.tab2.title;"/>
+        <tab label="&pane3.tab3.title;"/>
+        <tab label="&pane3.tab4.title;"/>
+        <tab label="&pane3.tab5.title;"/>
+        <tab label="&pane3.tab6.title;"/>
+        <tab label="&pane3.tab7.title;"/>
+      </tabs>
+      <tabpanels>
+        <tabpanel orient="vertical">
+          <grid>
+            <rows>
+              <row align="center">
+                <label value="&clickBookmarks.label;" observes="b.clickBookmarks" tooltiptext="&bookmarksMenu.label;/&historyMenu.label;/&loadUrlInBackground.label;/&loadSearchInBackground.label;"/>
+                <deck id="c.clickBookmarks">
+                  <spacer/>
+                  <menulist preference="middleClickBookmarks" value="0">
+                    <menupopup>
+                      <menuitem value="0" label="&doDefault.label;"/>
+                      <menuitem value="1" label="&openInCurrent.label;" tooltiptext="&invertMiddle.tooltip;"/>
+                      <menuitem value="2" label="&invertFocus.label;" tooltiptext="&invertFocus.tooltip;"/>
+                      <menuitem value="4" label="&stayMenuOpen.label;"/>
+                      <menuitem value="6" label="&invertFocus.label;/&stayMenuOpen.label;"/>
+                    </menupopup>
+                  </menulist>
+                  <menulist preference="rightClickBookmarks" value="0">
+                    <menupopup>
+                      <menuitem value="0" label="&doDefault.label;"/>
+                      <menuitem value="1" label="&rightAsMiddle.label;"/>
+                    </menupopup>
+                  </menulist>
+                  <spacer/>
+                  <menulist preference="ctrlClickBookmarks" value="0">
+                    <menupopup>
+                      <menuitem value="0" label="&doDefault.label;"/>
+                      <menuitem value="1" label="&openInCurrent.label;" tooltiptext="&invertCtrl.tooltip;"/>
+                    </menupopup>
+                  </menulist>
+                  <spacer/>
+                  <menulist preference="shiftClickBookmarks" value="0">
+                    <menupopup>
+                      <menuitem value="0" label="&doDefault.label;"/>
+                      <menuitem value="1" label="&openInCurrent.label;"/>
+                    </menupopup>
+                  </menulist>
+                </deck>
+              </row>
+              <row align="center">
+                <label value="&clickLinks.label;" observes="b.clickLinks"/>
+                <deck id="c.clickLinks">
+                  <spacer/>
+                  <menulist preference="middleClickLinks" value="0">
+                    <menupopup>
+                      <menuitem value="0" label="&doDefault.label;"/>
+                      <menuitem value="1" label="&openInCurrent.label;" tooltiptext="&invertMiddle.tooltip;"/>
+                      <menuitem value="2" label="&invertFocus.label;" tooltiptext="&invertFocus.tooltip;"/>
+                    </menupopup>
+                  </menulist>
+                  <menulist preference="rightClickLinks" value="0">
+                    <menupopup>
+                      <menuitem value="0" label="&doDefault.label;"/>
+                      <menuitem value="1" label="&rightAsMiddle.label;"/>
+                    </menupopup>
+                  </menulist>
+                  <spacer/>
+                  <menulist preference="ctrlClickLinks" value="0">
+                    <menupopup>
+                      <menuitem value="0" label="&doDefault.label;"/>
+                      <menuitem value="1" label="&openInCurrent.label;" tooltiptext="&invertCtrl.tooltip;"/>
+                    </menupopup>
+                  </menulist>
+                  <spacer/>
+                  <menulist preference="shiftClickLinks" value="0">
+                    <menupopup>
+                      <menuitem value="0" label="&doDefault.label;"/>
+                      <menuitem value="1" label="&openInCurrent.label;"/>
+                    </menupopup>
+                  </menulist>
+                </deck>
+              </row>
+              <row align="center">
+                <deck id="l.clickTab">
+                  <label value="&clickCurrentTab.label;" control="c.clickTab" observes="b.clickTab"/>
+                  <label value="&clickTab.label;" control="c.clickTab" observes="b.clickTab"/>
+                </deck>
+                <menulist id="c.clickTab" value="0" observes="b.clickTab"/>
+              </row>
+              <row align="center">
+                <label value="&clickTabBar.label;" control="c.clickTabBar" observes="b.clickTabBar"/>
+                <menulist id="c.clickTabBar" value="0" observes="b.clickTabBar"/>
+              </row>
+              <row align="center">
+                <label value="&clickNewTabButton.label1;&tabCmd.label;&clickNewTabButton.label2;" control="c.clickNewTabButton" observes="b.clickNewTabButton"/>
+                <menulist id="c.clickNewTabButton" value="0" observes="b.clickNewTabButton"/>
+              </row>
+              <row align="center">
+                <spacer/>
+                <hbox align="center">
+                  <label value="&leftClickTabDelay.label;" observes="b.clickCurrentTab"/>
+                  <textbox preference="leftClickTabDelay" type="number" size="4" maxlength="4" observes="b.clickCurrentTab"/>
+                  <label value="&time.label;" observes="b.clickCurrentTab"/>
+                </hbox>
+              </row>
+            </rows>
+          </grid>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
+    <spacer height="8"/>
+
+    <checkbox preference="dragAndGo" label="&dragAndGo.label;" tooltiptext="&dragAndGo.tooltip;"/>
+    <checkbox preference="mouseReleaseSelect" label="&mouseReleaseSelect.label;"/>
+    <hbox align="center">
+      <checkbox preference="mouseHoverSelect" label="&mouseHoverSelect.label;"/>
+      <textbox preference="mouseHoverSelectDelay" type="number" size="4" maxlength="4"/>
+      <label value="&time.label;"/>
+    </hbox>
+    <checkbox preference="mouseScrollSelect" label="&mouseScrollSelect.label;"/>
+    <vbox class="indent">
+      <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;"/>
+      <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;"/>
+    </vbox>
+  </prefpane>
+
+  <prefpane id="pane4" label="&pane4.title;" helpTopic2="pane4" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
+    <preferences>
+      <preference id="tabBarPosition" name="extensions.tabutils.tabBarPosition" type="int" onchange="tabBarPosition();"/>
+      <preference id="closeButtons" name="extensions.tabutils.closeButtons" type="int" suggest="33" onchange="closeButtons();"/>
+      <preference id="showTabCounter" name="extensions.tabutils.showTabCounter" type="bool" suggest="true"/>
+      <preference id="showLeftSpace" name="extensions.tabutils.showLeftSpace" type="bool"/>
+      <preference id="showRightSpace" name="extensions.tabutils.showRightSpace" type="bool"/>
+      <preference id="showAllTabs" name="extensions.tabutils.showAllTabs" type="bool"/>
+      <preference id="tabFitTitle" name="extensions.tabutils.tabFitTitle" type="bool"/>
+      <preference id="highlightCurrent" name="extensions.tabutils.highlightCurrent" type="bool" onchange="onHighlightEnabled('Current');" suggest="true"/>
+      <preference id="highlightUnread" name="extensions.tabutils.highlightUnread" type="bool" onchange="onHighlightEnabled('Unread');" suggest="true"/>
+      <preference id="highlightRead" name="extensions.tabutils.highlightRead" type="bool" onchange="onHighlightEnabled('Read');"/>
+      <preference id="highlightUnloaded" name="extensions.tabutils.highlightUnloaded" type="bool" onchange="onHighlightEnabled('Unloaded');"/>
+      <preference id="highlightSelected" name="extensions.tabutils.highlightSelected" type="bool" onchange="onHighlightEnabled('Selected');"/>
+      <preference id="highlightProtected" name="extensions.tabutils.highlightProtected" type="bool" onchange="onHighlightEnabled('Protected');"/>
+      <preference id="highlightLocked" name="extensions.tabutils.highlightLocked" type="bool" onchange="onHighlightEnabled('Locked');"/>
+      <preference id="styleCurrent" name="extensions.tabutils.styles.current" type="string" onchange="onHighlightStyle('Current');"/>
+      <preference id="styleUnread" name="extensions.tabutils.styles.unread" type="string" onchange="onHighlightStyle('Unread');"/>
+      <preference id="styleRead" name="extensions.tabutils.styles.read" type="string" onchange="onHighlightStyle('Read');"/>
+      <preference id="styleUnloaded" name="extensions.tabutils.styles.unloaded" type="string" onchange="onHighlightStyle('Unloaded');"/>
+      <preference id="styleSelected" name="extensions.tabutils.styles.selected" type="string" onchange="onHighlightStyle('Selected');"/>
+      <preference id="styleProtected" name="extensions.tabutils.styles.protected" type="string" onchange="onHighlightStyle('Protected');"/>
+      <preference id="styleLocked" name="extensions.tabutils.styles.locked" type="string" onchange="onHighlightStyle('Locked');"/>
+
+      <preference id="autoHide" name="browser.tabs.autoHide" type="bool" inverted="true" suggest="false"/>
+      <preference id="tabClipWidth" name="browser.tabs.tabClipWidth" type="int"/>
+      <preference id="tabMaxWidth" name="browser.tabs.tabMaxWidth" type="int"/>
+      <preference id="tabMinWidth" name="browser.tabs.tabMinWidth" type="int"/>
+      <preference id="tabMinHeight" name="browser.tabs.tabMinHeight" type="int"/>
+
+      <preference id="menu_tuOptions" name="extensions.tabutils.menu.menu_tuOptions" type="bool" suggest="true"/>
+      <preference id="context_newTab" name="extensions.tabutils.menu.context_newTab" type="bool" suggest="true"/>
+      <preference id="context_duplicateTab" name="extensions.tabutils.menu.context_duplicateTab" type="bool" suggest="true"/>
+      <preference id="context_reloadEvery" name="extensions.tabutils.menu.context_reloadEvery" type="bool" suggest="true"/>
+      <preference id="context_moveToWindow" name="extensions.tabutils.menu.context_moveToWindow" type="bool" suggest="true"/>
+      <preference id="context_mergeWindow" name="extensions.tabutils.menu.context_mergeWindow" type="bool" suggest="true"/>
+      <preference id="context_mergeGroup" name="extensions.tabutils.menu.context_mergeGroup" type="bool" suggest="true"/>
+      <preference id="context_recentlyClosedTabs" name="extensions.tabutils.menu.context_recentlyClosedTabs" type="bool" suggest="true"/>
+      <preference id="context_readTab" name="extensions.tabutils.menu.context_readTab" type="bool"/>
+      <preference id="context_protectTab" name="extensions.tabutils.menu.context_protectTab" type="bool" suggest="true"/>
+      <preference id="context_lockTab" name="extensions.tabutils.menu.context_lockTab" type="bool" suggest="true"/>
+      <preference id="context_freezeTab" name="extensions.tabutils.menu.context_freezeTab" type="bool"/>
+      <preference id="context_faviconizeTab" name="extensions.tabutils.menu.context_faviconizeTab" type="bool" suggest="true"/>
+      <preference id="context_pegTab" name="extensions.tabutils.menu.context_pegTab" type="bool"/>
+      <preference id="context_hideTab" name="extensions.tabutils.menu.context_hideTab" type="bool"/>
+      <preference id="context_renameTab" name="extensions.tabutils.menu.context_renameTab" type="bool"/>
+      <preference id="context_restartTab" name="extensions.tabutils.menu.context_restartTab" type="bool" suggest="true"/>
+      <preference id="context_closeLeftTabs" name="extensions.tabutils.menu.context_closeLeftTabs" type="bool"/>
+      <preference id="context_closeRightTabs" name="extensions.tabutils.menu.context_closeRightTabs" type="bool"/>
+      <preference id="context_closeOtherTabs" name="extensions.tabutils.menu.context_closeOtherTabs" type="bool"/>
+      <preference id="context_closeDuplicateTabs" name="extensions.tabutils.menu.context_closeDuplicateTabs" type="bool"/>
+      <preference id="context_closeSimilarTabs" name="extensions.tabutils.menu.context_closeSimilarTabs" type="bool" suggest="true"/>
+      <preference id="context_selectTab" name="extensions.tabutils.menu.context_selectTab" type="bool"/>
+      <preference id="context_selectTabs" name="extensions.tabutils.menu.context_selectTabs" type="bool"/>
+      <preference id="context_selectAllTabs" name="extensions.tabutils.menu.context_selectAllTabs" type="bool"/>
+      <preference id="context_unselectAllTabs" name="extensions.tabutils.menu.context_unselectAllTabs" type="bool"/>
+      <preference id="context_invertSelection" name="extensions.tabutils.menu.context_invertSelection" type="bool"/>
+      <preference id="context_showAllTabs" name="extensions.tabutils.menu.context_showAllTabs" type="bool" suggest="true"/>
+      <preference id="context_readAllTabs" name="extensions.tabutils.menu.context_readAllTabs" type="bool"/>
+      <preference id="context_protectAllTabs" name="extensions.tabutils.menu.context_protectAllTabs" type="bool" suggest="true"/>
+      <preference id="context_lockAllTabs" name="extensions.tabutils.menu.context_lockAllTabs" type="bool" suggest="true"/>
+      <preference id="context_freezeAllTabs" name="extensions.tabutils.menu.context_freezeAllTabs" type="bool"/>
+      <preference id="context_faviconizeAllTabs" name="extensions.tabutils.menu.context_faviconizeAllTabs" type="bool" suggest="true"/>
+      <preference id="context_pegAllTabs" name="extensions.tabutils.menu.context_pegAllTabs" type="bool"/>
+      <preference id="context_hideAllTabs" name="extensions.tabutils.menu.context_hideAllTabs" type="bool"/>
+      <preference id="context_restartAllTabs" name="extensions.tabutils.menu.context_restartAllTabs" type="bool" suggest="true"/>
+      <preference id="context_closeAllTabs" name="extensions.tabutils.menu.context_closeAllTabs" type="bool" suggest="true"/>
+      <preference id="context_closeAllDuplicateTabs" name="extensions.tabutils.menu.context_closeAllDuplicateTabs" type="bool" suggest="true"/>
+
+      <preference id="statusbarMode" name="extensions.tabutils.statusbarMode" type="int"/>
+      <preference id="hideOpenInTab" name="extensions.tabutils.hideOpenInTab" type="bool"/>
+      <preference id="hideLoadInBackground" name="extensions.tabutils.hideLoadInBackground" type="bool" onchange="hideLoadInBackground();"/>
+      <preference id="hideLoadInForeground" name="extensions.tabutils.hideLoadInForeground" type="bool" onchange="hideLoadInForeground();"/>
+    </preferences>
+
+    <tabbox>
+      <tabs>
+        <tab label="&pane4.tab1.title;"/>
+        <tab label="&pane1.title;"/>
+        <tab label="&pane4.tab2.title;"/>
+        <tab label="&pane4.tab3.title;"/>
+      </tabs>
+      <tabpanels>
+        <tabpanel orient="vertical">
+          <groupbox>
+            <caption label="&tabBarFeatures.caption;"/>
+            <hbox align="center">
+              <checkbox preference="autoHide" label="&showTabBar.label;"/>
+              <menulist preference="tabBarPosition" value="0">
+                <menupopup>
+                  <menuitem value="0" label="&tabBarPosition.0.label;"/>
+                  <menuitem value="1" label="&tabBarPosition.1.label;"/>
+                  <menuitem value="2" label="&tabBarPosition.2.label;"/>
+                  <menuitem value="3" label="&tabBarPosition.3.label;"/>
+                </menupopup>
+              </menulist>
+            </hbox>
+            <checkbox preference="showAllTabs" label="&showAllTabs.label;"/>
+          </groupbox>
+          <groupbox>
+            <caption label="&showOnTabBar.caption;"/>
+            <grid>
+              <rows>
+                <row align="center">
+                  <checkbox preference="closeButtons" label="&button.label1;&closeTab.label;&button.label2;"
+                            onsyncfrompreference="return $('closeButtons').value != 2;"
+                            onsynctopreference="return this.checked ? this.nextSibling.value : 2;"/>
+                  <menulist preference="closeButtons" value="1"
+                            onsyncfrompreference="return $('closeButtons').value == 2 ? this.value : $('closeButtons').value;">
+                    <menupopup>
+                      <menuitem value="0" label="&closeButtons.0.label;"/>
+                      <menuitem value="18" label="&closeButtons.18.label;"/>
+                      <menuitem value="16" label="&closeButtons.16.label;"/>
+                      <menuitem value="1" label="&closeButtons.1.label;"/>
+                      <menuitem value="3" label="&closeButtons.3.label;"/>
+                      <menuitem value="50" label="&closeButtons.50.label;"/>
+                      <menuitem value="33" label="&closeButtons.33.label;"/>
+                      <menuitem value="2" label="&closeButtons.2.label;" hidden="true"/>
+                    </menupopup>
+                  </menulist>
+                  <hbox align="center">
+                    <textbox id="c.tabClipWidth" preference="tabClipWidth" type="number" size="3" maxlength="3"/>
+                    <label value="&pixel.label;" control="c.tabClipWidth"/>
+                  </hbox>
+                </row>
+              </rows>
+            </grid>
+            <hbox>
+              <checkbox preference="showTabCounter" label="&showTabCounter.label;"/>
+            </hbox>
+            <hbox>
+              <checkbox preference="showLeftSpace" label="&showLeftSpace.label;"/>
+              <checkbox preference="showRightSpace" label="&showRightSpace.label;"/>
+            </hbox>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel orient="vertical">
+          <groupbox>
+            <caption label="&highlight.caption;"/>
+            <tabbox>
+              <tabs id="highlight" onselect="onHighlightTabSelect();">
+                <tab label="&highlight.tab1.label;" observes="b.highlightCurrent"/>
+                <tab label="&highlight.tab2.label;" observes="b.highlightUnread"/>
+                <tab label="&highlight.tab3.label;" observes="b.highlightRead"/>
+                <tab label="&highlight.tab6.label;" observes="b.highlightUnloaded"/>
+                <tab label="&highlight.tab7.label;" observes="b.highlightSelected"/>
+                <tab label="&highlight.tab4.label;" observes="b.highlightProtected"/>
+                <tab label="&highlight.tab5.label;" observes="b.highlightLocked"/>
+              </tabs>
+              <tabpanels>
+                <tabpanel orient="vertical">
+                  <checkbox id="c.highlightEnabled" label="&highlightEnabled.label;"/>
+                  <separator class="groove"/>
+                  <hbox>
+                    <checkbox id="c.highlightBold" label="&highlightBold.label;" style="font-weight: bold;" observes="b.highlightEnabled"
+                              oncommand="doHighlightStyle();"/>
+                    <checkbox id="c.highlightItalic" label="&highlightItalic.label;" style="font-style: italic;" observes="b.highlightEnabled"
+                              oncommand="doHighlightStyle();"/>
+                    <checkbox id="c.highlightUnderline" label="&highlightUnderline.label;" style="text-decoration: underline;" observes="b.highlightEnabled"
+                              oncommand="if (this.checked) this.nextSibling.checked = false;doHighlightStyle();"/>
+                    <checkbox id="c.highlightStrikethrough" label="&highlightStrikethrough.label;" style="text-decoration: line-through;" observes="b.highlightEnabled"
+                              oncommand="if (this.checked) this.previousSibling.checked = false;doHighlightStyle();"/>
+                  </hbox>
+                  <grid>
+                    <rows>
+                      <row align="center">
+                        <checkbox id="c.highlightColor" label="&highlightColor.label;" oncommand="doHighlightStyle();">
+                          <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightColor();"/>
+                        </checkbox>
+                        <textbox id="c.highlightColorCode" observes="b.highlightColor" oninput="doHighlightStyle();"/>
+                        <colorpicker id="c.highlightColorPicker" type="button"
+                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
+                          <observes element="b.highlightColor" attribute="disabled"/>
+                        </colorpicker>
+                      </row>
+                      <row align="center">
+                        <checkbox id="c.highlightBgColor" label="&highlightBgColor.label;" oncommand="doHighlightStyle();">
+                          <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightBgColor();"/>
+                        </checkbox>
+                        <textbox id="c.highlightBgColorCode" observes="b.highlightBgColor" oninput="doHighlightStyle();"/>
+                        <colorpicker id="c.highlightBgColorPicker" type="button"
+                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
+                          <observes element="b.highlightBgColor" attribute="disabled"/>
+                        </colorpicker>
+                      </row>
+                      <row align="center">
+                        <checkbox id="c.highlightOutline" label="&highlightOutline.label;" oncommand="doHighlightStyle();">
+                          <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightOutline();"/>
+                        </checkbox>
+                        <textbox id="c.highlightOutlineColorCode" observes="b.highlightOutline" oninput="doHighlightStyle();"/>
+                        <colorpicker id="c.highlightOutlineColorPicker" type="button"
+                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
+                          <observes element="b.highlightOutline" attribute="disabled"/>
+                        </colorpicker>
+                      </row>
+                      <row align="center">
+                        <checkbox id="c.highlightOpacity" label="Opacity:" oncommand="doHighlightStyle();">
+                          <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightOpacity();"/>
+                        </checkbox>
+                        <textbox id="c.highlightOpacityCode" type="number" min="0" max="100" increment="10" size="3" maxlength="3"
+                                 observes="b.highlightOpacity" oninput="doHighlightStyle();" onchange="doHighlightStyle();"/>
+                      </row>
+                    </rows>
+                  </grid>
+                </tabpanel>
+              </tabpanels>
+            </tabbox>
+          </groupbox>
+
+          <groupbox>
+            <grid>
+              <rows>
+                <row align="center">
+                  <label value="&tabWidth.label;"/>
+                  <hbox align="center">
+                    <textbox preference="tabMinWidth" type="number" size="3" maxlength="3"/>
+                    <label value="&to.label;"/>
+                    <textbox preference="tabMaxWidth" type="number" size="3" maxlength="4"/>
+                    <label value="&pixel.label;"/>
+                  </hbox>
+                  <!--checkbox preference="tabFitTitle" label="&tabFitTitle.label;"/-->
+                </row>
+                <row align="center">
+                  <label value="&tabHeight.label;"/>
+                  <hbox align="center">
+                    <textbox preference="tabMinHeight" type="number" size="3" maxlength="3"/>
+                    <label value="&pixel.label;"/>
+                  </hbox>
+                </row>
+              </rows>
+            </grid>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel>
+          <groupbox flex="1">
+            <caption label="&tabContextMenu.label;"/>
+            <vbox height="300" style="overflow-y: auto;">
+              <checkbox preference="context_newTab" label="&tabCmd.label;"/>
+              <checkbox preference="context_duplicateTab" label="&duplicateTab.label;"/>
+              <checkbox preference="context_reloadEvery" label="&reloadEvery.label;"/>
+              <checkbox preference="context_moveToWindow" label="&moveToWindow.label;"/>
+              <checkbox preference="context_mergeWindow" label="&mergeWindow.label;"/>
+              <checkbox preference="context_mergeGroup" label="&mergeGroup.label;"/>
+              <checkbox preference="context_recentlyClosedTabs" label="&historyUndoMenu.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_readTab" label="&readTab.label;"/>
+              <checkbox preference="context_protectTab" label="&protectTab.label;" tooltiptext="&protectTab.tooltip;"/>
+              <checkbox preference="context_lockTab" label="&lockTab.label;" tooltiptext="&lockTab.tooltip;"/>
+              <checkbox preference="context_freezeTab" label="&freezeTab.label;" tooltiptext="&freezeTab.tooltip;" hidden="true"/>
+              <checkbox preference="context_faviconizeTab" label="&faviconizeTab.label;" tooltiptext="&faviconizeTab.tooltip;"/>
+              <checkbox preference="context_pegTab" label="&pegTab.label;" tooltiptext="&pegTab.tooltip;" hidden="true"/>
+              <checkbox preference="context_hideTab" label="&hideTab.label;" tooltiptext="&hideTab.tooltip;" hidden="true"/>
+              <checkbox preference="context_renameTab" label="&renameTab.label;"/>
+              <checkbox preference="context_restartTab" label="&restartTab.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_closeLeftTabs" label="&closeLeftTabs.label;"/>
+              <checkbox preference="context_closeRightTabs" label="&closeRightTabs.label;"/>
+              <checkbox preference="context_closeOtherTabs" label="&closeOtherTabs.label;"/>
+              <checkbox preference="context_closeDuplicateTabs" label="&closeDuplicateTabs.label;" hidden="true"/>
+              <checkbox preference="context_closeSimilarTabs" label="&closeSimilarTabs.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_selectTab" label="&selectTab.label;"/>
+              <checkbox preference="context_selectTabs" label="&selectTabs.label;"/>
+              <checkbox preference="context_selectAllTabs" label="&selectAllTabs.label;"/>
+              <checkbox preference="context_unselectAllTabs" label="&unselectAllTabs.label;"/>
+              <checkbox preference="context_invertSelection" label="&invertSelection.label;"/>
+            </vbox>
+          </groupbox>
+          <vbox flex="1">
+            <groupbox>
+              <caption label="&listAllTabs.label;"/>
+              <checkbox preference="context_showAllTabs" label="&showAllTabs.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_readAllTabs" label="&readAllTabs.label;"/>
+              <checkbox preference="context_protectAllTabs" label="&protectAllTabs.label;"/>
+              <checkbox preference="context_lockAllTabs" label="&lockAllTabs.label;"/>
+              <checkbox preference="context_freezeAllTabs" label="&freezeAllTabs.label;" hidden="true"/>
+              <checkbox preference="context_faviconizeAllTabs" label="&faviconizeAllTabs.label;"/>
+              <checkbox preference="context_pegAllTabs" label="&pegAllTabs.label;" hidden="true"/>
+              <checkbox preference="context_hideAllTabs" label="&hideAllTabs.label;" hidden="true"/>
+              <checkbox preference="context_restartAllTabs" label="&restartAllTabs.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_closeAllTabs" label="&closeAllTabs.label;"/>
+              <checkbox preference="context_closeAllDuplicateTabs" label="&closeAllDuplicateTabs.label;"/>
+            </groupbox>
+          </vbox>
+        </tabpanel>
+
+        <tabpanel orient="vertical">
+          <groupbox>
+            <caption label="&statusbar.caption;"/>
+            <hbox align="center">
+              <label value="&show.label;" control="c.statusbarMode"/>
+              <menulist id="c.statusbarMode" value="0" preference="statusbarMode">
+                <menupopup>
+                  <menuitem value="0" label="&icons.label;"/>
+                  <menuitem value="1" label="&text.label;"/>
+                  <menuitem value="2" label="&iconsAndText.label;"/>
+                </menupopup>
+              </menulist>
+            </hbox>
+            <separator class="groove"/>
+            <checkbox preference="hideOpenInTab" label="&hideStatusbarpanel.label1;&openLinkInTab.label;&hideStatusbarpanel.label2;"/>
+            <checkbox preference="hideLoadInBackground" label="&hideStatusbarpanel.label1;&loadAllInBackground.tooltip;&hideStatusbarpanel.label2;"/>
+            <checkbox preference="hideLoadInForeground" label="&hideStatusbarpanel.label1;&loadAllInForeground.tooltip;&hideStatusbarpanel.label2;"/>
+          </groupbox>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
+
+    <preferences>
+      <preference name="browser.sessionstore.resume_from_crash" type="bool"/>
+      <preference name="browser.tabs.closeButtons" type="int"/>
+      <preference name="browser.tabs.warnOnClose" type="bool"/>
+      <preference name="browser.warnOnQuit" type="bool"/>
+      <preference name="network.dns.ignoreHostonly" type="bool"/>
+    </preferences>
+  </prefpane>
+
+  <broadcasterset>
+    <broadcaster id="b.loadAllInBackgroundOrForeground"/>
+    <broadcaster id="b.loadInNewTab"/>
+    <broadcaster id="b.openNewWindow"/>
+    <broadcaster id="b.openNewWindowRestriction"/>
+    <broadcaster id="b.singleWindowMode"/>
+    <broadcaster id="b.clickBookmarks"/>
+    <broadcaster id="b.clickLinks"/>
+    <broadcaster id="b.clickCurrentTab"/>
+    <broadcaster id="b.clickTab"/>
+    <broadcaster id="b.clickTabBar"/>
+    <broadcaster id="b.clickNewTabButton"/>
+    <broadcaster id="b.highlightCurrent"/>
+    <broadcaster id="b.highlightUnread"/>
+    <broadcaster id="b.highlightRead"/>
+    <broadcaster id="b.highlightUnloaded"/>
+    <broadcaster id="b.highlightSelected"/>
+    <broadcaster id="b.highlightProtected"/>
+    <broadcaster id="b.highlightLocked"/>
+    <broadcaster id="b.highlightEnabled"/>
+    <broadcaster id="b.highlightColor"/>
+    <broadcaster id="b.highlightBgColor"/>
+    <broadcaster id="b.highlightOutline"/>
+    <broadcaster id="b.highlightOpacity"/>
+  </broadcasterset>
+
+  <popupset>
+    <menupopup id="tabClickingOptions">
+      <menuitem value="0" label="&doDefault.label;"/>
+      <menuitem value="-1" label="&doNothing.label;"/>
+      <menuseparator/>
+      <menuitem value="1" label="&tabCmd.label;"/>
+      <menuitem value="2" label="&duplicateTab.label;"/>
+      <menuitem value="3" label="&reloadTab.label;"/>
+      <menuitem value="4" label="&closeTab.label;"/>
+      <menuitem value="5" label="&undoCloseTab.label;"/>
+      <menuitem value="6" label="&loadURLFromClipboard.label;"/>
+      <menuitem value="7" label="&switchToLast.label;"/>
+      <menuseparator/>
+      <menuitem value="11" label="&sessionHistoryMenu.label;"/>
+      <menuitem value="12" label="&historyUndoMenu.label;"/>
+      <menuitem value="13" label="&listAllTabs.label;"/>
+      <menuitem value="14" label="&tabContextMenu.label;"/>
+      <menuitem value="16" label="&toolbarContextMenu.label;" hidden="true"/>
+      <menuitem value="15" label="&bookmarksMenu.label;"/>
+      <menuseparator/>
+      <menuitem value="21" label="&protectTab.label;" tooltiptext="&protectTab.tooltip;"/>
+      <menuitem value="22" label="&lockTab.label;" tooltiptext="&lockTab.tooltip;"/>
+      <menuitem value="23" label="&freezeTab.label;" tooltiptext="&freezeTab.tooltip;" hidden="true"/>
+      <menuitem value="24" label="&faviconizeTab.label;" tooltiptext="&faviconizeTab.tooltip;"/>
+      <menuitem value="25" label="&pegTab.label;" tooltiptext="&pegTab.tooltip;"/>
+      <menuitem value="26" label="&hideTab.label;" tooltiptext="&hideTab.tooltip;" hidden="true"/>
+      <menuitem value="27" label="&renameTab.label;"/>
+      <menuitem value="28" label="&restartTab.label;"/>
+      <menuitem value="29" label="&reloadEvery.label;"/>
+      <menuseparator/>
+      <menuitem value="51" label="&collapseGroup.label;/&expandGroup.label;"/>
+      <menuitem value="52" label="&colorGroup.label;"/>
+      <menuseparator/>
+      <menuitem value="41" label="&closeLeftTabs.label;"/>
+      <menuitem value="42" label="&closeRightTabs.label;"/>
+      <menuitem value="43" label="&closeOtherTabs.label;"/>
+      <menuitem value="44" label="&closeDuplicateTabs.label;" hidden="true"/>
+      <menuitem value="45" label="&closeSimilarTabs.label;"/>
+      <menuitem value="46" label="&closeAllTabs.label;"/>
+      <menuseparator/>
+      <menuitem value="31" label="&selectTab.label;"/>
+      <menuitem value="32" label="&selectTabs.label;"/>
+      <menuitem value="33" label="&selectTabs2.label;"/>
+      <menuitem value="37" label="&selectSimilarTabs.label;"/>
+      <menuitem value="34" label="&selectAllTabs.label;"/>
+      <menuitem value="35" label="&unselectAllTabs.label;"/>
+      <menuitem value="36" label="&invertSelection.label;"/>
+      <menuseparator/>
+    </menupopup>
+
+    <menupopup id="settingsPopup" position="before_start">
+      <menuitem label="&settings.import;" oncommand="onImport();"/>
+      <menuitem label="&settings.export;" oncommand="onExport();"/>
+      <menuitem label="&advancedJS.label;" oncommand="openDialog('about:config?filter=extensions.tabutils.', '', 'chrome,titlebar,toolbar,centerscreen,dialog=no,resizable').focus();"/>
+      <menuseparator/>
+      <menuitem label="&settings.default;" oncommand="onDefault();"/>
+      <menuitem label="&settings.suggest;" oncommand="onSuggest();"/>
+    </menupopup>
+  </popupset>
+
+
+
+  <script type="application/javascript">
+  <![CDATA[
+    function onLoad() {
+      if (document.documentElement.getButton("accept").hidden) {
+        document.documentElement.getButton("extra1").hidden = true;
+      }
+      else {
+        document.documentElement.getButton("extra1").disabled = true;
+        window.addEventListener("change", onChange, false);
+      }
+
+      document.documentElement.getButton("extra2").type = "menu";
+      document.documentElement.getButton("extra2").setAttribute("popup", "settingsPopup");
+
+      var preferences = document.getElementsByTagName("preference");
+      var preferencesElements = document.getElementsByTagName("preferences");
+      var preferencesElement = preferencesElements[preferencesElements.length - 1];
+
+      var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+      prefs.getChildList("extensions.tabutils.", {}).sort().forEach(function(aPrefName) {
+        for (let preference of preferences) {
+          if (preference.name == aPrefName)
+            return;
+        }
+
+        var preference = document.createElement("preference");
+        preference.setAttribute("id", aPrefName);
+        preference.setAttribute("name", aPrefName);
+        preference.setAttribute("type", {32: "string", 64: "int", 128: "bool"}[prefs.getPrefType(aPrefName)]);
+        preferencesElement.appendChild(preference);
+      });
+
+      var popup = $("tabClickingOptions");
+      Array.forEach(document.getElementsByTagName("preference"), function(aPref) {
+        if (/^extensions.tabutils.mouse.(\d+).label$/.test(aPref.name) && aPref.value) {
+          let item = popup.getElementsByAttribute("value", RegExp.$1)[0];
+          if (!item)
+            item = popup.appendChild(document.createElement("menuitem"));
+          item.setAttribute("value", RegExp.$1);
+          item.setAttribute("label", aPref.value);
+        }
+      });
+
+      ["c.clickTab", "c.clickTabBar", "c.clickNewTabButton"].forEach(function(aId) {
+        $(aId).appendChild(popup.cloneNode(true));
+      });
+
+      loadAllInBackground();
+      loadAllInForeground();
+      openTabNext();
+      loadInNewTab();
+      openNewWindow();
+      openNewWindowRestriction();
+      singleWindowMode();
+      mouseHoverSelect();
+      mouseScrollSelect();
+      tabBarPosition();
+      closeButtons();
+      hideLoadInBackground();
+      hideLoadInForeground();
+
+      onTabClickingTabSelect();
+      onHighlightTabSelect();
+      onHighlightStyle("Current");
+      onHighlightStyle("Unread");
+      onHighlightStyle("Read");
+      onHighlightStyle("Unloaded");
+      onHighlightStyle("Selected");
+      onHighlightStyle("Protected");
+      onHighlightStyle("Locked");
+
+      let version = parseFloat(Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo).version);
+      if (version >= 4.0) {
+        $("autoHide").disabled = true;
+      }
+      else {
+        $("context_mergeGroup").disabled = true;
+      }
+    }
+
+    function onUnload() {
+      window.removeEventListener("change", onChange, false);
+    }
+
+    var preferencesToApply = [];
+    function onChange(event) {
+      if (event.target.localName != "preference")
+        return;
+
+      var preference = event.target;
+      var index = preferencesToApply.indexOf(preference);
+      if (index != -1 && preference.value == preference.valueFromPreferences) {
+        preferencesToApply.splice(index, 1);
+      }
+      else if (index == -1 && preference.value != preference.valueFromPreferences) {
+        preferencesToApply.push(preference);
+      }
+
+      document.documentElement.getButton("extra1").disabled = preferencesToApply.length == 0;
+      document.documentElement.getButton("cancel").label = preferencesToApply.length == 0 ?
+                                                           document.documentElement.getAttribute("buttonlabelclose") :
+                                                           document.documentElement.getAttribute("buttonlabelreset");
+    }
+
+    function onApply() {
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        preference.valueFromPreferences = preference.value;
+      }
+
+      preferencesToApply = [];
+      document.documentElement.getButton("extra1").disabled = true;
+      document.documentElement.getButton("cancel").label = document.documentElement.getAttribute("buttonlabelclose");
+    }
+
+    function onCancel() {
+      if (preferencesToApply.length == 0)
+        return true;
+
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        preference.value = preference.valueFromPreferences;
+      }
+      return false;
+    }
+
+    function onDefault() {
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        preference.value = preference.defaultValue == null ? undefined : preference.defaultValue;
+      }
+    }
+
+    function onSuggest() {
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        if (preference.hasAttribute("suggest")) {
+          switch (preference.type) {
+            case "bool":
+              preference.value = (preference.getAttribute("suggest") == "true") != preference.inverted;
+              break;
+            case "int":
+              preference.value = parseInt(preference.getAttribute("suggest"));
+              break;
+            case "string":
+            default:
+              preference.value = preference.getAttribute("suggest");
+              break;
+          }
+        }
+        else {
+          preference.value = preference.defaultValue == null ? undefined : preference.defaultValue;
+        }
+      }
+    }
+
+    function onExport() {
+      var fp = Components.classes['@mozilla.org/filepicker;1'].createInstance(Components.interfaces.nsIFilePicker);
+      fp.init(window, "", fp.modeSave);
+      fp.defaultString = "TUprefs.txt";
+      fp.defaultExtension = "txt";
+      fp.appendFilters(fp.filterText);
+      fp.appendFilters(fp.filterAll);
+      if (fp.show() == fp.returnCancel)
+        return;
+
+      var str = "";
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        str += 'pref(';
+        str += preference.name.quote();
+        str += ', ';
+        str += preference.type == typeof preference.value ? preference.value.quote() :
+               preference.inverted ? !preference.value : preference.value;
+        str += ');\n';
+      }
+
+      var stream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
+      stream.init(fp.file, -1, -1, 0);
+      stream.write(str, str.length);
+      stream.close();
+    }
+
+    function onImport() {
+      var fp = Components.classes['@mozilla.org/filepicker;1'].createInstance(Components.interfaces.nsIFilePicker);
+      fp.init(window, "", fp.modeOpen);
+      fp.defaultString = "TUprefs.txt";
+      fp.defaultExtension = "txt";
+      fp.appendFilters(fp.filterText);
+      fp.appendFilters(fp.filterAll);
+      if (fp.show() == fp.returnCancel)
+        return;
+
+      var ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
+      var loader = Components.classes['@mozilla.org/moz/jssubscript-loader;1'].getService(Components.interfaces.mozIJSSubScriptLoader);
+      loader.loadSubScript(ioService.newFileURI(fp.file).spec);
+    }
+
+    function pref(aPrefName, aValue) {
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        if (preference.name == aPrefName) {
+          preference.value = preference.inverted ? !aValue : aValue;
+          return;
+        }
+      }
+
+      var preferencesElements = document.getElementsByTagName("preferences");
+      var preferencesElement = preferencesElements[preferencesElements.length - 1];
+
+      var preference = preferencesElement.appendChild(document.createElement("preference"));
+      preference.setAttribute("id", aPrefName);
+      preference.setAttribute("name", aPrefName);
+      preference.setAttribute("type", {"boolean": "bool", "number": "int"}[typeof aValue] || "string");
+      preference.value = aValue;
+    }
+
+    function openHelp() {
+      var win = Components.classes['@mozilla.org/browser/browserglue;1'].getService(Components.interfaces.nsIBrowserGlue).getMostRecentBrowserWindow();
+      win.gBrowser.loadOneTab(document.documentElement.getAttribute("helpURI"), null, null, null, false, false);
+      win.focus();
+    }
+
+    function loadAllInBackground() {
+      setDisabled("b.loadAllInBackgroundOrForeground", $("loadAllInBackground").value || $("loadAllInForeground").value);
+      if ($("loadAllInBackground").value)
+        $("loadAllInForeground").value = false;
+    }
+
+    function loadAllInForeground() {
+      setDisabled("b.loadAllInBackgroundOrForeground", $("loadAllInBackground").value || $("loadAllInForeground").value);
+      if ($("loadAllInForeground").value)
+        $("loadAllInBackground").value = false;
+    }
+
+
+
+
+    function openTabNext() {
+      $("keepOrder").disabled = $("openTabNext").value == 0;
+    }
+
+    function loadInNewTab() {
+      setDisabled("b.loadInNewTab", $("loadInNewTab").value != 2);
+    }
+
+    function openNewWindow() {
+      setDisabled("b.openNewWindow", $("openNewWindow").value == 2);
+    }
+
+    function openNewWindowRestriction() {
+      setDisabled("b.openNewWindowRestriction", $("openNewWindowRestriction").value == 0);
+    }
+
+
+    function singleWindowMode() {
+      var singleWindowMode = $("singleWindowMode").value;
+      $("openExternal").value = singleWindowMode && $("openExternal").valueFromPreferences == 2 ? 3 : $("openExternal").valueFromPreferences;
+      $("openNewWindow").value = singleWindowMode && $("openNewWindow").valueFromPreferences == 2 ? 3 : $("openNewWindow").valueFromPreferences;
+      $("openNewWindowRestriction").value = singleWindowMode ? 0 : $("openNewWindowRestriction").valueFromPreferences;
+
+      setDisabled("b.singleWindowMode", singleWindowMode);
+    }
+
+    function mouseHoverSelect() {
+      $("mouseHoverSelectDelay").disabled = !$("mouseHoverSelect").value;
+    }
+
+    function mouseScrollSelect() {
+      var mouseScrollSelect = $("mouseScrollSelect").value;
+      $("mouseScrollSelectDir").disabled = !mouseScrollSelect;
+      $("mouseScrollSelectWrap").disabled = !mouseScrollSelect;
+    }
+
+    function tabBarPosition() {
+      $("showAllTabs").disabled = $("tabBarPosition").value > 1;
+    }
+
+    function closeButtons() {
+      $("tabClipWidth").disabled = ($("closeButtons").value & 0x0f) != 1;
+    }
+
+    function hideLoadInBackground() {
+      $("loadAllInBackground").disabled = $("hideLoadInBackground").value;
+    }
+
+    function hideLoadInForeground() {
+      $("loadAllInForeground").disabled = $("hideLoadInForeground").value;
+    }
+
+    function setDisabled(id, val) {
+      val ? $(id).setAttribute("disabled", true) : $(id).removeAttribute("disabled");
+    }
+
+    function $() {
+      return document.getElementById.apply(document, arguments);
+    }
+
+    function onTabClickingTabSelect() {
+      var target = $("tabClickingTabs");
+      var tabs = ["left", "middle", "right", "dbl", "ctrl", "alt", "shift"];
+
+      $("c.clickBookmarks").selectedIndex = target.selectedIndex;
+      $("c.clickLinks").selectedIndex = target.selectedIndex;
+      $("l.clickTab").selectedIndex = target.selectedIndex ? 1 : 0;
+
+      ["c.clickTab", "c.clickTabBar", "c.clickNewTabButton"].forEach(function(aId) {
+        var prefName = tabs[target.selectedIndex] + aId.split(".")[1].replace(/./, function(s) s.toUpperCase());
+        var preference = $(prefName);
+        var element = $(aId);
+        if (preference) {
+          element.setAttribute("preference", preference.id);
+          preference.setElementValue(element);
+        }
+        else {
+          element.removeAttribute("preference");
+          element.value = 0;
+        }
+        setDisabled(aId.replace("c", "b"), !element.hasAttribute("preference"));
+      });
+
+      setDisabled("b.clickBookmarks", ["middle", "right", "ctrl", "shift"].indexOf(tabs[target.selectedIndex]) == -1);
+      setDisabled("b.clickLinks", ["middle", "right", "ctrl", "shift"].indexOf(tabs[target.selectedIndex]) == -1);
+      setDisabled("b.clickCurrentTab", target.selectedIndex > 0);
+    }
+
+    function onHighlightTabSelect() {
+      var target = $("highlight");
+      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected", "Protected", "Locked"];
+
+      $("c.highlightEnabled").setAttribute("preference", "highlight" + tabs[target.selectedIndex]);
+      $("c.highlightEnabled").checked = $("highlight" + tabs[target.selectedIndex]).value;
+
+      onHighlightEnabled(tabs[target.selectedIndex]);
+    }
+
+    function onHighlightEnabled(item) {
+      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected", "Protected", "Locked"];
+      if (item == tabs[$("highlight").selectedIndex]) {
+        setDisabled("b.highlightEnabled", !$("highlight" + item).value);
+      }
+
+      onHighlightStyle(item);
+    }
+
+    function onHighlightStyle(item) {
+      var style = {};
+      try {
+        style = JSON.parse($("style" + item).value) || {};
+      }
+      catch (e) {}
+
+      $("b.highlight" + item).setAttribute("style",
+        $("highlight" + item).value ? (style.bold ? "font-weight: bold;" : "")
+                                    + (style.italic ? "font-style: italic;" : "")
+                                    + (style.underline ? "text-decoration: underline;" : "")
+                                    + (style.strikethrough ? "text-decoration: line-through;" : "")
+                                    + (style.color ? "color:" + style.colorCode + ";" : "")
+                                    + (style.bgColor ? "-moz-appearance: none;background-color:" + style.bgColorCode + ";" : "")
+                                    + (style.outline ? "outline: 1px solid;outline-offset: -1px;-moz-outline-radius: 4px;" : "")
+                                    + (style.outline ? "outline-color:" + style.outlineColorCode + ";" : "")
+                                    + (style.opacity ? "opacity:" + style.opacityCode + ";" : "")
+                                    : ""
+      );
+
+      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected", "Protected", "Locked"];
+      if (item == tabs[$("highlight").selectedIndex]) {
+        $("c.highlightBold").checked = style.bold;
+        $("c.highlightItalic").checked = style.italic;
+        $("c.highlightUnderline").checked = style.underline;
+        $("c.highlightStrikethrough").checked = style.strikethrough;
+        $("c.highlightColor").checked = style.color;
+        $("c.highlightColorCode").value = style.colorCode;
+        $("c.highlightColorPicker").color = style.colorCode;
+        $("c.highlightBgColor").checked = style.bgColor;
+        $("c.highlightBgColorCode").value = style.bgColorCode;
+        $("c.highlightBgColorPicker").color = style.bgColorCode;
+        $("c.highlightOutline").checked = style.outline;
+        $("c.highlightOutlineColorCode").value = style.outlineColorCode;
+        $("c.highlightOutlineColorPicker").color = style.outlineColorCode;
+        $("c.highlightOpacity").checked = style.opacity;
+        $("c.highlightOpacityCode").value = style.opacityCode * 100;
+
+        onHighlightColor();
+        onHighlightBgColor();
+        onHighlightOutline();
+        onHighlightOpacity();
+      }
+    }
+
+    function doHighlightStyle() {
+      var style = {
+        bold: $("c.highlightBold").checked,
+        italic: $("c.highlightItalic").checked,
+        underline: $("c.highlightUnderline").checked,
+        strikethrough: $("c.highlightStrikethrough").checked,
+        color: $("c.highlightColor").checked,
+        colorCode: $("c.highlightColorCode").value,
+        bgColor: $("c.highlightBgColor").checked,
+        bgColorCode: $("c.highlightBgColorCode").value,
+        outline: $("c.highlightOutline").checked,
+        outlineColorCode: $("c.highlightOutlineColorCode").value,
+        opacity: $("c.highlightOpacity").checked,
+        opacityCode: $("c.highlightOpacityCode").value / 100
+      };
+
+      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected", "Protected", "Locked"];
+      $("style" + tabs[$("highlight").selectedIndex]).value = JSON.stringify(style);
+    }
+
+    function onHighlightColor() {
+      setDisabled("b.highlightColor", $("c.highlightColor").disabled || !$("c.highlightColor").checked);
+    }
+
+    function onHighlightBgColor() {
+      setDisabled("b.highlightBgColor", $("c.highlightBgColor").disabled || !$("c.highlightBgColor").checked);
+    }
+
+    function onHighlightOutline() {
+      setDisabled("b.highlightOutline", $("c.highlightOutline").disabled || !$("c.highlightOutline").checked);
+    }
+
+    function onHighlightOpacity() {
+      setDisabled("b.highlightOpacity", $("c.highlightOpacity").disabled || !$("c.highlightOpacity").checked);
+    }
+
+    function onPaneLoad(aPane) { //Bug 687356
+      aPane._inited = true;
+
+      let tabbox = aPane.getElementsByTagName('tabbox')[0];
+      if (tabbox)
+        tabbox.selectedIndex = aPane.getAttribute('lastSelected');
+    }
+
+    function onPaneSelect(aPane) {
+      if(!aPane._inited)
+        return;
+
+      let tabbox = aPane.getElementsByTagName('tabbox')[0];
+      if (tabbox)
+        aPane.setAttribute('lastSelected', tabbox.selectedIndex);
+    }
+  ]]>
+  </script>
+</prefwindow>

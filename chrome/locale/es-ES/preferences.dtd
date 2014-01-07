@@ -1,0 +1,155 @@
+<!ENTITY prefwindow.title "Opciones de Tab Utilities">
+<!ENTITY prefwindow.apply "Aplicar">
+<!ENTITY prefwindow.reset "Reiniciar">
+<!ENTITY prefwindow.close "Cerrar">
+<!ENTITY prefwindow.settings "Perfiles">
+<!ENTITY settings.default "Perfil predeterminado">
+<!ENTITY settings.suggest "Perfil recomendado">
+<!ENTITY settings.import "Importar...">
+<!ENTITY settings.export "Exportar...">
+<!ENTITY pane1.title "Pestañas">
+<!ENTITY pane2.title "Enlaces">
+<!ENTITY pane3.title "Ratón">
+<!ENTITY pane4.title "Apariencia">
+<!ENTITY pane1.tab1.title "Apertura de pestañas">
+<!ENTITY pane1.tab2.title "Cierre de pestañas">
+<!ENTITY pane3.tab1.title "Clic izquierdo">
+<!ENTITY pane3.tab2.title "Clic central">
+<!ENTITY pane3.tab3.title "Clic derecho">
+<!ENTITY pane3.tab4.title "Doble clic">
+<!ENTITY pane3.tab5.title "Ctrl+clic">
+<!ENTITY pane3.tab6.title "Alt+clic">
+<!ENTITY pane3.tab7.title "Mayús.+clic">
+<!ENTITY pane4.tab1.title "Barra de pestañas">
+<!ENTITY pane4.tab2.title "Menús">
+<!ENTITY pane4.tab3.title "Botones">
+<!ENTITY openTabFor.caption "Abrir pestañas desde:">
+<!ENTITY openTabNext.label "Colocar las pestañas nuevas junto a la activa:">
+<!ENTITY none.label "Nunca">
+<!ENTITY all.label "Siempre">
+<!ENTITY allBut.label "Excepto con «Nueva pestaña»">
+<!ENTITY noneBut.label "Sólo con enlaces">
+<!ENTITY keepOrder.label "Mantener el orden al abrir consecutivamente varias pestañas en segundo plano">
+<!ENTITY reuseBlank.caption "Reutilizar una pestaña en blanco si está:">
+<!ENTITY reuseBlank.current.label "Activa">
+<!ENTITY reuseBlank.last.label "Ubicada al final">
+<!ENTITY reuseBlank.all.label "Siempre">
+<!ENTITY loadInBackground.caption "Enfocar las pestañas nuevas abiertas desde:">
+<!ENTITY loadInBackground.label "Enlaces">
+<!ENTITY loadDivertedInBackground.label "Ventanas redirigidas">
+<!ENTITY loadUrlInBackground.label "Barra de direcciones">
+<!ENTITY loadSearchInBackground.label "Caja de búsqueda">
+<!ENTITY loadNewInBackground.label "«Nueva pestaña»">
+<!ENTITY loadDuplicateInBackground.label "«Duplicar pestaña»">
+<!ENTITY loadInNewTab.label "Tras ejecutar el comando «Nueva pestaña»:">
+<!ENTITY loadInNewTab.0.label "Mostrar una página en blanco">
+<!ENTITY loadInNewTab.1.label "Mostrar mi página de inicio">
+<!ENTITY loadInNewTab.2.label "Mostrar la siguiente página">
+<!ENTITY userDefinedURL.label "Dirección:">
+<!ENTITY selectOnClose.label "Tras cerrar la pestaña activa, enfocar otra pestaña según el siguiente orden:">
+<!ENTITY unreadTabs.label "Pestañas no leídas">
+<!ENTITY relatedTabs.label "Pestañas relacionadas">
+<!ENTITY relatedTabs.tooltip "Pestaña padre, hijas o hermanas (comenzando por la derecha)">
+<!ENTITY unreadRelatedTabs.label "Pestañas relacionadas no leídas">
+<!ENTITY leftTab.label "Pestaña izquierda">
+<!ENTITY rightTab.label "Pestaña derecha">
+<!ENTITY firstTab.label "Primera pestaña">
+<!ENTITY lastTab.label "Última pestaña">
+<!ENTITY lastSelectedTab.label "Pestaña previamente visitada">
+<!ENTITY closeOtherTab.caption "Cierre de otras pestañas">
+<!ENTITY removeUnintentionalBlank.label "Cerrar automáticamente las pestañas en blanco no deseadas">
+<!ENTITY maxTabsUndo.label "Cantidad máxima de pestañas por recordar:">
+<!ENTITY handleCtrlTab.caption "Tecla Ctrl">
+<!ENTITY handleCtrlTab.label "Ctrl+Tab recorre las pestañas en orden por uso más reciente">
+<!ENTITY handleCtrlArrow.label "Usar Ctrl+izquierda/derecha para recorrer las pestañas secuencialmente">
+<!ENTITY openNewWindow.caption "Apertura de enlaces">
+<!ENTITY openNewWindow.label "Abrir enlaces a una ventana nueva en:">
+<!ENTITY openExternal.label "Abrir enlaces de aplicaciones externas en:">
+<!ENTITY openNewWindow.1.label "La pestaña activa">
+<!ENTITY openNewWindow.2.label "Una ventana nueva">
+<!ENTITY openNewWindow.3.label "Una pestaña nueva">
+<!ENTITY openNewWindowRestriction.label "Excepto:">
+<!ENTITY openNewWindowRestriction.0.label "Ninguna">
+<!ENTITY openNewWindowRestriction.1.label "Todas">
+<!ENTITY openNewWindowRestriction.2.label "Ventanas emergentes redimensionadas">
+<!ENTITY singleWindowMode.label "Forzar a tener una única ventana">
+<!ENTITY openExternalInTab.label "Abrir enlaces a dominios distintos del actual en una pestaña nueva">
+<!ENTITY openLinkWithHistory.caption "Historial de la pestaña">
+<!ENTITY openLinkWithHistory.label "Heredar historial de la pestaña al abrir enlaces en una pestaña nueva">
+<!ENTITY openHistoryWithHistory.label "Heredar historial de la pestaña al abrir elementos de éste en una pestaña nueva">
+<!ENTITY clickBookmarks.label "En marcadores:">
+<!ENTITY clickLinks.label "En enlaces:">
+<!ENTITY doDefault.label "Predeterminado">
+<!ENTITY openInCurrent.label "Abrir en la pestaña activa">
+<!ENTITY invertMiddle.tooltip "Clic central abre en la pestaña activa si clic izquierdo abre en una pestaña nueva">
+<!ENTITY invertCtrl.tooltip "Ctrl-clic abre en la pestaña activa si clic izquierdo abre en una pestaña nueva">
+<!ENTITY invertFocus.label "Invertir enfoque">
+<!ENTITY invertFocus.tooltip "Invertir enfoque de la pestaña cuando clic central abre en una pestaña nueva">
+<!ENTITY stayMenuOpen.label "Mantener el menú desplejado">
+<!ENTITY rightAsMiddle.label "Clic derecho funciona como clic central">
+<!ENTITY dragAndGo.label "Tras arrastrar un enlace o texto seleccionado, abrirlo en una pestaña nueva">
+<!ENTITY dragAndGo.tooltip "Ctrl+arrastrar: buscar por el texto del enlace; Mayús.+arrastrar: invertir enfoque">
+<!ENTITY clickCurrentTab.label "En la pestaña activa:">
+<!ENTITY clickTab.label "En pestañas:">
+<!ENTITY clickTabBar.label "En la barra de pestañas:">
+<!ENTITY clickNewTabButton.label1 "En el botón [">
+<!ENTITY clickNewTabButton.label2 "]:">
+<!ENTITY leftClickTabDelay.label "Con un retardo de">
+<!ENTITY time.label "ms">
+<!ENTITY doNothing.label "No hacer nada">
+<!ENTITY loadURLFromClipboard.label "Abrir dirección desde el portapapeles">
+<!ENTITY switchToLast.label "Cambiar a la pestaña previamente visitada">
+<!ENTITY sessionHistoryMenu.label "Historial de la pestaña">
+<!ENTITY tabContextMenu.label "Menú contextual de pestañas">
+<!ENTITY toolbarContextMenu.label "Menú contextual de las barras de herramientas">
+<!ENTITY mouseReleaseSelect.label "No enfocar una pestaña hasta haber soltado el botón del ratón">
+<!ENTITY mouseHoverSelect.label "Enfocar una pestaña tras señalarla con el cursor durante">
+<!ENTITY mouseScrollSelect.label "Usar la rueda del ratón para recorrer las pestañas">
+<!ENTITY mouseScrollSelectDir.label "Invertir sentido del desplazamiento">
+<!ENTITY mouseScrollSelectWrap.label "Volver al inicio luego de pasar la última pestaña">
+<!ENTITY tabBarFeatures.caption "Propiedades de la barra de pestañas">
+<!ENTITY tabBarPosition.0.label "Arriba">
+<!ENTITY tabBarPosition.1.label "Abajo">
+<!ENTITY tabBarPosition.2.label "Izquierda">
+<!ENTITY tabBarPosition.3.label "Derecha">
+<!ENTITY showOnTabBar.caption "Mostrar en la barra de pestañas:">
+<!ENTITY button.label1 "Botón [">
+<!ENTITY button.label2 "]">
+<!ENTITY newTabButtonPosition.0.label "Tras la última pestaña">
+<!ENTITY newTabButtonPosition.1.label "En el extremo izquierdo">
+<!ENTITY newTabButtonPosition.2.label "En el extremo derecho">
+<!ENTITY newTabButtonPosition.3.label "Oculto">
+<!ENTITY closeButtons.0.label "Sólo en la pestaña activa">
+<!ENTITY closeButtons.1.label "En toda pestaña de un ancho mayor a">
+<!ENTITY closeButtons.2.label "No mostrar">
+<!ENTITY closeButtons.3.label "Sólo en la barra de pestañas">
+<!ENTITY closeButtons.16.label "En la pestaña activa y en la señalada">
+<!ENTITY closeButtons.18.label "Sólo en la pestaña señalada por el cursor">
+<!ENTITY closeButtons.33.label "En toda pestaña y la barra de pestañas">
+<!ENTITY closeButtons.50.label "En la pestaña señalada y la barra de pestañas">
+<!ENTITY showTabCounter.label "Contador de pestañas">
+<!ENTITY showLeftSpace.label "Espacio libre a la izquierda">
+<!ENTITY showRightSpace.label "Espacio libre a la derecha">
+<!ENTITY highlight.caption "Resaltado de pestañas">
+<!ENTITY highlight.tab1.label "Activa">
+<!ENTITY highlight.tab2.label "No leída">
+<!ENTITY highlight.tab3.label "Leída">
+<!ENTITY highlight.tab4.label "Protegida">
+<!ENTITY highlight.tab5.label "Bloqueada">
+<!ENTITY highlight.tab6.label "No cargada">
+<!ENTITY highlight.tab7.label "Seleccionada">
+<!ENTITY highlightEnabled.label "Habilitar">
+<!ENTITY highlightBold.label "Negrita">
+<!ENTITY highlightItalic.label "Cursiva">
+<!ENTITY highlightUnderline.label "Subrayado">
+<!ENTITY highlightStrikethrough.label "Tachado">
+<!ENTITY highlightOutline.label "Contorno">
+<!ENTITY highlightColor.label "Color del texto:">
+<!ENTITY highlightBgColor.label "Color del fondo:">
+<!ENTITY tabWidth.label "Ancho de cada pestaña:">
+<!ENTITY tabHeight.label "Altura de las pestañas:">
+<!ENTITY to.label "a">
+<!ENTITY pixel.label "px">
+<!ENTITY statusbar.caption "Barra de estado">
+<!ENTITY hideStatusbarpanel.label1 "Ocultar [">
+<!ENTITY hideStatusbarpanel.label2 "]">

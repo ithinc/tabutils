@@ -1,0 +1,230 @@
+window[v4="true"] .tab-content {
+  -moz-binding: url(chrome://tabutils/content/tabutils.xml#tab-content);
+}
+
+window[v4="true"] .tab-twisty {
+  -moz-binding: url(chrome://tabutils/content/tabutils.xml#tab-twisty);
+}
+
+window[v4="true"] .tab-content > .tab-counter {
+  -moz-binding: none !important; /* Compa. with Informational Tab */
+}
+
+window[v4="true"] browser {
+  -moz-binding: url(chrome://tabutils/content/tabutils.xml#browser);
+}
+
+/* Tabs toolbar */
+#TabsToolbar[orient="vertical"],
+#browser-bottombox > #TabsToolbar {
+  -moz-box-ordinal-group: 1;
+}
+
+.tabbrowser-arrowscrollbox[orient="vertical"] > .arrowscrollbox-scrollbox {
+  overflow: auto;
+}
+
+.tabbrowser-arrowscrollbox[orient="vertical"] > .scrollbutton-up,
+.tabbrowser-arrowscrollbox[orient="vertical"] > .scrollbutton-down,
+.tabbrowser-tabs[orient="vertical"] > hbox > .tab-drop-indicator {
+  display: none;
+}
+
+#TabsToolbar[orient="vertical"] :-moz-any(toolbaritem, toolbarpaletteitem) > * {
+	-moz-box-flex: 1;
+}
+
+#TabsToolbar[orient="vertical"] toolbarseparator {
+  -moz-appearance: none;
+  border-width: 3px 2px;
+  -moz-border-top-colors  : transparent transparent ThreeDShadow;
+  -moz-border-bottom-colors : transparent transparent ThreeDHighlight;
+}
+
+#TabsToolbar[orient="vertical"] > toolbarspacer {
+  height: 15px;
+}
+
+#TabsToolbar[orient="vertical"] > toolbarpaletteitem {
+  margin-top: -2px;
+  margin-bottom: -2px;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+#TabsToolbar[orient="vertical"] > toolbarpaletteitem > toolbarspacer {
+  height: 11px;
+}
+
+#TabsToolbar[orient="vertical"] > toolbarpaletteitem[dragover="left"] {
+  border-left-color: transparent;
+  border-top-color: #000000;
+}
+
+#TabsToolbar[orient="vertical"] > toolbarpaletteitem[dragover="right"] {
+  border-right-color: transparent;
+  border-bottom-color: #000000;
+}
+
+/* Tab Grouping */
+.tabbrowser-tabs[orient="horizontal"]:not([colorStack="true"]) > .tabbrowser-tab:-moz-any(:not([group]):not([pinned]), [group-counter])
+                                                               ~ .tabbrowser-tab[group-counter]:not([group-counter="1"])[group-collapsed="true"],
+.tabbrowser-tabs[orient="horizontal"]:not([colorStack="true"]) > .tabbrowser-tab:-moz-any(:not([group]):not([pinned]), [group-counter])
+                                                               ~ .tabbrowser-tab[group-first]:not([group-last]):not([group-collapsed="true"]),
+.tabbrowser-tabs[orient="horizontal"]:not([colorStack="true"]) > .tabbrowser-tab[group-last]:not([group-first])
+                                                               + .tabbrowser-tab:-moz-any(:not([group]), [group-counter="1"]),
+.tabbrowser-tabs[orient="vertical"] > .tabbrowser-tab[group]:not([group-first]):not([group-collapsed="true"]) {
+  -moz-margin-start: 9px;
+}
+
+.tabbrowser-tab[group]:not([group-counter])[group-collapsed="true"] {
+  display: none;
+}
+
+.tabbrowser-tab[group-counter]:not([group-counter="1"])[group-collapsed="true"] .tab-twisty {
+  list-style-image: url("jar:resource://app/omni.jar!/chrome/toolkit/skin/classic/global/tree/twisty-clsd.png");
+}
+
+.tabbrowser-tab[group-first]:not([group-last]):not([group-collapsed="true"]) .tab-twisty {
+  list-style-image: url("jar:resource://app/omni.jar!/chrome/toolkit/skin/classic/global/tree/twisty-open.png");
+}
+
+.tabbrowser-tabs[orient="vertical"]:not([treestyletab-mode]) > .tabbrowser-tab:-moz-any(:not([group]):not([pinned]), [group-counter="1"]) .tab-twisty {
+  width: 9px;
+}
+
+.tab-counter {
+  display: none;
+}
+
+.tabbrowser-tab[group-counter]:not([group-counter="1"])[group-collapsed="true"] .tab-counter {
+  display: -moz-box !important;
+}
+
+.tabbrowser-tab[dragover="center"] {
+  outline: 2px solid -moz-dialogtext !important;
+  outline-offset: -2px !important;
+  -moz-outline-radius: 4px !important;
+}
+
+/*
+.tabbrowser-tab[dragover="left"] {
+  -moz-border-left-colors: -moz-dialogtext -moz-dialogtext transparent !important;
+}
+
+.tabbrowser-tab[dragover="right"] {
+  -moz-border-right-colors: -moz-dialogtext -moz-dialogtext transparent !important;
+}
+
+.tabbrowser-tab[dragover="top"] {
+  -moz-border-top-colors: -moz-dialogtext -moz-dialogtext transparent !important;
+}
+
+.tabbrowser-tab[dragover="bottom"] {
+  -moz-border-bottom-colors: -moz-dialogtext -moz-dialogtext transparent !important;
+}*/
+
+/* Tab Width */
+window[v4="true"] .tabbrowser-tabs > .tabbrowser-tab:not([pinned]):not([fadein]) {
+  max-width: 0.1px !important;
+  min-width: 0.1px !important;
+}
+
+window[v4="true"] .tabbrowser-tabs[dontanimate="true"] > .tabbrowser-tab {
+  -moz-transition: none !important;
+}
+
+/* Tab Highlighting */
+window[v4="true"] .tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
+	list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Secure24.png");
+	-moz-image-region: auto;
+}
+
+window[v4="true"] .tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button > .toolbarbutton-icon {
+	width: 16px;
+	height: 16px;
+}
+
+window[v4="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
+  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Toolbar.png") !important;
+	-moz-image-region: rect(1px, 125px, 17px, 109px) !important;
+}
+
+window[v4="true"] .tabbrowser-tab[pinned][unread="true"][rotate="true"] .tab-icon-image {
+  -moz-transform: rotate(360deg);
+}
+
+window[v4="true"] .tabbrowser-tab[pinned][unread="true"] .tab-icon-image {
+  -moz-transition: -moz-transform .4s linear;
+}
+
+/* Pinned Tabs */
+window[v4="true"] .tabbrowser-tabs[style*="-moz-margin-start"],
+window[v4="true"] .tabbrowser-tab[style*="-moz-margin-start"] {
+  -moz-margin-start: 0px !important;
+}
+
+window[v4="true"] .tabbrowser-tabs[style*="margin-top"] {
+  margin-top: 0px !important;
+}
+
+window[v4="true"] .tabbrowser-tab[style*="margin-left"] {
+  margin-left: 0px !important;
+}
+
+window[v4="true"] #PinnedTabsBarDropIndicator {
+  list-style-image: url(chrome://browser/skin/places/toolbarDropMarker.png);
+}
+
+window[v4="true"] .tabbrowser-tab[pinned]:not([faviconized]) .tab-label {
+  width: auto;
+}
+
+/* Toolbar buttons */
+window[v4="true"] #closetab-button {
+  list-style-image: url("jar:resource://app/omni.jar!/chrome/toolkit/skin/classic/global/icons/close.png");
+  -moz-image-region: rect(0px, 16px, 16px, 0px);
+}
+
+window[v4="true"] #undoclosetab-button {
+  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Toolbar.png");
+  -moz-image-region: rect(0px, 72px, 18px, 54px);
+}
+
+window[v4="true"]:not([OS="Linux"]) #button_tuOptions .toolbarbutton-icon,
+window[v4="true"]:not([OS="Linux"]) #closetab-button .toolbarbutton-icon {
+  width: 16px;
+  height: 16px;
+}
+
+window[v4="true"]:not([OS="Linux"]) #undoclosetab-button .toolbarbutton-icon {
+  -moz-transform: scaleX(-1) rotate(30deg);
+  width: auto;
+  height: auto;
+  margin: 0px !important;
+}
+
+/* Statusbar buttons */
+window[v4="true"] #statusbar-openintab,
+window[v4="true"] #statusbar-loadinbackground,
+window[v4="true"] #statusbar-loadinforeground {
+  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Toolbar.png");
+}
+
+window[v4="true"]:not([OS="Linux"]) #statusbar-openintab[checked="false"],
+window[v4="true"]:not([OS="Linux"]) #statusbar-loadinbackground[checked="false"],
+window[v4="true"]:not([OS="Linux"]) #statusbar-loadinforeground[checked="false"] {
+  opacity: 0.5;
+}
+
+window[v4="true"] #statusbar-openintab {
+  -moz-image-region: rect(0px, 180px, 18px, 162px);
+}
+
+window[v4="true"] #statusbar-loadinbackground {
+  -moz-image-region: rect(0px, 18px, 18px, 0px);
+}
+
+window[v4="true"] #statusbar-loadinforeground {
+  -moz-image-region: rect(0px, 36px, 18px, 18px);
+}

@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Tab Utilities Options...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Open Selected Links in New Tabs []">
+<!ENTITY openSelectedLinksInTab.accesskey "T">
+<!ENTITY duplicateTab.label "Duplicate Tab">
+<!ENTITY duplicateTab.accesskey "D">
+<!ENTITY moveToWindow.label "Move to Window">
+<!ENTITY moveToWindow.accesskey "M">
+<!ENTITY mergeWindow.label "Merge Window">
+<!ENTITY mergeWindow.accesskey "M">
+<!ENTITY mergeAllWindows.label "Merge All Windows">
+<!ENTITY mergeGroup.label "Merge Group">
+<!ENTITY mergeGroup.accesskey "M">
+<!ENTITY mergeAllGroups.label "Merge All Groups">
+<!ENTITY readTab.label "Mark As Read">
+<!ENTITY unreadTab.label "Mark As Unread">
+<!ENTITY readTab.accesskey "R">
+<!ENTITY protectTab.label "Protect Tab">
+<!ENTITY protectTab.tooltip "Protect a tab from being closed">
+<!ENTITY protectTab.accesskey "P">
+<!ENTITY lockTab.label "Lock Tab">
+<!ENTITY lockTab.tooltip "Lock a tab on the current URL">
+<!ENTITY lockTab.accesskey "L">
+<!ENTITY freezeTab.label "Freeze Tab">
+<!ENTITY freezeTab.tooltip "Protect and Lock a tab">
+<!ENTITY freezeTab.accesskey "F">
+<!ENTITY faviconizeTab.label "Faviconize Tab">
+<!ENTITY faviconizeTab.tooltip "Shrink a tab to an icon's width">
+<!ENTITY faviconizeTab.accesskey "I">
+<!ENTITY pegTab.label "Pin Tab">
+<!ENTITY pegTab.tooltip "Shrink and Pin a tab to the left of the tab bar">
+<!ENTITY pegTab.accesskey "P">
+<!ENTITY hideTab.label "Hide Tab">
+<!ENTITY hideTab.tooltip "Hide a tab from the tab bar">
+<!ENTITY hideTab.accesskey "H">
+<!ENTITY renameTab.label "Rename Tab">
+<!ENTITY renameTab.accesskey "R">
+<!ENTITY restartTab.label "Restart Tab">
+<!ENTITY restartTab.accesskey "R">
+<!ENTITY closeLeftTabs.label "Close Left Tabs">
+<!ENTITY closeLeftTabs.accesskey "L">
+<!ENTITY closeRightTabs.label "Close Right Tabs">
+<!ENTITY closeRightTabs.accesskey "R">
+<!ENTITY closeDuplicateTabs.label "Close Duplicate Tabs">
+<!ENTITY closeDuplicateTabs.accesskey "D">
+<!ENTITY closeSimilarTabs.label "Close Similar Tabs">
+<!ENTITY closeSimilarTabs.accesskey "S">
+<!ENTITY selectTab.label "Select a Tab">
+<!ENTITY selectTab.accesskey "S">
+<!ENTITY selectTabs.label "Select Multiple Tabs">
+<!ENTITY selectTabs.accesskey "M">
+<!ENTITY selectTabs2.label "Select Multiple Tabs (+)">
+<!ENTITY selectSimilarTabs.label "Select Similar Tabs">
+<!ENTITY selectSimilarTabs.accesskey "S">
+<!ENTITY selectAllTabs.label "Select All Tabs">
+<!ENTITY selectAllTabs.accesskey "A">
+<!ENTITY unselectAllTabs.label "Unselect All Tabs">
+<!ENTITY unselectAllTabs.accesskey "U">
+<!ENTITY invertSelection.label "Invert Selection">
+<!ENTITY invertSelection.accesskey "I">
+<!ENTITY showAllTabs.label "Multi-row tab bar">
+<!ENTITY readAllTabs.label "Mark All Tabs As Read">
+<!ENTITY unreadAllTabs.label "Mark All Tabs As Unread">
+<!ENTITY protectAllTabs.label "Protect All Tabs">
+<!ENTITY lockAllTabs.label "Lock All Tabs">
+<!ENTITY freezeAllTabs.label "Freeze All Tabs">
+<!ENTITY faviconizeAllTabs.label "Faviconize All Tabs">
+<!ENTITY pegAllTabs.label "Pin All Tabs">
+<!ENTITY hideAllTabs.label "Hide All Tabs">
+<!ENTITY restartAllTabs.label "Restart All Tabs">
+<!ENTITY closeAllTabs.label "Close All Tabs">
+<!ENTITY closeAllDuplicateTabs.label "Close All Duplicate Tabs">
+<!ENTITY reloadEvery.label "Reload Tab Every">
+<!ENTITY reloadEvery.enable "Enable">
+<!ENTITY reloadEvery.custom "Custom">
+<!ENTITY reloadEvery.reloadInterval "Reload Interval (seconds):">
+<!ENTITY reloadEvery.enableAllTabs "Enable All Tabs">
+<!ENTITY reloadEvery.disableAllTabs "Disable All Tabs">
+<!ENTITY minute.label "minute">
+<!ENTITY minutes.label "minutes">
+<!ENTITY second.label "second">
+<!ENTITY seconds.label "seconds">
+<!ENTITY openAllInTab.label "Tab">
+<!ENTITY openLinkInTab.label "Force all links to open in New Tab">
+<!ENTITY openSiteInTab.label "Force all links in this site to open in New Tab">
+<!ENTITY loadAllInBackground.label "Bg">
+<!ENTITY loadAllInBackground.tooltip "Force all new tabs to open in Background">
+<!ENTITY loadAllInForeground.label "Fg">
+<!ENTITY loadAllInForeground.tooltip "Force all new tabs to open in Foreground">
+<!ENTITY hide.label "Hide">
+<!ENTITY tabsToolbarCmd.label "Tabs Toolbar">
+<!ENTITY tabsToolbarCmd.accesskey "T">
+<!ENTITY groupTab.label "Stack Tabs">
+<!ENTITY groupTab.accesskey "S">
+<!ENTITY ungroupTab.label "Unstack Tab">
+<!ENTITY ungroupTab.accesskey "U">
+<!ENTITY tabStackMenu.label "Tab Stack">
+<!ENTITY tabStackMenu.accesskey "S">
+<!ENTITY collapseGroup.label "Collapse Stack">
+<!ENTITY collapseGroup.accesskey "C">
+<!ENTITY expandGroup.label "Expand Stack">
+<!ENTITY expandGroup.accesskey "E">
+<!ENTITY colorGroup.label "Recolor Stack...">
+<!ENTITY colorGroup.accesskey "R">
+<!ENTITY bookmarkGroup.label "Bookmark Stack...">
+<!ENTITY bookmarkGroup.accesskey "B">
+<!ENTITY splitGroup.label "Split Stack">
+<!ENTITY splitGroup.accesskey "S">
+<!ENTITY ungroupGroup.label "Unstack Stack">
+<!ENTITY ungroupGroup.accesskey "U">
+<!ENTITY closeGroup.label "Close Stack">
+<!ENTITY closeGroup.accesskey "C">

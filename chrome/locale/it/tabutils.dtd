@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Opzioni di Tab Utilities...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Apri in una nuova Scheda">
+<!ENTITY openSelectedLinksInTab.accesskey "h">
+<!ENTITY duplicateTab.label "Duplica Scheda">
+<!ENTITY duplicateTab.accesskey "D">
+<!ENTITY moveToWindow.label "Sposta nella Finestra...">
+<!ENTITY moveToWindow.accesskey "M">
+<!ENTITY mergeWindow.label "Incorpora con la Finestra...">
+<!ENTITY mergeWindow.accesskey "M">
+<!ENTITY mergeAllWindows.label "Riunisci in Finestra singola">
+<!ENTITY mergeGroup.label "Incorpora col Gruppo...">
+<!ENTITY mergeGroup.accesskey "M">
+<!ENTITY mergeAllGroups.label "Fondi tutti i Gruppi">
+<!ENTITY readTab.label "Segna come &quot;Letto&quot;">
+<!ENTITY unreadTab.label "Segna come &quot;Non letto&quot;">
+<!ENTITY readTab.accesskey "R">
+<!ENTITY protectTab.label "Proteggi Scheda">
+<!ENTITY protectTab.tooltip "Impedisce l'inavvertita chiusura della Scheda">
+<!ENTITY protectTab.accesskey "P">
+<!ENTITY lockTab.label "Blocca Scheda">
+<!ENTITY lockTab.tooltip "Blocca la Scheda sul corrente URL">
+<!ENTITY lockTab.accesskey "L">
+<!ENTITY freezeTab.label "Congela Scheda">
+<!ENTITY freezeTab.tooltip "Protegge e Blocca una Scheda">
+<!ENTITY freezeTab.accesskey "F">
+<!ENTITY faviconizeTab.label "Riduci a icona">
+<!ENTITY faviconizeTab.tooltip "Riduce la Scheda alla sola icona">
+<!ENTITY faviconizeTab.accesskey "I">
+<!ENTITY pegTab.label "Appunta Scheda">
+<!ENTITY pegTab.tooltip "Riduci a icona e Appunta la Scheda a sinistra della Barra delle schede">
+<!ENTITY pegTab.accesskey "A">
+<!ENTITY hideTab.label "Nascondi Scheda">
+<!ENTITY hideTab.tooltip "Nasconde una Scheda dalla Barra delle schede">
+<!ENTITY hideTab.accesskey "H">
+<!ENTITY renameTab.label "Rinomina Scheda">
+<!ENTITY renameTab.accesskey "R">
+<!ENTITY restartTab.label "Restart Tab">
+<!ENTITY restartTab.accesskey "R">
+<!ENTITY closeLeftTabs.label "Chiudi Schede a sinistra">
+<!ENTITY closeLeftTabs.accesskey "L">
+<!ENTITY closeRightTabs.label "Chiudi Schede a destra">
+<!ENTITY closeRightTabs.accesskey "R">
+<!ENTITY closeDuplicateTabs.label "Chiudi Schede duplicate">
+<!ENTITY closeDuplicateTabs.accesskey "D">
+<!ENTITY closeSimilarTabs.label "Chiudi Schede simili">
+<!ENTITY closeSimilarTabs.accesskey "S">
+<!ENTITY selectTab.label "Seleziona Scheda">
+<!ENTITY selectTab.accesskey "S">
+<!ENTITY selectTabs.label "Selezione multipla Schede">
+<!ENTITY selectTabs.accesskey "M">
+<!ENTITY selectTabs2.label "Aggiungi Scheda alla selezione">
+<!ENTITY selectSimilarTabs.label "Select Similar Tabs">
+<!ENTITY selectSimilarTabs.accesskey "S">
+<!ENTITY selectAllTabs.label "Seleziona tutte le Schede">
+<!ENTITY selectAllTabs.accesskey "A">
+<!ENTITY unselectAllTabs.label "Deseleziona tutte le Schede">
+<!ENTITY unselectAllTabs.accesskey "U">
+<!ENTITY invertSelection.label "Inverti selezione">
+<!ENTITY invertSelection.accesskey "I">
+<!ENTITY showAllTabs.label "Barra delle schede multipla">
+<!ENTITY readAllTabs.label "Segna tutte le Schede come &quot;Lette&quot;">
+<!ENTITY unreadAllTabs.label "Segna tutte le Schede come &quot;Non Lette&quot;">
+<!ENTITY protectAllTabs.label "Proteggi tutte le Schede">
+<!ENTITY lockAllTabs.label "Blocca tutte le Schede">
+<!ENTITY freezeAllTabs.label "Congela tutte le Schede">
+<!ENTITY faviconizeAllTabs.label "Riduci a icona tutte le Schede">
+<!ENTITY pegAllTabs.label "Appunta tutte le Schede">
+<!ENTITY hideAllTabs.label "Nascondi tutte le Schede">
+<!ENTITY restartAllTabs.label "Restart All Tabs">
+<!ENTITY closeAllTabs.label "Chiudi tutte le Schede">
+<!ENTITY closeAllDuplicateTabs.label "Chiudi tutte le Schede duplicate">
+<!ENTITY reloadEvery.label "Aggiorna Scheda ogni...">
+<!ENTITY reloadEvery.enable "Abilita">
+<!ENTITY reloadEvery.custom "Personalizza">
+<!ENTITY reloadEvery.reloadInterval "Intervallo tra gli aggiornamenti (secondi):">
+<!ENTITY reloadEvery.enableAllTabs "Attiva tutte le Schede">
+<!ENTITY reloadEvery.disableAllTabs "Disattiva tutte le Schede">
+<!ENTITY minute.label "Minuto">
+<!ENTITY minutes.label "Minuti">
+<!ENTITY second.label "Secondo">
+<!ENTITY seconds.label "Secondi">
+<!ENTITY openAllInTab.label "Scheda">
+<!ENTITY openLinkInTab.label "Forza tutti i Link in nuove Schede">
+<!ENTITY openSiteInTab.label "Forza tutti i Link, di questo sito, in nuove Schede">
+<!ENTITY loadAllInBackground.label "Bg">
+<!ENTITY loadAllInBackground.tooltip "Forza tutte le nuove Schede in secondo piano">
+<!ENTITY loadAllInForeground.label "Fg">
+<!ENTITY loadAllInForeground.tooltip "Forza tutte le nuove Schede in primo piano">
+<!ENTITY hide.label "Nascondi">
+<!ENTITY tabsToolbarCmd.label "Tabs Toolbar">
+<!ENTITY tabsToolbarCmd.accesskey "T">
+<!ENTITY groupTab.label "Stack Tabs">
+<!ENTITY groupTab.accesskey "S">
+<!ENTITY ungroupTab.label "Unstack Tab">
+<!ENTITY ungroupTab.accesskey "U">
+<!ENTITY tabStackMenu.label "Tab Stack">
+<!ENTITY tabStackMenu.accesskey "S">
+<!ENTITY collapseGroup.label "Collapse Stack">
+<!ENTITY collapseGroup.accesskey "C">
+<!ENTITY expandGroup.label "Expand Stack">
+<!ENTITY expandGroup.accesskey "E">
+<!ENTITY colorGroup.label "Recolor Stack...">
+<!ENTITY colorGroup.accesskey "R">
+<!ENTITY bookmarkGroup.label "Bookmark Stack...">
+<!ENTITY bookmarkGroup.accesskey "B">
+<!ENTITY splitGroup.label "Split Stack">
+<!ENTITY splitGroup.accesskey "S">
+<!ENTITY ungroupGroup.label "Unstack Stack">
+<!ENTITY ungroupGroup.accesskey "U">
+<!ENTITY closeGroup.label "Close Stack">
+<!ENTITY closeGroup.accesskey "C">

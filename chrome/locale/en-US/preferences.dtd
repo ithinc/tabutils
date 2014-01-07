@@ -1,0 +1,155 @@
+<!ENTITY prefwindow.title "Tab Utilities Options">
+<!ENTITY prefwindow.apply "Apply">
+<!ENTITY prefwindow.reset "Reset">
+<!ENTITY prefwindow.close "Close">
+<!ENTITY prefwindow.settings "Settings">
+<!ENTITY settings.default "Default">
+<!ENTITY settings.suggest "Recommended">
+<!ENTITY settings.import "Import...">
+<!ENTITY settings.export "Export...">
+<!ENTITY pane1.title "Tabs">
+<!ENTITY pane2.title "Links">
+<!ENTITY pane3.title "Mouse">
+<!ENTITY pane4.title "Appearance">
+<!ENTITY pane1.tab1.title "Tab Opening">
+<!ENTITY pane1.tab2.title "Tab Closing">
+<!ENTITY pane3.tab1.title "L-click">
+<!ENTITY pane3.tab2.title "M-click">
+<!ENTITY pane3.tab3.title "R-click">
+<!ENTITY pane3.tab4.title "Double-click">
+<!ENTITY pane3.tab5.title "Ctrl-click">
+<!ENTITY pane3.tab6.title "Alt-click">
+<!ENTITY pane3.tab7.title "Shift-click">
+<!ENTITY pane4.tab1.title "Tab Bar">
+<!ENTITY pane4.tab2.title "Menus">
+<!ENTITY pane4.tab3.title "Buttons">
+<!ENTITY openTabFor.caption "Open new tabs for:">
+<!ENTITY openTabNext.label "Open new tabs next to current tab which are from:">
+<!ENTITY none.label "None">
+<!ENTITY all.label "All">
+<!ENTITY allBut.label "All but New Tab">
+<!ENTITY noneBut.label "None but Links">
+<!ENTITY keepOrder.label "Keep the original order for continuous background tabs">
+<!ENTITY reuseBlank.caption "Reuse blank tabs:">
+<!ENTITY reuseBlank.current.label "Current">
+<!ENTITY reuseBlank.last.label "Last">
+<!ENTITY reuseBlank.all.label "All">
+<!ENTITY loadInBackground.caption "Focus new tabs from:">
+<!ENTITY loadInBackground.label "Links">
+<!ENTITY loadDivertedInBackground.label "Diverted windows">
+<!ENTITY loadUrlInBackground.label "Address bar">
+<!ENTITY loadSearchInBackground.label "Search bar">
+<!ENTITY loadNewInBackground.label "New Tab">
+<!ENTITY loadDuplicateInBackground.label "Duplicate Tab">
+<!ENTITY loadInNewTab.label "Load in new tab:">
+<!ENTITY loadInNewTab.0.label "Blank Page">
+<!ENTITY loadInNewTab.1.label "Home Page">
+<!ENTITY loadInNewTab.2.label "User Defined">
+<!ENTITY userDefinedURL.label "Location:">
+<!ENTITY selectOnClose.label "Focus a tab in the following order when closing current tab:">
+<!ENTITY unreadTabs.label "Unread tabs">
+<!ENTITY relatedTabs.label "Related tabs">
+<!ENTITY relatedTabs.tooltip "Parent, Child or Sibling tabs (right first)">
+<!ENTITY unreadRelatedTabs.label "Unread related tabs">
+<!ENTITY leftTab.label "Left tab">
+<!ENTITY rightTab.label "Right tab">
+<!ENTITY firstTab.label "First tab">
+<!ENTITY lastTab.label "Last tab">
+<!ENTITY lastSelectedTab.label "Last visited tab">
+<!ENTITY closeOtherTab.caption "Close Other Tab">
+<!ENTITY removeUnintentionalBlank.label "Auto-close unintentional blank tabs">
+<!ENTITY maxTabsUndo.label "Max restorable tabs:">
+<!ENTITY handleCtrlTab.caption "Ctrl Tab">
+<!ENTITY handleCtrlTab.label "Ctrl+Tab to navigate tabs in most recently used order">
+<!ENTITY handleCtrlArrow.label "Ctrl+Left/Right Arrow to navigate tabs in sequential order">
+<!ENTITY openNewWindow.caption "Open links in:">
+<!ENTITY openNewWindow.label "Open new-window links in:">
+<!ENTITY openExternal.label "Open links from external applications in:">
+<!ENTITY openNewWindow.1.label "Current Tab">
+<!ENTITY openNewWindow.2.label "New Window">
+<!ENTITY openNewWindow.3.label "New Tab">
+<!ENTITY openNewWindowRestriction.label "Except:">
+<!ENTITY openNewWindowRestriction.0.label "None">
+<!ENTITY openNewWindowRestriction.1.label "All">
+<!ENTITY openNewWindowRestriction.2.label "Resized popups">
+<!ENTITY singleWindowMode.label "Enable single window mode">
+<!ENTITY openExternalInTab.label "Force all external links to open in New Tab">
+<!ENTITY openLinkWithHistory.caption "Retain session history">
+<!ENTITY openLinkWithHistory.label "Retain session history for new tabs from links">
+<!ENTITY openHistoryWithHistory.label "Retain session history for new tabs from session history items">
+<!ENTITY clickBookmarks.label "On bookmarks:">
+<!ENTITY clickLinks.label "On links:">
+<!ENTITY doDefault.label "Default">
+<!ENTITY openInCurrent.label "Open in current tab">
+<!ENTITY invertMiddle.tooltip "Middle-click opens in current tab when Left-click opens in new tab">
+<!ENTITY invertCtrl.tooltip "Ctrl-click opens in current tab when Left-click opens in new tab">
+<!ENTITY invertFocus.label "Invert focus">
+<!ENTITY invertFocus.tooltip "Invert tab focus when Middle-click opens in new tab">
+<!ENTITY stayMenuOpen.label "Stay menu open">
+<!ENTITY rightAsMiddle.label "Right-click functions as Middle-click">
+<!ENTITY dragAndGo.label "Drag and go to open links or selected text in new tab">
+<!ENTITY dragAndGo.tooltip "Ctrl+Drag: search link text; Shift+Drag: invert focus">
+<!ENTITY clickCurrentTab.label "On current tab:">
+<!ENTITY clickTab.label "On tabs:">
+<!ENTITY clickTabBar.label "On tab bar:">
+<!ENTITY clickNewTabButton.label1 "On [">
+<!ENTITY clickNewTabButton.label2 "] button:">
+<!ENTITY leftClickTabDelay.label "With a delay of">
+<!ENTITY time.label "ms">
+<!ENTITY doNothing.label "Do Nothing">
+<!ENTITY loadURLFromClipboard.label "Load URL from Clipboard">
+<!ENTITY switchToLast.label "Switch to Last Visited Tab">
+<!ENTITY sessionHistoryMenu.label "Session History Menu">
+<!ENTITY tabContextMenu.label "Tab Context Menu">
+<!ENTITY toolbarContextMenu.label "Toolbar Context Menu">
+<!ENTITY mouseReleaseSelect.label "Mouse click (down and release) to focus a tab">
+<!ENTITY mouseHoverSelect.label "Mouse hover to focus a tab with a delay of">
+<!ENTITY mouseScrollSelect.label "Mouse scroll to focus a tab">
+<!ENTITY mouseScrollSelectDir.label "Invert scrolling direction">
+<!ENTITY mouseScrollSelectWrap.label "Wrap when reaching ends of the tab bar">
+<!ENTITY tabBarFeatures.caption "Tab bar features">
+<!ENTITY tabBarPosition.0.label "Top">
+<!ENTITY tabBarPosition.1.label "Bottom">
+<!ENTITY tabBarPosition.2.label "Left">
+<!ENTITY tabBarPosition.3.label "Right">
+<!ENTITY showOnTabBar.caption "Show on tab bar">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "] button">
+<!ENTITY newTabButtonPosition.0.label "After last tab">
+<!ENTITY newTabButtonPosition.1.label "On left side">
+<!ENTITY newTabButtonPosition.2.label "On right side">
+<!ENTITY newTabButtonPosition.3.label "Hidden">
+<!ENTITY closeButtons.0.label "On active tab only">
+<!ENTITY closeButtons.1.label "On all tabs wider than">
+<!ENTITY closeButtons.2.label "No close buttons">
+<!ENTITY closeButtons.3.label "On tab bar only">
+<!ENTITY closeButtons.16.label "On active/pointed tab">
+<!ENTITY closeButtons.18.label "On pointed tab only">
+<!ENTITY closeButtons.33.label "On tab bar/all tabs">
+<!ENTITY closeButtons.50.label "On tab bar/pointed tab">
+<!ENTITY showTabCounter.label "Tab counter">
+<!ENTITY showLeftSpace.label "Left extra space">
+<!ENTITY showRightSpace.label "Right extra space">
+<!ENTITY highlight.caption "Tab highlighting">
+<!ENTITY highlight.tab1.label "Current">
+<!ENTITY highlight.tab2.label "Unread">
+<!ENTITY highlight.tab3.label "Read">
+<!ENTITY highlight.tab4.label "Protected">
+<!ENTITY highlight.tab5.label "Locked">
+<!ENTITY highlight.tab6.label "Unloaded">
+<!ENTITY highlight.tab7.label "Selected">
+<!ENTITY highlightEnabled.label "Enabled">
+<!ENTITY highlightBold.label "Bold">
+<!ENTITY highlightItalic.label "Italic">
+<!ENTITY highlightUnderline.label "Underline">
+<!ENTITY highlightStrikethrough.label "Strikeout">
+<!ENTITY highlightOutline.label "Outline:">
+<!ENTITY highlightColor.label "Color:">
+<!ENTITY highlightBgColor.label "Background:">
+<!ENTITY tabWidth.label "Tab width:">
+<!ENTITY tabHeight.label "Tab height:">
+<!ENTITY to.label "to">
+<!ENTITY pixel.label "px">
+<!ENTITY statusbar.caption "Status Bar">
+<!ENTITY hideStatusbarpanel.label1 "Hide [">
+<!ENTITY hideStatusbarpanel.label2 "]">

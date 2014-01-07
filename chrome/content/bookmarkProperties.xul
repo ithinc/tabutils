@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<overlay id="bookmarkproperties" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/javascript" src="tulib.js"/>
+  <script type="application/javascript">
+  <![CDATA[
+    TU_hookCode("BookmarkPropertiesPanel._determineItemInfo",
+      ['this._strings.getString("bookmarkAllTabsDefault")', "dialogInfo.URIList[0] instanceof Ci.nsIURI ? $& : new Date().toLocaleString()"]
+    );
+    TU_hookCode("BookmarkPropertiesPanel._getTransactionsForURIList",
+      [/(?=.*_getURITitleFromHistory.*)/, "var annos; if (!(uri instanceof Ci.nsIURI)) [uri, annos] = uri;"],
+      [/.*(createItem|PlacesCreateBookmarkTransaction).*/, function(s) s.replace("title", "$&, null, annos")]
+    );
+  ]]>
+  </script>
+</overlay>

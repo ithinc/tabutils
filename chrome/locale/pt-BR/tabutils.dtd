@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Opções do Tab Utilities...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Abrir as Ligações Selecionadas em Novas Abas []">
+<!ENTITY openSelectedLinksInTab.accesskey "A">
+<!ENTITY duplicateTab.label "Duplicar Aba">
+<!ENTITY duplicateTab.accesskey "D">
+<!ENTITY moveToWindow.label "Mover para Janela">
+<!ENTITY moveToWindow.accesskey "M">
+<!ENTITY mergeWindow.label "Combinar Janela">
+<!ENTITY mergeWindow.accesskey "C">
+<!ENTITY mergeAllWindows.label "Combinar Todas Janelas">
+<!ENTITY mergeGroup.label "Mesclar Grupo">
+<!ENTITY mergeGroup.accesskey "M">
+<!ENTITY mergeAllGroups.label "Mesclar Todos os Grupos">
+<!ENTITY readTab.label "Marcar como Lida">
+<!ENTITY unreadTab.label "Marcar como Não Lida">
+<!ENTITY readTab.accesskey "L">
+<!ENTITY protectTab.label "Proteger Aba">
+<!ENTITY protectTab.tooltip "Protege uma aba contra seu fechamento">
+<!ENTITY protectTab.accesskey "P">
+<!ENTITY lockTab.label "Tranca Aba">
+<!ENTITY lockTab.tooltip "Trava o endereço atual numa aba">
+<!ENTITY lockTab.accesskey "L">
+<!ENTITY freezeTab.label "Congela Aba">
+<!ENTITY freezeTab.tooltip "Protege e trava uma aba">
+<!ENTITY freezeTab.accesskey "g">
+<!ENTITY faviconizeTab.label "Atribuir Favorito a uma Aba">
+<!ENTITY faviconizeTab.tooltip "Adapta uma aba à largura do ícone">
+<!ENTITY faviconizeTab.accesskey "I">
+<!ENTITY pegTab.label "Fixar Aba">
+<!ENTITY pegTab.tooltip "Fixa a aba na parte esquerda da barra de abas">
+<!ENTITY pegTab.accesskey "P">
+<!ENTITY hideTab.label "Esconder Aba">
+<!ENTITY hideTab.tooltip "Omite uma aba da barra de abas">
+<!ENTITY hideTab.accesskey "S">
+<!ENTITY renameTab.label "Renomear Aba">
+<!ENTITY renameTab.accesskey "R">
+<!ENTITY restartTab.label "Reabrir a Aba">
+<!ENTITY restartTab.accesskey "R">
+<!ENTITY closeLeftTabs.label "Fechar Abas da Esquerda">
+<!ENTITY closeLeftTabs.accesskey "E">
+<!ENTITY closeRightTabs.label "Fechar Abas da Direita">
+<!ENTITY closeRightTabs.accesskey "D">
+<!ENTITY closeDuplicateTabs.label "Fecha Abas Duplicadas">
+<!ENTITY closeDuplicateTabs.accesskey "D">
+<!ENTITY closeSimilarTabs.label "Fechar Abas Similares">
+<!ENTITY closeSimilarTabs.accesskey "S">
+<!ENTITY selectTab.label "Seleciona uma Aba">
+<!ENTITY selectTab.accesskey "S">
+<!ENTITY selectTabs.label "Seleciona Múltiplas Abas">
+<!ENTITY selectTabs.accesskey "M">
+<!ENTITY selectTabs2.label "Seleciona Múltiplas Abas (+)">
+<!ENTITY selectSimilarTabs.label "Selecionar Abas Semelhantes">
+<!ENTITY selectSimilarTabs.accesskey "S">
+<!ENTITY selectAllTabs.label "Seleciona Todas Abas">
+<!ENTITY selectAllTabs.accesskey "A">
+<!ENTITY unselectAllTabs.label "Desmarca Todas Abas">
+<!ENTITY unselectAllTabs.accesskey "D">
+<!ENTITY invertSelection.label "Inverter Seleção">
+<!ENTITY invertSelection.accesskey "I">
+<!ENTITY showAllTabs.label "Barra de Abas com Múltiplas Linhas">
+<!ENTITY readAllTabs.label "Marque Todas as Abas como Lidas">
+<!ENTITY unreadAllTabs.label "Marque Todas as Abas como Não Lidas">
+<!ENTITY protectAllTabs.label "Proteger Todas Abas">
+<!ENTITY lockAllTabs.label "Travar Todas Abas">
+<!ENTITY freezeAllTabs.label "Congelar Todas Abas">
+<!ENTITY faviconizeAllTabs.label "Atribuir Ícone de Favoritos a Todas Abas">
+<!ENTITY pegAllTabs.label "Fixar Todas Abas">
+<!ENTITY hideAllTabs.label "Esconder Todas Abas">
+<!ENTITY restartAllTabs.label "Reabrir Todas as Abas">
+<!ENTITY closeAllTabs.label "Fechar Todas Abas">
+<!ENTITY closeAllDuplicateTabs.label "Fechar Todas Abas Duplicadas">
+<!ENTITY reloadEvery.label "Recarregar Abas a Cada">
+<!ENTITY reloadEvery.enable "Ativar">
+<!ENTITY reloadEvery.custom "Padrão">
+<!ENTITY reloadEvery.reloadInterval "Intervalo de Recarga (segundos)">
+<!ENTITY reloadEvery.enableAllTabs "Ativar Todas Abas">
+<!ENTITY reloadEvery.disableAllTabs "Desativar Todas Abas">
+<!ENTITY minute.label "minuto">
+<!ENTITY minutes.label "minutos">
+<!ENTITY second.label "segundo">
+<!ENTITY seconds.label "segundos">
+<!ENTITY openAllInTab.label "Aba">
+<!ENTITY openLinkInTab.label "Força todas as ligações a abrir em Nova Aba">
+<!ENTITY openSiteInTab.label "Força todas as ligações a abrir deste lado em Nova Aba">
+<!ENTITY loadAllInBackground.label "Segundo Plano">
+<!ENTITY loadAllInBackground.tooltip "Abre todas as novas abas em segundo plano">
+<!ENTITY loadAllInForeground.label "Primeiro Plano">
+<!ENTITY loadAllInForeground.tooltip "Abre todas as novas abas em primeiro plano">
+<!ENTITY hide.label "Esconder">
+<!ENTITY tabsToolbarCmd.label "Barra de Ferramentas das Abas">
+<!ENTITY tabsToolbarCmd.accesskey "B">
+<!ENTITY groupTab.label "Agrupar Abas">
+<!ENTITY groupTab.accesskey "A">
+<!ENTITY ungroupTab.label "Desagrupar Abas">
+<!ENTITY ungroupTab.accesskey "D">
+<!ENTITY tabStackMenu.label "Menu Grupo de Abas">
+<!ENTITY tabStackMenu.accesskey "M">
+<!ENTITY collapseGroup.label "Reduzir Grupo">
+<!ENTITY collapseGroup.accesskey "z">
+<!ENTITY expandGroup.label "Expandir Grupo">
+<!ENTITY expandGroup.accesskey "E">
+<!ENTITY colorGroup.label "Alterar Cor do Grupo...">
+<!ENTITY colorGroup.accesskey "C">
+<!ENTITY bookmarkGroup.label "Colocar Grupo nas Preferências...">
+<!ENTITY bookmarkGroup.accesskey "P">
+<!ENTITY splitGroup.label "Dividir Grupo">
+<!ENTITY splitGroup.accesskey "i">
+<!ENTITY ungroupGroup.label "Desfazer Grupo">
+<!ENTITY ungroupGroup.accesskey "f">
+<!ENTITY closeGroup.label "Fechar Grupo">
+<!ENTITY closeGroup.accesskey "h">

@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Tab Utilities – ustawienia…">
+<!ENTITY tuOptions.accesskey "U">
+<!ENTITY openSelectedLinksInTab.label "Otwórz wybrane odnośniki w nowych kartach []">
+<!ENTITY openSelectedLinksInTab.accesskey "T">
+<!ENTITY duplicateTab.label "Powiel kartę">
+<!ENTITY duplicateTab.accesskey "P">
+<!ENTITY moveToWindow.label "Przenieś do okna">
+<!ENTITY moveToWindow.accesskey "P">
+<!ENTITY mergeWindow.label "Połącz okna">
+<!ENTITY mergeWindow.accesskey "O">
+<!ENTITY mergeAllWindows.label "Połącz wszystkie okna">
+<!ENTITY mergeGroup.label "Połącz grupę">
+<!ENTITY mergeGroup.accesskey "u">
+<!ENTITY mergeAllGroups.label "Połącz wszystkie grupy">
+<!ENTITY readTab.label "Oznacz jako przeczytana">
+<!ENTITY unreadTab.label "Oznacz jako nieprzeczytana">
+<!ENTITY readTab.accesskey "E">
+<!ENTITY protectTab.label "Zabezpiecz kartę">
+<!ENTITY protectTab.tooltip "Zabezpiecza karty przed zamknięciem">
+<!ENTITY protectTab.accesskey "C">
+<!ENTITY lockTab.label "Zablokuj kartę">
+<!ENTITY lockTab.tooltip "Blokuje kartę na aktywnym adresie URL">
+<!ENTITY lockTab.accesskey "B">
+<!ENTITY freezeTab.label "Zamroź kartę">
+<!ENTITY freezeTab.tooltip "Zabezpiecza i blokuje kartę">
+<!ENTITY freezeTab.accesskey "M">
+<!ENTITY faviconizeTab.label "Wyświetlaj tylko ikonę karty">
+<!ENTITY faviconizeTab.tooltip "Zmniejsza etykietę karty do szerokości ikony">
+<!ENTITY faviconizeTab.accesskey "T">
+<!ENTITY pegTab.label "Przypnij kartę">
+<!ENTITY pegTab.tooltip "Zmniejsza i przypina etykietę karty do lewej strony paska kart">
+<!ENTITY pegTab.accesskey "Y">
+<!ENTITY hideTab.label "Ukryj kartę">
+<!ENTITY hideTab.tooltip "Ukrywa etykietę karty na pasku kart">
+<!ENTITY hideTab.accesskey "R">
+<!ENTITY renameTab.label "Zmień nazwę karty">
+<!ENTITY renameTab.accesskey "Z">
+<!ENTITY restartTab.label "Odśwież kartę">
+<!ENTITY restartTab.accesskey "O">
+<!ENTITY closeLeftTabs.label "Zamknij karty po lewej stronie">
+<!ENTITY closeLeftTabs.accesskey "L">
+<!ENTITY closeRightTabs.label "Zamknij karty po prawej stronie">
+<!ENTITY closeRightTabs.accesskey "E">
+<!ENTITY closeDuplicateTabs.label "Zamknij powielone karty">
+<!ENTITY closeDuplicateTabs.accesskey "W">
+<!ENTITY closeSimilarTabs.label "Zamknij podobne karty">
+<!ENTITY closeSimilarTabs.accesskey "D">
+<!ENTITY selectTab.label "Zaznacz kartę">
+<!ENTITY selectTab.accesskey "Z">
+<!ENTITY selectTabs.label "Zaznacz wiele kart">
+<!ENTITY selectTabs.accesskey "W">
+<!ENTITY selectTabs2.label "Zaznacz wiele kart (+)">
+<!ENTITY selectSimilarTabs.label "Zaznacz podobne karty">
+<!ENTITY selectSimilarTabs.accesskey "P">
+<!ENTITY selectAllTabs.label "Zaznacz wszystkie karty">
+<!ENTITY selectAllTabs.accesskey "W">
+<!ENTITY unselectAllTabs.label "Odznacz wszystkie karty">
+<!ENTITY unselectAllTabs.accesskey "D">
+<!ENTITY invertSelection.label "Odwróć wybór">
+<!ENTITY invertSelection.accesskey "d">
+<!ENTITY showAllTabs.label "Wyświetl wszystkie karty">
+<!ENTITY readAllTabs.label "Oznacz wszystkie karty jako przeczytane">
+<!ENTITY unreadAllTabs.label "Oznacz wszystkie karty jako nieprzeczytane">
+<!ENTITY protectAllTabs.label "Zabezpiecz wszystkie karty">
+<!ENTITY lockAllTabs.label "Zablokuj wszystkie karty">
+<!ENTITY freezeAllTabs.label "Zamroź wszystkie karty">
+<!ENTITY faviconizeAllTabs.label "Wyświetlaj ikony dla wszystkich kart">
+<!ENTITY pegAllTabs.label "Przypnij wszystkie karty">
+<!ENTITY hideAllTabs.label "Ukryj wszystkie karty">
+<!ENTITY restartAllTabs.label "Odśwież wszystkie karty">
+<!ENTITY closeAllTabs.label "Zamknij wszystkie karty">
+<!ENTITY closeAllDuplicateTabs.label "Zamknij wszystkie powielone karty">
+<!ENTITY reloadEvery.label "Odśwież kartę co">
+<!ENTITY reloadEvery.enable "Odświeżaj co">
+<!ENTITY reloadEvery.custom "Dostosuj">
+<!ENTITY reloadEvery.reloadInterval "Interwał odświeżania (s):">
+<!ENTITY reloadEvery.enableAllTabs "Odświeżaj wszystkie karty">
+<!ENTITY reloadEvery.disableAllTabs "Nie odświeżaj wszystkich kart">
+<!ENTITY minute.label "min">
+<!ENTITY minutes.label "min">
+<!ENTITY second.label "s">
+<!ENTITY seconds.label "s">
+<!ENTITY openAllInTab.label "Nowa">
+<!ENTITY openLinkInTab.label "Otwieraj wszystkie odnośniki w nowej karcie">
+<!ENTITY openSiteInTab.label "Otwieraj wszystkie odnośniki z tej witryny w nowej karcie">
+<!ENTITY loadAllInBackground.label "W tle">
+<!ENTITY loadAllInBackground.tooltip "Otwieraj karty w tle">
+<!ENTITY loadAllInForeground.label "Aktywne">
+<!ENTITY loadAllInForeground.tooltip "Otwieraj karty jako aktywne">
+<!ENTITY hide.label "Nie wyświetlaj przycisku">
+<!ENTITY tabsToolbarCmd.label "Pasek kart">
+<!ENTITY tabsToolbarCmd.accesskey "T">
+<!ENTITY groupTab.label "Ułóż karty w stos">
+<!ENTITY groupTab.accesskey "U">
+<!ENTITY ungroupTab.label "Rozłóż karty ze stosu">
+<!ENTITY ungroupTab.accesskey "R">
+<!ENTITY tabStackMenu.label "Stos kart">
+<!ENTITY tabStackMenu.accesskey "S">
+<!ENTITY collapseGroup.label "Zwiń stos">
+<!ENTITY collapseGroup.accesskey "Z">
+<!ENTITY expandGroup.label "Rozwiń stos">
+<!ENTITY expandGroup.accesskey "R">
+<!ENTITY colorGroup.label "Zmień kolor stosu…">
+<!ENTITY colorGroup.accesskey "Z">
+<!ENTITY bookmarkGroup.label "Dodaj zakładki do stosu…">
+<!ENTITY bookmarkGroup.accesskey "D">
+<!ENTITY splitGroup.label "Podziel stos">
+<!ENTITY splitGroup.accesskey "P">
+<!ENTITY ungroupGroup.label "Cofnij podział stosu">
+<!ENTITY ungroupGroup.accesskey "C">
+<!ENTITY closeGroup.label "Zamknij stos">
+<!ENTITY closeGroup.accesskey "M">

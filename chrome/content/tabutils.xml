@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE bindings [
+<!ENTITY % globalDTD SYSTEM "chrome://global/locale/global.dtd">
+%globalDTD;
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
+%browserDTD;
+<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
+%tabBrowserDTD;
+]>
+
+<bindings id="tabutils-bindings"
+  xmlns="http://www.mozilla.org/xbl"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:xbl="http://www.mozilla.org/xbl">
+
+  <binding id="arrowscrollbox" extends="chrome://browser/content/tabbrowser.xml#tabbrowser-arrowscrollbox">
+    <content>
+      <xul:hbox id="PinnedTabsBar" anonid="pinnedbox" flex="0"
+                type="places"
+                place="place:folder=-1"
+                context="placesContext"
+                onclick="if (event.button != 0) return;var node = event.target.node || event.target._placesNode;if (node) if (PlacesUtils.nodeIsURI(node)) gBrowser.selectedTab = event.target.tab || gBrowser.addTab(node.uri);"
+                onpopupshowing="BookmarksEventHandler.onPopupShowing(event);"
+                tooltip="bhTooltip" popupsinherittooltip="true">
+        <xul:hbox>
+          <xul:hbox align="center">
+            <xul:image id="PinnedTabsBarDropIndicator"
+                       mousethrough="always"
+                       collapsed="true"/>
+          </xul:hbox>
+          <xul:scrollbox id="PinnedTabsBarItems" orient="horizontal"/>
+          <xul:toolbarbutton id="PinnedTabsBarChevron"
+                             type="menu"
+                             class="chevron"
+                             mousethrough="never"
+                             collapsed="true"
+                             tooltiptext="&bookmarksToolbarChevron.tooltip;"
+                             onpopupshowing="this.parentNode.parentNode._placesView._onChevronPopupShowing(event);event.stopPropagation();">
+            <xul:menupopup id="PinnedTabsBarChevronPopup"
+                           placespopup="true"
+                           tooltip="bhTooltip" popupsinherittooltip="true"
+                           context="placesContext"/>
+          </xul:toolbarbutton>
+        </xul:hbox>
+      </xul:hbox>
+      <xul:toolbarbutton class="scrollbutton-up" collapsed="true"
+                         xbl:inherits="orient"
+                         anonid="scrollbutton-up"
+                         onclick="_distanceScroll(event);"
+                         onmousedown="if (event.button == 0) _startScroll(-1);"
+                         onmouseup="if (event.button == 0) _stopScroll();"
+                         onmouseover="_continueScroll(-1);"
+                         onmouseout="_pauseScroll();"
+                         chromedir="&locale.dir;"/>
+      <xul:scrollbox class="arrowscrollbox-scrollbox"
+                     anonid="scrollbox"
+                     flex="1"
+                     xbl:inherits="orient,align,pack,dir">
+        <children/>
+        <xul:spacer anonid="spacer" style="pointer-events: none;"/>
+      </xul:scrollbox>
+      <xul:toolbarbutton class="scrollbutton-down" collapsed="true"
+                         xbl:inherits="orient"
+                         anonid="scrollbutton-down"
+                         onclick="_distanceScroll(event);"
+                         onmousedown="if (event.button == 0) _startScroll(1);"
+                         onmouseup="if (event.button == 0) _stopScroll();"
+                         onmouseover="_continueScroll(1);"
+                         onmouseout="_pauseScroll();"
+                         chromedir="&locale.dir;"/>
+    </content>
+
+    <implementation>
+      <constructor>
+        <![CDATA[
+          PinnedTabsBar = TU_hookFunc(PlacesToolbar,
+            ["PlacesToolbar", "PinnedTabsBar", "g"],
+            ["PlacesChevron", "PinnedTabsBarChevron", "g"]
+          );
+          PinnedTabsBar.prototype.__proto__ = PlacesToolbar.prototype;
+
+          TU_hookCode("PinnedTabsBar.prototype._insertNewItem", /.*button.className.*/, function() {
+            button.className = "tabbrowser-tab";
+            button.setAttribute("faviconized", true);
+            button.setAttribute("pinned", true);
+            button.setAttribute("style", "position: static !important; height: auto !important;");
+            button.setAttribute("context", "placesContext");
+          });
+          TU_hookCode("PinnedTabsBar.prototype._rebuild", "}", "gBrowser.mTabContainer.positionPinnedTabs(true);");
+
+          ["nodeInserted", "nodeRemoved", "nodeMoved", "nodeReplaced"].forEach(function(aMethod) {
+            TU_hookCode.call(PinnedTabsBar.prototype, aMethod,
+              [/.*_removeChild\((.*)\).*/, "var tab = $1.tab;$&"],
+              ["this.updateChevron();", "$&;var tab;if (tab) gBrowser.mTabContainer.positionPinnedTab(tab);gBrowser.mTabContainer.positionPinnedTabs();"]
+            );
+          });
+
+          TU_hookSetter("PlacesViewBase.prototype.place", /.*executeQueries[\s\S]*addObserver.*/, "try {$&} catch (e) {}");  //Fx 4.0
+
+          let pinnedbox = this._pinnedbox;
+          pinnedbox._selectNewTab = function() {};
+          pinnedbox.advanceSelectedTab = function() {};
+
+          pinnedbox.__defineGetter__("place", function() {
+            let view = this.parentNode.parentNode._placesView;
+            if (view)
+              return view.place;
+          });
+
+          pinnedbox.__defineSetter__("place", function(val) {
+            let view = this.parentNode.parentNode._placesView;
+            if (view) {
+              view.uninit();
+              if (view._controller) //Fx 4.0 - 6.0
+                view._viewElt.controllers.removeController(view._controller);
+            }
+
+            new PinnedTabsBar(val);
+            return val;
+          });
+
+          setTimeout(function() {
+            gBrowser.updatePinnedTabsBar();
+          }, 0);
+        ]]>
+      </constructor>
+
+      <field name="_pinnedbox">
+        document.getElementById("PinnedTabsBarItems")
+      </field>
+      <field name="_spacer">
+        document.getAnonymousElementByAttribute(this, "anonid", "spacer")
+      </field>
+
+      <method name="_canScrollToElement">
+        <parameter name="tab"/>
+        <body><![CDATA[
+          return !tab.pinned && !tab.hidden && !tab.disabled &&
+                (tab.hasAttribute("group-counter") || tab.getAttribute("group-collapsed") != "true");
+        ]]></body>
+      </method>
+    </implementation>
+
+    <handlers>
+      <handler event="underflow"><![CDATA[
+         if (event.detail ^ this.orient == "vertical")
+           document.getBindingParent(this).removeAttribute("overflow");
+      ]]></handler>
+      <handler event="overflow"><![CDATA[
+         if (event.detail ^ this.orient == "vertical")
+           document.getBindingParent(this).setAttribute("overflow", "true");
+      ]]></handler>
+    </handlers>
+  </binding>
+
+  <binding id="tabbrowser-tab" display="xul:button" extends="chrome://browser/content/tabbrowser.xml#tabbrowser-tab">
+    <handlers>
+      <handler event="mousedown" button="0" phase="capturing">
+      <![CDATA[
+        if (!this.parentNode._selectNewTab) {
+          this.parentNode._selectNewTab = function() {};
+        }
+      ]]>
+      </handler>
+    </handlers>
+  </binding>
+
+  <binding id="tab-content">
+    <content>
+      <xul:image class="tab-twisty" style="pointer-events: auto;"
+                 role="presentation"/>
+      <children includes="image"/>
+      <children includes="label"/>
+      <xul:label xbl:inherits="value=group-counter"
+                 class="tab-text tab-counter"
+                 role="presentation"/>
+      <children/>
+    </content>
+  </binding>
+
+  <binding id="tab-twisty">
+    <handlers>
+      <handler event="click" button="0"><![CDATA[
+        let bindingParent = document.getBindingParent(this);
+        let tab = document.getBindingParent(bindingParent);
+
+        if (tab.getAttribute("group-collapsed") == "true")
+          gBrowser.expandGroup(tab);
+        else
+          gBrowser.collapseGroup(tab);
+
+        event.stopPropagation();
+      ]]></handler>
+
+      <handler event="dblclick" button="0"><![CDATA[
+        event.stopPropagation();
+      ]]></handler>
+
+      <handler event="mousedown" button="0"><![CDATA[
+        event.stopPropagation();
+      ]]></handler>
+
+      <handler event="mouseover"><![CDATA[
+        let bindingParent = document.getBindingParent(this);
+        let tab = document.getBindingParent(bindingParent);
+
+        tab.mOverTwisty = tab.hasAttribute("group") && tab.getAttribute("group-counter") != 1;
+      ]]></handler>
+
+      <handler event="mouseout"><![CDATA[
+        let bindingParent = document.getBindingParent(this);
+        let tab = document.getBindingParent(bindingParent);
+
+        tab.mOverTwisty = false;
+      ]]></handler>
+    </handlers>
+  </binding>
+
+  <binding id="browser" extends="chrome://global/content/bindings/browser.xml#browser">
+    <implementation>
+      <field name="droppedLinkHandler">handleDroppedLink</field>
+    </implementation>
+
+    <handlers>
+      <handler event="dragover" group="system">
+      <![CDATA[
+        if (!this.droppedLinkHandler || event.getPreventDefault())
+          return;
+
+        // For drags that appear to be internal text (for example, tab drags),
+        // set the dropEffect to 'none'. This prevents the drop even if some
+        // other listener cancelled the event.
+        var types = event.dataTransfer.types;
+        if (types.contains("text/x-moz-text-internal") && !types.contains("text/plain")) {
+          event.dataTransfer.dropEffect = "none";
+          event.stopPropagation();
+          event.preventDefault();
+        }
+
+        let linkHandler = Components.classes["@mozilla.org/content/dropped-link-handler;1"].
+                            getService(Components.interfaces.nsIDroppedLinkHandler);
+        if (linkHandler.canDropLink(event, TU_getPref("extensions.tabutils.dragAndGo", true)))
+          event.preventDefault();
+      ]]>
+      </handler>
+    </handlers>
+  </binding>
+</bindings>
