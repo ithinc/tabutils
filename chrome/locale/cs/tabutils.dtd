@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Nastavení Tab Utilities...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Otevřít vybrané odkazy v nových panelech []">
+<!ENTITY openSelectedLinksInTab.accesskey "T">
+<!ENTITY duplicateTab.label "Duplikovat panel">
+<!ENTITY duplicateTab.accesskey "D">
+<!ENTITY moveToWindow.label "Přesunout do okna">
+<!ENTITY moveToWindow.accesskey "M">
+<!ENTITY mergeWindow.label "Sloučit okna">
+<!ENTITY mergeWindow.accesskey "M">
+<!ENTITY mergeAllWindows.label "Sloučit všechna okna">
+<!ENTITY mergeGroup.label "Sloučit skupinu">
+<!ENTITY mergeGroup.accesskey "M">
+<!ENTITY mergeAllGroups.label "Sloučit všechny skupiny">
+<!ENTITY readTab.label "Označit jako přečtený">
+<!ENTITY unreadTab.label "Označit jako nepřečtený">
+<!ENTITY readTab.accesskey "R">
+<!ENTITY protectTab.label "Chránit panel">
+<!ENTITY protectTab.tooltip "Ochrání panel proti zavření">
+<!ENTITY protectTab.accesskey "P">
+<!ENTITY lockTab.label "Zamknout panel">
+<!ENTITY lockTab.tooltip "Zamkne panel na aktuální URL adrese">
+<!ENTITY lockTab.accesskey "L">
+<!ENTITY freezeTab.label "Zmrazit Panel">
+<!ENTITY freezeTab.tooltip "Ochrání a současně zamkne panel">
+<!ENTITY freezeTab.accesskey "F">
+<!ENTITY faviconizeTab.label "Panel do ikony">
+<!ENTITY faviconizeTab.tooltip "Zmenší panel na velikost ikony">
+<!ENTITY faviconizeTab.accesskey "I">
+<!ENTITY pegTab.label "Přichytit panel">
+<!ENTITY pegTab.tooltip "Zmenší a přichytí panel nalevo od pruhu panelů">
+<!ENTITY pegTab.accesskey "P">
+<!ENTITY hideTab.label "Skrýt panel">
+<!ENTITY hideTab.tooltip "Skryje panel z pruhu panelů">
+<!ENTITY hideTab.accesskey "H">
+<!ENTITY renameTab.label "Přejmenovat panel">
+<!ENTITY renameTab.accesskey "R">
+<!ENTITY restartTab.label "Restartovat panel">
+<!ENTITY restartTab.accesskey "R">
+<!ENTITY closeLeftTabs.label "Zavřít panely nalevo">
+<!ENTITY closeLeftTabs.accesskey "L">
+<!ENTITY closeRightTabs.label "Zavřít panely napravo">
+<!ENTITY closeRightTabs.accesskey "R">
+<!ENTITY closeDuplicateTabs.label "Zavřít duplikované panely">
+<!ENTITY closeDuplicateTabs.accesskey "D">
+<!ENTITY closeSimilarTabs.label "Zavřít shodné panely">
+<!ENTITY closeSimilarTabs.accesskey "S">
+<!ENTITY selectTab.label "Vybrat panel">
+<!ENTITY selectTab.accesskey "S">
+<!ENTITY selectTabs.label "Vybrat více panelů">
+<!ENTITY selectTabs.accesskey "M">
+<!ENTITY selectTabs2.label "Vybrat více panelů (+)">
+<!ENTITY selectSimilarTabs.label "Vybrat podobné panely">
+<!ENTITY selectSimilarTabs.accesskey "S">
+<!ENTITY selectAllTabs.label "Vybrat všechny panely">
+<!ENTITY selectAllTabs.accesskey "A">
+<!ENTITY unselectAllTabs.label "Zrušit výběr všech panelů">
+<!ENTITY unselectAllTabs.accesskey "U">
+<!ENTITY invertSelection.label "Invertovat výběr">
+<!ENTITY invertSelection.accesskey "I">
+<!ENTITY showAllTabs.label "Víceřádkový pruh panelů">
+<!ENTITY readAllTabs.label "Označit vše jako přečtené">
+<!ENTITY unreadAllTabs.label "Označit vše jako nepřečtené">
+<!ENTITY protectAllTabs.label "Chránit všechny panely">
+<!ENTITY lockAllTabs.label "Zamknout všechny panely">
+<!ENTITY freezeAllTabs.label "Zmrazit všech panely">
+<!ENTITY faviconizeAllTabs.label "Zmenšit všechny do ikony">
+<!ENTITY pegAllTabs.label "Přichytit všechny panely">
+<!ENTITY hideAllTabs.label "Skrýt všechny panely">
+<!ENTITY restartAllTabs.label "Restartovat všechny panely">
+<!ENTITY closeAllTabs.label "Zavřít všechny panely">
+<!ENTITY closeAllDuplicateTabs.label "Zavřít všechny duplikované panely">
+<!ENTITY reloadEvery.label "Znovu načíst panely">
+<!ENTITY reloadEvery.enable "Povolit">
+<!ENTITY reloadEvery.custom "Vlastní">
+<!ENTITY reloadEvery.reloadInterval "Interval znovunačtení (sek.):">
+<!ENTITY reloadEvery.enableAllTabs "Povolit všechny panely">
+<!ENTITY reloadEvery.disableAllTabs "Odepřít všechny panely">
+<!ENTITY minute.label "minuta">
+<!ENTITY minutes.label "minut">
+<!ENTITY second.label "sekunda">
+<!ENTITY seconds.label "sekund">
+<!ENTITY openAllInTab.label "Panel">
+<!ENTITY openLinkInTab.label "Vynutit otevírat všechny odkazy v novém panelu">
+<!ENTITY openSiteInTab.label "Vynutit otevírat všechny odkazy z tohoto webu v novém panelu">
+<!ENTITY loadAllInBackground.label "Do pozadí">
+<!ENTITY loadAllInBackground.tooltip "Vynutí otevírání všech nových panelů do pozadí">
+<!ENTITY loadAllInForeground.label "Do popředí">
+<!ENTITY loadAllInForeground.tooltip "Vynutí otevírání všech nových panelů do popředí">
+<!ENTITY hide.label "Skrýt">
+<!ENTITY tabsToolbarCmd.label "Panel nástrojů panelů">
+<!ENTITY tabsToolbarCmd.accesskey "T">
+<!ENTITY groupTab.label "Navršit panely">
+<!ENTITY groupTab.accesskey "S">
+<!ENTITY ungroupTab.label "Zrušit navršení panelů">
+<!ENTITY ungroupTab.accesskey "U">
+<!ENTITY tabStackMenu.label "Panel navršení">
+<!ENTITY tabStackMenu.accesskey "S">
+<!ENTITY collapseGroup.label "Rozložit navršení">
+<!ENTITY collapseGroup.accesskey "C">
+<!ENTITY expandGroup.label "Roztáhnout navršení">
+<!ENTITY expandGroup.accesskey "E">
+<!ENTITY colorGroup.label "Přebarvit navršení">
+<!ENTITY colorGroup.accesskey "R">
+<!ENTITY bookmarkGroup.label "Navršení do oblíbených">
+<!ENTITY bookmarkGroup.accesskey "B">
+<!ENTITY splitGroup.label "Rozdělit navršení">
+<!ENTITY splitGroup.accesskey "S">
+<!ENTITY ungroupGroup.label "Rozložit navršení">
+<!ENTITY ungroupGroup.accesskey "U">
+<!ENTITY closeGroup.label "Zavřít navršení">
+<!ENTITY closeGroup.accesskey "C">

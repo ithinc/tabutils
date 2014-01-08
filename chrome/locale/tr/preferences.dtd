@@ -1,0 +1,155 @@
+<!ENTITY prefwindow.title "Tab Utilities Seçenekleri">
+<!ENTITY prefwindow.apply "Uygula">
+<!ENTITY prefwindow.reset "Sıfırla">
+<!ENTITY prefwindow.close "Kapat">
+<!ENTITY prefwindow.settings "Ayarlar">
+<!ENTITY settings.default "Varsayılan Ayarlar">
+<!ENTITY settings.suggest "Önerilen Ayarlar">
+<!ENTITY settings.import "İçe Aktar...">
+<!ENTITY settings.export "Dışa Aktar...">
+<!ENTITY pane1.title "Sekmeler">
+<!ENTITY pane2.title "Bağlantılar">
+<!ENTITY pane3.title "Fare">
+<!ENTITY pane4.title "Görünüm">
+<!ENTITY pane1.tab1.title "Sekme Açılışı">
+<!ENTITY pane1.tab2.title "Sekme Kapanışı">
+<!ENTITY pane3.tab1.title "Sol-tıklama">
+<!ENTITY pane3.tab2.title "Orta-tıklama">
+<!ENTITY pane3.tab3.title "Sağ-tıklama">
+<!ENTITY pane3.tab4.title "Çift-tıklama">
+<!ENTITY pane3.tab5.title "Ctrl-tıklama">
+<!ENTITY pane3.tab6.title "Alt-tıklama">
+<!ENTITY pane3.tab7.title "Shift-tıklama">
+<!ENTITY pane4.tab1.title "Sekme Çubuğu">
+<!ENTITY pane4.tab2.title "Menüler">
+<!ENTITY pane4.tab3.title "Düğmeler">
+<!ENTITY openTabFor.caption "Bunun için yeni sekmeler aç:">
+<!ENTITY openTabNext.label "Bunlardan güncel sekmenin yanında yeni sekmeler aç:">
+<!ENTITY none.label "Hiçbiri">
+<!ENTITY all.label "Hepsi">
+<!ENTITY allBut.label "Yeni Sekme Dışında Hepsi">
+<!ENTITY noneBut.label "Bağlantılar dışında Hiçbiri">
+<!ENTITY keepOrder.label "Geriplandaki sürekli sekmeler için özgün düzeni koru">
+<!ENTITY reuseBlank.caption "Boş sekmeleri yeniden kullan">
+<!ENTITY reuseBlank.current.label "Güncel">
+<!ENTITY reuseBlank.last.label "Son">
+<!ENTITY reuseBlank.all.label "Tümü">
+<!ENTITY loadInBackground.caption "Buradan gelen yeni sekmelere odaklan:">
+<!ENTITY loadInBackground.label "Bağlantılar">
+<!ENTITY loadDivertedInBackground.label "Yönlendirilmiş pencereler">
+<!ENTITY loadUrlInBackground.label "Adres çubuğu">
+<!ENTITY loadSearchInBackground.label "Arama çubuğu">
+<!ENTITY loadNewInBackground.label "Yeni Sekme">
+<!ENTITY loadDuplicateInBackground.label "Sekmenin Kopyasını Çıkar">
+<!ENTITY loadInNewTab.label "Yeni sekmede yükle:">
+<!ENTITY loadInNewTab.0.label "Boş Sayfa">
+<!ENTITY loadInNewTab.1.label "Ana Sayfa">
+<!ENTITY loadInNewTab.2.label "Kullanıcı Tanımlı">
+<!ENTITY userDefinedURL.label "Yer:">
+<!ENTITY selectOnClose.label "Güncel sekmeyi kapatırken bu sıraya göre bir sekmeye odaklan:">
+<!ENTITY unreadTabs.label "Okunmamış sekmeler">
+<!ENTITY relatedTabs.label "İlişkili sekmeler">
+<!ENTITY relatedTabs.tooltip "Üst, Çocuk ya da Kardeş sekmeler (sağdakinden başlayarak)">
+<!ENTITY unreadRelatedTabs.label "Okunmamış ilişkili sekmeler">
+<!ENTITY leftTab.label "Soldaki sekme">
+<!ENTITY rightTab.label "Sağdaki sekme">
+<!ENTITY firstTab.label "İlk sekme">
+<!ENTITY lastTab.label "Son sekme">
+<!ENTITY lastSelectedTab.label "Son uğranılan sekme">
+<!ENTITY closeOtherTab.caption "Diğer Sekmeyi Kapat">
+<!ENTITY removeUnintentionalBlank.label "Kasıtsız açılmış boş sekmeleri otomatik kapat">
+<!ENTITY maxTabsUndo.label "Geri açılabilecek en çok sekme sayısı">
+<!ENTITY handleCtrlTab.caption "Ctrl-Sekme">
+<!ENTITY handleCtrlTab.label "En son kullanım sırasına göre gezinmek için Ctrl+Tab kullan">
+<!ENTITY handleCtrlArrow.label "Sekmelerde sırası gezinmek için Ctrl+Sol/Sağ Okları kullan">
+<!ENTITY openNewWindow.caption "Bağlantıların açılma yeri:">
+<!ENTITY openNewWindow.label "Yeni pencere bağlantılarının açılma yeri:">
+<!ENTITY openExternal.label "Dış uygulamaların bağlantılarının açılma yeri:">
+<!ENTITY openNewWindow.1.label "Güncel Sekme">
+<!ENTITY openNewWindow.2.label "Yeni Pencere">
+<!ENTITY openNewWindow.3.label "Yeni Sekme">
+<!ENTITY openNewWindowRestriction.label "İstisna:">
+<!ENTITY openNewWindowRestriction.0.label "Hiçbiri">
+<!ENTITY openNewWindowRestriction.1.label "Tümü">
+<!ENTITY openNewWindowRestriction.2.label "Yeniden boyutlandırılmış popup\'lar">
+<!ENTITY singleWindowMode.label "Tek pencere kipini etkinleştir">
+<!ENTITY openExternalInTab.label "Tüm dış bağlantıları Yeni Sekmede açılmaya zorla">
+<!ENTITY openLinkWithHistory.caption "Oturum geçmişini koru">
+<!ENTITY openLinkWithHistory.label "Bağlantıları yeni sekmelerde açarken oturum geçmişini koru">
+<!ENTITY openHistoryWithHistory.label "Oturum geçmişi ögelerini yeni sekmelerde açarken oturun geçmişini koru">
+<!ENTITY clickBookmarks.label "Yer imlerinde:">
+<!ENTITY clickLinks.label "Bağlantılarda:">
+<!ENTITY doDefault.label "Varsayılan">
+<!ENTITY openInCurrent.label "Güncel sekmede aç">
+<!ENTITY invertMiddle.tooltip "Sol-tıklama yeni sekmede açarken Orta-tıklama güncel sekmede açar">
+<!ENTITY invertCtrl.tooltip "Sol-tıklama yeni sekmede açarken Ctrl-tıklama güncel sekmede açar">
+<!ENTITY invertFocus.label "Odağı ters çevir">
+<!ENTITY invertFocus.tooltip "Orta-tıklama yeni sekmede açıyorsa sekme odağını ters çevir">
+<!ENTITY stayMenuOpen.label "Menüyü açık tut">
+<!ENTITY rightAsMiddle.label "Sağ-tıklamayı Orta-tıklama gibi çalışır">
+<!ENTITY dragAndGo.label "Sürükledikten sonra ya açık bağlantılara git ya da seçili metni yeni sekmede aç">
+<!ENTITY dragAndGo.tooltip "Ctrl-sürükle: bağlantı metnini ara; Shift-sürükle: odağı ters çevir">
+<!ENTITY clickCurrentTab.label "Güncel sekmede:">
+<!ENTITY clickTab.label "Sekmelerde:">
+<!ENTITY clickTabBar.label "Sekme Çubuğunda:">
+<!ENTITY clickNewTabButton.label1 "[">
+<!ENTITY clickNewTabButton.label2 "] düğmesinde:">
+<!ENTITY leftClickTabDelay.label "[">
+<!ENTITY time.label "] ms gecikme ile">
+<!ENTITY doNothing.label "Hiçbirşey Yapma">
+<!ENTITY loadURLFromClipboard.label "Panodan URL yükle">
+<!ENTITY switchToLast.label "Son Uğranılan Sekmeye Geç">
+<!ENTITY sessionHistoryMenu.label "Oturum Geçmişi Menüsü">
+<!ENTITY tabContextMenu.label "Sekme İçerik Menüsü">
+<!ENTITY toolbarContextMenu.label "Araç çubuğu İçerik Menüsü">
+<!ENTITY mouseReleaseSelect.label "Bir sekmeye odaklamak için fareyi tıklayın (basıp bırakın)">
+<!ENTITY mouseHoverSelect.label "Bir sekmeye odaklamak için fare gezdirmesi. Gecikme:">
+<!ENTITY mouseScrollSelect.label "Bir sekmeye odaklanmak için fare tekerini kaydırın">
+<!ENTITY mouseScrollSelectDir.label "Kaydırma yönünü ters çevir">
+<!ENTITY mouseScrollSelectWrap.label "Sekme çubuğunun sonuna ulaşınca başa dön">
+<!ENTITY tabBarFeatures.caption "Sekme çubuğu özellikleri">
+<!ENTITY tabBarPosition.0.label "Üst">
+<!ENTITY tabBarPosition.1.label "Alt">
+<!ENTITY tabBarPosition.2.label "Sol">
+<!ENTITY tabBarPosition.3.label "Sağ">
+<!ENTITY showOnTabBar.caption "Sekme çubuğunda göster">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "] düğmesi">
+<!ENTITY newTabButtonPosition.0.label "Son sekmeden sonra">
+<!ENTITY newTabButtonPosition.1.label "Sol yanda">
+<!ENTITY newTabButtonPosition.2.label "Sağ yanda">
+<!ENTITY newTabButtonPosition.3.label "Gizli">
+<!ENTITY closeButtons.0.label "Yalnızca etkin sekmede">
+<!ENTITY closeButtons.1.label "Bundan daha geniş sekmelerde">
+<!ENTITY closeButtons.2.label "Kapama düğmesini gösterme">
+<!ENTITY closeButtons.3.label "Yalnızca sekme çubuğunda">
+<!ENTITY closeButtons.16.label "Etkin/gösterilen sekmede">
+<!ENTITY closeButtons.18.label "Yalnızca gösterilen sekmede">
+<!ENTITY closeButtons.33.label "Sekme çubuğunda/tüm sekmelerde">
+<!ENTITY closeButtons.50.label "Sekme çubuğunda/gösterilen sekmede">
+<!ENTITY showTabCounter.label "Sekme sayacı">
+<!ENTITY showLeftSpace.label "Solda fazladan boşluk">
+<!ENTITY showRightSpace.label "Sağda fazladan boşluk">
+<!ENTITY highlight.caption "Sekme vurgulama">
+<!ENTITY highlight.tab1.label "Güncel">
+<!ENTITY highlight.tab2.label "Okunmamış">
+<!ENTITY highlight.tab3.label "Okunmuş">
+<!ENTITY highlight.tab4.label "Korunmuş">
+<!ENTITY highlight.tab5.label "Kilitli">
+<!ENTITY highlight.tab6.label "Boşaltıldı">
+<!ENTITY highlight.tab7.label "Seçildi">
+<!ENTITY highlightEnabled.label "Etkin">
+<!ENTITY highlightBold.label "Kalın">
+<!ENTITY highlightItalic.label "Eğik">
+<!ENTITY highlightUnderline.label "Altı çizili">
+<!ENTITY highlightStrikethrough.label "Çizili">
+<!ENTITY highlightOutline.label "Kenarlar">
+<!ENTITY highlightColor.label "Renk:">
+<!ENTITY highlightBgColor.label "Arka plan:">
+<!ENTITY tabWidth.label "Sekme genişliği:">
+<!ENTITY tabHeight.label "Sekme yüksekliği:">
+<!ENTITY to.label "-">
+<!ENTITY pixel.label "piksel">
+<!ENTITY statusbar.caption "Durum Çubuğu">
+<!ENTITY hideStatusbarpanel.label1 "Gizle [">
+<!ENTITY hideStatusbarpanel.label2 "]">

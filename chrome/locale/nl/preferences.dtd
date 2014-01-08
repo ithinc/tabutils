@@ -1,0 +1,155 @@
+<!ENTITY prefwindow.title "Tab Utilities-opties">
+<!ENTITY prefwindow.apply "Toepassen">
+<!ENTITY prefwindow.reset "Herstellen">
+<!ENTITY prefwindow.close "Sluiten">
+<!ENTITY prefwindow.settings "Instellingen">
+<!ENTITY settings.default "Standaardinstellingen">
+<!ENTITY settings.suggest "Aanbevolen voorkeuren">
+<!ENTITY settings.import "Importeren…">
+<!ENTITY settings.export "Exporteren…">
+<!ENTITY pane1.title "Tabbladen">
+<!ENTITY pane2.title "Koppelingen">
+<!ENTITY pane3.title "Muis">
+<!ENTITY pane4.title "Uiterlijk">
+<!ENTITY pane1.tab1.title "Openen van tabbladen">
+<!ENTITY pane1.tab2.title "Sluiten van tabbladen">
+<!ENTITY pane3.tab1.title "Klik">
+<!ENTITY pane3.tab2.title "Middelklik">
+<!ENTITY pane3.tab3.title "Rechtsklik">
+<!ENTITY pane3.tab4.title "Dubbelklik">
+<!ENTITY pane3.tab5.title "Ctrl-klik">
+<!ENTITY pane3.tab6.title "Alt-klik">
+<!ENTITY pane3.tab7.title "Shift-klik">
+<!ENTITY pane4.tab1.title "Tabbalk">
+<!ENTITY pane4.tab2.title "Menu’s">
+<!ENTITY pane4.tab3.title "Knoppen">
+<!ENTITY openTabFor.caption "Nieuwe tabbladen openen voor:">
+<!ENTITY openTabNext.label "Nieuwe tabbladen naast de huidige tabblad openen die afkomstig zijn van:">
+<!ENTITY none.label "Geen">
+<!ENTITY all.label "Alles">
+<!ENTITY allBut.label "Alles, behalve nieuw tabblad">
+<!ENTITY noneBut.label "Geen behalve koppelingen">
+<!ENTITY keepOrder.label "Oorspronkelijke volgorde voor doorlopende achtergrondtabbladen aanhouden">
+<!ENTITY reuseBlank.caption "Lege tabbladen hergebruiken:">
+<!ENTITY reuseBlank.current.label "Huidige">
+<!ENTITY reuseBlank.last.label "Laatste">
+<!ENTITY reuseBlank.all.label "Alles">
+<!ENTITY loadInBackground.caption "Focussen op nieuwe tabbladen afkomstig van:">
+<!ENTITY loadInBackground.label "Koppelingen">
+<!ENTITY loadDivertedInBackground.label "Afgeleide vensters">
+<!ENTITY loadUrlInBackground.label "Adresbalk">
+<!ENTITY loadSearchInBackground.label "Zoekbalk">
+<!ENTITY loadNewInBackground.label "Nieuw tabblad">
+<!ENTITY loadDuplicateInBackground.label "Dubbel tabblad">
+<!ENTITY loadInNewTab.label "In een nieuw tabblad laden:">
+<!ENTITY loadInNewTab.0.label "Blanco pagina">
+<!ENTITY loadInNewTab.1.label "Startpagina">
+<!ENTITY loadInNewTab.2.label "Door gebruiker gedefinieerd">
+<!ENTITY userDefinedURL.label "Locatie:">
+<!ENTITY selectOnClose.label "Focus geven aan een tabblad in deze volgorde wanneer het huidige tabblad gesloten wordt:">
+<!ENTITY unreadTabs.label "Ongelezen tabbladen">
+<!ENTITY relatedTabs.label "Verwante tabbladen">
+<!ENTITY relatedTabs.tooltip "Ouder-, kind- of zustertabblad (rechts eerst)">
+<!ENTITY unreadRelatedTabs.label "Ongelezen verwante tabbladen">
+<!ENTITY leftTab.label "Linkertabblad">
+<!ENTITY rightTab.label "Rechtertabblad">
+<!ENTITY firstTab.label "Eerste tabblad">
+<!ENTITY lastTab.label "Laatste tabblad">
+<!ENTITY lastSelectedTab.label "Laatst bezochte tabblad">
+<!ENTITY closeOtherTab.caption "Overige tabbladen sluiten">
+<!ENTITY removeUnintentionalBlank.label "Ongewenste blanco tabbladen automatisch sluiten">
+<!ENTITY maxTabsUndo.label "Maximum aantal herstelbare tabbladen:">
+<!ENTITY handleCtrlTab.caption "Ctrl+Tab">
+<!ENTITY handleCtrlTab.label "Ctrl+Tab om tabbladen te navigeren in volgorde van meest recent gebruikt">
+<!ENTITY handleCtrlArrow.label "Ctrl+Linker-/Rechterpijltoets om tabbladen in serie te navigeren">
+<!ENTITY openNewWindow.caption "Koppelingen openen in:">
+<!ENTITY openNewWindow.label "Koppelingen naar nieuwe vensters openen in:">
+<!ENTITY openExternal.label "Koppelingen vanuit externe applicaties openen in:">
+<!ENTITY openNewWindow.1.label "Huidig tabblad">
+<!ENTITY openNewWindow.2.label "Nieuw venster">
+<!ENTITY openNewWindow.3.label "Nieuw tabblad">
+<!ENTITY openNewWindowRestriction.label "Behalve:">
+<!ENTITY openNewWindowRestriction.0.label "Geen">
+<!ENTITY openNewWindowRestriction.1.label "Alles">
+<!ENTITY openNewWindowRestriction.2.label "Van grootte aangepaste pop-ups">
+<!ENTITY singleWindowMode.label "Enkele-venster-modus inschakelen">
+<!ENTITY openExternalInTab.label "Alle externe koppelingen geforceerd openen in nieuw tabblad">
+<!ENTITY openLinkWithHistory.caption "Sessiegeschiedenis bewaren">
+<!ENTITY openLinkWithHistory.label "Sessiegeschiedenis bewaren voor nieuwe tabbladen uit koppelingen">
+<!ENTITY openHistoryWithHistory.label "Sessiegeschiedenis bewaren voor nieuwe tabbladen uit de sessiegeschiedenis">
+<!ENTITY clickBookmarks.label "Op bladwijzers:">
+<!ENTITY clickLinks.label "Op koppelingen:">
+<!ENTITY doDefault.label "Standaard">
+<!ENTITY openInCurrent.label "Openen in huidig tabblad">
+<!ENTITY invertMiddle.tooltip "Middelklik opent in het huidig tabblad terwijl klikken in een nieuw tabblad opent">
+<!ENTITY invertCtrl.tooltip "Ctrl-klik opent in het huidig tabblad terwijl klikken in een nieuw tabblad opent">
+<!ENTITY invertFocus.label "Focus omkeren">
+<!ENTITY invertFocus.tooltip "Tabbladfocus omkeren wanneer middelklik een nieuw tabblad  opent">
+<!ENTITY stayMenuOpen.label "Menu open houden">
+<!ENTITY rightAsMiddle.label "Rechtsklik functioneert hetzelfde als middelklik">
+<!ENTITY dragAndGo.label "Sleep koppelingen of geselecteerde tekst om in een nieuw tabblad te openen">
+<!ENTITY dragAndGo.tooltip "Ctrl-drag: geselecteerde tekst zoeken; Shift-drag: focus omkeren">
+<!ENTITY clickCurrentTab.label "Op huidig tabblad:">
+<!ENTITY clickTab.label "Op tabbladen:">
+<!ENTITY clickTabBar.label "Op tabbalk:">
+<!ENTITY clickNewTabButton.label1 "Op knop [">
+<!ENTITY clickNewTabButton.label2 "]:">
+<!ENTITY leftClickTabDelay.label "Met een vertraging van">
+<!ENTITY time.label "ms">
+<!ENTITY doNothing.label "Niets doen">
+<!ENTITY loadURLFromClipboard.label "URL van klembord laden">
+<!ENTITY switchToLast.label "Naar laatst bezochte tabblad wisselen">
+<!ENTITY sessionHistoryMenu.label "Menu Sessiegeschiedenis">
+<!ENTITY tabContextMenu.label "Tabblad-contextmenu">
+<!ENTITY toolbarContextMenu.label "Werkbalk-contextmenu">
+<!ENTITY mouseReleaseSelect.label "Muisklik om te focussen op een tabblad">
+<!ENTITY mouseHoverSelect.label "Tabblad met muis aanwijzen om te focussen met een vertraging van">
+<!ENTITY mouseScrollSelect.label "Muiswiel scrollen om een tabblad focus te geven">
+<!ENTITY mouseScrollSelectDir.label "Scrollrichting omkeren">
+<!ENTITY mouseScrollSelectWrap.label "Nieuwe rij aanmaken wanneer het einde van de tabbalk bereikt wordt">
+<!ENTITY tabBarFeatures.caption "Tabbalkfuncties">
+<!ENTITY tabBarPosition.0.label "Bovenaan">
+<!ENTITY tabBarPosition.1.label "Onderaan">
+<!ENTITY tabBarPosition.2.label "Links">
+<!ENTITY tabBarPosition.3.label "Rechts">
+<!ENTITY showOnTabBar.caption "Weergeven op tabbalk">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "]-knop">
+<!ENTITY newTabButtonPosition.0.label "Na laatste tabblad">
+<!ENTITY newTabButtonPosition.1.label "Aan linkerzijde">
+<!ENTITY newTabButtonPosition.2.label "Aan rechterzijde">
+<!ENTITY newTabButtonPosition.3.label "Verborgen">
+<!ENTITY closeButtons.0.label "Alleen op actief tabblad">
+<!ENTITY closeButtons.1.label "Op tabbladen breder dan">
+<!ENTITY closeButtons.2.label "Geen sluitknoppen">
+<!ENTITY closeButtons.3.label "Alleen op tabbalk">
+<!ENTITY closeButtons.16.label "Op actief/aangewezen tabblad">
+<!ENTITY closeButtons.18.label "Op aangewezen tabblad">
+<!ENTITY closeButtons.33.label "Op tabbalk/alle tabbladen">
+<!ENTITY closeButtons.50.label "Op tabbalk/aangewezen tabblad">
+<!ENTITY showTabCounter.label "Tabbladteller">
+<!ENTITY showLeftSpace.label "Extra ruimte links">
+<!ENTITY showRightSpace.label "Extra ruimte rechts">
+<!ENTITY highlight.caption "Tabbladmarkering">
+<!ENTITY highlight.tab1.label "Huidig">
+<!ENTITY highlight.tab2.label "Ongelezen">
+<!ENTITY highlight.tab3.label "Gelezen">
+<!ENTITY highlight.tab4.label "Beschermd">
+<!ENTITY highlight.tab5.label "Vergrendeld">
+<!ENTITY highlight.tab6.label "Ontladen">
+<!ENTITY highlight.tab7.label "Geselecteerd">
+<!ENTITY highlightEnabled.label "Ingeschakeld">
+<!ENTITY highlightBold.label "Vet">
+<!ENTITY highlightItalic.label "Schuin">
+<!ENTITY highlightUnderline.label "Onderstreept">
+<!ENTITY highlightStrikethrough.label "Doorstreept">
+<!ENTITY highlightOutline.label "Omtrek">
+<!ENTITY highlightColor.label "Kleur:">
+<!ENTITY highlightBgColor.label "Achtergrond:">
+<!ENTITY tabWidth.label "Tabbladbreedte:">
+<!ENTITY tabHeight.label "Tabbladhoogte:">
+<!ENTITY to.label "tot">
+<!ENTITY pixel.label "px">
+<!ENTITY statusbar.caption "Statusbalk">
+<!ENTITY hideStatusbarpanel.label1 "[">
+<!ENTITY hideStatusbarpanel.label2 "] verbergen">

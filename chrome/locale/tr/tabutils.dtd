@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Tab Utilities Seçenekleri...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Seçilen Bağlantıları Yeni Sekmelerde Aç []">
+<!ENTITY openSelectedLinksInTab.accesskey "T">
+<!ENTITY duplicateTab.label "Sekmeyi Kopyala">
+<!ENTITY duplicateTab.accesskey "K">
+<!ENTITY moveToWindow.label "Pencereye Taşı">
+<!ENTITY moveToWindow.accesskey "P">
+<!ENTITY mergeWindow.label "Pencereleri Birleştir">
+<!ENTITY mergeWindow.accesskey "B">
+<!ENTITY mergeAllWindows.label "Tüm Pencereleri Birleştir">
+<!ENTITY mergeGroup.label "Grubu Birleştir">
+<!ENTITY mergeGroup.accesskey "G">
+<!ENTITY mergeAllGroups.label "Tüm Grupları Birleştir">
+<!ENTITY readTab.label "Okundu Olarak İşaretle">
+<!ENTITY unreadTab.label "Okunmadı Olarak İşaretle">
+<!ENTITY readTab.accesskey "O">
+<!ENTITY protectTab.label "Sekmeyi Koru">
+<!ENTITY protectTab.tooltip "Sekmeyi kapatılmaktan koru">
+<!ENTITY protectTab.accesskey "K">
+<!ENTITY lockTab.label "Sekmeyi Kilitle">
+<!ENTITY lockTab.tooltip "Güncel URL\'deki sekmeyi kilitle">
+<!ENTITY lockTab.accesskey "L">
+<!ENTITY freezeTab.label "Sekmeyi Dondur">
+<!ENTITY freezeTab.tooltip "Bir sekmeyi Koru ve Kilitle">
+<!ENTITY freezeTab.accesskey "D">
+<!ENTITY faviconizeTab.label "Sekmeyi Favori-Simgeleştir">
+<!ENTITY faviconizeTab.tooltip "Sekmeyi simge genişliğine küçült">
+<!ENTITY faviconizeTab.accesskey "F">
+<!ENTITY pegTab.label "Sekmeyi Tuttur">
+<!ENTITY pegTab.tooltip "Sekmeyi sekme çubuğunun soluna küçült ve tuttur">
+<!ENTITY pegTab.accesskey "T">
+<!ENTITY hideTab.label "Sekmeyi Gizle">
+<!ENTITY hideTab.tooltip "Bir sekmeyi sekme çubuğundan gizle">
+<!ENTITY hideTab.accesskey "G">
+<!ENTITY renameTab.label "Sekmeyi Yeniden Adlandır">
+<!ENTITY renameTab.accesskey "A">
+<!ENTITY restartTab.label "Sekmeyi Yeniden Başlat">
+<!ENTITY restartTab.accesskey "B">
+<!ENTITY closeLeftTabs.label "Soldaki sekmeleri kapat">
+<!ENTITY closeLeftTabs.accesskey "K">
+<!ENTITY closeRightTabs.label "Sağdaki Sekmeleri Kapat">
+<!ENTITY closeRightTabs.accesskey "S">
+<!ENTITY closeDuplicateTabs.label "Çift sekmeleri kapat">
+<!ENTITY closeDuplicateTabs.accesskey "E">
+<!ENTITY closeSimilarTabs.label "Benzer Sekmeleri Kapat">
+<!ENTITY closeSimilarTabs.accesskey "B">
+<!ENTITY selectTab.label "Sekme Seç">
+<!ENTITY selectTab.accesskey "S">
+<!ENTITY selectTabs.label "Çoklu Sekme Seç">
+<!ENTITY selectTabs.accesskey "C">
+<!ENTITY selectTabs2.label "Çoklu Sekme Seç (+)">
+<!ENTITY selectSimilarTabs.label "Benzer Sekmeleri Seç">
+<!ENTITY selectSimilarTabs.accesskey "B">
+<!ENTITY selectAllTabs.label "Tüm Sekmeleri Seç">
+<!ENTITY selectAllTabs.accesskey "T">
+<!ENTITY unselectAllTabs.label "Tüm Sekmeleri Bırak">
+<!ENTITY unselectAllTabs.accesskey "K">
+<!ENTITY invertSelection.label "Seçimi Evir">
+<!ENTITY invertSelection.accesskey "E">
+<!ENTITY showAllTabs.label "Çok satırlı sekme çubuğu">
+<!ENTITY readAllTabs.label "Tüm Sekmeleri Okundu İşaretle">
+<!ENTITY unreadAllTabs.label "Tüm Sekmeleri Okunmadı İşaretle">
+<!ENTITY protectAllTabs.label "Tüm Sekmeleri Koru">
+<!ENTITY lockAllTabs.label "Tüm Sekmeleri Kİlitle">
+<!ENTITY freezeAllTabs.label "Tüm Sekmeleri Dondur">
+<!ENTITY faviconizeAllTabs.label "Tüm Sekmeleri Favori-Simgeleştir">
+<!ENTITY pegAllTabs.label "Tüm Sekmeleri Sabitle">
+<!ENTITY hideAllTabs.label "Tüm Sekmeleri Gizle">
+<!ENTITY restartAllTabs.label "Tüm Sekmeleri Yeniden Başlat">
+<!ENTITY closeAllTabs.label "Tüm Sekmeleri Kapat">
+<!ENTITY closeAllDuplicateTabs.label "Tüm Çift Sekmeleri Kapat">
+<!ENTITY reloadEvery.label "Sekmeyi Bu Sıklıkta Yeniden Yükle">
+<!ENTITY reloadEvery.enable "Etkinleştir">
+<!ENTITY reloadEvery.custom "Özel">
+<!ENTITY reloadEvery.reloadInterval "Yeniden Yükleme Aralığı (saniye)">
+<!ENTITY reloadEvery.enableAllTabs "Tüm Sekmeleri Etkinleştir">
+<!ENTITY reloadEvery.disableAllTabs "Tüm Sekmeleri Etkinsizleştir">
+<!ENTITY minute.label "dakika">
+<!ENTITY minutes.label "dakika">
+<!ENTITY second.label "saniye">
+<!ENTITY seconds.label "saniye">
+<!ENTITY openAllInTab.label "Sekme">
+<!ENTITY openLinkInTab.label "Tüm bağlantıları Yeni Sekmede açılmaya zorla">
+<!ENTITY openSiteInTab.label "Bu sitedeki tüm bağlantıları yeni sekmede açılmaya zorla">
+<!ENTITY loadAllInBackground.label "Ap">
+<!ENTITY loadAllInBackground.tooltip "Tüm yeni sekmeleri arka planda açılmaya zorla">
+<!ENTITY loadAllInForeground.label "Op">
+<!ENTITY loadAllInForeground.tooltip "Tüm yeni sekmeleri ön planda açılmaya zorla">
+<!ENTITY hide.label "Gizle">
+<!ENTITY tabsToolbarCmd.label "Sekme Araç çubuğu">
+<!ENTITY tabsToolbarCmd.accesskey "A">
+<!ENTITY groupTab.label "Sekmeleri Yığ">
+<!ENTITY groupTab.accesskey "Y">
+<!ENTITY ungroupTab.label "Sekmeyi Yığından Çöz">
+<!ENTITY ungroupTab.accesskey "Ç">
+<!ENTITY tabStackMenu.label "Sekme Yığını">
+<!ENTITY tabStackMenu.accesskey "S">
+<!ENTITY collapseGroup.label "Yığını Küçült">
+<!ENTITY collapseGroup.accesskey "K">
+<!ENTITY expandGroup.label "Yığını Genişlet">
+<!ENTITY expandGroup.accesskey "G">
+<!ENTITY colorGroup.label "Yığın yeniden Renklendir...">
+<!ENTITY colorGroup.accesskey "R">
+<!ENTITY bookmarkGroup.label "Yığını yer ime Ekle..">
+<!ENTITY bookmarkGroup.accesskey "E">
+<!ENTITY splitGroup.label "Yığını Ayır">
+<!ENTITY splitGroup.accesskey "I">
+<!ENTITY ungroupGroup.label "Yığını Çöz">
+<!ENTITY ungroupGroup.accesskey "Ç">
+<!ENTITY closeGroup.label "Yığını Kapat">
+<!ENTITY closeGroup.accesskey "K">

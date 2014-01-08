@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <Description about="urn:mozilla:install-manifest">
-    <em:id>tabutils@ithinc.cn</em:id>
+    <em:id>tabutilslocales@ithinc.cn</em:id>
     <em:type>2</em:type>
-    <em:name>Tab Utilities</em:name>
-    <em:version>1.5.20</em:version>
+    <em:name>Tab Utilities Locales</em:name>
+    <em:version>1.2.1</em:version>
     <em:creator>ithinc</em:creator>
-    <em:contributor>Leszek(teo)Życzkowski</em:contributor>
-    <em:contributor>Emanuele Alimonda</em:contributor>
-    <em:translator>Cye3s (zh-CN)</em:translator>
-    <em:translator>Jose Sun, kingsmile (zh-TW)</em:translator>
     <em:translator>Leszek(teo)Życzkowski (pl)</em:translator>
-    <em:translator>Edgard Dias Magalhaes (pt-BR)</em:translator>
     <em:translator>erglo, o.roth (ReinekeFux) von BabelZilla.org (de)</em:translator>
+    <em:translator>Jose Sun, kingsmile (zh-TW)</em:translator>
+    <em:translator>Edgard Dias Magalhaes (pt-BR)</em:translator>
+    <em:translator>Carlos Simão (pt-PT)</em:translator>
+    <em:translator>pflammertsma, markh van BabelZilla.org (nl)</em:translator>
     <em:translator>Carlos Mella (es-ES)</em:translator>
+    <em:translator>Mikael Hiort af Ornäs (sv-SE)</em:translator>
     <em:translator>ynetbot (ru)</em:translator>
     <em:translator>matsumoto (ja-JP)</em:translator>
     <em:translator>Klezzon (it)</em:translator>
-    <em:description>Open Bookmarks/History/URL/Search in new tabs, and more utilities for tabbed browsing.</em:description>
-    <em:homepageURL>http://addons.mozilla.org/addon/59961</em:homepageURL>
+    <em:translator>Sinan Kaan Yerli (skyerli.org) (tr)</em:translator>
+    <em:translator>eking (cs)</em:translator>
+    <em:description>Language packs for Tab Utilities and Tab Utilities Lite.</em:description>
+    <em:homepageURL>https://addons.mozilla.org/firefox/addon/tab-utilities-locales/</em:homepageURL>
     <em:iconURL>chrome://tabutils/skin/tabutils.png</em:iconURL>
-    <em:optionsURL>chrome://tabutils/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- Firefox -->
-        <em:minVersion>17.0</em:minVersion>
-        <em:maxVersion>28.0a2</em:maxVersion>
+        <em:minVersion>3.6</em:minVersion>
+        <em:maxVersion>16.*</em:maxVersion>
       </Description>
     </em:targetApplication>
-    <em:strictCompatibility>true</em:strictCompatibility>
   </Description>
 </RDF>

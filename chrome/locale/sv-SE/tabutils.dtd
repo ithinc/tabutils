@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Inställningar för Tab Utilities...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Öppna markerade länkar i nya flikar []">
+<!ENTITY openSelectedLinksInTab.accesskey "T">
+<!ENTITY duplicateTab.label "Klona flik">
+<!ENTITY duplicateTab.accesskey "K">
+<!ENTITY moveToWindow.label "Flytta till fönster">
+<!ENTITY moveToWindow.accesskey "F">
+<!ENTITY mergeWindow.label "Slå ihop fönster">
+<!ENTITY mergeWindow.accesskey "m">
+<!ENTITY mergeAllWindows.label "Slå ihop alla fönster">
+<!ENTITY mergeGroup.label "Sammanfoga grupp">
+<!ENTITY mergeGroup.accesskey "m">
+<!ENTITY mergeAllGroups.label "Sammanfoga alla grupper">
+<!ENTITY readTab.label "Märk som läst">
+<!ENTITY unreadTab.label "Märk som oläst">
+<!ENTITY readTab.accesskey "l">
+<!ENTITY protectTab.label "Skydda flik">
+<!ENTITY protectTab.tooltip "Skyddar en flik från att stängas">
+<!ENTITY protectTab.accesskey "y">
+<!ENTITY lockTab.label "Lås flik">
+<!ENTITY lockTab.tooltip "Låser en flik på den aktuella URL:en">
+<!ENTITY lockTab.accesskey "L">
+<!ENTITY freezeTab.label "Frys flik">
+<!ENTITY freezeTab.tooltip "Skyddar och låser en flik">
+<!ENTITY freezeTab.accesskey "F">
+<!ENTITY faviconizeTab.label "Favikonisera flik">
+<!ENTITY faviconizeTab.tooltip "Krymper en flik till en ikons bredd">
+<!ENTITY faviconizeTab.accesskey "i">
+<!ENTITY pegTab.label "Nåla fast flik">
+<!ENTITY pegTab.tooltip "Krymper och nålar fast en flik till vänster om flikfältet">
+<!ENTITY pegTab.accesskey "N">
+<!ENTITY hideTab.label "Göm flik">
+<!ENTITY hideTab.tooltip "Döljer en flik i flikfältet">
+<!ENTITY hideTab.accesskey "G">
+<!ENTITY renameTab.label "Byt namn på flik">
+<!ENTITY renameTab.accesskey "B">
+<!ENTITY restartTab.label "Starta om flik">
+<!ENTITY restartTab.accesskey "r">
+<!ENTITY closeLeftTabs.label "Stäng flikarna till vänster">
+<!ENTITY closeLeftTabs.accesskey "v">
+<!ENTITY closeRightTabs.label "Stäng flikarna till höger">
+<!ENTITY closeRightTabs.accesskey "h">
+<!ENTITY closeDuplicateTabs.label "Stäng flikduplikat">
+<!ENTITY closeDuplicateTabs.accesskey "d">
+<!ENTITY closeSimilarTabs.label "Stäng liknande flikar">
+<!ENTITY closeSimilarTabs.accesskey "k">
+<!ENTITY selectTab.label "Markera en flik">
+<!ENTITY selectTab.accesskey "M">
+<!ENTITY selectTabs.label "Markera flera flikar">
+<!ENTITY selectTabs.accesskey "r">
+<!ENTITY selectTabs2.label "Markera flera flikar (+)">
+<!ENTITY selectSimilarTabs.label "Markera liknande flikar">
+<!ENTITY selectSimilarTabs.accesskey "e">
+<!ENTITY selectAllTabs.label "Markera alla flikar">
+<!ENTITY selectAllTabs.accesskey "a">
+<!ENTITY unselectAllTabs.label "Avmarkera alla flikar">
+<!ENTITY unselectAllTabs.accesskey "v">
+<!ENTITY invertSelection.label "Invertera markering">
+<!ENTITY invertSelection.accesskey "I">
+<!ENTITY showAllTabs.label "Flerradigt flikfält">
+<!ENTITY readAllTabs.label "Märk alla flikar som lästa">
+<!ENTITY unreadAllTabs.label "Märk alla flikar som olästa">
+<!ENTITY protectAllTabs.label "Skydda alla flikar">
+<!ENTITY lockAllTabs.label "Lås alla flikar">
+<!ENTITY freezeAllTabs.label "Frys alla flikar">
+<!ENTITY faviconizeAllTabs.label "Favikonisera alla flikar">
+<!ENTITY pegAllTabs.label "Nåla fast alla flikar">
+<!ENTITY hideAllTabs.label "Göm alla flikar">
+<!ENTITY restartAllTabs.label "Starta om alla flikar">
+<!ENTITY closeAllTabs.label "Stäng alla flikar">
+<!ENTITY closeAllDuplicateTabs.label "Stäng alla flikduplikat">
+<!ENTITY reloadEvery.label "Auto-uppdatera flik efter">
+<!ENTITY reloadEvery.enable "Aktivera">
+<!ENTITY reloadEvery.custom "Anpassa">
+<!ENTITY reloadEvery.reloadInterval "Uppdateringsintervall (sekunder):">
+<!ENTITY reloadEvery.enableAllTabs "Aktivera för alla flikar">
+<!ENTITY reloadEvery.disableAllTabs "Inaktivera för alla flikar">
+<!ENTITY minute.label "minut">
+<!ENTITY minutes.label "minuter">
+<!ENTITY second.label "sekund">
+<!ENTITY seconds.label "sekunder">
+<!ENTITY openAllInTab.label "Flik">
+<!ENTITY openLinkInTab.label "Tvinga alla länkar att öppna i ny flik">
+<!ENTITY openSiteInTab.label "Tvinga alla länkar på den här webbplatsen att öppna i ny flik">
+<!ENTITY loadAllInBackground.label "Bg">
+<!ENTITY loadAllInBackground.tooltip "Tvinga alla nya flikar att öppna i bakgrunden">
+<!ENTITY loadAllInForeground.label "Fg">
+<!ENTITY loadAllInForeground.tooltip "Tvinga alla nya flikar att öppna i förgrunden">
+<!ENTITY hide.label "Göm">
+<!ENTITY tabsToolbarCmd.label "Tabs Toolbar">
+<!ENTITY tabsToolbarCmd.accesskey "T">
+<!ENTITY groupTab.label "Stack Tabs">
+<!ENTITY groupTab.accesskey "S">
+<!ENTITY ungroupTab.label "Unstack Tab">
+<!ENTITY ungroupTab.accesskey "U">
+<!ENTITY tabStackMenu.label "Tab Stack">
+<!ENTITY tabStackMenu.accesskey "S">
+<!ENTITY collapseGroup.label "Collapse Stack">
+<!ENTITY collapseGroup.accesskey "C">
+<!ENTITY expandGroup.label "Expand Stack">
+<!ENTITY expandGroup.accesskey "E">
+<!ENTITY colorGroup.label "Recolor Stack...">
+<!ENTITY colorGroup.accesskey "R">
+<!ENTITY bookmarkGroup.label "Bookmark Stack...">
+<!ENTITY bookmarkGroup.accesskey "B">
+<!ENTITY splitGroup.label "Split Stack">
+<!ENTITY splitGroup.accesskey "S">
+<!ENTITY ungroupGroup.label "Unstack Stack">
+<!ENTITY ungroupGroup.accesskey "U">
+<!ENTITY closeGroup.label "Close Stack">
+<!ENTITY closeGroup.accesskey "C">

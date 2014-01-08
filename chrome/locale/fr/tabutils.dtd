@@ -1,0 +1,90 @@
+<!ENTITY tuOptions.label "Options Tab Utilities…">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Ouvrir les liens sélectionnés dans de nouveaux onglets []">
+<!ENTITY openSelectedLinksInTab.accesskey "T">
+<!ENTITY duplicateTab.label "Dupliquer l'onglet">
+<!ENTITY duplicateTab.accesskey "D">
+<!ENTITY moveToWindow.label "Déplacer vers la fenêtre">
+<!ENTITY moveToWindow.accesskey "M">
+<!ENTITY mergeWindow.label "Fusionner la fenêtre">
+<!ENTITY mergeWindow.accesskey "M">
+<!ENTITY mergeAllWindows.label "Fusionner toutes les fenêtres">
+<!ENTITY mergeGroup.label "Fusionner le groupe d'onglets">
+<!ENTITY mergeGroup.accesskey "M">
+<!ENTITY mergeAllGroups.label "Fusionner tous les groupes d'onglets">
+<!ENTITY readTab.label "Marquer comme lu">
+<!ENTITY unreadTab.label "Marquer comme non lu">
+<!ENTITY readTab.accesskey "R">
+<!ENTITY protectTab.label "Protéger l'onglet">
+<!ENTITY protectTab.tooltip "Protéger un onglet de sa fermeture">
+<!ENTITY protectTab.accesskey "P">
+<!ENTITY lockTab.label "Bloquer l'onglet">
+<!ENTITY lockTab.tooltip "Bloquer l'onglet sur l'url actuelle">
+<!ENTITY lockTab.accesskey "L">
+<!ENTITY freezeTab.label "Figer l'onglet">
+<!ENTITY freezeTab.tooltip "Protéger et verrouiller un onglet">
+<!ENTITY freezeTab.accesskey "F">
+<!ENTITY faviconizeTab.label "Ajouter une favicon à l'onglet">
+<!ENTITY faviconizeTab.tooltip "Réduire un onglet à la largeur de son icône">
+<!ENTITY faviconizeTab.accesskey "I">
+<!ENTITY pegTab.label "Épingler l'onglet">
+<!ENTITY pegTab.tooltip "Réduire et épingler un onglet sur la gauche de la barre des onglets">
+<!ENTITY pegTab.accesskey "P">
+<!ENTITY hideTab.label "Cacher l'onglet">
+<!ENTITY hideTab.tooltip "Cacher un onglets de la barre des onglets">
+<!ENTITY hideTab.accesskey "H">
+<!ENTITY renameTab.label "Renommer un onglet">
+<!ENTITY renameTab.accesskey "R">
+<!ENTITY restartTab.label "Redémarrer l'onglet">
+<!ENTITY restartTab.accesskey "R">
+<!ENTITY closeLeftTabs.label "Fermer les onglets situés à gauche">
+<!ENTITY closeLeftTabs.accesskey "L">
+<!ENTITY closeRightTabs.label "Fermer les onglets situés à droite">
+<!ENTITY closeRightTabs.accesskey "R">
+<!ENTITY closeDuplicateTabs.label "Fermer les onglets en double">
+<!ENTITY closeDuplicateTabs.accesskey "D">
+<!ENTITY closeSimilarTabs.label "Fermer les onglets similaires">
+<!ENTITY closeSimilarTabs.accesskey "S">
+<!ENTITY selectTab.label "Sélectionner un onglet">
+<!ENTITY selectTab.accesskey "S">
+<!ENTITY selectTabs.label "Sélectionnez des onglets">
+<!ENTITY selectTabs.accesskey "M">
+<!ENTITY selectTabs2.label "Sélectionnez des onglets (+)">
+<!ENTITY selectSimilarTabs.label "Sélectionner de onglets similaires">
+<!ENTITY selectSimilarTabs.accesskey "S">
+<!ENTITY selectAllTabs.label "Sélectionner tous les onglets">
+<!ENTITY selectAllTabs.accesskey "A">
+<!ENTITY unselectAllTabs.label "Désélectionner tous les onglets">
+<!ENTITY unselectAllTabs.accesskey "U">
+<!ENTITY invertSelection.label "Inverser la sélection">
+<!ENTITY invertSelection.accesskey "I">
+<!ENTITY showAllTabs.label "Barre des onglets sur plusieurs lignes">
+<!ENTITY readAllTabs.label "Marquer tous les onglets comme lus">
+<!ENTITY unreadAllTabs.label "Marquer tous les onglets comme non lus">
+<!ENTITY protectAllTabs.label "Protéger tous les onglets">
+<!ENTITY lockAllTabs.label "Verrouiller tous les onglets">
+<!ENTITY freezeAllTabs.label "Figer tous les onglets">
+<!ENTITY faviconizeAllTabs.label "Ajouter des favicons à tous les onglets">
+<!ENTITY pegAllTabs.label "Épingler tous les onglets">
+<!ENTITY hideAllTabs.label "Cacher tous les onglets">
+<!ENTITY restartAllTabs.label "Redémarrer tous les onglets">
+<!ENTITY closeAllTabs.label "Fermer tous les onglets">
+<!ENTITY closeAllDuplicateTabs.label "Fermer tous les onglets en double">
+<!ENTITY reloadEvery.label "Actualiser l'onglet tous les">
+<!ENTITY reloadEvery.enable "Activer">
+<!ENTITY reloadEvery.custom "Personnaliser">
+<!ENTITY reloadEvery.reloadInterval "Intervalle d'actualisation (en secondes):">
+<!ENTITY reloadEvery.enableAllTabs "Activer tous les onglets">
+<!ENTITY reloadEvery.disableAllTabs "Désactiver tous les onglets">
+<!ENTITY minute.label "minute">
+<!ENTITY minutes.label "minutes">
+<!ENTITY second.label "seconde">
+<!ENTITY seconds.label "secondes">
+<!ENTITY openAllInTab.label "Onglet">
+<!ENTITY openLinkInTab.label "Forcer les liens s'ouvrir dans un nouvel onglet">
+<!ENTITY openSiteInTab.label "Forcer les liens de ce site à s'ouvrir dans un nouvel onglet">
+<!ENTITY loadAllInBackground.label "Arrière-plan">
+<!ENTITY loadAllInBackground.tooltip "Forcer tous les nouveaux onglets à s'ouvrir en arrière-plan">
+<!ENTITY loadAllInForeground.label "Premier plan">
+<!ENTITY loadAllInForeground.tooltip "Forcer tous les nouveaux onglets à s'ouvrir au premier plan">
+<!ENTITY hide.label "Cacher">

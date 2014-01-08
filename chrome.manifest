@@ -1,23 +1,13 @@
-content   tabutils                 chrome/content/
-skin      tabutils   classic/1.0   chrome/skin/
-
-overlay   chrome://browser/content/browser.xul                      chrome://tabutils/content/tabutils.xul
-overlay   chrome://browser/content/places/placesOverlay.xul         chrome://tabutils/content/placesOverlay.xul
-overlay   chrome://ybookmarks/content/ybsidebar.xul                 chrome://tabutils/content/placesOverlay.xul
-overlay   chrome://bookmarktags/content/tagBrowserSidebar.xul       chrome://tabutils/content/placesOverlay.xul
-overlay   chrome://browser/content/places/bookmarkProperties.xul    chrome://tabutils/content/bookmarkProperties.xul
-overlay   chrome://browser/content/places/bookmarkProperties2.xul   chrome://tabutils/content/bookmarkProperties.xul
-overlay   chrome://mozapps/content/downloads/unknownContentType.xul chrome://tabutils/content/unknownContentType.xul
-overlay   chrome://browser/content/preferences/tabs.xul             chrome://tabutils/content/tabs.xul
-style     chrome://global/content/customizeToolbar.xul              chrome://tabutils/skin/tabutils.css
-
-locale    tabutils   en-US         chrome/locale/en-US/
-locale    tabutils   zh-CN         chrome/locale/zh-CN/
-locale    tabutils   zh-TW         chrome/locale/zh-TW/
-locale    tabutils   pl            chrome/locale/pl/
-locale    tabutils   pt-BR         chrome/locale/pt-BR/
+locale    tabutils   cs            chrome/locale/cs/
 locale    tabutils   de            chrome/locale/de/
 locale    tabutils   es-ES         chrome/locale/es-ES/
-locale    tabutils   ru            chrome/locale/ru/
-locale    tabutils   ja-JP         chrome/locale/ja-JP/
 locale    tabutils   it            chrome/locale/it/
+locale    tabutils   ja-JP         chrome/locale/ja-JP/
+locale    tabutils   nl            chrome/locale/nl/
+locale    tabutils   pl            chrome/locale/pl/
+locale    tabutils   pt-BR         chrome/locale/pt-BR/
+locale    tabutils   pt-PT         chrome/locale/pt-PT/
+locale    tabutils   ru            chrome/locale/ru/
+locale    tabutils   sv-SE         chrome/locale/sv-SE/
+locale    tabutils   tr            chrome/locale/tr/
+locale    tabutils   zh-TW         chrome/locale/zh-TW/

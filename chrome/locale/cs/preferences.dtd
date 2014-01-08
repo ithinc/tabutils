@@ -1,0 +1,155 @@
+<!ENTITY prefwindow.title "Nastavení Tab Utilities">
+<!ENTITY prefwindow.apply "Použít">
+<!ENTITY prefwindow.reset "Reset">
+<!ENTITY prefwindow.close "Zavřít">
+<!ENTITY prefwindow.settings "Nastavení">
+<!ENTITY settings.default "Výchozí">
+<!ENTITY settings.suggest "Doporučené">
+<!ENTITY settings.import "Import...">
+<!ENTITY settings.export "Export...">
+<!ENTITY pane1.title "Panely">
+<!ENTITY pane2.title "Odkazy">
+<!ENTITY pane3.title "Myš">
+<!ENTITY pane4.title "Vzhled">
+<!ENTITY pane1.tab1.title "Otevírání panelů">
+<!ENTITY pane1.tab2.title "Zavírání panelů">
+<!ENTITY pane3.tab1.title "Levé">
+<!ENTITY pane3.tab2.title "Prostřední">
+<!ENTITY pane3.tab3.title "Pravé">
+<!ENTITY pane3.tab4.title "Dvojklik">
+<!ENTITY pane3.tab5.title "+Ctrl">
+<!ENTITY pane3.tab6.title "+Alt">
+<!ENTITY pane3.tab7.title "+Shift">
+<!ENTITY pane4.tab1.title "Pruh panelů">
+<!ENTITY pane4.tab2.title "Nabídky">
+<!ENTITY pane4.tab3.title "Tlačítka">
+<!ENTITY openTabFor.caption "Otevírat nové panely z:">
+<!ENTITY openTabNext.label "Otevírat nové panely vedle aktuálního, které jsou z:">
+<!ENTITY none.label "Nic">
+<!ENTITY all.label "Vše">
+<!ENTITY allBut.label "Vše kromě nového panelu">
+<!ENTITY noneBut.label "Pouze odkazy">
+<!ENTITY keepOrder.label "Pro souvislé pozadí panelů ponechat původní řazení">
+<!ENTITY reuseBlank.caption "Znovu opakovat prázdné panely:">
+<!ENTITY reuseBlank.current.label "Stávající">
+<!ENTITY reuseBlank.last.label "Poslední">
+<!ENTITY reuseBlank.all.label "Vše">
+<!ENTITY loadInBackground.caption "Načíst nový panel z:">
+<!ENTITY loadInBackground.label "Odkazů">
+<!ENTITY loadDivertedInBackground.label "Přesměrovaného okna">
+<!ENTITY loadUrlInBackground.label "Adresní řádek">
+<!ENTITY loadSearchInBackground.label "Řádek hledání">
+<!ENTITY loadNewInBackground.label "Nový panel">
+<!ENTITY loadDuplicateInBackground.label "Duplikovat panel">
+<!ENTITY loadInNewTab.label "V novém panelu otevřít:">
+<!ENTITY loadInNewTab.0.label "Prázdná stránka">
+<!ENTITY loadInNewTab.1.label "Domovská stránka">
+<!ENTITY loadInNewTab.2.label "Vlastní">
+<!ENTITY userDefinedURL.label "Odkaz:">
+<!ENTITY selectOnClose.label "Focus a tab in the following order when closing current tab:">
+<!ENTITY unreadTabs.label "Nepřečtené panely">
+<!ENTITY relatedTabs.label "Související panely">
+<!ENTITY relatedTabs.tooltip "Nadřazené, podřízené nebo související panely (první vpravo)">
+<!ENTITY unreadRelatedTabs.label "Nepřečtené příbuzné panely">
+<!ENTITY leftTab.label "Levý panel">
+<!ENTITY rightTab.label "Pravý panel">
+<!ENTITY firstTab.label "První panel">
+<!ENTITY lastTab.label "Poslední panel">
+<!ENTITY lastSelectedTab.label "Naposled zobrazený">
+<!ENTITY closeOtherTab.caption "Zavřít ostatní panely">
+<!ENTITY removeUnintentionalBlank.label "Automaticky zavírat nadbytečné prázdné stránky">
+<!ENTITY maxTabsUndo.label "Maximum obnovitelných panelů:">
+<!ENTITY handleCtrlTab.caption "Ctrl panel">
+<!ENTITY handleCtrlTab.label "Crtl+Tab pro pohyb v naposled použitém pořadí">
+<!ENTITY handleCtrlArrow.label "Ctrl+Pravá/Levá šipka pro pohyb v postupném pořadí">
+<!ENTITY openNewWindow.caption "Otevřít odkazy v:">
+<!ENTITY openNewWindow.label "Otevírat odkazy pro nové okno v:">
+<!ENTITY openExternal.label "Otevírat odkazy z externích aplikací v:">
+<!ENTITY openNewWindow.1.label "Stávajícím panelu">
+<!ENTITY openNewWindow.2.label "Novém okně">
+<!ENTITY openNewWindow.3.label "Novém panelu">
+<!ENTITY openNewWindowRestriction.label "Kromě:">
+<!ENTITY openNewWindowRestriction.0.label "Nic">
+<!ENTITY openNewWindowRestriction.1.label "Vše">
+<!ENTITY openNewWindowRestriction.2.label "Vyskakovacích oken">
+<!ENTITY singleWindowMode.label "Povolit mód jednoho okna">
+<!ENTITY openExternalInTab.label "Vynutit otevírání všech externích odkazů v novém panelu">
+<!ENTITY openLinkWithHistory.caption "Pamatovat historii procházení">
+<!ENTITY openLinkWithHistory.label "Zachovat historii procházení nových panelů z odkazů">
+<!ENTITY openHistoryWithHistory.label "Zachovat historii procházení nových panelů ze seznamu historie">
+<!ENTITY clickBookmarks.label "Ze záložek:">
+<!ENTITY clickLinks.label "Z odkazů:">
+<!ENTITY doDefault.label "Výchozí">
+<!ENTITY openInCurrent.label "Otevřít v současném panelu">
+<!ENTITY invertMiddle.tooltip "Prostřední tlačítko otevírá ve stávajícím panelu, když levé otevírá v panelu novém">
+<!ENTITY invertCtrl.tooltip "Ctrl klik otevírá ve stávajícím panelu, když levé otevírá v panelu novém">
+<!ENTITY invertFocus.label "Obrátit přepínání">
+<!ENTITY invertFocus.tooltip "Obrátit přepínání panelů, když prostřední tlačítko otevírá v panelu novém">
+<!ENTITY stayMenuOpen.label "Ponechat nabídku otevřenou">
+<!ENTITY rightAsMiddle.label "Funkce pravého tlačítka jako prostředního">
+<!ENTITY dragAndGo.label "Táhnout a otevřít odkaz nebo vybraný text v novém panelu">
+<!ENTITY dragAndGo.tooltip "Ctrl+Táhnout: hledat text odkazu; Shift+Táhnout: obrátit přepínání">
+<!ENTITY clickCurrentTab.label "On current tab:">
+<!ENTITY clickTab.label "Z panelu:">
+<!ENTITY clickTabBar.label "Z pruhu panelů:">
+<!ENTITY clickNewTabButton.label1 "Z [">
+<!ENTITY clickNewTabButton.label2 "] tlačítko:">
+<!ENTITY leftClickTabDelay.label "Zdržení">
+<!ENTITY time.label "ms">
+<!ENTITY doNothing.label "Nedělat nic">
+<!ENTITY loadURLFromClipboard.label "Načíst URL ze schránky">
+<!ENTITY switchToLast.label "Přepnout na naposledy navštívený panel">
+<!ENTITY sessionHistoryMenu.label "Menu historie procházení">
+<!ENTITY tabContextMenu.label "Rozšířená nabídka panelů">
+<!ENTITY toolbarContextMenu.label "Rozšířená nabídka nástrojů">
+<!ENTITY mouseReleaseSelect.label "Kliknutím (dolů a uvolnit) přepnout panel">
+<!ENTITY mouseHoverSelect.label "Přepínat panely přejetím myši se zpožděním:">
+<!ENTITY mouseScrollSelect.label "Přepínat panely kolečkem">
+<!ENTITY mouseScrollSelectDir.label "Převrátit směr rolování">
+<!ENTITY mouseScrollSelectWrap.label "Sbalit při dosažení konce pruhu panelů">
+<!ENTITY tabBarFeatures.caption "Funkce pruhu panelů">
+<!ENTITY tabBarPosition.0.label "Nahoře">
+<!ENTITY tabBarPosition.1.label "Dole">
+<!ENTITY tabBarPosition.2.label "Vlevo">
+<!ENTITY tabBarPosition.3.label "Vpravo">
+<!ENTITY showOnTabBar.caption "Zobraz na pruhu panelů">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "] button">
+<!ENTITY newTabButtonPosition.0.label "Za posledním panelem">
+<!ENTITY newTabButtonPosition.1.label "Nalevo">
+<!ENTITY newTabButtonPosition.2.label "Napravo">
+<!ENTITY newTabButtonPosition.3.label "Skrytý">
+<!ENTITY closeButtons.0.label "Pouze na aktivním panelu">
+<!ENTITY closeButtons.1.label "Na všech panelech širších než">
+<!ENTITY closeButtons.2.label "Bez zavíracích tlačítek">
+<!ENTITY closeButtons.3.label "Pouze na pruhu panelů">
+<!ENTITY closeButtons.16.label "Na aktivní/kurzor">
+<!ENTITY closeButtons.18.label "On pointed tab only">
+<!ENTITY closeButtons.33.label "Na pruhu panelů/všechny panely">
+<!ENTITY closeButtons.50.label "Na pruh panelů/kurzor">
+<!ENTITY showTabCounter.label "Počítadlo panelů">
+<!ENTITY showLeftSpace.label "Extra mezera vlevo">
+<!ENTITY showRightSpace.label "Extra mezera vpravo">
+<!ENTITY highlight.caption "Zvýraznění panelu">
+<!ENTITY highlight.tab1.label "Stávající">
+<!ENTITY highlight.tab2.label "Nepřečtený">
+<!ENTITY highlight.tab3.label "Přečtený">
+<!ENTITY highlight.tab4.label "Chráněný">
+<!ENTITY highlight.tab5.label "Zamčený">
+<!ENTITY highlight.tab6.label "Nenahraný">
+<!ENTITY highlight.tab7.label "Vybraný">
+<!ENTITY highlightEnabled.label "Povolit">
+<!ENTITY highlightBold.label "Tučné">
+<!ENTITY highlightItalic.label "Kurzíva">
+<!ENTITY highlightUnderline.label "Podtržené">
+<!ENTITY highlightStrikethrough.label "Přeškrtnuté">
+<!ENTITY highlightOutline.label "Obrysové">
+<!ENTITY highlightColor.label "Barva:">
+<!ENTITY highlightBgColor.label "Pozadí:">
+<!ENTITY tabWidth.label "Šířka Panelu:">
+<!ENTITY tabHeight.label "Výška Panelu:">
+<!ENTITY to.label "do">
+<!ENTITY pixel.label "pixelů">
+<!ENTITY statusbar.caption "Stavový Řádek">
+<!ENTITY hideStatusbarpanel.label1 "Skrýt [">
+<!ENTITY hideStatusbarpanel.label2 "]">

@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Opções do Tab Utilities...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Abrir ligações seleccionadas em novos separadores []">
+<!ENTITY openSelectedLinksInTab.accesskey "ç">
+<!ENTITY duplicateTab.label "Duplicar separador">
+<!ENTITY duplicateTab.accesskey "D">
+<!ENTITY moveToWindow.label "Mover para a janela">
+<!ENTITY moveToWindow.accesskey "M">
+<!ENTITY mergeWindow.label "Unir janela">
+<!ENTITY mergeWindow.accesskey "n">
+<!ENTITY mergeAllWindows.label "Unir todas as janelas">
+<!ENTITY mergeGroup.label "Unir grupo">
+<!ENTITY mergeGroup.accesskey "i">
+<!ENTITY mergeAllGroups.label "Unir todos os grupos">
+<!ENTITY readTab.label "Marcar como lido">
+<!ENTITY unreadTab.label "Marcar como não lido">
+<!ENTITY readTab.accesskey "l">
+<!ENTITY protectTab.label "Proteger separador">
+<!ENTITY protectTab.tooltip "Proteger o enceramento de um separador">
+<!ENTITY protectTab.accesskey "P">
+<!ENTITY lockTab.label "Bloquear separador">
+<!ENTITY lockTab.tooltip "Bloquear um separador no URL actual">
+<!ENTITY lockTab.accesskey "L">
+<!ENTITY freezeTab.label "Congelar separador">
+<!ENTITY freezeTab.tooltip "Proteger e trancar um separador">
+<!ENTITY freezeTab.accesskey "g">
+<!ENTITY faviconizeTab.label "Faviconizar separador">
+<!ENTITY faviconizeTab.tooltip "Encolher um separador para a largura de um ícone">
+<!ENTITY faviconizeTab.accesskey "I">
+<!ENTITY pegTab.label "Pin separador">
+<!ENTITY pegTab.tooltip "Encolher e fazer pin a um separador à esquerda da barra de separadores">
+<!ENTITY pegTab.accesskey "P">
+<!ENTITY hideTab.label "Ocultar separador">
+<!ENTITY hideTab.tooltip "Ocultar um separador da barra de separadores">
+<!ENTITY hideTab.accesskey "O">
+<!ENTITY renameTab.label "Renomear separador">
+<!ENTITY renameTab.accesskey "R">
+<!ENTITY restartTab.label "Reiniciar separador">
+<!ENTITY restartTab.accesskey "R">
+<!ENTITY closeLeftTabs.label "Fechar separadores da esquerda">
+<!ENTITY closeLeftTabs.accesskey "h">
+<!ENTITY closeRightTabs.label "Fechar separadores da direita">
+<!ENTITY closeRightTabs.accesskey "d">
+<!ENTITY closeDuplicateTabs.label "Fechar separadores duplicados">
+<!ENTITY closeDuplicateTabs.accesskey "F">
+<!ENTITY closeSimilarTabs.label "Fechar separadores iguais">
+<!ENTITY closeSimilarTabs.accesskey "s">
+<!ENTITY selectTab.label "Seleccione um separador">
+<!ENTITY selectTab.accesskey "S">
+<!ENTITY selectTabs.label "Seleccione múltiplos separadores">
+<!ENTITY selectTabs.accesskey "m">
+<!ENTITY selectTabs2.label "Seleccionar múltiplos separadores (+)">
+<!ENTITY selectSimilarTabs.label "Seleccionar separadores parecidos">
+<!ENTITY selectSimilarTabs.accesskey "S">
+<!ENTITY selectAllTabs.label "Seleccionar todos os separadores">
+<!ENTITY selectAllTabs.accesskey "t">
+<!ENTITY unselectAllTabs.label "De-seleccionar todos os separadores">
+<!ENTITY unselectAllTabs.accesskey "c">
+<!ENTITY invertSelection.label "Inverter selecção">
+<!ENTITY invertSelection.accesskey "I">
+<!ENTITY showAllTabs.label "Mostrar todos os separadores">
+<!ENTITY readAllTabs.label "Marcar todos os separadores como lidos">
+<!ENTITY unreadAllTabs.label "Marcar todos os separadores como não lidos">
+<!ENTITY protectAllTabs.label "Proteger todos os separadores">
+<!ENTITY lockAllTabs.label "Bloquear todos os separadores">
+<!ENTITY freezeAllTabs.label "Congelar todos os separadores">
+<!ENTITY faviconizeAllTabs.label "Faviconizar todos os separadores">
+<!ENTITY pegAllTabs.label "Pin a todos os separadores">
+<!ENTITY hideAllTabs.label "Ocultar todos os separadores">
+<!ENTITY restartAllTabs.label "Reiniciar todos os separadores">
+<!ENTITY closeAllTabs.label "Fechar todos os separadores">
+<!ENTITY closeAllDuplicateTabs.label "Fechar todos os separadores duplicados">
+<!ENTITY reloadEvery.label "Recarregar separadores a cada">
+<!ENTITY reloadEvery.enable "Activar">
+<!ENTITY reloadEvery.custom "Personalizado">
+<!ENTITY reloadEvery.reloadInterval "Intervalo para recarregar (segundos):">
+<!ENTITY reloadEvery.enableAllTabs "Activar todos os separadores">
+<!ENTITY reloadEvery.disableAllTabs "desactivar todos os separadores">
+<!ENTITY minute.label "minuto">
+<!ENTITY minutes.label "minutos">
+<!ENTITY second.label "segundo">
+<!ENTITY seconds.label "segundos">
+<!ENTITY openAllInTab.label "Separador">
+<!ENTITY openLinkInTab.label "Forçar todas as ligações para abrir num novo separador">
+<!ENTITY openSiteInTab.label "Forçar todas as ligações deste sítio para abrir em novo separador">
+<!ENTITY loadAllInBackground.label "Bg">
+<!ENTITY loadAllInBackground.tooltip "Forçar para abrir todas as ligações em fundo">
+<!ENTITY loadAllInForeground.label "Fg">
+<!ENTITY loadAllInForeground.tooltip "Forçar para abrir todos os separadores em pano de fundo">
+<!ENTITY hide.label "Ocultar">
+<!ENTITY tabsToolbarCmd.label "Tabs Toolbar">
+<!ENTITY tabsToolbarCmd.accesskey "T">
+<!ENTITY groupTab.label "Stack Tabs">
+<!ENTITY groupTab.accesskey "S">
+<!ENTITY ungroupTab.label "Unstack Tab">
+<!ENTITY ungroupTab.accesskey "U">
+<!ENTITY tabStackMenu.label "Tab Stack">
+<!ENTITY tabStackMenu.accesskey "S">
+<!ENTITY collapseGroup.label "Collapse Stack">
+<!ENTITY collapseGroup.accesskey "C">
+<!ENTITY expandGroup.label "Expand Stack">
+<!ENTITY expandGroup.accesskey "E">
+<!ENTITY colorGroup.label "Recolor Stack...">
+<!ENTITY colorGroup.accesskey "R">
+<!ENTITY bookmarkGroup.label "Bookmark Stack...">
+<!ENTITY bookmarkGroup.accesskey "B">
+<!ENTITY splitGroup.label "Split Stack">
+<!ENTITY splitGroup.accesskey "S">
+<!ENTITY ungroupGroup.label "Unstack Stack">
+<!ENTITY ungroupGroup.accesskey "U">
+<!ENTITY closeGroup.label "Close Stack">
+<!ENTITY closeGroup.accesskey "C">

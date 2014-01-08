@@ -1,0 +1,155 @@
+<!ENTITY prefwindow.title "Inställningar för Tab Utilities">
+<!ENTITY prefwindow.apply "Verkställ">
+<!ENTITY prefwindow.reset "Återställ">
+<!ENTITY prefwindow.close "Stäng">
+<!ENTITY prefwindow.settings "Inställningar">
+<!ENTITY settings.default "Standardinställningar">
+<!ENTITY settings.suggest "Rekommenderade inställningar">
+<!ENTITY settings.import "Importera...">
+<!ENTITY settings.export "Exportera...">
+<!ENTITY pane1.title "Flikar">
+<!ENTITY pane2.title "Länkar">
+<!ENTITY pane3.title "Mus">
+<!ENTITY pane4.title "Utseende">
+<!ENTITY pane1.tab1.title "Öppna flik">
+<!ENTITY pane1.tab2.title "Stänga flik">
+<!ENTITY pane3.tab1.title "Vänsterklick">
+<!ENTITY pane3.tab2.title "Mittenklick">
+<!ENTITY pane3.tab3.title "Högerklick">
+<!ENTITY pane3.tab4.title "Dubbelklick">
+<!ENTITY pane3.tab5.title "Ctrl+klick">
+<!ENTITY pane3.tab6.title "Alt+klick">
+<!ENTITY pane3.tab7.title "Skift+klick">
+<!ENTITY pane4.tab1.title "Flikfältet">
+<!ENTITY pane4.tab2.title "Menyer">
+<!ENTITY pane4.tab3.title "Knappar">
+<!ENTITY openTabFor.caption "Öppna ny flik för:">
+<!ENTITY openTabNext.label "Öppna ny flik bredvid aktuell flik:">
+<!ENTITY none.label "Aldrig">
+<!ENTITY all.label "Alltid">
+<!ENTITY allBut.label "Alltid, utom för ny flik">
+<!ENTITY noneBut.label "Aldrig, utom från länkar">
+<!ENTITY keepOrder.label "Behåll originalordningen för fortlöpande bakgrundsflikar">
+<!ENTITY reuseBlank.caption "Återanvänd tomma flikar:">
+<!ENTITY reuseBlank.current.label "Nuvarande">
+<!ENTITY reuseBlank.last.label "Senaste">
+<!ENTITY reuseBlank.all.label "Alla">
+<!ENTITY loadInBackground.caption "Fokusera ny flik från:">
+<!ENTITY loadInBackground.label "Länkar">
+<!ENTITY loadDivertedInBackground.label "Omdirigerade fönster">
+<!ENTITY loadUrlInBackground.label "Adressfältet">
+<!ENTITY loadSearchInBackground.label "Sökfältet">
+<!ENTITY loadNewInBackground.label "Ny flik">
+<!ENTITY loadDuplicateInBackground.label "Klona flik">
+<!ENTITY loadInNewTab.label "Öppna ny flik som:">
+<!ENTITY loadInNewTab.0.label "Tom sida">
+<!ENTITY loadInNewTab.1.label "Startsidan">
+<!ENTITY loadInNewTab.2.label "Användardefinierad">
+<!ENTITY userDefinedURL.label "Plats:">
+<!ENTITY selectOnClose.label "När aktuell flik stängs, välj flik att fokusera enligt följande ordning:">
+<!ENTITY unreadTabs.label "Olästa flikar">
+<!ENTITY relatedTabs.label "Relaterade flikar">
+<!ENTITY relatedTabs.tooltip "Föräldra-, dotter- eller syskonflikar (höger först)">
+<!ENTITY unreadRelatedTabs.label "Oläst relaterad flik">
+<!ENTITY leftTab.label "Vänster flik">
+<!ENTITY rightTab.label "Höger flik">
+<!ENTITY firstTab.label "Första fliken">
+<!ENTITY lastTab.label "Sista fliken">
+<!ENTITY lastSelectedTab.label "Senast besökta flikar">
+<!ENTITY closeOtherTab.caption "Stäng övriga flikar">
+<!ENTITY removeUnintentionalBlank.label "Stäng automatiskt oavsiktligt öppnade tomma flikar">
+<!ENTITY maxTabsUndo.label "Antal återställningsbara flikar:">
+<!ENTITY handleCtrlTab.caption "Ctrl-funktioner">
+<!ENTITY handleCtrlTab.label "Ctrl+Tab bläddrar igenom flikarna efter när de senast användes">
+<!ENTITY handleCtrlArrow.label "Ctrl+vänster-/högerpil bläddrar igenom flikarna i ordningsföljd">
+<!ENTITY openNewWindow.caption "Öppna länkar i:">
+<!ENTITY openNewWindow.label "Öppna länkar som vill öppna ett nytt fönster i:">
+<!ENTITY openExternal.label "Öppna länkar från externa program i:">
+<!ENTITY openNewWindow.1.label "Aktuell flik">
+<!ENTITY openNewWindow.2.label "Nytt fönster">
+<!ENTITY openNewWindow.3.label "Ny flik">
+<!ENTITY openNewWindowRestriction.label "Undantag:">
+<!ENTITY openNewWindowRestriction.0.label "Ingen">
+<!ENTITY openNewWindowRestriction.1.label "Alla">
+<!ENTITY openNewWindowRestriction.2.label "Storleksändrade popup-fönster">
+<!ENTITY singleWindowMode.label "Aktivera enkelfönsterläge">
+<!ENTITY openExternalInTab.label "Tvinga alla externa länkar att öppna i en ny flik">
+<!ENTITY openLinkWithHistory.caption "Behåll sessionshistorik">
+<!ENTITY openLinkWithHistory.label "Behåll sessionshistoriken när länkar öppnas i ny flik">
+<!ENTITY openHistoryWithHistory.label "Behåll sessionshistoriken när sessionshistorikobjekt öppnas i ny flik">
+<!ENTITY clickBookmarks.label "På bokmärken:">
+<!ENTITY clickLinks.label "På länkar:">
+<!ENTITY doDefault.label "Standard">
+<!ENTITY openInCurrent.label "Öppna i aktuell flik">
+<!ENTITY invertMiddle.tooltip "Mittenklick öppnar i aktuell flik och vänsterklick öppnar i ny flik">
+<!ENTITY invertCtrl.tooltip "Ctrl+klick öppnar i aktuell flik och vänsterklick öppnar i ny flik">
+<!ENTITY invertFocus.label "Invertera fokus">
+<!ENTITY invertFocus.tooltip "Invertera flikfokus när mittenklick öppnar i ny flik">
+<!ENTITY stayMenuOpen.label "Håller öppnad meny öppen">
+<!ENTITY rightAsMiddle.label "Högerklick fungerar som mittenklick">
+<!ENTITY dragAndGo.label "Dra och släpp för att öppna länkar eller markerad text i ny flik">
+<!ENTITY dragAndGo.tooltip "Ctrl+dra och släpp: Sök länktext; Skift+dra och släpp: Invertera fokus">
+<!ENTITY clickCurrentTab.label "På aktuell flik:">
+<!ENTITY clickTab.label "På flik:">
+<!ENTITY clickTabBar.label "I flikfältet:">
+<!ENTITY clickNewTabButton.label1 "På [">
+<!ENTITY clickNewTabButton.label2 "]-knappen:">
+<!ENTITY leftClickTabDelay.label "Med en fördröjning på">
+<!ENTITY time.label "ms">
+<!ENTITY doNothing.label "Gör ingenting">
+<!ENTITY loadURLFromClipboard.label "Ladda URL från Urklipp">
+<!ENTITY switchToLast.label "Byt till senast använda flik">
+<!ENTITY sessionHistoryMenu.label "Sessionshistorikmenyn">
+<!ENTITY tabContextMenu.label "Fliksnabbmenyn">
+<!ENTITY toolbarContextMenu.label "Verktygsfältets snabbmeny">
+<!ENTITY mouseReleaseSelect.label "Enkelklick (ner och släpp) för att välja en flik">
+<!ENTITY mouseHoverSelect.label "Hovra med muspekaren över en flik för att välja den, med en fördröjning på">
+<!ENTITY mouseScrollSelect.label "Musrullning för att välja en flik">
+<!ENTITY mouseScrollSelectDir.label "Invertera rullningsriktningen">
+<!ENTITY mouseScrollSelectWrap.label "När en av flikfältets ändar nås, kom ut igen i motsatt ände (gör en slinga)">
+<!ENTITY tabBarFeatures.caption "Flikfältsfunktioner">
+<!ENTITY tabBarPosition.0.label "Överst">
+<!ENTITY tabBarPosition.1.label "Underst">
+<!ENTITY tabBarPosition.2.label "Left">
+<!ENTITY tabBarPosition.3.label "Right">
+<!ENTITY showOnTabBar.caption "Visa i flikfältet">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "]-knappen">
+<!ENTITY newTabButtonPosition.0.label "Efter sista fliken">
+<!ENTITY newTabButtonPosition.1.label "På vänster sida">
+<!ENTITY newTabButtonPosition.2.label "På höger sida">
+<!ENTITY newTabButtonPosition.3.label "Dold">
+<!ENTITY closeButtons.0.label "Endast på aktiv flik">
+<!ENTITY closeButtons.1.label "På alla flikar bredare än">
+<!ENTITY closeButtons.2.label "Inga stäng-knappar">
+<!ENTITY closeButtons.3.label "Endast i flikfältet">
+<!ENTITY closeButtons.16.label "På aktiv/muspekarhovrad flik">
+<!ENTITY closeButtons.18.label "Endast på muspekarhovrad flik">
+<!ENTITY closeButtons.33.label "I flikfältet/alla flikar">
+<!ENTITY closeButtons.50.label "I flikfältet/muspekarhovrad flik">
+<!ENTITY showTabCounter.label "Flikräknare">
+<!ENTITY showLeftSpace.label "Extra utrymme på vänster sida">
+<!ENTITY showRightSpace.label "Extra utrymme på höger sida">
+<!ENTITY highlight.caption "Flikutseende">
+<!ENTITY highlight.tab1.label "Aktuell">
+<!ENTITY highlight.tab2.label "Oläst">
+<!ENTITY highlight.tab3.label "Läst">
+<!ENTITY highlight.tab4.label "Skyddad">
+<!ENTITY highlight.tab5.label "Låst">
+<!ENTITY highlight.tab6.label "Ej inläst">
+<!ENTITY highlight.tab7.label "Markerad">
+<!ENTITY highlightEnabled.label "Aktivera">
+<!ENTITY highlightBold.label "Fet">
+<!ENTITY highlightItalic.label "Kursiv">
+<!ENTITY highlightUnderline.label "Understruken">
+<!ENTITY highlightStrikethrough.label "Genomstruken">
+<!ENTITY highlightOutline.label "Ytterlinje">
+<!ENTITY highlightColor.label "Färg:">
+<!ENTITY highlightBgColor.label "Bakgrund:">
+<!ENTITY tabWidth.label "Flikbredd:">
+<!ENTITY tabHeight.label "Flikhöjd:">
+<!ENTITY to.label "till">
+<!ENTITY pixel.label "px">
+<!ENTITY statusbar.caption "Statusfältet">
+<!ENTITY hideStatusbarpanel.label1 "Göm [">
+<!ENTITY hideStatusbarpanel.label2 "]">

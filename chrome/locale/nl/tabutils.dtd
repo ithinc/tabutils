@@ -1,0 +1,112 @@
+<!ENTITY tuOptions.label "Tab Utilities-opties…">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY openSelectedLinksInTab.label "Geselecteerde koppelingen openen in nieuwe tabbladen []">
+<!ENTITY openSelectedLinksInTab.accesskey "T">
+<!ENTITY duplicateTab.label "Tabblad kopiëren">
+<!ENTITY duplicateTab.accesskey "K">
+<!ENTITY moveToWindow.label "Verplaatsen naar venster">
+<!ENTITY moveToWindow.accesskey "V">
+<!ENTITY mergeWindow.label "Venster samenvoegen">
+<!ENTITY mergeWindow.accesskey "S">
+<!ENTITY mergeAllWindows.label "Alle vensters samenvoegen">
+<!ENTITY mergeGroup.label "Groep samenvoegen">
+<!ENTITY mergeGroup.accesskey "S">
+<!ENTITY mergeAllGroups.label "Alle groepen samenvoegen">
+<!ENTITY readTab.label "Als gelezen markeren">
+<!ENTITY unreadTab.label "Als ongelezen markeren">
+<!ENTITY readTab.accesskey "l">
+<!ENTITY protectTab.label "Tabblad beschermen">
+<!ENTITY protectTab.tooltip "Een tabblad tegen sluiten beschermen">
+<!ENTITY protectTab.accesskey "B">
+<!ENTITY lockTab.label "Tabblad vergrendelen">
+<!ENTITY lockTab.tooltip "Tabblad op de huidige URL vergrendelen">
+<!ENTITY lockTab.accesskey "V">
+<!ENTITY freezeTab.label "Tabblad bevriezen">
+<!ENTITY freezeTab.tooltip "Tabblad beschermen en vergrendelen">
+<!ENTITY freezeTab.accesskey "R">
+<!ENTITY faviconizeTab.label "Tabblad faviconiseren">
+<!ENTITY faviconizeTab.tooltip "Tabblad verkleinen tot de breedte van een pictogram">
+<!ENTITY faviconizeTab.accesskey "I">
+<!ENTITY pegTab.label "Tabblad vastzetten">
+<!ENTITY pegTab.tooltip "Tabblad verkleinen en vastzetten aan de linkerzijde van de tabbalk">
+<!ENTITY pegTab.accesskey "S">
+<!ENTITY hideTab.label "Tabblad verbergen">
+<!ENTITY hideTab.tooltip "Tabblad verbergen op de tabbalk">
+<!ENTITY hideTab.accesskey "E">
+<!ENTITY renameTab.label "Tabblad hernoemen">
+<!ENTITY renameTab.accesskey "H">
+<!ENTITY restartTab.label "Tabblad herstarten">
+<!ENTITY restartTab.accesskey "H">
+<!ENTITY closeLeftTabs.label "Tabbladen links sluiten">
+<!ENTITY closeLeftTabs.accesskey "L">
+<!ENTITY closeRightTabs.label "Tabbladen rechts sluiten">
+<!ENTITY closeRightTabs.accesskey "R">
+<!ENTITY closeDuplicateTabs.label "Dubbele tabbladen sluiten">
+<!ENTITY closeDuplicateTabs.accesskey "D">
+<!ENTITY closeSimilarTabs.label "Verwante tabbladen sluiten">
+<!ENTITY closeSimilarTabs.accesskey "W">
+<!ENTITY selectTab.label "Tabblad selecteren">
+<!ENTITY selectTab.accesskey "S">
+<!ENTITY selectTabs.label "Meerdere tabbladen selecteren">
+<!ENTITY selectTabs.accesskey "M">
+<!ENTITY selectTabs2.label "Meerdere tabbladen selecteren (+)">
+<!ENTITY selectSimilarTabs.label "Vergelijkbare tabbladen selecteren">
+<!ENTITY selectSimilarTabs.accesskey "S">
+<!ENTITY selectAllTabs.label "Alle tabbladen selecteren">
+<!ENTITY selectAllTabs.accesskey "A">
+<!ENTITY unselectAllTabs.label "Alle tabbladen deselecteren">
+<!ENTITY unselectAllTabs.accesskey "d">
+<!ENTITY invertSelection.label "Selectie omkeren">
+<!ENTITY invertSelection.accesskey "I">
+<!ENTITY showAllTabs.label "Tabbalk met meerdere rijen">
+<!ENTITY readAllTabs.label "Alle tabbladen als gelezen markeren">
+<!ENTITY unreadAllTabs.label "Alle tabbladen als ongelezen markeren">
+<!ENTITY protectAllTabs.label "Alle tabbladen beschermen">
+<!ENTITY lockAllTabs.label "Alle tabbladen vergrendelen">
+<!ENTITY freezeAllTabs.label "Alle tabbladen bevriezen">
+<!ENTITY faviconizeAllTabs.label "Alle tabbladen faviconiseren">
+<!ENTITY pegAllTabs.label "Alle tabbladen vastzetten">
+<!ENTITY hideAllTabs.label "Alle tabbladen verbergen">
+<!ENTITY restartAllTabs.label "Alle tabbladen herstarten">
+<!ENTITY closeAllTabs.label "Alle tabbladen sluiten">
+<!ENTITY closeAllDuplicateTabs.label "Alle dubbele tabbladen sluiten">
+<!ENTITY reloadEvery.label "Tabblad herladen elke">
+<!ENTITY reloadEvery.enable "Inschakelen">
+<!ENTITY reloadEvery.custom "Aangepast">
+<!ENTITY reloadEvery.reloadInterval "Herlaadinterval (seconden):">
+<!ENTITY reloadEvery.enableAllTabs "Alle tabbladen inschakelen">
+<!ENTITY reloadEvery.disableAllTabs "Alle tabbladen uitschakelen">
+<!ENTITY minute.label "minuut">
+<!ENTITY minutes.label "minuten">
+<!ENTITY second.label "seconde">
+<!ENTITY seconds.label "seconden">
+<!ENTITY openAllInTab.label "Tabblad">
+<!ENTITY openLinkInTab.label "Alle koppelingen geforceerd openen in een nieuw tabblad">
+<!ENTITY openSiteInTab.label "Alle koppelingen op deze website geforceerd openen in een nieuw tabblad">
+<!ENTITY loadAllInBackground.label "Ag">
+<!ENTITY loadAllInBackground.tooltip "Alle koppelingen geforceerd openen op de achtergrond">
+<!ENTITY loadAllInForeground.label "Vg">
+<!ENTITY loadAllInForeground.tooltip "Alle koppelingen geforceerd openen op de voorgrond">
+<!ENTITY hide.label "Verbergen">
+<!ENTITY tabsToolbarCmd.label "Tabbalk">
+<!ENTITY tabsToolbarCmd.accesskey "T">
+<!ENTITY groupTab.label "Tabbladen stapelen">
+<!ENTITY groupTab.accesskey "S">
+<!ENTITY ungroupTab.label "Tabbladen ontstapelen">
+<!ENTITY ungroupTab.accesskey "O">
+<!ENTITY tabStackMenu.label "Tabbladstapel">
+<!ENTITY tabStackMenu.accesskey "s">
+<!ENTITY collapseGroup.label "Stapel uitklappen">
+<!ENTITY collapseGroup.accesskey "u">
+<!ENTITY expandGroup.label "Stapel uitbreiden">
+<!ENTITY expandGroup.accesskey "b">
+<!ENTITY colorGroup.label "Stapel herkleuren…">
+<!ENTITY colorGroup.accesskey "k">
+<!ENTITY bookmarkGroup.label "Bladwijzerstapel…">
+<!ENTITY bookmarkGroup.accesskey "B">
+<!ENTITY splitGroup.label "Stapel splitsel">
+<!ENTITY splitGroup.accesskey "S">
+<!ENTITY ungroupGroup.label "Stapel ontstapelen">
+<!ENTITY ungroupGroup.accesskey "O">
+<!ENTITY closeGroup.label "Stapel sluiten">
+<!ENTITY closeGroup.accesskey "l">

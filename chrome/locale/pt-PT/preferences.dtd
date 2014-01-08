@@ -1,0 +1,155 @@
+<!ENTITY prefwindow.title "Opções do Tab Utilities">
+<!ENTITY prefwindow.apply "Aplicar">
+<!ENTITY prefwindow.reset "Reiniciar">
+<!ENTITY prefwindow.close "Fechar">
+<!ENTITY prefwindow.settings "Definições">
+<!ENTITY settings.default "Pré-definição">
+<!ENTITY settings.suggest "recomendado">
+<!ENTITY settings.import "Importar...">
+<!ENTITY settings.export "Exportar...">
+<!ENTITY pane1.title "Separadores">
+<!ENTITY pane2.title "Ligações">
+<!ENTITY pane3.title "Rato">
+<!ENTITY pane4.title "Aparência">
+<!ENTITY pane1.tab1.title "Abertura do separador">
+<!ENTITY pane1.tab2.title "Fecho do separador">
+<!ENTITY pane3.tab1.title "Clique-esquerdo">
+<!ENTITY pane3.tab2.title "Clique-central">
+<!ENTITY pane3.tab3.title "Clique-direito">
+<!ENTITY pane3.tab4.title "Duplo-clique">
+<!ENTITY pane3.tab5.title "Ctrl-clique">
+<!ENTITY pane3.tab6.title "Alt-clique">
+<!ENTITY pane3.tab7.title "Shift-clique">
+<!ENTITY pane4.tab1.title "Barra de separador">
+<!ENTITY pane4.tab2.title "Menus">
+<!ENTITY pane4.tab3.title "Botões">
+<!ENTITY openTabFor.caption "Abrir separadores para:">
+<!ENTITY openTabNext.label "Abrir novos separadores a seguir ao actual">
+<!ENTITY none.label "Nada">
+<!ENTITY all.label "Tudo">
+<!ENTITY allBut.label "Tudo sobre o Novo separador">
+<!ENTITY noneBut.label "Nada menos ligações">
+<!ENTITY keepOrder.label "Manter a ordem original para os separadores em pano de fundo">
+<!ENTITY reuseBlank.caption "Reutilizar separadores em branco:">
+<!ENTITY reuseBlank.current.label "Actual">
+<!ENTITY reuseBlank.last.label "Último">
+<!ENTITY reuseBlank.all.label "Todos">
+<!ENTITY loadInBackground.caption "Focar separadores de:">
+<!ENTITY loadInBackground.label "Ligações">
+<!ENTITY loadDivertedInBackground.label "Diverted Windows">
+<!ENTITY loadUrlInBackground.label "Barra de endereço">
+<!ENTITY loadSearchInBackground.label "Barra de pesquisa">
+<!ENTITY loadNewInBackground.label "Novo separador">
+<!ENTITY loadDuplicateInBackground.label "Duplicar separador">
+<!ENTITY loadInNewTab.label "Carregar em novos separadores:">
+<!ENTITY loadInNewTab.0.label "Página em branco">
+<!ENTITY loadInNewTab.1.label "Página inicial">
+<!ENTITY loadInNewTab.2.label "Definido pelo utilizador">
+<!ENTITY userDefinedURL.label "Localização:">
+<!ENTITY selectOnClose.label "Seleccione um separador na seguinte ordem ao fechar o separador actual:">
+<!ENTITY unreadTabs.label "Separadores não lidos">
+<!ENTITY relatedTabs.label "Separadores relacionados">
+<!ENTITY relatedTabs.tooltip "Separadores Parente, criança ou filho (o da direita primeiro)">
+<!ENTITY unreadRelatedTabs.label "Separadores realcionados não lidos">
+<!ENTITY leftTab.label "Separador esquerdo">
+<!ENTITY rightTab.label "Separador direito">
+<!ENTITY firstTab.label "Primeiro separador">
+<!ENTITY lastTab.label "Último separador">
+<!ENTITY lastSelectedTab.label "Último separador visitado">
+<!ENTITY closeOtherTab.caption "Fechar outros separadores">
+<!ENTITY removeUnintentionalBlank.label "Fechar automaticamente separadores em branco">
+<!ENTITY maxTabsUndo.label "Máx. de separadores a restaurar:">
+<!ENTITY handleCtrlTab.caption "Ctrl-Tab">
+<!ENTITY handleCtrlTab.label "Ctrl-Tab para navegar em separadores na ordem mais recente">
+<!ENTITY handleCtrlArrow.label "Ctrl-esquerda/direita para navegar em separadores pela ordem sequencial">
+<!ENTITY openNewWindow.caption "Abrir ligações em:">
+<!ENTITY openNewWindow.label "Abrir nova janela em">
+<!ENTITY openExternal.label "Abrir ligações externas em">
+<!ENTITY openNewWindow.1.label "Separador actual">
+<!ENTITY openNewWindow.2.label "Nova janela">
+<!ENTITY openNewWindow.3.label "Novo separador">
+<!ENTITY openNewWindowRestriction.label "Excepto">
+<!ENTITY openNewWindowRestriction.0.label "Nenhum">
+<!ENTITY openNewWindowRestriction.1.label "Todos">
+<!ENTITY openNewWindowRestriction.2.label "Popups redimensionados">
+<!ENTITY singleWindowMode.label "Activar modo se janela única">
+<!ENTITY openExternalInTab.label "Forçar para abrir ligações externas num novo separador">
+<!ENTITY openLinkWithHistory.caption "Reter histórico da sessão">
+<!ENTITY openLinkWithHistory.label "Reter histórico da sessão ao abrir ligações em novos separadores">
+<!ENTITY openHistoryWithHistory.label "Reter histórico da sessão ao abrir itens do histórico em novos separadores">
+<!ENTITY clickBookmarks.label "Nos marcadores:">
+<!ENTITY clickLinks.label "Nas ligações:">
+<!ENTITY doDefault.label "Pré-definido">
+<!ENTITY openInCurrent.label "Abrir no separador actual">
+<!ENTITY invertMiddle.tooltip "Clique-central abre no separador actual quando o clique-esquerdo abre num novo separador">
+<!ENTITY invertCtrl.tooltip "Ctrl-clique abre no separador actual quando o clique-esquerdo abre num novo separador">
+<!ENTITY invertFocus.label "Focar ao contrário">
+<!ENTITY invertFocus.tooltip "Inverter a focalização do separador quando o clique-central abre num novo separador">
+<!ENTITY stayMenuOpen.label "Menu de espera aberto">
+<!ENTITY rightAsMiddle.label "Activar clique direito nas ligações como o clique central">
+<!ENTITY dragAndGo.label "Activar arrastar e largar">
+<!ENTITY dragAndGo.tooltip "Ctrl-arrastar:pesquisar texto da ligação;Shift-arrastar:inverter focalização">
+<!ENTITY clickCurrentTab.label "No separador actual:">
+<!ENTITY clickTab.label "Num separador:">
+<!ENTITY clickTabBar.label "Na barra de separadores">
+<!ENTITY clickNewTabButton.label1 "Em [">
+<!ENTITY clickNewTabButton.label2 "] botão:">
+<!ENTITY leftClickTabDelay.label "Com um atraso de">
+<!ENTITY time.label "ms">
+<!ENTITY doNothing.label "Não fazer nada">
+<!ENTITY loadURLFromClipboard.label "Carregar URL do clipboard">
+<!ENTITY switchToLast.label "Mudar para o último separador seleccionado">
+<!ENTITY sessionHistoryMenu.label "Proteger separador">
+<!ENTITY tabContextMenu.label "Menu de contexto do separador">
+<!ENTITY toolbarContextMenu.label "Menu de contexto da barra de ferramentas">
+<!ENTITY mouseReleaseSelect.label "Clique do rato (para baixo e deixar) para seleccionar um separador">
+<!ENTITY mouseHoverSelect.label "Rato por cima para seleccionar um separador com um atraso de">
+<!ENTITY mouseScrollSelect.label "Deslocamento do rato para seleccionar um separador">
+<!ENTITY mouseScrollSelectDir.label "Seleccione o separador da esquerda ao deslocar para baixo">
+<!ENTITY mouseScrollSelectWrap.label "Fazer wrap ao atingir o fim da barra do separador">
+<!ENTITY tabBarFeatures.caption "Funcionalidades da barra de separadores">
+<!ENTITY tabBarPosition.0.label "Topo">
+<!ENTITY tabBarPosition.1.label "Fundo">
+<!ENTITY tabBarPosition.2.label "Left">
+<!ENTITY tabBarPosition.3.label "Right">
+<!ENTITY showOnTabBar.caption "Mostrar na barra de separadores">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "] botão">
+<!ENTITY newTabButtonPosition.0.label "Após o último separador">
+<!ENTITY newTabButtonPosition.1.label "Do lado esquerdo">
+<!ENTITY newTabButtonPosition.2.label "Do lado direito">
+<!ENTITY newTabButtonPosition.3.label "Oculto">
+<!ENTITY closeButtons.0.label "Num separador activo">
+<!ENTITY closeButtons.1.label "Em todos os separadores maiores que">
+<!ENTITY closeButtons.2.label "Não fechar botões">
+<!ENTITY closeButtons.3.label "No fim da barra de separadores">
+<!ENTITY closeButtons.16.label "No separador activo actual">
+<!ENTITY closeButtons.18.label "Apenas no separador actual">
+<!ENTITY closeButtons.33.label "Na barra de separadores e todos os separadores">
+<!ENTITY closeButtons.50.label "Na barra de separadores e no separador actual">
+<!ENTITY showTabCounter.label "Contador de separadores">
+<!ENTITY showLeftSpace.label "Espaço extra à esquerda">
+<!ENTITY showRightSpace.label "Espaço extra à direita">
+<!ENTITY highlight.caption "Destacar">
+<!ENTITY highlight.tab1.label "Separador actual">
+<!ENTITY highlight.tab2.label "Separadores não lidos">
+<!ENTITY highlight.tab3.label "Separadores protegidos">
+<!ENTITY highlight.tab4.label "Separadores trancados">
+<!ENTITY highlight.tab5.label "Separadores trancados">
+<!ENTITY highlight.tab6.label "Não carregado">
+<!ENTITY highlight.tab7.label "Seleccionado">
+<!ENTITY highlightEnabled.label "Activado">
+<!ENTITY highlightBold.label "Negrito">
+<!ENTITY highlightItalic.label "Itálico">
+<!ENTITY highlightUnderline.label "Sublinhar">
+<!ENTITY highlightStrikethrough.label "Strikethrough">
+<!ENTITY highlightOutline.label "Contorno">
+<!ENTITY highlightColor.label "Cor:">
+<!ENTITY highlightBgColor.label "Fundo:">
+<!ENTITY tabWidth.label "Largura do separador:">
+<!ENTITY tabHeight.label "Altura do separador:">
+<!ENTITY to.label "para">
+<!ENTITY pixel.label "px">
+<!ENTITY statusbar.caption "Barra de estado">
+<!ENTITY hideStatusbarpanel.label1 "Ocultar [">
+<!ENTITY hideStatusbarpanel.label2 "]">

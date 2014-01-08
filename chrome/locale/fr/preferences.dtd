@@ -1,0 +1,153 @@
+<!ENTITY prefwindow.title "Options de Tab Utilities">
+<!ENTITY prefwindow.apply "Appliquer">
+<!ENTITY prefwindow.reset "Réinitialiser">
+<!ENTITY prefwindow.close "Fermer">
+<!ENTITY prefwindow.settings "Paramètres">
+<!ENTITY settings.default "Paramètres par défaut">
+<!ENTITY settings.suggest "Paramètres recommandés">
+<!ENTITY settings.import "Importer…">
+<!ENTITY settings.export "Exporter…">
+<!ENTITY pane1.title "Onglets">
+<!ENTITY pane2.title "Liens">
+<!ENTITY pane3.title "Souris">
+<!ENTITY pane4.title "Apparence">
+<!ENTITY pane1.tab1.title "Ouverture d'onglet">
+<!ENTITY pane1.tab2.title "Fermeture d'onglet">
+<!ENTITY pane3.tab1.title "Clique gauche">
+<!ENTITY pane3.tab2.title "Clique du milieu">
+<!ENTITY pane3.tab3.title "Clique droit">
+<!ENTITY pane3.tab4.title "Double-clique">
+<!ENTITY pane3.tab5.title "Ctrl-clique">
+<!ENTITY pane3.tab6.title "Alt-clique">
+<!ENTITY pane3.tab7.title "Shift-clique">
+<!ENTITY pane4.tab1.title "Barre d'onglet">
+<!ENTITY pane4.tab2.title "Menus">
+<!ENTITY pane4.tab3.title "Boutons">
+<!ENTITY openTabFor.caption "Ouvrir de nouveaux onglets pour:">
+<!ENTITY openTabNext.label "Ouvrir de nouveaux onglets à la suite de l'onglet courant pour :">
+<!ENTITY none.label "Aucun">
+<!ENTITY all.label "Tous">
+<!ENTITY allBut.label "Tous sauf un nouvel onglet">
+<!ENTITY noneBut.label "Aucun sauf liens">
+<!ENTITY keepOrder.label "Keep the original order for continuous background tabs">
+<!ENTITY reuseBlank.caption "Réutiliser les onglets vides :">
+<!ENTITY reuseBlank.current.label "Actuel">
+<!ENTITY reuseBlank.last.label "Dernier">
+<!ENTITY reuseBlank.all.label "Tous">
+<!ENTITY loadInBackground.caption "Nouvel onglet à partir de :">
+<!ENTITY loadInBackground.label "Liens">
+<!ENTITY loadDivertedInBackground.label "Fenêtres ouvertes par un lien">
+<!ENTITY loadUrlInBackground.label "Barre d'adresses">
+<!ENTITY loadSearchInBackground.label "Barre de recherche">
+<!ENTITY loadNewInBackground.label "Nouvel onglet">
+<!ENTITY loadDuplicateInBackground.label "Dupliquer l'onglet">
+<!ENTITY loadInNewTab.label "Charger dans un nouvel onglet:">
+<!ENTITY loadInNewTab.0.label "Page vide">
+<!ENTITY loadInNewTab.1.label "Page d'accueil">
+<!ENTITY loadInNewTab.2.label "Défini par l'utilisateur">
+<!ENTITY userDefinedURL.label "Localisation :">
+<!ENTITY selectOnClose.label "À la fermeture de l'onglet courant mettre au premier plan  :">
+<!ENTITY unreadTabs.label "Onglets non lus">
+<!ENTITY relatedTabs.label "Onglets associés">
+<!ENTITY relatedTabs.tooltip "Onglets parents ou dépendants (en commençant par la droite)">
+<!ENTITY unreadRelatedTabs.label "Onglets non lus">
+<!ENTITY leftTab.label "Onglet de gauche">
+<!ENTITY rightTab.label "Onglet de droite">
+<!ENTITY firstTab.label "Premier onglet">
+<!ENTITY lastTab.label "Dernier onglet">
+<!ENTITY lastSelectedTab.label "Dernier onglet visité">
+<!ENTITY closeOtherTab.caption "Fermer les autres onglets">
+<!ENTITY removeUnintentionalBlank.label "Fermeture automatique involontaire onglets vierges">
+<!ENTITY maxTabsUndo.label "Onglets max restituables:">
+<!ENTITY handleCtrlTab.caption "Ctrl Tab">
+<!ENTITY handleCtrlTab.label "Ctrl+Tabulation pour naviguer dans les onglets par ordre d'utilisation le plus récent">
+<!ENTITY handleCtrlArrow.label "Ctrl+Flèche Gauche/Droite pour naviguer dans les onglets par ordre séquentiel">
+<!ENTITY openNewWindow.caption "Ouvrir les liens dans :">
+<!ENTITY openNewWindow.label "Open new-window links in:">
+<!ENTITY openExternal.label "Ouvrir les liens des applications externes dans:">
+<!ENTITY openNewWindow.1.label "Onglet actuel">
+<!ENTITY openNewWindow.2.label "Nouvelle fenêtre">
+<!ENTITY openNewWindow.3.label "Nouvel onglet">
+<!ENTITY openNewWindowRestriction.label "Excepté:">
+<!ENTITY openNewWindowRestriction.0.label "Aucun">
+<!ENTITY openNewWindowRestriction.1.label "Tous">
+<!ENTITY openNewWindowRestriction.2.label "Popups redimensionnées">
+<!ENTITY singleWindowMode.label "Activer le mode fenêtre unique">
+<!ENTITY openExternalInTab.label "Forcer tous les liens externes à s'ouvrir dans un nouvel onglet">
+<!ENTITY openLinkWithHistory.caption "Conserver l'historique de session">
+<!ENTITY openLinkWithHistory.label "Conserver l'historique de session pour les nouveaux onglets créés à partir des liens">
+<!ENTITY openHistoryWithHistory.label "Conserver l'historique de session pour les nouveaux onglets créés à partir d'éléments de l'historique de session">
+<!ENTITY clickBookmarks.label "Sur les marques-pages:">
+<!ENTITY clickLinks.label "Sur les liens:">
+<!ENTITY doDefault.label "Par défaut">
+<!ENTITY openInCurrent.label "Ouvrir dans l'onglet actuel">
+<!ENTITY invertMiddle.tooltip "Middle-click opens in current tab when Left-click opens in new tab">
+<!ENTITY invertCtrl.tooltip "Ctrl-clique opens in current tab when Left-click opens in new tab">
+<!ENTITY invertFocus.label "Inverse le focus">
+<!ENTITY invertFocus.tooltip "Invert tab focus when Middle-click opens in new tab">
+<!ENTITY stayMenuOpen.label "Garde le menu ouvert">
+<!ENTITY rightAsMiddle.label "Le clique-droit fonctionne comme le clique du milieu">
+<!ENTITY dragAndGo.label "Drag and go to open links or selected text in new tab">
+<!ENTITY dragAndGo.tooltip "Ctrl+Drag: search link text; Shift+Drag: invert focus">
+<!ENTITY clickCurrentTab.label "Sur l'onglet actuel:">
+<!ENTITY clickTab.label "Sur les onglets:">
+<!ENTITY clickTabBar.label "Sur la barre des onglets:">
+<!ENTITY clickNewTabButton.label1 "Sur [">
+<!ENTITY clickNewTabButton.label2 "] bouton:">
+<!ENTITY leftClickTabDelay.label "Avec un délais de">
+<!ENTITY time.label "ms">
+<!ENTITY doNothing.label "Ne rien faire">
+<!ENTITY loadURLFromClipboard.label "Charger l'URL à partir du presse-papier">
+<!ENTITY switchToLast.label "Bascule vers le dernier onglet visité">
+<!ENTITY sessionHistoryMenu.label "Menu de l'historique de session">
+<!ENTITY tabContextMenu.label "Menu contextuel de l'onglet">
+<!ENTITY toolbarContextMenu.label "Barre d'outils du menu contextuel">
+<!ENTITY mouseReleaseSelect.label "Mouse click (down and release) to focus a tab">
+<!ENTITY mouseHoverSelect.label "Mouse hover to focus a tab with a delay of">
+<!ENTITY mouseScrollSelect.label "Mouse scroll to focus a tab">
+<!ENTITY mouseScrollSelectDir.label "Inverse le sens de défilement">
+<!ENTITY mouseScrollSelectWrap.label "Wrap when reaching ends of the tab bar">
+<!ENTITY tabBarFeatures.caption "Tab bar features">
+<!ENTITY tabBarPosition.0.label "En haut">
+<!ENTITY tabBarPosition.1.label "En bas">
+<!ENTITY showOnTabBar.caption "Afficher dans la barre des onglets">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "] bouton">
+<!ENTITY newTabButtonPosition.0.label "Après le dernier onglet">
+<!ENTITY newTabButtonPosition.1.label "Sur le côté gauche">
+<!ENTITY newTabButtonPosition.2.label "Sur le côté droit">
+<!ENTITY newTabButtonPosition.3.label "Caché">
+<!ENTITY closeButtons.0.label "Sur l'onglet actif uniquement">
+<!ENTITY closeButtons.1.label "Sur tous les onglets plus larges que">
+<!ENTITY closeButtons.2.label "Pas de boutons de fermeture">
+<!ENTITY closeButtons.3.label "Sur la barre des onglets uniquement">
+<!ENTITY closeButtons.16.label "On active/pointed tab">
+<!ENTITY closeButtons.18.label "On pointed tab only">
+<!ENTITY closeButtons.33.label "On tab bar/all tabs">
+<!ENTITY closeButtons.50.label "On tab bar/pointed tab">
+<!ENTITY showTabCounter.label "Compteur d'onglets">
+<!ENTITY showLeftSpace.label "Espace libre à gauche">
+<!ENTITY showRightSpace.label "Espace libre à droite">
+<!ENTITY highlight.caption "Mise en avant des onglets">
+<!ENTITY highlight.tab1.label "Actuel">
+<!ENTITY highlight.tab2.label "Non lu">
+<!ENTITY highlight.tab3.label "Lu">
+<!ENTITY highlight.tab4.label "Protégé">
+<!ENTITY highlight.tab5.label "Verrouillé">
+<!ENTITY highlight.tab6.label "Non chargé">
+<!ENTITY highlight.tab7.label "Sélectionné">
+<!ENTITY highlightEnabled.label "Activé">
+<!ENTITY highlightBold.label "Gras">
+<!ENTITY highlightItalic.label "Italique">
+<!ENTITY highlightUnderline.label "Souligné">
+<!ENTITY highlightStrikethrough.label "Barré">
+<!ENTITY highlightOutline.label "Encadré">
+<!ENTITY highlightColor.label "Couleur:">
+<!ENTITY highlightBgColor.label "Fond:">
+<!ENTITY tabWidth.label "Largeur d'onglet:">
+<!ENTITY tabHeight.label "Hauteur d'onglet:">
+<!ENTITY to.label "à">
+<!ENTITY pixel.label "px">
+<!ENTITY statusbar.caption "Barre d'état">
+<!ENTITY hideStatusbarpanel.label1 "Cacher [">
+<!ENTITY hideStatusbarpanel.label2 "]">
