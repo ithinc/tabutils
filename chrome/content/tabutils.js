@@ -415,7 +415,7 @@ tabutils._openLinkInTab = function() {
   }).toString().replace(/^.*{|}$/g, ""));
 
   //外来链接
-  TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.link.open_newwindow"', 'isExternal ? "browser.link.open_external" : $&');
+  TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.tabs.loadDivertedInBackground"', 'isExternal ? "extensions.tabutils.loadForeignInBackground" : $&', "g");
 
   //左键点击链接
   TU_hookCode("contentAreaClick", /.*handleLinkClick.*/g, "if (event.button || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) $&");
@@ -497,8 +497,6 @@ tabutils._singleWindowMode = function() {
 
   tabutils._tabPrefObserver.singleWindowMode = function() {
     if (TU_getPref("extensions.tabutils.singleWindowMode", false)) {
-      if (TU_getPref("browser.link.open_external", 3) == 2)
-        TU_setPref("browser.link.open_external", 3);
       if (TU_getPref("browser.link.open_newwindow") == 2)
         TU_setPref("browser.link.open_newwindow", 3);
       if (TU_getPref("browser.link.open_newwindow.override.external") == 2) // Bug 509664 [Fx10]
@@ -2741,6 +2739,7 @@ tabutils._tabPrefObserver = {
     TU_hookCode("TabsInTitlebar._update", "!this._dragBindingAlive", "$& && TU_getPref('extensions.tabutils.dragBindingAlive', true)");
 
     gPrefService.getChildList("extensions.tabutils.", {}).sort().concat([
+      "browser.link.open_external",
       "browser.tabs.animate", //Bug 649671
       "browser.tabs.tabClipWidth",
       "browser.tabs.tabMaxWidth",
@@ -2790,6 +2789,12 @@ tabutils._tabPrefObserver = {
       case "browser.tabs.tabMaxWidth": this.tabMaxWidth();return;
       case "browser.tabs.tabMinWidth": this.tabMinWidth();return;
       case "browser.tabs.tabMinHeight": this.tabMinHeight();return;
+      case "browser.link.open_external": // Bug 509664 [Fx10]
+        if (gPrefService.prefHasUserValue(aData)) {
+          TU_setPref("browser.link.open_newwindow.override.external", TU_getPref(aData));
+          gPrefService.clearUserPref(aData);
+        }
+        return;
     }
 
     if (!aData.startsWith("extensions.tabutils."))

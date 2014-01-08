@@ -37,6 +37,7 @@
 <!ENTITY loadInBackground.caption "Focus new tabs from:">
 <!ENTITY loadInBackground.label "Links">
 <!ENTITY loadDivertedInBackground.label "Diverted windows">
+<!ENTITY loadForeignInBackground.label "Foreign links">
 <!ENTITY loadUrlInBackground.label "Address bar">
 <!ENTITY loadSearchInBackground.label "Search bar">
 <!ENTITY loadNewInBackground.label "New Tab">
@@ -65,7 +66,8 @@
 <!ENTITY handleCtrlArrow.label "Ctrl+Left/Right Arrow to navigate tabs in sequential order">
 <!ENTITY openNewWindow.caption "Open links in:">
 <!ENTITY openNewWindow.label "Open new-window links in:">
-<!ENTITY openExternal.label "Open links from external applications in:">
+<!ENTITY openExternal.label "Open links from foreign applications in:">
+<!ENTITY openNewWindow.0.label "Default">
 <!ENTITY openNewWindow.1.label "Current Tab">
 <!ENTITY openNewWindow.2.label "New Window">
 <!ENTITY openNewWindow.3.label "New Tab">

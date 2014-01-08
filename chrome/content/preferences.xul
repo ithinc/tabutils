@@ -46,6 +46,7 @@
       <preference id="loadSearchInBackground" name="extensions.tabutils.loadSearchInBackground" type="bool" inverted="true"/>
       <preference id="loadNewInBackground" name="extensions.tabutils.loadNewInBackground" type="bool" inverted="true"/>
       <preference id="loadDuplicateInBackground" name="extensions.tabutils.loadDuplicateInBackground" type="bool" inverted="true"/>
+      <preference id="loadForeignInBackground" name="extensions.tabutils.loadForeignInBackground" type="bool" inverted="true"/>
       <preference id="loadAllInBackground" name="extensions.tabutils.loadAllInBackground" type="bool" onchange="loadAllInBackground();"/>
       <preference id="loadAllInForeground" name="extensions.tabutils.loadAllInForeground" type="bool" onchange="loadAllInForeground();"/>
       <preference id="openTabNext" name="extensions.tabutils.openTabNext" type="int" suggest="1" onchange="openTabNext();"/>
@@ -130,9 +131,9 @@
                   <checkbox preference="loadDuplicateInBackground" label="&loadDuplicateInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
                 </row>
                 <row>
+                  <checkbox preference="loadForeignInBackground" label="&loadForeignInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <spacer/>
                   <checkbox preference="loadAllInForeground" label="&all.label;" tooltiptext="&loadAllInForeground.tooltip;"/>
-                  <spacer/>
-                  <spacer/>
                   <checkbox preference="loadAllInBackground" label="&none.label;" tooltiptext="&loadAllInBackground.tooltip;"/>
                 </row>
               </rows>
@@ -238,7 +239,7 @@
       <preference id="openExternalInTab" name="extensions.tabutils.openExternalInTab" type="bool"/>
       <preference id="openLinkWithHistory" name="extensions.tabutils.openLinkWithHistory" type="bool"/>
 
-      <preference id="openExternal" name="browser.link.open_external" type="int"/>
+      <preference id="openExternal" name="browser.link.open_newwindow.override.external" type="int"/>
       <preference id="openNewWindow" name="browser.link.open_newwindow" type="int" onchange="openNewWindow();"/>
       <preference id="openNewWindowRestriction" name="browser.link.open_newwindow.restriction" type="int" onchange="openNewWindowRestriction();"/>
     </preferences>
@@ -249,8 +250,9 @@
         <rows>
           <row align="center">
             <label value="&openExternal.label;" control="c.openExternal"/>
-            <menulist id="c.openExternal" value="3" preference="openExternal">
+            <menulist id="c.openExternal" value="-1" preference="openExternal">
               <menupopup>
+                <menuitem value="-1" label="&openNewWindow.0.label;"/>
                 <menuitem value="2" label="&openNewWindow.2.label;" observes="b.singleWindowMode"/>
                 <menuitem value="3" label="&openNewWindow.3.label;"/>
                 <menuitem value="1" label="&openNewWindow.1.label;"/>

@@ -37,6 +37,7 @@
 <!ENTITY loadInBackground.caption "激活来自以下项目的新标签页:">
 <!ENTITY loadInBackground.label "一般链接">
 <!ENTITY loadDivertedInBackground.label "新窗口链接">
+<!ENTITY loadForeignInBackground.label "外来链接">
 <!ENTITY loadUrlInBackground.label "地址栏">
 <!ENTITY loadSearchInBackground.label "搜索栏">
 <!ENTITY loadNewInBackground.label "新建标签页">
@@ -66,6 +67,7 @@
 <!ENTITY openNewWindow.caption "链接打开位置">
 <!ENTITY openNewWindow.label "新窗口链接打开到:">
 <!ENTITY openExternal.label "外来链接打开到:">
+<!ENTITY openNewWindow.0.label "默认">
 <!ENTITY openNewWindow.1.label "当前标签页">
 <!ENTITY openNewWindow.2.label "新窗口">
 <!ENTITY openNewWindow.3.label "新标签页">
