@@ -149,6 +149,7 @@
 <!ENTITY highlightOutline.label "轮廓线:">
 <!ENTITY highlightColor.label "前景色:">
 <!ENTITY highlightBgColor.label "背景色:">
+<!ENTITY highlightOpacity.label "透明度:">
 <!ENTITY tabWidth.label "标签页宽度:">
 <!ENTITY tabHeight.label "标签页高度:">
 <!ENTITY to.label "到">

@@ -670,7 +670,7 @@
                         </colorpicker>
                       </row>
                       <row align="center">
-                        <checkbox id="c.highlightOpacity" label="Opacity:" oncommand="doHighlightStyle();">
+                        <checkbox id="c.highlightOpacity" label="&highlightOpacity.label;" oncommand="doHighlightStyle();">
                           <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightOpacity();"/>
                         </checkbox>
                         <textbox id="c.highlightOpacityCode" type="number" min="0" max="100" increment="10" size="3" maxlength="3"

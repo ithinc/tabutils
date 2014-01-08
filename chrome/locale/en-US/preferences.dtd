@@ -89,7 +89,7 @@
 <!ENTITY invertFocus.label "Invert focus">
 <!ENTITY invertFocus.tooltip "Invert tab focus when Middle-click opens in new tab">
 <!ENTITY stayMenuOpen.label "Stay menu open">
-<!ENTITY rightAsMiddle.label "Right-click functions as Middle-click">
+<!ENTITY rightAsMiddle.label "R-click functions as M-click">
 <!ENTITY dragAndGo.label "Drag and go to open links or selected text in new tab">
 <!ENTITY dragAndGo.tooltip "Ctrl+Drag: search link text; Shift+Drag: invert focus">
 <!ENTITY clickCurrentTab.label "On current tab:">
@@ -149,6 +149,7 @@
 <!ENTITY highlightOutline.label "Outline:">
 <!ENTITY highlightColor.label "Color:">
 <!ENTITY highlightBgColor.label "Background:">
+<!ENTITY highlightOpacity.label "Opacity:">
 <!ENTITY tabWidth.label "Tab width:">
 <!ENTITY tabHeight.label "Tab height:">
 <!ENTITY to.label "to">
