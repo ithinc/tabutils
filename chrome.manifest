@@ -13,11 +13,3 @@ style     chrome://global/content/customizeToolbar.xul              chrome://tab
 
 locale    tabutils   en-US         chrome/locale/en-US/
 locale    tabutils   zh-CN         chrome/locale/zh-CN/
-locale    tabutils   zh-TW         chrome/locale/zh-TW/
-locale    tabutils   pl            chrome/locale/pl/
-locale    tabutils   pt-BR         chrome/locale/pt-BR/
-locale    tabutils   de            chrome/locale/de/
-locale    tabutils   es-ES         chrome/locale/es-ES/
-locale    tabutils   ru            chrome/locale/ru/
-locale    tabutils   ja-JP         chrome/locale/ja-JP/
-locale    tabutils   it            chrome/locale/it/

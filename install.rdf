@@ -4,19 +4,10 @@
     <em:id>tabutils@ithinc.cn</em:id>
     <em:type>2</em:type>
     <em:name>Tab Utilities</em:name>
-    <em:version>1.5.20</em:version>
+    <em:version>1.6pre6</em:version>
     <em:creator>ithinc</em:creator>
     <em:contributor>Leszek(teo)Życzkowski</em:contributor>
     <em:contributor>Emanuele Alimonda</em:contributor>
-    <em:translator>Cye3s (zh-CN)</em:translator>
-    <em:translator>Jose Sun, kingsmile (zh-TW)</em:translator>
-    <em:translator>Leszek(teo)Życzkowski (pl)</em:translator>
-    <em:translator>Edgard Dias Magalhaes (pt-BR)</em:translator>
-    <em:translator>erglo, o.roth (ReinekeFux) von BabelZilla.org (de)</em:translator>
-    <em:translator>Carlos Mella (es-ES)</em:translator>
-    <em:translator>ynetbot (ru)</em:translator>
-    <em:translator>matsumoto (ja-JP)</em:translator>
-    <em:translator>Klezzon (it)</em:translator>
     <em:description>Open Bookmarks/History/URL/Search in new tabs, and more utilities for tabbed browsing.</em:description>
     <em:homepageURL>http://addons.mozilla.org/addon/59961</em:homepageURL>
     <em:iconURL>chrome://tabutils/skin/tabutils.png</em:iconURL>
@@ -28,6 +19,6 @@
         <em:maxVersion>28.0a2</em:maxVersion>
       </Description>
     </em:targetApplication>
-    <em:strictCompatibility>true</em:strictCompatibility>
+    <em:strictCompatibility>false</em:strictCompatibility>
   </Description>
 </RDF>
