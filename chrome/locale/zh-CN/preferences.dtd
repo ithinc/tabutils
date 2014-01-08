@@ -46,6 +46,7 @@
 <!ENTITY loadInNewTab.1.label "主页">
 <!ENTITY loadInNewTab.2.label "指定地址">
 <!ENTITY userDefinedURL.label "地址:">
+<!ENTITY markNewAsBlank.label "打开非空白页面时光标不要定位到地址栏">
 <!ENTITY selectOnClose.label "关闭当前标签页后按以下顺序激活标签页:">
 <!ENTITY unreadTabs.label "未读标签页">
 <!ENTITY relatedTabs.label "亲属标签页">

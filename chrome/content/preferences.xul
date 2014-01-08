@@ -157,6 +157,7 @@
                 <observes element="b.loadInNewTab" attribute="disabled"/>
               </textbox>
             </hbox>
+            <checkbox preference="markNewAsBlank" label="&markNewAsBlank.label;"/>
           </groupbox>
         </tabpanel>
 

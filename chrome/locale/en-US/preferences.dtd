@@ -46,6 +46,7 @@
 <!ENTITY loadInNewTab.1.label "Home Page">
 <!ENTITY loadInNewTab.2.label "User Defined">
 <!ENTITY userDefinedURL.label "Location:">
+<!ENTITY markNewAsBlank.label "Don't locate cursor to the address bar for non-blank pages">
 <!ENTITY selectOnClose.label "Focus a tab in the following order when closing current tab:">
 <!ENTITY unreadTabs.label "Unread tabs">
 <!ENTITY relatedTabs.label "Related tabs">
