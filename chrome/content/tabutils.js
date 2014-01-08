@@ -22,6 +22,7 @@ var tabutils = {
     this._bookmarkTabs();
     this._multiTabHandler();
     this._groupTabs();
+    this._previewTab();
     this._miscFeatures();
 
     !TU_getPref("extensions.tabutils.disableMultirowTabs") && this._multirowTabs();
@@ -1885,7 +1886,117 @@ tabutils._multiTabHandler = function() {
       item.setAttribute("multiselected", "any");
     }
   });
-}
+};
+
+tabutils._previewTab = function() {
+  tabutils.addEventListener(gBrowser.mTabContainer, 'mouseover', function(event) {
+    if (event.target.localName == 'tab' && !event.target.selected && TU_getPref("extensions.tabutils.mouseHoverPreview", false)) {
+      let tab = event.target;
+      let target = event.relatedTarget;
+      while (target && target != tab)
+        target = target.parentNode;
+      if (target)
+        return;
+
+      clearTimeout(this._mouseHoverPreviewTimer);
+      this._mouseHoverPreviewTimer = setTimeout(function(self) {
+        if (!tab.selected) {
+          let mouseHoverSelectDelay = TU_getPref("extensions.tabutils.mouseHoverSelect", false) &&
+                                      TU_getPref("extensions.tabutils.mouseHoverSelectDelay", 750);
+          if (mouseHoverSelectDelay !== 0)
+            gBrowser._previewMode = true;
+          gBrowser.selectedTab = tab;
+          if (tab.hasAttribute("pending") && TU_getPref("extensions.tabutils.mouseHoverLoad", false))
+            gBrowser.reloadTab(tab);
+          if (mouseHoverSelectDelay > 0) {
+            self._mouseHoverPreviewTimer = setTimeout(function() {
+              gBrowser._previewMode = false;
+              gBrowser.updateCurrentBrowser(true);
+            }, mouseHoverSelectDelay);
+          }
+        }
+      }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250), this);
+    }
+  }, false);
+
+  tabutils.addEventListener(gBrowser.mTabContainer, 'mouseout', function(event) {
+    if (event.target.localName == 'tab') {
+      let tab = event.target;
+      let target = event.relatedTarget;
+      while (target && target != tab)
+        target = target.parentNode;
+      if (target)
+        return;
+
+      clearTimeout(this._mouseHoverPreviewTimer);
+      if (!gBrowser._previewMode)
+        return;
+
+      this._mouseHoverPreviewTimer = setTimeout(function() {
+        gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+        gBrowser._previewMode = false;
+      }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
+    }
+  }, false);
+
+  tabutils.onDOMMenuItemActive = function onDOMMenuItemActive(event) {
+    let popup = event.target.parentNode;
+    let tab = event.target.tab || gBrowser.mTabs[event.target.value];
+    if (tab && TU_getPref("extensions.tabutils.mouseHoverPreview", false)) {
+      clearTimeout(popup._mouseHoverPreviewTimer);
+      popup._mouseHoverPreviewTimer = setTimeout(function() {
+        gBrowser._previewMode = true;
+        gBrowser.selectedTab = tab;
+        if (tab.hasAttribute("pending") && TU_getPref("extensions.tabutils.mouseHoverLoad", false))
+          gBrowser.reloadTab(tab);
+      }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
+    }
+  };
+
+  tabutils.onDOMMenuItemInactive = function onDOMMenuItemInactive(event) {
+    let popup = event.target.parentNode;
+    let tab = event.target.tab || gBrowser.mTabs[event.target.value];
+    if (tab) {
+      clearTimeout(popup._mouseHoverPreviewTimer);
+      if (!gBrowser._previewMode)
+        return;
+
+      popup._mouseHoverPreviewTimer = setTimeout(function() {
+        gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+        gBrowser._previewMode = false;
+      }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
+    }
+  };
+
+  tabutils.onMenuItemCommand = function onMenuItemCommand(event) {
+    let tab = event.target.tab || gBrowser.mTabs[event.target.value];
+    if (tab && gBrowser._previewMode) {
+      gBrowser._previewMode = false;
+      gBrowser.updateCurrentBrowser(true);
+    }
+  };
+
+  tabutils.onMenuItemMouseScroll = function onMenuItemMouseScroll(event) {
+    let tab = event.target.tab || gBrowser.mTabs[event.target.value];
+    if (tab && TU_getPref("extensions.tabutils.mouseHoverPreview", true)) {
+      goDoCommand(event.detail < 0 ? "cmd_scrollLineUp" : "cmd_scrollLineDown");
+      event.stopPropagation();
+    }
+  };
+
+  let allTabsPopup = document.getElementById("nav-bar")._getToolbarItem("alltabs-button")
+                                                       .getElementsByAttribute("id", "alltabs-popup")[0];
+  tabutils.addEventListener(allTabsPopup, "DOMMenuItemActive", tabutils.onDOMMenuItemActive, false);
+  tabutils.addEventListener(allTabsPopup, "DOMMenuItemInactive", tabutils.onDOMMenuItemInactive, false);
+  tabutils.addEventListener(allTabsPopup, "DOMMouseScroll", tabutils.onMenuItemMouseScroll, true);
+  tabutils.addEventListener(allTabsPopup, "command", tabutils.onMenuItemCommand, true);
+
+  let tabStackPopup = document.getElementById("tabStackPopup");
+  tabutils.addEventListener(tabStackPopup, "DOMMenuItemActive", tabutils.onDOMMenuItemActive, false);
+  tabutils.addEventListener(tabStackPopup, "DOMMenuItemInactive", tabutils.onDOMMenuItemInactive, false);
+  tabutils.addEventListener(tabStackPopup, "DOMMouseScroll", tabutils.onMenuItemMouseScroll, true);
+  tabutils.addEventListener(tabStackPopup, "command", tabutils.onMenuItemCommand, true);
+};
 
 tabutils._tabClickingOptions = function() {
 
@@ -2160,36 +2271,30 @@ tabutils._tabClickingOptions = function() {
   });
 
   TU_hookCode("gBrowser.onTabClick", "{", function() {
-    if (event.button == 0 && !event.ctrlKey && !event.altKey && !event.shiftKey && !event.metaKey
-        && event.target.localName == "tab" && !event.target.selected && !event.target.mOverCloseButton) {
-      this.mTabContainer._selectNewTab(event.target);
-      return;
+    if (event.button == 0 && !event.ctrlKey && !event.altKey && !event.shiftKey && !event.metaKey &&
+        event.target.localName == "tab" && !event.target.mOverCloseButton) {
+      if (!event.target.selected) {
+        this.mTabContainer._selectNewTab(event.target);
+        return;
+      }
+      if (gBrowser._previewMode) {
+        gBrowser._previewMode = false;
+        gBrowser.updateCurrentBrowser(true);
+        return;
+      }
     }
   });
-
-  //Mouse hover to select
-  gBrowser.mTabContainer._mouseHoverSelectTimer = null;
-  tabutils.addEventListener(gBrowser.mTabContainer, 'mouseover', function(event) {
-    if (event.target.localName == 'tab' && !event.target.selected && TU_getPref("extensions.tabutils.mouseHoverSelect", false)) {
-      clearTimeout(this._mouseHoverSelectTimer);
-      this._mouseHoverSelectTimer = setTimeout(function(aTab) {
-        if (aTab && !aTab.mOverCloseButton)
-          gBrowser.selectedTab = aTab;
-      }, TU_getPref("extensions.tabutils.mouseHoverSelectDelay", 250), event.target);
-    }
-  }, false);
-
-  tabutils.addEventListener(gBrowser.mTabContainer, 'mouseout', function(event) {
-    if (event.target.localName == 'tab') {
-      clearTimeout(this._mouseHoverSelectTimer);
-      this._mouseHoverSelectTimer = null;
-    }
-  }, false);
 
   //Mouse scroll to select
   tabutils.addEventListener(gBrowser.mTabContainer, 'DOMMouseScroll', function(event) {
     if (event.ctrlKey) {
       document.getElementById(event.detail < 0 ? "cmd_prevGroup" : "cmd_nextGroup").doCommand();
+      event.stopPropagation();
+      return;
+    }
+
+    if (event.target.localName == "tab" && TU_getPref("extensions.tabutils.mouseHoverPreview", true)) {
+      goDoCommand(event.detail < 0 ? "cmd_scrollLineUp" : "cmd_scrollLineDown");
       event.stopPropagation();
       return;
     }

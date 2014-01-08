@@ -343,11 +343,13 @@
       <preference id="altClickNewTabButton" name="extensions.tabutils.altClickNewTabButton" type="int"/>
       <preference id="shiftClickNewTabButton" name="extensions.tabutils.shiftClickNewTabButton" type="int"/>
 
-
       <preference id="dragAndGo" name="extensions.tabutils.dragAndGo" type="bool" suggest="true"/>
       <preference id="mouseReleaseSelect" name="extensions.tabutils.mouseReleaseSelect" type="bool" suggest="true"/>
+      <preference id="mouseHoverPreview" name="extensions.tabutils.mouseHoverPreview" type="bool" onchange="mouseHoverPreview();"/>
+      <preference id="mouseHoverPreviewDelay" name="extensions.tabutils.mouseHoverPreviewDelay" type="int"/>
       <preference id="mouseHoverSelect" name="extensions.tabutils.mouseHoverSelect" type="bool" onchange="mouseHoverSelect();"/>
       <preference id="mouseHoverSelectDelay" name="extensions.tabutils.mouseHoverSelectDelay" type="int"/>
+      <preference id="mouseHoverLoad" name="extensions.tabutils.mouseHoverLoad" type="bool"/>
       <preference id="mouseScrollSelect" name="extensions.tabutils.mouseScrollSelect" type="bool" onchange="mouseScrollSelect();"/>
       <preference id="mouseScrollSelectDir" name="extensions.tabutils.mouseScrollSelectDir" type="bool"/>
       <preference id="mouseScrollSelectWrap" name="extensions.tabutils.mouseScrollSelectWrap" type="bool"/>
@@ -467,15 +469,23 @@
 
     <checkbox preference="dragAndGo" label="&dragAndGo.label;" tooltiptext="&dragAndGo.tooltip;"/>
     <checkbox preference="mouseReleaseSelect" label="&mouseReleaseSelect.label;"/>
-    <hbox align="center">
-      <checkbox preference="mouseHoverSelect" label="&mouseHoverSelect.label;"/>
-      <textbox preference="mouseHoverSelectDelay" type="number" size="4" maxlength="4"/>
-      <label value="&time.label;"/>
-    </hbox>
     <checkbox preference="mouseScrollSelect" label="&mouseScrollSelect.label;"/>
     <vbox class="indent">
-      <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;"/>
-      <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;"/>
+      <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;" hidden="true"/>
+      <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;" hidden="true"/>
+    </vbox>
+    <hbox align="center">
+      <checkbox preference="mouseHoverPreview" label="&mouseHoverPreview.label;"/>
+      <textbox preference="mouseHoverPreviewDelay" type="number" increment="50" size="4" maxlength="4"/>
+      <label value="&time.label;"/>
+    </hbox>
+    <vbox class="indent">
+      <hbox align="center">
+        <checkbox preference="mouseHoverSelect" label="&mouseHoverSelect.label;"/>
+        <textbox preference="mouseHoverSelectDelay" type="number" increment="50" size="4" maxlength="4"/>
+        <label value="&time.label;"/>
+      </hbox>
+      <checkbox preference="mouseHoverLoad" label="&mouseHoverLoad.label;"/>
     </vbox>
   </prefpane>
 
@@ -890,8 +900,6 @@
     </menupopup>
   </popupset>
 
-
-
   <script type="application/javascript">
   <![CDATA[
     function onLoad() {
@@ -946,6 +954,7 @@
       openNewWindow();
       openNewWindowRestriction();
       singleWindowMode();
+      mouseHoverPreview();
       mouseHoverSelect();
       mouseScrollSelect();
       tabBarPosition();
@@ -1127,9 +1136,6 @@
         $("loadAllInBackground").value = false;
     }
 
-
-
-
     function openTabNext() {
       $("keepOrder").disabled = $("openTabNext").value == 0;
     }
@@ -1146,7 +1152,6 @@
       setDisabled("b.openNewWindowRestriction", $("openNewWindowRestriction").value == 0);
     }
 
-
     function singleWindowMode() {
       var singleWindowMode = $("singleWindowMode").value;
       $("openExternal").value = singleWindowMode && $("openExternal").valueFromPreferences == 2 ? 3 : $("openExternal").valueFromPreferences;
@@ -1156,8 +1161,15 @@
       setDisabled("b.singleWindowMode", singleWindowMode);
     }
 
+    function mouseHoverPreview() {
+      $("mouseHoverPreviewDelay").disabled = !$("mouseHoverPreview").value;
+      $("mouseHoverSelect").disabled = !$("mouseHoverPreview").value;
+      $("mouseHoverSelectDelay").disabled = !$("mouseHoverPreview").value || !$("mouseHoverSelect").value;
+      $("mouseHoverLoad").disabled = !$("mouseHoverPreview").value;
+    }
+
     function mouseHoverSelect() {
-      $("mouseHoverSelectDelay").disabled = !$("mouseHoverSelect").value;
+      $("mouseHoverSelectDelay").disabled = !$("mouseHoverPreview").value || !$("mouseHoverSelect").value;
     }
 
     function mouseScrollSelect() {

@@ -106,7 +106,9 @@
 <!ENTITY tabContextMenu.label "Tab Context Menu">
 <!ENTITY toolbarContextMenu.label "Toolbar Context Menu">
 <!ENTITY mouseReleaseSelect.label "Mouse click (down and release) to focus a tab">
-<!ENTITY mouseHoverSelect.label "Mouse hover to focus a tab with a delay of">
+<!ENTITY mouseHoverPreview.label "Mouse hover to preview a tab with a delay of">
+<!ENTITY mouseHoverSelect.label "Focus the tab with a delay of">
+<!ENTITY mouseHoverLoad.label "Load the tab if unloaded">
 <!ENTITY mouseScrollSelect.label "Mouse scroll to focus a tab">
 <!ENTITY mouseScrollSelectDir.label "Invert scrolling direction">
 <!ENTITY mouseScrollSelectWrap.label "Wrap when reaching ends of the tab bar">
