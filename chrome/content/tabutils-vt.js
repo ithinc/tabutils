@@ -85,6 +85,9 @@ tabutils._verticalTabs = function() {
   });
 
   tabutils._tabPrefObserver.tabBarPosition = function() {
+    if (TU_getPref("extensions.tabutils.disableVerticalTabs"))
+      return;
+
     let tabsToolbar = document.getElementById("TabsToolbar");
     let addonBar = document.getElementById("addon-bar");
     let appcontent = document.getElementById("appcontent");
@@ -129,5 +132,8 @@ tabutils._verticalTabs = function() {
     }
 
     this.closeButtons();
+  };
+
+  tabutils._tabPrefObserver.disableVerticalTabs = function() {
   };
 };
