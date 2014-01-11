@@ -2620,7 +2620,9 @@ tabutils._hideTabBar = function() {
 
 //撤销关闭标签页按钮
 tabutils._undoCloseTabButton = function() {
-  TU_hookCode("HistoryMenu.prototype._undoCloseMiddleClick",
+  TU_hookCode("RecentlyClosedTabsAndWindowsMenuUtils" in window ?
+              "RecentlyClosedTabsAndWindowsMenuUtils._undoCloseMiddleClick" : // Bug 928640 [Fx27]
+              "HistoryMenu.prototype._undoCloseMiddleClick",
     ["{", function() {
       if (aEvent.button == 2) {
         tabutils._ss.forgetClosedTab(window, Array.indexOf(aEvent.originalTarget.parentNode.childNodes, aEvent.originalTarget));
@@ -2630,27 +2632,35 @@ tabutils._undoCloseTabButton = function() {
         return;
       }
     }],
-    ["aEvent.originalTarget.value", "Array.indexOf(aEvent.originalTarget.parentNode.childNodes, aEvent.originalTarget)"],
-    [/.*undoCloseTab.*/, "$&;aEvent.originalTarget.parentNode.removeChild(aEvent.originalTarget);"]
+    [/undoCloseTab.*/, function() { // Bug 942464 [Fx28]
+      undoCloseTab(Array.indexOf(aEvent.originalTarget.parentNode.childNodes, aEvent.originalTarget));
+      aEvent.originalTarget.parentNode.removeChild(aEvent.originalTarget);
+    }]
   );
 
   TU_hookCode("HistoryMenu.prototype.populateUndoSubmenu",
-    ['" + i + "', "Array.indexOf(this.parentNode.childNodes, this)"],
+    ["}", function() { // Bug 926928 [Fx27]
+      for (let item = undoPopup.firstChild; item && item.localName == "menuitem"; item = item.nextSibling) {
+        item.setAttribute("oncommand", "undoCloseTab(Array.indexOf(this.parentNode.childNodes, this));");
+      }
+    }],
     ["}", function() {
       var sanitizeItem = document.getElementById("sanitizeItem");
-      m = undoPopup.appendChild(document.createElement("menuitem"));
+      var m = undoPopup.appendChild(document.createElement("menuitem"));
       m.setAttribute("label", sanitizeItem.getAttribute("label").replace("\u2026", ""));
       m.setAttribute("accesskey", sanitizeItem.getAttribute("accesskey"));
       m.addEventListener("command", function() {
-        for (let i = 0; i < undoItems.length; i++)
+        while (tabutils._ss.getClosedTabCount(window) > 0)
           tabutils._ss.forgetClosedTab(window, 0);
         tabutils.updateUndoCloseTabCommand();
       }, false);
+    }],
+    ["}", function() {
       undoPopup.setAttribute("onclick", "if (tabutils._ss.getClosedTabCount(window) == 0) closeMenus(this);event.stopPropagation();");
       undoPopup.setAttribute("oncommand", "event.stopPropagation();");
       undoPopup.setAttribute("context", "");
     }],
-    ["}", function() {
+    ["}", function() { // Bug 958813
       if (!undoPopup.hasStatusListener) {
         undoPopup.addEventListener("DOMMenuItemActive", function(event) {XULBrowserWindow.setOverLink(event.target.getAttribute("targetURI"));}, false);
         undoPopup.addEventListener("DOMMenuItemInactive", function() {XULBrowserWindow.setOverLink("");}, false);
