@@ -2539,7 +2539,7 @@ tabutils._tabContextMenu = function() {
       gBrowser.selectedTab = aGroupItem.tab;
   };
 
-  var button = $("nav-bar")._getToolbarItem("tabview-button");
+  var button = $("tabview-button");
   if (button && !button.hasChildNodes()) {
     let popup = button.appendChild(document.createElement("menupopup"));
     popup.setAttribute("onpopupshowing", "TabView.populateGroupMenu(event.target, true);");
