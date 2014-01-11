@@ -1679,7 +1679,7 @@ tabutils._multiTabHandler = function() {
     }
   };
 
-  TU_hookCode("undoCloseTab", /.*ss.undoCloseTab.*/, "for (let i = aIndex == null ? gBrowser._lastClosedTabsCount || 1 : 1; i > 0; i--) $&;");
+  TU_hookCode("undoCloseTab", /.*(ss|SessionStore).undoCloseTab.*/, "for (let i = aIndex == null ? gBrowser._lastClosedTabsCount || 1 : 1; i > 0; i--) $&"); // Bug 898732 [Fx26]
 
   gBrowser.closeLeftTabs = function(aTab) this.removeTabsBut(this.leftTabsOf(aTab), aTab);
   gBrowser.closeRightTabs = function(aTab) this.removeTabsBut(this.rightTabsOf(aTab), aTab);
