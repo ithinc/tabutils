@@ -437,15 +437,14 @@ tabutils._openLinkInTab = function() {
   //мор╥а╢╫с
   TU_hookCode("handleDroppedLink", /.*loadURI.*/, function(s) (function() {
     {
-      let event = arguments[0];
       switch (true) {
-        case /\.(xpi|user\.js)$/.test(uri):
+        case /\.(xpi|user\.js)$/.test(typeof data == "object" ? data.url : uri): // Bug 846635 [Fx25]
         case !TU_getPref("extensions.tabutils.dragAndGo", true):
           $0;break;
         case event.ctrlKey != TU_getPref("extensions.tabutils.invertDrag", false):
           BrowserSearch.loadSearch(name || url, true);break;
         default:
-          openNewTabWith(uri, null, postData.value, event, true, event.target.ownerDocument.documentURIObject);break;
+          openNewTabWith(typeof data == "object" ? data.url : uri, null, typeof data == "object" ? data.postData : postData.value, event, true, event.target.ownerDocument.documentURIObject);break;
       }
     }
   }).toString().replace(/^.*{|}$/g, "").replace("$0", s));
