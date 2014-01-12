@@ -1983,12 +1983,13 @@ tabutils._previewTab = function() {
     }
   };
 
-  let allTabsPopup = document.getElementById("nav-bar")._getToolbarItem("alltabs-button")
-                                                       .getElementsByAttribute("id", "alltabs-popup")[0];
-  tabutils.addEventListener(allTabsPopup, "DOMMenuItemActive", tabutils.onDOMMenuItemActive, false);
-  tabutils.addEventListener(allTabsPopup, "DOMMenuItemInactive", tabutils.onDOMMenuItemInactive, false);
-  tabutils.addEventListener(allTabsPopup, "DOMMouseScroll", tabutils.onMenuItemMouseScroll, true);
-  tabutils.addEventListener(allTabsPopup, "command", tabutils.onMenuItemCommand, true);
+  let allTabsPopup = gBrowser.mTabContainer.mAllTabsPopup;
+  if (allTabsPopup) {
+    tabutils.addEventListener(allTabsPopup, "DOMMenuItemActive", tabutils.onDOMMenuItemActive, false);
+    tabutils.addEventListener(allTabsPopup, "DOMMenuItemInactive", tabutils.onDOMMenuItemInactive, false);
+    tabutils.addEventListener(allTabsPopup, "DOMMouseScroll", tabutils.onMenuItemMouseScroll, true);
+    tabutils.addEventListener(allTabsPopup, "command", tabutils.onMenuItemCommand, true);
+  }
 
   let tabStackPopup = document.getElementById("tabStackPopup");
   tabutils.addEventListener(tabStackPopup, "DOMMenuItemActive", tabutils.onDOMMenuItemActive, false);
