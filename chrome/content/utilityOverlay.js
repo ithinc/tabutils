@@ -4,7 +4,7 @@
 
   TU_hookCode("whereToOpenLink", "{", function() {
     var target;
-    switch (arguments.callee.caller && arguments.callee.caller.name) {
+    switch (arguments.callee.caller.name) {
       case "PUIU_openNodeWithEvent":  //Fx 4.0
       case "PUIU__openTabset":
         target = "bookmarks";break;
@@ -70,21 +70,31 @@
   });
 
   TU_hookCode("whereToOpenLink",
-    [/"current"/g, 'openInTab ? "tab" : "current"'],
+    [/return "current";/, "e = {shiftKey:false, ctrlKey:false, metaKey:false, altKey:false, button:0};"],
+    [/(?=return "current";)/, function() {
+      if (openInTab) {
+        let w = getTopWin(true);
+        if (!w)
+          return "window";
+        if (!w.isTabEmpty(w.gBrowser.selectedTab))
+          return "tab";
+      }
+    }],
     [/"tab"/g, 'loadInBackground == null ? "tab" : loadInBackground ? "background" : "foreground"'],
     [/"tabshifted"/g, 'loadInBackground == null ? "tabshifted" : loadInBackground ? "foreground" : "background"'],
     [/"window"/, 'shift && TU_getPref("extensions.tabutils.shiftClick" + prefName, 0) ? "current" : $&'],
-    [/(?=if \((ctrl|meta))/, <![CDATA[
-      if (openInTab && ($1 && TU_getPref("extensions.tabutils.ctrlClick" + prefName, 1)
-                     || middle && TU_getPref("extensions.tabutils.middleClick" + prefName, 0) & 1))
+    [/(?=if \((ctrl|meta))/, function(s, s1) (function() {
+      if (openInTab &&
+          ($1 && TU_getPref("extensions.tabutils.ctrlClick" + prefName, 1) ||
+          middle && middleUsesTabs && TU_getPref("extensions.tabutils.middleClick" + prefName, 0) & 1))
         return "current";
-    ]]>],
+    }).toString().replace(/^.*{|}$/g, "").replace("$1", s1)],
     [/if \(shift|shift \?/, function(s) s.replace('shift', '$& ^ (middle && TU_getPref("extensions.tabutils.middleClick" + prefName, 0) & 2) > 0')]
   );
 
   TU_hookCode("openLinkIn",
     [/(?=if \(where == "save"\))/, function() { //Bookmarklet
-      if (url.substr(0, 11) == "javascript:")
+      if (url.startsWith("javascript:"))
         where = "current";
     }],
     [/where == "tab".*\n?.*where == "tabshifted"/, '$& || where == "background" || where == "foreground"'],
@@ -126,18 +136,19 @@
   );
 
   //ÊéÇ©×é
-  TU_hookCode("TU__openTabset",
-    [/.*gBrowser.loadTabs.*/, function(s) s.replace("loadInBackground", "where == 'background' ? true : where == 'foreground' ? false : $& ^ browserWindow.TU_getPref('browser.tabs.loadBookmarksInBackground')")]
+  TU_hookCode("TU__openTabset", /.*gBrowser.loadTabs.*/, function(s)
+    s.replace("false", "where == 'current'")
+     .replace("loadInBackground", "where == 'background' ? true : where == 'foreground' ? false : $& ^ browserWindow.TU_getPref('browser.tabs.loadBookmarksInBackground')")
   );
 
   //Open internal links in current tab
-  TU_hookCode("TU__openNodeIn", /openUILinkIn\((.*)\)/, function(s, s1)
-    s.replace(s1, (s1 = s1.split(","), s1.length == 2 && s1.push("null", "null", "null"), s1.push("{event: aEvent}"), s1.join().replace("},{", ",")))
-  );
+  TU_hookCode("TU__openNodeIn", /.*inBackground.*/, "$&, event: aEvent");
 
   TU_hookCode("openUILinkIn",
     ["{", "var lastArg = Object(arguments[arguments.length - 1]);"],
-    [/(?=.*openLinkIn.*)/, "params.event = lastArg.event;"]
+    [/(?=.*openLinkIn.*)/, function() {
+      params.event = lastArg.event;
+    }]
   );
 
   TU_hookCode("openLinkIn",
@@ -155,5 +166,7 @@
     }]
   );
 
-  TU_hookCode("openUILink", /(?=.*openUILinkIn.*)/, "params.event = event;");
+  TU_hookCode("openUILink", /(?=.*whereToOpenLink.*)/, function() {
+    params.event = event;
+  });
 })();

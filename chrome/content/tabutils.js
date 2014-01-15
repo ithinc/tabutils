@@ -58,10 +58,10 @@ var tabutils = {
   },
 
   get _styleSheet() {
-    for (let i = 0, styleSheet; styleSheet = document.styleSheets[i]; i++) {
-      if (styleSheet.href == "chrome://tabutils/skin/tabutils.css") {
+    for (let sheet of Array.slice(document.styleSheets)) {
+      if (sheet.href == "chrome://tabutils/skin/tabutils.css") {
         delete this._styleSheet;
-        return this._styleSheet = styleSheet;
+        return this._styleSheet = sheet;
       }
     }
     return document.styleSheets[0];
@@ -169,7 +169,7 @@ tabutils._openUILinkInTab = function() {
   //搜索栏回车键
   if (BrowserSearch.searchBar)
   TU_hookCode("BrowserSearch.searchBar.handleSearchCommand",
-    [/(\(aEvent && aEvent.altKey\)) \^ (newTabPref)/, "($1 || $2) && !($1 && $2 && TU_getPref('extensions.tabutils.invertAlt', true))"],
+    [/(\(aEvent && aEvent.altKey\)) \^ (newTabPref)/, "($1 || $2) && !($1 && $2 && TU_getPref('extensions.tabutils.invertAlt', true)) && !isTabEmpty(gBrowser.selectedTab)"],
     [/"tab"/, "TU_getPref('extensions.tabutils.loadSearchInBackground', false) ? 'background' : 'foreground'"]
   );
 };
@@ -177,13 +177,13 @@ tabutils._openUILinkInTab = function() {
 tabutils._openLinkInTab = function() {
 
   //强制在新标签页打开所有链接
-  TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + <![CDATA[
-    if (tabutils.gOpenLinkInTab && linkNode.href.substr(0, 11) != "javascript:") {
-      openNewTabWith(linkNode.href, linkNode.ownerDocument, null, event, false);
+  TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + (function() {
+    if (tabutils.gOpenLinkInTab && !href.startsWith("javascript:")) {
+      openNewTabWith(href, linkNode.ownerDocument, null, event, false);
       event.preventDefault();
-      return false;
+      return;
     }
-  ]]>);
+  }).toString().replace(/^.*{|}$/g, ""));
 
   TU_hookCode("nsBrowserAccess.prototype.openURI", /(?=switch \(aWhere\))/, function() {
     if (tabutils.gOpenLinkInTab && !isExternal)
@@ -191,20 +191,19 @@ tabutils._openLinkInTab = function() {
   });
 
   //强制在新标签页打开外部链接
-  TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + <![CDATA[
-    if (/^(https?|ftp)/.test(linkNode.href) && TU_getPref("extensions.tabutils.openExternalInTab", false)) {
+  TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + (function() {
+    if (/^(https?|ftp)/.test(href) && TU_getPref("extensions.tabutils.openExternalInTab", false)) {
       let ourDomain = tabutils.getDomainFromURI(linkNode.ownerDocument.documentURIObject);
-      let otherDomain = tabutils.getDomainFromURI(linkNode.href);
+      let otherDomain = tabutils.getDomainFromURI(href);
       if (ourDomain != otherDomain) {
-        openNewTabWith(linkNode.href, linkNode.ownerDocument, null, event, false);
+        openNewTabWith(href, linkNode.ownerDocument, null, event, false);
         event.preventDefault();
-        return false;
+        return;
       }
     }
-  ]]>);
+  }).toString().replace(/^.*{|}$/g, ""));
 
   //外来链接
-  TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.tabs.loadDivertedInBackground"', 'isExternal ? "extensions.tabutils.loadForeignInBackground" : $&', "g");
 
   //左键点击链接
   TU_hookCode("contentAreaClick", /.*handleLinkClick.*/g, "if (event.button || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) $&");
@@ -214,23 +213,17 @@ tabutils._openLinkInTab = function() {
 tabutils._tabOpeningOptions = function() {
 
   //新建标签页时利用已有空白标签页
-  TU_hookCode("nsBrowserAccess.prototype.openURI", "fromExternal: isExternal", "$&, reuseBlank: true");
-  TU_hookCode("gBrowser.loadOneTab",
-    ["{", "var lastArg = Object(arguments[arguments.length - 1]);"],
-    ["fromExternal: aFromExternal", "$&, reuseBlank: lastArg.reuseBlank"]
-  );
   TU_hookCode("gBrowser.addTab",
-    ["{", "var lastArg = Object(arguments[arguments.length - 1]);"],
-    [/if \(arguments.length == 2[^{}]*\) {[^{}]*}/, "$&" + <![CDATA[
-      if (lastArg.reuseBlank == null ? ["about:blank", "about:home", "about:newtab", BROWSER_NEW_TAB_URL].indexOf(aURI) == -1 : lastArg.reuseBlank) {
-        var t = this.getBlankTab();
+    [/if \(arguments.length == 2[^{}]*\) {[^{}]*}/, "$&" + (function() {
+      if (!isBlankPageURL(aURI)) {
+        let t = aFromExternal && isTabEmpty(this.selectedTab) && this.selectedTab || this.getBlankTab();
         if (t) {
-          var b = this.getBrowserForTab(t);
+          let b = this.getBrowserForTab(t);
           return t;
         }
       }
-    ]]>],
-    [/(?=return t;)/, gBrowser.addTab.toString().match(/var (uriIsBlankPage|uriIsNotAboutBlank).*|if \(uriIsNotAboutBlank\) {([^{}]|{[^{}]*})*}/g).join("\n")] // Bug 716108 [Fx16]
+    }).toString().replace(/^.*{|}$/g, "")],
+    [/(?=return t;)/, gBrowser.addTab.toString().match(/var (uriIsBlankPage|uriIsNotAboutBlank|uriIsAboutBlank).*|let docShellsSwapped[\s\S]*(?=\n.*docShellsSwapped.*)|if \((uriIsNotAboutBlank|.*uriIsAboutBlank)\) {([^{}]|{[^{}]*})*}/g).join("\n")] // Bug 716108 [Fx16]
   );
 
   gBrowser.getBlankTab = function getBlankTab() {
@@ -244,17 +237,18 @@ tabutils._tabOpeningOptions = function() {
   };
 
   gBrowser.isBlankBrowser = function isBlankBrowser(aBrowser) {
-    return (!aBrowser.currentURI || ["about:blank", "about:home", "about:newtab", BROWSER_NEW_TAB_URL].indexOf(aBrowser.currentURI.spec) > -1)
+    return (!aBrowser.currentURI || isBlankPageURL(aBrowser.currentURI.spec))
         && (!aBrowser.sessionHistory || aBrowser.sessionHistory.count < 2)
         && (!aBrowser.webProgress || !aBrowser.webProgress.isLoadingDocument);
   };
+  TU_hookCode("isBlankPageURL", 'aURL == "about:blank"', "gInitialPages.indexOf(aURL) > -1");
 
   //在当前标签页的右侧打开新标签页
   //连续打开后台标签时保持原有顺序
   TU_hookCode("gBrowser.addTab",
     [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
-      if (t.arguments.caller != "ssi_restoreWindow" && !t.hasAttribute("pinned") && function() {
+      if (t.arguments.caller != "ssi_restoreWindow" && !t.pinned && function() {
         switch (TU_getPref("extensions.tabutils.openTabNext", 1)) {
           case 1: return true; //All
           case 2: return aRelatedToCurrent != false; //All but New Tab
@@ -295,6 +289,7 @@ tabutils._tabOpeningOptions = function() {
       ))] // Bug 490225 [Fx11]
     );
   }
+  TU_hookCode("isBlankPageURL", "aURL == BROWSER_NEW_TAB_URL", "$& && TU_getPref('extensions.tabutils.markNewAsBlank', true)");
   TU_hookCode("gBrowser._beginRemoveTab", /.*addTab.*/, "BrowserOpenTab();");
   TU_hookCode("gBrowser._endRemoveTab", /.*addTab.*/, "BrowserOpenTab();");
 
@@ -397,10 +392,9 @@ tabutils._tabClosingOptions = function() {
       if (this.selectedTab = this.getLastSelectedTab())
         return this.selectedTab;
 
-      if (this.selectedTab = this.getLastSelectedTab(1, true)) { //Fx 4.0
-        TabView.show(); //Bug 651440, 654311, 663421(Fx7)
+      if (this.selectedTab = this.getLastSelectedTab(1, true)) // Bug 633707, 651440, 654295, 654311, 663421
         return this.selectedTab;
-      }
+
       return this.selectedTab = BrowserOpenTab() || gBrowser.getLastOpenedTab();
     }
   };
@@ -438,10 +432,6 @@ tabutils._tabClosingOptions = function() {
         || aTab.getAttribute("opener").startsWith(bTab.linkedPanel)
         || bTab.getAttribute("opener").startsWith(aTab.linkedPanel);
   };
-
-  //关闭标签页时选择未读标签
-  //TU_hookCode("gBrowser.mTabProgressListener", /(?=var location)/, 'this.mTab.setAttribute("unread", !this.mTab.selected);');
-  //TU_hookCode("gBrowser.onTabSelect", "}", 'aTab.removeAttribute("unread");');
 
   //关闭标签页时选择上次浏览的标签
   gBrowser.mTabContainer._tabHistory = Array.slice(gBrowser.mTabs);
@@ -496,12 +486,6 @@ tabutils._tabClosingOptions = function() {
           event.stopPropagation();
         }
         break;
-      default:
-        if (gBrowser._previewMode) {
-          gBrowser._previewMode = false;
-          gBrowser.updateCurrentBrowser(true);
-        }
-        break;
     }
   }, true);
 
@@ -515,6 +499,13 @@ tabutils._tabClosingOptions = function() {
         break;
     }
   }, true);
+
+  TU_hookCode("gBrowser.onTabClose", "}", function() {
+    if (gBrowser._previewMode) {
+      gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+      gBrowser._previewMode = false;
+    }
+  });
 
   //Close tab by double click
   gBrowser.mTabContainer.addEventListener("dblclick", function(event) {
@@ -534,16 +525,16 @@ tabutils._tabClosingOptions = function() {
   }, true);
 
   //Don't close the last primary window with the las tab
-  TU_hookCode("gBrowser._beginRemoveTab", /\S*closeWindowWithLastTab\S*(?=;)/, <![CDATA[ //Bug 607893
-    $& && (TU_getPref("extensions.tabutils.closeLastWindowWithLastTab", false) || function() {
-      var winEnum = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator).getEnumerator("navigator:browser");
+  TU_hookCode("gBrowser._beginRemoveTab", "_closeWindowWithLastTab", "$& && " + (function() { //Bug 607893
+    (TU_getPref("extensions.tabutils.closeLastWindowWithLastTab", false) || function() {
+      var winEnum = Services.wm.getEnumerator("navigator:browser");
       while (winEnum.hasMoreElements()) {
         var win = winEnum.getNext();
         if (win != window && win.toolbar.visible)
           return win;
       }
     }())
-  ]]>);
+  }).toString().replace(/^.*{|}$/g, ""));
 };
 
 //标记未读标签页
@@ -595,12 +586,13 @@ tabutils._miscFeatures = function() {
   );
 
   //Compatibility with themes
-  let os = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime).OS; //WINNT, Linux or Darwin
-  let version = parseFloat(Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULAppInfo).version);
+  let os = Services.appinfo.OS; //WINNT, Linux or Darwin
+  let version = parseFloat(Services.appinfo.version);
   document.documentElement.setAttribute("OS", os);
   document.documentElement.setAttribute("v4", version >= 4.0);
   document.documentElement.setAttribute("v6", version >= 6.0);
   document.documentElement.setAttribute("v14", version >= 14.0);
+  document.documentElement.setAttribute("v21", version >= 21.0);
 };
 
 //标签页右键菜单
@@ -681,7 +673,7 @@ tabutils._undoCloseTabButton = function() {
   tabutils.updateUndoCloseTabCommand = function updateUndoCloseTabCommand() {
     document.getElementById("History:UndoCloseTab").setAttribute("disabled", tabutils._ss.getClosedTabCount(window) == 0);
   };
-  tabutils.updateUndoCloseTabCommand();
+  //tabutils.updateUndoCloseTabCommand();
   TU_hookCode("gBrowser.onTabClose", "}", "tabutils.updateUndoCloseTabCommand();");
   TU_hookCode("gBrowser.onTabRestoring", "}", "tabutils.updateUndoCloseTabCommand();");
   TU_hookCode("gSessionHistoryObserver.observe", "}", "tabutils.updateUndoCloseTabCommand();");
@@ -725,13 +717,11 @@ tabutils._tabPrefObserver = {
   },
 
   register: function() {
-    var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch2);
-    prefs.addObserver("", this, false);
+    Services.prefs.addObserver("", this, false);
   },
 
   unregister: function() {
-    var prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch2);
-    prefs.removeObserver("", this);
+    Services.prefs.removeObserver("", this);
   },
 
   get cssRules() {
@@ -793,6 +783,7 @@ tabutils._tabPrefObserver = {
       tabStyle.setProperty("-moz-outline-radius", style.outline ? "4px" : "", "");
       tabStyle.setProperty("color", style.color ? style.colorCode : "", "important");
       tabStyle.setProperty("background-image", style.bgColor ? "-moz-linear-gradient(" + style.bgColorCode + "," + style.bgColorCode + ")" : "", "important");
+      tabStyle.setProperty("opacity", style.opacity ? style.opacityCode : "", "");
 
       let textStyle = this.cssRules[prefName].text.style;
       textStyle.setProperty("color", style.color ? style.colorCode : "", "important");
@@ -807,7 +798,7 @@ tabutils._tabPrefObserver = {
 
   dragBindingAlive: function() {
     let tabsToolbar = document.getElementById("TabsToolbar");
-    if (tabsToolbar && tabsToolbar._dragBindingAlive != null)
+    if (tabsToolbar._dragBindingAlive != null)
       tabsToolbar._dragBindingAlive = TU_getPref("extensions.tabutils.dragBindingAlive", true);
   },
 
