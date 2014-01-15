@@ -4,7 +4,7 @@
     <em:id>tabutilslite@ithinc.cn</em:id>
     <em:type>2</em:type>
     <em:name>Tab Utilities Lite</em:name>
-    <em:version>1.5.20</em:version>
+    <em:version>1.5.21</em:version>
     <em:creator>ithinc</em:creator>
     <em:contributor>Leszek(teo)Życzkowski</em:contributor>
     <em:description>Open Bookmarks/History/URL/Search in new tabs, and more utilities for tabbed browsing.</em:description>
@@ -18,6 +18,6 @@
         <em:maxVersion>28.0a2</em:maxVersion>
       </Description>
     </em:targetApplication>
-    <em:strictCompatibility>true</em:strictCompatibility>
+    <em:strictCompatibility>false</em:strictCompatibility>
   </Description>
 </RDF>
