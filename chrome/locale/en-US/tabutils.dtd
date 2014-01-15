@@ -1,0 +1,5 @@
+<!ENTITY tuOptions.label "Tab Utilities Lite Options...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY duplicateTab.label "Duplicate Tab">
+<!ENTITY duplicateTab.accesskey "D">
+<!ENTITY openLinkInTab.label "Force all links to open in New Tab">

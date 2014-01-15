@@ -1,0 +1,41 @@
+/* Toolbar buttons */
+window[OS="Linux"] #closetab-button {
+  list-style-image: url("moz-icon://stock/gtk-close?size=toolbar");
+  -moz-image-region: auto;
+}
+
+window[OS="Linux"] #closetab-button[disabled="true"] {
+  list-style-image: url("moz-icon://stock/gtk-close?size=toolbar&state=disabled");
+}
+
+window[OS="Linux"] toolbar[iconsize="small"] #closetab-button {
+  list-style-image: url("moz-icon://stock/gtk-close?size=menu");
+}
+
+window[OS="Linux"] toolbar[iconsize="small"] #closetab-button[disabled="true"] {
+  list-style-image: url("moz-icon://stock/gtk-close?size=menu&state=disabled");
+}
+
+window[OS="Linux"] #undoclosetab-button {
+  list-style-image: url("moz-icon://stock/gtk-undelete?size=toolbar");
+  -moz-image-region: auto;
+}
+
+window[OS="Linux"] #undoclosetab-button[disabled="true"] {
+  list-style-image: url("moz-icon://stock/gtk-undelete?size=toolbar&state=disabled");
+}
+
+window[OS="Linux"] toolbar[iconsize="small"] #undoclosetab-button {
+  list-style-image: url("moz-icon://stock/gtk-undelete?size=menu");
+}
+
+window[OS="Linux"] toolbar[iconsize="small"] #undoclosetab-button[disabled="true"] {
+  list-style-image: url("moz-icon://stock/gtk-undelete?size=menu&state=disabled");
+}
+
+window[OS="Linux"] #closetab-button .toolbarbutton-icon,
+window[OS="Linux"] #undoclosetab-button .toolbarbutton-icon {
+  width: auto;
+  height: auto;
+  margin: 0px;
+}

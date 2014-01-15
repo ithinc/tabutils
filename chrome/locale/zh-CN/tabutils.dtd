@@ -1,0 +1,5 @@
+<!ENTITY tuOptions.label "Tab Utilities Lite 选项...">
+<!ENTITY tuOptions.accesskey "T">
+<!ENTITY duplicateTab.label "复制标签页">
+<!ENTITY duplicateTab.accesskey "D">
+<!ENTITY openLinkInTab.label "强制在新标签页打开所有链接">

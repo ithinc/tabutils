@@ -1,0 +1,57 @@
+<!ENTITY prefwindow.title "Tab Utilities Lite Options">
+<!ENTITY prefwindow.apply "Apply">
+<!ENTITY prefwindow.reset "Reset">
+<!ENTITY prefwindow.close "Close">
+<!ENTITY settings.default "Default">
+<!ENTITY pane1.title "Tabs">
+<!ENTITY pane1.tab1.title "Tab Opening">
+<!ENTITY pane1.tab2.title "Tab Closing">
+<!ENTITY openTabFor.caption "Open new tabs for:">
+<!ENTITY openTabNext.label "Open new tabs next to current tab which are from:">
+<!ENTITY none.label "None">
+<!ENTITY all.label "All">
+<!ENTITY allBut.label "All but New Tab">
+<!ENTITY noneBut.label "None but Links">
+<!ENTITY keepOrder.label "Keep the original order for continuous background tabs">
+<!ENTITY loadInBackground.caption "Focus new tabs from:">
+<!ENTITY loadInBackground.label "Links">
+<!ENTITY loadDivertedInBackground.label "Diverted windows">
+<!ENTITY loadUrlInBackground.label "Address bar">
+<!ENTITY loadSearchInBackground.label "Search bar">
+<!ENTITY loadNewInBackground.label "New Tab">
+<!ENTITY loadDuplicateInBackground.label "Duplicate Tab">
+<!ENTITY selectOnClose.label "Focus a tab in the following order when closing current tab:">
+<!ENTITY unreadTabs.label "Unread tabs">
+<!ENTITY relatedTabs.label "Related tabs">
+<!ENTITY relatedTabs.tooltip "Parent, Child or Sibling tabs (right first)">
+<!ENTITY unreadRelatedTabs.label "Unread related tabs">
+<!ENTITY leftTab.label "Left tab">
+<!ENTITY rightTab.label "Right tab">
+<!ENTITY firstTab.label "First tab">
+<!ENTITY lastTab.label "Last tab">
+<!ENTITY lastSelectedTab.label "Last visited tab">
+<!ENTITY handleCtrlTab.caption "Ctrl Tab">
+<!ENTITY handleCtrlTab.label "Ctrl+Tab to navigate tabs in most recently used order">
+<!ENTITY openNewWindow.caption "Open links in:">
+<!ENTITY openNewWindow.label "Open new-window links in:">
+<!ENTITY openExternal.label "Open links from external applications in:">
+<!ENTITY openNewWindow.1.label "Current Tab">
+<!ENTITY openNewWindow.2.label "New Window">
+<!ENTITY openNewWindow.3.label "New Tab">
+<!ENTITY openNewWindowRestriction.label "Except:">
+<!ENTITY openNewWindowRestriction.0.label "None">
+<!ENTITY openNewWindowRestriction.1.label "All">
+<!ENTITY openNewWindowRestriction.2.label "Resized popups">
+<!ENTITY openExternalInTab.label "Force all external links to open in New Tab">
+<!ENTITY highlight.caption "Tab highlighting">
+<!ENTITY highlight.tab1.label "Current">
+<!ENTITY highlight.tab2.label "Unread">
+<!ENTITY highlight.tab3.label "Read">
+<!ENTITY highlightEnabled.label "Enabled">
+<!ENTITY highlightBold.label "Bold">
+<!ENTITY highlightItalic.label "Italic">
+<!ENTITY highlightUnderline.label "Underline">
+<!ENTITY highlightStrikethrough.label "Strikeout">
+<!ENTITY highlightOutline.label "Outline:">
+<!ENTITY highlightColor.label "Color:">
+<!ENTITY highlightBgColor.label "Background:">

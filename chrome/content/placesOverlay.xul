@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<overlay id="tabutils-placesOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/javascript" src="tulib.js"/>
+  <script type="application/javascript" src="utilityOverlay.js"/>
+
+  <commandset id="placesCommands">
+    <command id="placesCmd_open" oncommand="var view = PlacesUIUtils.getViewForNode(document.popupNode);PlacesUIUtils.openNodeWithEvent(view.selectedNode, event, view);"/>
+  </commandset>
+</overlay>

@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils.css" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx4.css" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx6.css" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx14.css" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils_mac.css" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils_linux.css" type="text/css"?>
+
+<!DOCTYPE overlay [
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
+%browserDTD;
+<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
+%tabBrowserDTD;
+<!ENTITY % tabutilsDTD SYSTEM "chrome://tabutils/locale/tabutils.dtd">
+%tabutilsDTD;
+]>
+
+<overlay id="tabutils-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/javascript" src="tulib.js"/>
+  <script type="application/javascript" src="tabutils.js"/>
+
+  <window id="main-window">
+  <commandset id="tuCommandSet">
+    <command id="cmd_tuOptions" oncommand="openDialog('chrome://tabutils/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=no').focus();"/>
+  </commandset>
+
+  <keyset id="tuKeyset">
+    <key id="key_duplicateTab" key="T" modifiers="accel,alt" oncommand="gBrowser.duplicateTab(gBrowser.mCurrentTab);"/>
+  </keyset>
+
+  <popupset id="tuPopupSet">
+    <menupopup id="tabContextMenu-template">
+      <menuitem id="context_duplicateTab"
+                label="&duplicateTab.label;"
+                accesskey="&duplicateTab.accesskey;"
+                insertafter="context_newTab"
+                insertbefore="context_reloadTab"
+                key="key_duplicateTab"
+                oncommand="gBrowser.duplicateTab(gBrowser.mContextTab);"/>
+      <menu id="context_recentlyClosedTabs"
+            label="&historyUndoMenu.label;"
+            insertafter="context_undoCloseTab">
+        <menupopup onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
+                   tooltip="bhTooltip" popupsinherittooltip="true"/>
+        <observes element="History:UndoCloseTab" attribute="disabled"/>
+      </menu>
+    </menupopup>
+
+    <menupopup id="undoCloseTabPopup"
+               onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
+               tooltip="bhTooltip" popupsinherittooltip="true"/>
+  </popupset>
+  </window>
+
+  <menupopup id="tabContextMenu">
+    <menuitem id="context_newTab"
+              label="&tabCmd.label;"
+              accesskey="&tabCmd.accesskey;"
+              insertbefore="context_reloadTab"
+              oncommand="BrowserOpenTab();">
+    </menuitem>
+    <menuseparator insertbefore="context_reloadTab"/>
+  </menupopup>
+
+  <menupopup id="menu_ToolsPopup">
+    <menuitem id="menu_tuOptions"
+              label="&tuOptions.label;"
+              accesskey="&tuOptions.accesskey;"
+              command="cmd_tuOptions"
+              insertbefore="menu_preferences"/>
+  </menupopup>
+
+  <toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton id="button_tuOptions"
+                   class="toolbarbutton-1 chromeclass-toolbar-additional"
+                   label="&tuOptions.label;"
+                   command="cmd_tuOptions"
+                   tooltiptext="&tuOptions.label;"/>
+    <toolbarbutton id="closetab-button"
+                   class="toolbarbutton-1 chromeclass-toolbar-additional"
+                   label="&closeTab.label;"
+                   command="cmd_close"
+                   tooltiptext="&closeTab.label;"/>
+    <toolbarbutton id="undoclosetab-button"
+                   class="toolbarbutton-1 chromeclass-toolbar-additional"
+                   label="&undoCloseTab.label;"
+                   command="History:UndoCloseTab"
+                   context="undoCloseTabPopup"
+                   tooltiptext="&undoCloseTab.label;"
+                   type="menu-button">
+      <menupopup onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
+                 oncommand="event.stopPropagation();"
+                 context=""
+                 position="after_start"
+                 tooltip="bhTooltip" popupsinherittooltip="true"/>
+    </toolbarbutton>
+  </toolbarpalette>
+</overlay>

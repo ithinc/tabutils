@@ -1,0 +1,521 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/preferences.css" type="text/css"?>
+
+<!DOCTYPE prefwindow [
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
+%browserDTD;
+<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
+%tabBrowserDTD;
+<!ENTITY % tabsDTD SYSTEM "chrome://browser/locale/preferences/tabs.dtd">
+%tabsDTD;
+<!ENTITY % customizeToolbarDTD SYSTEM "chrome://global/locale/customizeToolbar.dtd">
+%customizeToolbarDTD;
+<!ENTITY % tabutilsDTD SYSTEM "chrome://tabutils/locale/tabutils.dtd">
+%tabutilsDTD;
+<!ENTITY % preferencesDTD SYSTEM "chrome://tabutils/locale/preferences.dtd">
+%preferencesDTD;
+]>
+
+<prefwindow id="tabutils-preferences"
+            title="&prefwindow.title;"
+            buttons="accept,cancel,extra1,extra2"
+            buttonlabelcancel="&prefwindow.close;"
+            buttonlabelextra1="&prefwindow.apply;"
+            buttonlabelextra2="&settings.default;"
+            buttonlabelreset="&prefwindow.reset;"
+            buttonlabelclose="&prefwindow.close;"
+            onload="onLoad();"
+            onunload="onUnload();"
+            ondialogextra1="onApply();"
+            ondialogextra2="onDefault();"
+            ondialogcancel="return onCancel();"
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <prefpane id="pane1" label="&pane1.title;">
+    <preferences>
+      <preference id="openBookmarksInTab" name="extensions.tabutils.openBookmarksInTab" type="bool"/>
+      <preference id="openHomepageInTab" name="extensions.tabutils.openHomepageInTab" type="bool"/>
+      <preference id="openUrlInTab" name="extensions.tabutils.openUrlInTab" type="bool"/>
+      <preference id="loadHomepageInBackground" name="extensions.tabutils.loadHomepageInBackground" type="bool" inverted="true"/>
+      <preference id="loadUrlInBackground" name="extensions.tabutils.loadUrlInBackground" type="bool" inverted="true"/>
+      <preference id="loadSearchInBackground" name="extensions.tabutils.loadSearchInBackground" type="bool" inverted="true"/>
+      <preference id="loadNewInBackground" name="extensions.tabutils.loadNewInBackground" type="bool" inverted="true"/>
+      <preference id="loadDuplicateInBackground" name="extensions.tabutils.loadDuplicateInBackground" type="bool" inverted="true"/>
+      <preference id="openTabNext" name="extensions.tabutils.openTabNext" type="int" suggest="1" onchange="openTabNext();"/>
+      <preference id="keepOrder" name="extensions.tabutils.openTabNext.keepOrder" type="bool"/>
+      <preference id="openDuplicateNext" name="extensions.tabutils.openDuplicateNext" type="bool"/>
+      <preference id="restoreOriginalPosition" name="extensions.tabutils.restoreOriginalPosition" type="bool"/>
+      <preference id="selectOnClose" name="extensions.tabutils.selectOnClose" type="int"/>
+      <preference id="closeLastWindowWithLastTab" name="extensions.tabutils.closeLastWindowWithLastTab" type="bool" inverted="true"/>
+      <preference id="handleCtrlTab" name="extensions.tabutils.handleCtrlTab" type="bool" suggest="true"/>
+      <preference id="handleCtrl" name="extensions.tabutils.handleCtrl" type="bool"/>
+
+      <preference id="openSearchInTab" name="browser.search.openintab" type="bool" suggest="true"/>
+      <preference id="loadBookmarksInBackground" name="browser.tabs.loadBookmarksInBackground" type="bool" inverted="true"/>
+      <preference id="loadDivertedInBackground" name="browser.tabs.loadDivertedInBackground" type="bool" inverted="true"/>
+      <preference id="loadInBackground" name="browser.tabs.loadInBackground" type="bool" inverted="true"/>
+    </preferences>
+
+    <tabbox>
+      <tabs>
+        <tab label="&pane1.tab1.title;"/>
+        <tab label="&pane1.tab2.title;"/>
+      </tabs>
+      <tabpanels>
+        <tabpanel id="panelOpening" orient="vertical">
+          <groupbox>
+            <caption label="&openTabFor.caption;"/>
+            <hbox>
+              <checkbox preference="openBookmarksInTab" label="&bookmarksMenu.label;/&historyMenu.label;"/>
+              <checkbox preference="openHomepageInTab" label="&homeButton.label;"/>
+              <checkbox preference="openUrlInTab" label="&loadUrlInBackground.label;"/>
+              <checkbox preference="openSearchInTab" label="&loadSearchInBackground.label;"/>
+            </hbox>
+          </groupbox>
+
+          <groupbox>
+            <caption label="&openTabNext.label;"/>
+            <radiogroup preference="openTabNext" value="1" orient="horizontal">
+              <radio label="&all.label;" value="1"/>
+              <radio label="&allBut.label;" value="2"/>
+              <radio label="&noneBut.label;" value="3"/>
+              <radio label="&none.label;" value="0"/>
+            </radiogroup>
+            <checkbox preference="keepOrder" label="&keepOrder.label;"/>
+          </groupbox>
+
+          <groupbox>
+            <caption label="&loadInBackground.caption;"/>
+            <grid>
+              <rows>
+                <row>
+                  <checkbox preference="loadBookmarksInBackground" label="&bookmarksMenu.label;/&historyMenu.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadHomepageInBackground" label="&homeButton.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadUrlInBackground" label="&loadUrlInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadSearchInBackground" label="&loadSearchInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                </row>
+                <row>
+                  <checkbox preference="loadDivertedInBackground" label="&loadDivertedInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadInBackground" label="&loadInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadNewInBackground" label="&loadNewInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadDuplicateInBackground" label="&loadDuplicateInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                </row>
+              </rows>
+            </grid>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel id="panelClosing" orient="vertical">
+          <groupbox>
+            <caption label="&selectOnClose.label;"/>
+            <grid>
+              <rows>
+                <row>
+                  <checkbox preference="selectOnClose"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0xe0;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0xe0 | (this.checked &amp;&amp; this.nextSibling.value);"/>
+                  <menulist preference="selectOnClose" value="64" style="margin-left: 0px;"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0xe0 || this.value;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0xe0 | this.value;">
+                    <menupopup>
+                      <menuitem value="224" label="&unreadRelatedTabs.label;"/>
+                      <menuitem value="64" label="&relatedTabs.label;" tooltiptext="&relatedTabs.tooltip;"/>
+                      <menuitem value="32" label="&unreadTabs.label;"/>
+                    </menupopup>
+                  </menulist>
+                </row>
+                <row>
+                  <checkbox preference="selectOnClose"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0x03;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0x03 | (this.checked &amp;&amp; this.nextSibling.value);"/>
+                  <menulist preference="selectOnClose" value="2" style="margin-left: 0px;"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0x03 || this.value;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0x03 | this.value;">
+                    <menupopup>
+                      <menuitem value="1" label="&leftTab.label;"/>
+                      <menuitem value="2" label="&rightTab.label;"/>
+                    </menupopup>
+                  </menulist>
+                </row>
+                <row>
+                  <checkbox preference="selectOnClose"
+                            onsyncfrompreference="return this.disabled = $('selectOnClose').value &amp; 0x1c;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0x1c | (this.checked &amp;&amp; this.nextSibling.value);"/>
+                  <menulist preference="selectOnClose" value="8" style="margin-left: 0px;"
+                            onsyncfrompreference="return $('selectOnClose').value &amp; 0x1c || this.value;"
+                            onsynctopreference="return $('selectOnClose').value &amp; ~0x1c | this.value;">
+                    <menupopup>
+                      <menuitem value="4" label="&firstTab.label;"/>
+                      <menuitem value="8" label="&lastTab.label;"/>
+                      <menuitem value="16" label="&lastSelectedTab.label;"/>
+                    </menupopup>
+                  </menulist>
+                </row>
+              </rows>
+            </grid>
+          </groupbox>
+          <groupbox>
+            <caption label="&handleCtrlTab.caption;"/>
+            <checkbox preference="handleCtrlTab" label="&handleCtrlTab.label;"/>
+          </groupbox>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
+
+    <preferences>
+      <preference id="openLinkInTab" name="extensions.tabutils.openLinkInTab" type="bool"/>
+      <preference id="openExternalInTab" name="extensions.tabutils.openExternalInTab" type="bool"/>
+
+      <preference id="openExternal" name="browser.link.open_external" type="int"/>
+      <preference id="openNewWindow" name="browser.link.open_newwindow" type="int" onchange="openNewWindow();"/>
+      <preference id="openNewWindowRestriction" name="browser.link.open_newwindow.restriction" type="int" onchange="openNewWindowRestriction();"/>
+    </preferences>
+
+    <groupbox id="groupboxOpenNewWindow">
+      <caption label="&openNewWindow.caption;"/>
+      <grid>
+        <rows>
+          <row align="center">
+            <label value="&openExternal.label;" control="c.openExternal"/>
+            <menulist id="c.openExternal" value="3" preference="openExternal">
+              <menupopup>
+                <menuitem value="2" label="&openNewWindow.2.label;" observes="b.singleWindowMode"/>
+                <menuitem value="3" label="&openNewWindow.3.label;"/>
+                <menuitem value="1" label="&openNewWindow.1.label;"/>
+              </menupopup>
+            </menulist>
+          </row>
+          <row align="center">
+            <label value="&openNewWindow.label;" control="c.openNewWindow"/>
+            <menulist id="c.openNewWindow" value="3" preference="openNewWindow">
+              <menupopup>
+                <menuitem value="2" label="&openNewWindow.2.label;" observes="b.singleWindowMode"/>
+                <menuitem value="3" label="&openNewWindow.3.label;"/>
+                <menuitem value="1" label="&openNewWindow.1.label;"/>
+              </menupopup>
+            </menulist>
+          </row>
+          <row align="center">
+            <checkbox preference="openNewWindowRestriction" label="&openNewWindowRestriction.label;" class="indent"
+                      onsyncfrompreference="return $('openNewWindowRestriction').value != 0;"
+                      onsynctopreference="return this.checked ? this.nextSibling.value : 0;"
+                      onbroadcast="this.disabled = $('b.openNewWindow').hasAttribute('disabled') || $('b.singleWindowMode').hasAttribute('disabled');">
+              <observes element="b.openNewWindow" attribute="disabled"/>
+              <observes element="b.singleWindowMode" attribute="disabled"/>
+            </checkbox>
+            <menulist preference="openNewWindowRestriction" value="2"
+                      onsyncfrompreference="return $('openNewWindowRestriction').value == 0 ? this.value : $('openNewWindowRestriction').value;"
+                      onbroadcast="this.disabled = $('b.openNewWindow').hasAttribute('disabled') || $('b.openNewWindowRestriction').hasAttribute('disabled') || $('b.singleWindowMode').hasAttribute('disabled');">
+              <menupopup>
+                <menuitem value="0" label="&openNewWindowRestriction.0.label;" hidden="true"/>
+                <menuitem value="1" label="&openNewWindowRestriction.1.label;" disabled="true"/>
+                <menuitem value="2" label="&openNewWindowRestriction.2.label;"/>
+              </menupopup>
+              <observes element="b.openNewWindow" attribute="disabled"/>
+              <observes element="b.openNewWindowRestriction" attribute="disabled"/>
+              <observes element="b.singleWindowMode" attribute="disabled"/>
+            </menulist>
+          </row>
+        </rows>
+      </grid>
+      <separator class="groove"/>
+      <checkbox preference="openLinkInTab" label="&openLinkInTab.label;"/>
+      <checkbox preference="openExternalInTab" label="&openExternalInTab.label;"/>
+    </groupbox>
+
+    <preferences>
+      <preference id="middleClickBookmarks" name="extensions.tabutils.middleClickBookmarks" type="int"/>
+      <preference id="ctrlClickBookmarks" name="extensions.tabutils.ctrlClickBookmarks" type="int"/>
+      <preference id="shiftClickBookmarks" name="extensions.tabutils.shiftClickBookmarks" type="int"/>
+
+      <preference id="middleClickLinks" name="extensions.tabutils.middleClickLinks" type="int"/>
+      <preference id="ctrlClickLinks" name="extensions.tabutils.ctrlClickLinks" type="int" suggest="1"/>
+      <preference id="shiftClickLinks" name="extensions.tabutils.shiftClickLinks" type="int" suggest="1"/>
+
+      <preference id="dblClickTab" name="extensions.tabutils.dblClickTab" type="int" suggest="4"/>
+      <preference id="middleClickTabBar" name="extensions.tabutils.middleClickTabBar" type="int" suggest="5"/>
+    </preferences>
+
+    <preferences>
+      <preference id="highlightCurrent" name="extensions.tabutils.highlightCurrent" type="bool" onchange="onHighlightEnabled('Current');"/>
+      <preference id="highlightUnread" name="extensions.tabutils.highlightUnread" type="bool" onchange="onHighlightEnabled('Unread');"/>
+      <preference id="highlightRead" name="extensions.tabutils.highlightRead" type="bool" onchange="onHighlightEnabled('Read');"/>
+      <preference id="styleCurrent" name="extensions.tabutils.styles.current" type="string" onchange="onHighlightStyle('Current');"/>
+      <preference id="styleUnread" name="extensions.tabutils.styles.unread" type="string" onchange="onHighlightStyle('Unread');"/>
+      <preference id="styleRead" name="extensions.tabutils.styles.read" type="string" onchange="onHighlightStyle('Read');"/>
+    </preferences>
+
+          <groupbox id="groupboxHighlight">
+            <caption label="&highlight.caption;"/>
+            <tabbox>
+              <tabs id="highlight" onselect="onHighlightTabSelect();">
+                <tab label="&highlight.tab1.label;" observes="b.highlightCurrent"/>
+                <tab label="&highlight.tab2.label;" observes="b.highlightUnread"/>
+                <tab label="&highlight.tab3.label;" observes="b.highlightRead"/>
+              </tabs>
+              <tabpanels>
+                <tabpanel orient="vertical">
+                  <checkbox id="c.highlightEnabled" label="&highlightEnabled.label;"/>
+                  <separator class="groove"/>
+                  <hbox>
+                    <checkbox id="c.highlightBold" label="&highlightBold.label;" style="font-weight: bold;" observes="b.highlightEnabled"
+                              oncommand="doHighlightStyle();"/>
+                    <checkbox id="c.highlightItalic" label="&highlightItalic.label;" style="font-style: italic;" observes="b.highlightEnabled"
+                              oncommand="doHighlightStyle();"/>
+                    <checkbox id="c.highlightUnderline" label="&highlightUnderline.label;" style="text-decoration: underline;" observes="b.highlightEnabled"
+                              oncommand="if (this.checked) this.nextSibling.checked = false;doHighlightStyle();"/>
+                    <checkbox id="c.highlightStrikethrough" label="&highlightStrikethrough.label;" style="text-decoration: line-through;" observes="b.highlightEnabled"
+                              oncommand="if (this.checked) this.previousSibling.checked = false;doHighlightStyle();"/>
+                  </hbox>
+                  <grid>
+                    <rows>
+                      <row align="center">
+                        <checkbox id="c.highlightColor" label="&highlightColor.label;" oncommand="doHighlightStyle();">
+                          <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightColor();"/>
+                        </checkbox>
+                        <textbox id="c.highlightColorCode" observes="b.highlightColor" oninput="doHighlightStyle();"/>
+                        <colorpicker id="c.highlightColorPicker" type="button"
+                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
+                          <observes element="b.highlightColor" attribute="disabled"/>
+                        </colorpicker>
+                      </row>
+                      <row align="center">
+                        <checkbox id="c.highlightBgColor" label="&highlightBgColor.label;" oncommand="doHighlightStyle();">
+                          <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightBgColor();"/>
+                        </checkbox>
+                        <textbox id="c.highlightBgColorCode" observes="b.highlightBgColor" oninput="doHighlightStyle();"/>
+                        <colorpicker id="c.highlightBgColorPicker" type="button"
+                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
+                          <observes element="b.highlightBgColor" attribute="disabled"/>
+                        </colorpicker>
+                      </row>
+                      <row align="center">
+                        <checkbox id="c.highlightOutline" label="&highlightOutline.label;" oncommand="doHighlightStyle();">
+                          <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightOutline();"/>
+                        </checkbox>
+                        <textbox id="c.highlightOutlineColorCode" observes="b.highlightOutline" oninput="doHighlightStyle();"/>
+                        <colorpicker id="c.highlightOutlineColorPicker" type="button"
+                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
+                          <observes element="b.highlightOutline" attribute="disabled"/>
+                        </colorpicker>
+                      </row>
+                    </rows>
+                  </grid>
+                </tabpanel>
+              </tabpanels>
+            </tabbox>
+          </groupbox>
+
+    <preferences>
+      <preference name="extensions.tabutils.invertAlt" type="bool"/>
+      <preference name="extensions.tabutils.dragBindingAlive" type="bool"/>
+    </preferences>
+  </prefpane>
+
+  <broadcasterset>
+    <broadcaster id="b.loadAllInBackgroundOrForeground"/>
+    <broadcaster id="b.openNewWindow"/>
+    <broadcaster id="b.openNewWindowRestriction"/>
+    <broadcaster id="b.singleWindowMode"/>
+    <broadcaster id="b.highlightCurrent"/>
+    <broadcaster id="b.highlightUnread"/>
+    <broadcaster id="b.highlightRead"/>
+    <broadcaster id="b.highlightEnabled"/>
+    <broadcaster id="b.highlightColor"/>
+    <broadcaster id="b.highlightBgColor"/>
+    <broadcaster id="b.highlightOutline"/>
+  </broadcasterset>
+
+  <script type="application/javascript">
+  <![CDATA[
+    function onLoad() {
+      if (document.documentElement.getButton("accept").hidden) {
+        document.documentElement.getButton("extra1").hidden = true;
+      }
+      else {
+        document.documentElement.getButton("extra1").disabled = true;
+        window.addEventListener("change", onChange, false);
+      }
+
+      $("panelOpening").appendChild($("groupboxOpenNewWindow"));
+      $("panelClosing").appendChild($("groupboxHighlight"));
+
+      openTabNext();
+      openNewWindow();
+      openNewWindowRestriction();
+
+      onHighlightTabSelect();
+      onHighlightStyle("Current");
+      onHighlightStyle("Unread");
+      onHighlightStyle("Read");
+    }
+
+    function onUnload() {
+      window.removeEventListener("change", onChange, false);
+    }
+
+    var preferencesToApply = [];
+    function onChange(event) {
+      if (event.target.localName != "preference")
+        return;
+
+      var preference = event.target;
+      var index = preferencesToApply.indexOf(preference);
+      if (index != -1 && preference.value == preference.valueFromPreferences) {
+        preferencesToApply.splice(index, 1);
+      }
+      else if (index == -1 && preference.value != preference.valueFromPreferences) {
+        preferencesToApply.push(preference);
+      }
+
+      document.documentElement.getButton("extra1").disabled = preferencesToApply.length == 0;
+      document.documentElement.getButton("cancel").label = preferencesToApply.length == 0 ?
+                                                           document.documentElement.getAttribute("buttonlabelclose") :
+                                                           document.documentElement.getAttribute("buttonlabelreset");
+    }
+
+    function onApply() {
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        preference.valueFromPreferences = preference.value;
+      }
+
+      preferencesToApply = [];
+      document.documentElement.getButton("extra1").disabled = true;
+      document.documentElement.getButton("cancel").label = document.documentElement.getAttribute("buttonlabelclose");
+    }
+
+    function onCancel() {
+      if (preferencesToApply.length == 0)
+        return true;
+
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        preference.value = preference.valueFromPreferences;
+      }
+      return false;
+    }
+
+    function onDefault() {
+      var preferences = document.getElementsByTagName("preference");
+      for (let preference of preferences) {
+        preference.value = preference.defaultValue == null ? undefined : preference.defaultValue;
+      }
+    }
+
+    function openTabNext() {
+      $("keepOrder").disabled = $("openTabNext").value == 0;
+    }
+
+    function openNewWindow() {
+      setDisabled("b.openNewWindow", $("openNewWindow").value == 2);
+    }
+
+    function openNewWindowRestriction() {
+      setDisabled("b.openNewWindowRestriction", $("openNewWindowRestriction").value == 0);
+    }
+
+    function setDisabled(id, val) {
+      val ? $(id).setAttribute("disabled", true) : $(id).removeAttribute("disabled");
+    }
+
+    function $() {
+      return document.getElementById.apply(document, arguments);
+    }
+
+    function onHighlightTabSelect() {
+      var target = $("highlight");
+      var tabs = ["Current", "Unread", "Read"];
+
+      $("c.highlightEnabled").setAttribute("preference", "highlight" + tabs[target.selectedIndex]);
+      $("c.highlightEnabled").checked = $("highlight" + tabs[target.selectedIndex]).value;
+
+      onHighlightEnabled(tabs[target.selectedIndex]);
+    }
+
+    function onHighlightEnabled(item) {
+      var tabs = ["Current", "Unread", "Read"];
+      if (item == tabs[$("highlight").selectedIndex]) {
+        setDisabled("b.highlightEnabled", !$("highlight" + item).value);
+      }
+
+      onHighlightStyle(item);
+    }
+
+    function onHighlightStyle(item) {
+      var style = {};
+      try {
+        style = JSON.parse($("style" + item).value) || {};
+      }
+      catch (e) {}
+
+      $("b.highlight" + item).setAttribute("style",
+        $("highlight" + item).value ? (style.bold ? "font-weight: bold;" : "")
+                                    + (style.italic ? "font-style: italic;" : "")
+                                    + (style.underline ? "text-decoration: underline;" : "")
+                                    + (style.strikethrough ? "text-decoration: line-through;" : "")
+                                    + (style.color ? "color:" + style.colorCode + ";" : "")
+                                    + (style.bgColor ? "-moz-appearance: none;background-color:" + style.bgColorCode + ";" : "")
+                                    + (style.outline ? "outline: 1px solid;outline-offset: -1px;-moz-outline-radius: 4px;" : "")
+                                    + (style.outline ? "outline-color:" + style.outlineColorCode + ";" : "")
+                                    : ""
+      );
+
+      var tabs = ["Current", "Unread", "Read"];
+      if (item == tabs[$("highlight").selectedIndex]) {
+        $("c.highlightBold").checked = style.bold;
+        $("c.highlightItalic").checked = style.italic;
+        $("c.highlightUnderline").checked = style.underline;
+        $("c.highlightStrikethrough").checked = style.strikethrough;
+        $("c.highlightColor").checked = style.color;
+        $("c.highlightColorCode").value = style.colorCode;
+        $("c.highlightColorPicker").color = style.colorCode;
+        $("c.highlightBgColor").checked = style.bgColor;
+        $("c.highlightBgColorCode").value = style.bgColorCode;
+        $("c.highlightBgColorPicker").color = style.bgColorCode;
+        $("c.highlightOutline").checked = style.outline;
+        $("c.highlightOutlineColorCode").value = style.outlineColorCode;
+        $("c.highlightOutlineColorPicker").color = style.outlineColorCode;
+
+        onHighlightColor();
+        onHighlightBgColor();
+        onHighlightOutline();
+      }
+    }
+
+    function doHighlightStyle() {
+      var style = {
+        bold: $("c.highlightBold").checked,
+        italic: $("c.highlightItalic").checked,
+        underline: $("c.highlightUnderline").checked,
+        strikethrough: $("c.highlightStrikethrough").checked,
+        color: $("c.highlightColor").checked,
+        colorCode: $("c.highlightColorCode").value,
+        bgColor: $("c.highlightBgColor").checked,
+        bgColorCode: $("c.highlightBgColorCode").value,
+        outline: $("c.highlightOutline").checked,
+        outlineColorCode: $("c.highlightOutlineColorCode").value
+      };
+
+      var tabs = ["Current", "Unread", "Read"];
+      $("style" + tabs[$("highlight").selectedIndex]).value = JSON.stringify(style);
+    }
+
+    function onHighlightColor() {
+      setDisabled("b.highlightColor", $("c.highlightColor").disabled || !$("c.highlightColor").checked);
+    }
+
+    function onHighlightBgColor() {
+      setDisabled("b.highlightBgColor", $("c.highlightBgColor").disabled || !$("c.highlightBgColor").checked);
+    }
+
+    function onHighlightOutline() {
+      setDisabled("b.highlightOutline", $("c.highlightOutline").disabled || !$("c.highlightOutline").checked);
+    }
+  ]]>
+  </script>
+</prefwindow>

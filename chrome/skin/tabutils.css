@@ -1,0 +1,35 @@
+/* Toolbar buttons */
+#button_tuOptions {
+  list-style-image: url("chrome://tabutils/skin/tabutils.png");
+}
+
+#closetab-button {
+  list-style-image: url("chrome://global/skin/icons/close.png");
+  -moz-image-region: rect(0px, 14px, 14px, 0px);
+}
+
+#undoclosetab-button {
+  list-style-image: url("chrome://tabutils/skin/toolbar.png");
+  -moz-image-region: rect(0px, 16px, 16px, 0px);
+}
+
+#button_tuOptions .toolbarbutton-icon {
+  width: 22px;
+  height: 20px;
+  margin: 2px 1px;
+}
+
+#closetab-button .toolbarbutton-icon,
+#undoclosetab-button .toolbarbutton-icon {
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+}
+
+toolbar[iconsize="small"] #button_tuOptions .toolbarbutton-icon,
+toolbar[iconsize="small"] #closetab-button .toolbarbutton-icon,
+toolbar[iconsize="small"] #undoclosetab-button .toolbarbutton-icon {
+  width: 16px;
+  height: 16px;
+  margin: 0px;
+}

@@ -1,0 +1,3 @@
+checkbox:not([label]) > .checkbox-label-box {
+  display: none;
+}
