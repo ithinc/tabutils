@@ -224,7 +224,7 @@ tabutils._tabEventListeners = {
     TU_hookCode("gBrowser.mTabProgressListener", /(?=.*isBlankPageURL.*)/, function() {
       if (!isBlankPageURL(this.mBrowser.currentURI.spec) &&
           (!this.mBrowser.lastURI || isBlankPageURL(this.mBrowser.lastURI.spec)) &&
-          !this.mBrowser.__SS_tabStillLoading) // Bug 698565 [Fx11]
+          !this.mBrowser.__SS_data) // Bug 867097 [Fx28]
         this.mTabBrowser.onLocationChange(this.mTab);
     });
 
