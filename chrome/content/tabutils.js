@@ -40,12 +40,12 @@ var tabutils = {
   getDomainFromURI: function(aURI, aAllowThirdPartyFixup) {
     try {
       if (typeof aURI == "string")
-        aURI = this._URIFixup.createFixupURI(aURI, aAllowThirdPartyFixup);
+        aURI = Services.nsIURIFixup.createFixupURI(aURI, aAllowThirdPartyFixup);
     }
     catch (e) {}
 
     try {
-      return this._eTLDService.getBaseDomain(aURI);
+      return Services.eTLD.getBaseDomain(aURI);
     }
     catch (e) {}
 
@@ -93,17 +93,12 @@ var tabutils = {
 };
 window.addEventListener("DOMContentLoaded", tabutils, false);
 
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_ss",
-                                   "@mozilla.org/browser/sessionstore;1",
-                                   "nsISessionStore");
-
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_URIFixup",
-                                   "@mozilla.org/docshell/urifixup;1",
-                                   "nsIURIFixup");
-
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_eTLDService",
-                                   "@mozilla.org/network/effective-tld-service;1",
-                                   "nsIEffectiveTLDService");
+[
+  ["@mozilla.org/browser/sessionstore;1", "nsISessionStore", "_ss", tabutils], // Bug 898732 [Fx26]
+  ["@mozilla.org/docshell/urifixup;1", "nsIURIFixup"], // Bug 802026 [Fx20]
+].forEach(function([aContract, aInterface, aName, aObject])
+  XPCOMUtils.defineLazyServiceGetter(aObject || Services, aName || aInterface, aContract, aInterface)
+);
 
 tabutils._tabEventListeners = {
   init: function() {
