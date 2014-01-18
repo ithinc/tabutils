@@ -114,12 +114,12 @@ var tabutils = {
   getDomainFromURI: function(aURI, aAllowThirdPartyFixup) {
     try {
       if (typeof aURI == "string")
-        aURI = this._URIFixup.createFixupURI(aURI, aAllowThirdPartyFixup);
+        aURI = Services.nsIURIFixup.createFixupURI(aURI, aAllowThirdPartyFixup);
     }
     catch (e) {}
 
     try {
-      return this._eTLDService.getBaseDomain(aURI);
+      return Services.eTLD.getBaseDomain(aURI);
     }
     catch (e) {}
 
@@ -174,17 +174,14 @@ var tabutils = {
 };
 window.addEventListener("DOMContentLoaded", tabutils, false);
 
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_ss",
-                                   "@mozilla.org/browser/sessionstore;1",
-                                   "nsISessionStore");
-
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_URIFixup",
-                                   "@mozilla.org/docshell/urifixup;1",
-                                   "nsIURIFixup");
-
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_eTLDService",
-                                   "@mozilla.org/network/effective-tld-service;1",
-                                   "nsIEffectiveTLDService");
+[
+  ["@mozilla.org/browser/sessionstore;1", "nsISessionStore", "_ss", tabutils], // Bug 898732 [Fx26]
+  ["@mozilla.org/docshell/urifixup;1", "nsIURIFixup"], // Bug 802026 [Fx20]
+  ["@mozilla.org/widget/clipboardhelper;1", "nsIClipboardHelper"],
+  ["@mozilla.org/uuid-generator;1", "nsIUUIDGenerator"]
+].forEach(function([aContract, aInterface, aName, aObject])
+  XPCOMUtils.defineLazyServiceGetter(aObject || Services, aName || aInterface, aContract, aInterface)
+);
 
 tabutils._tabEventListeners = {
   init: function() {
@@ -2229,7 +2226,7 @@ tabutils._miscFeatures = function() {
               && aFlags & Ci.nsIWebNavigation.LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP
               && TU_getPref("keyword.enabled")
               && TU_getPref("network.dns.ignoreHostonly", false))
-            aURI = tabutils._URIFixup.keywordToURI(aURI).spec;
+            aURI = Services.nsIURIFixup.keywordToURI(aURI).spec;
         }
         catch (e) {}
       }
@@ -2765,7 +2762,7 @@ tabutils._tabPrefObserver = {
     if ("_update" in TabsInTitlebar) // Compat. with Linux
     TU_hookCode("TabsInTitlebar._update", "!this._dragBindingAlive", "$& && TU_getPref('extensions.tabutils.dragBindingAlive', true)");
 
-    gPrefService.getChildList("extensions.tabutils.", {}).sort().concat([
+    Services.prefs.getChildList("extensions.tabutils.", {}).sort().concat([
       "browser.tabs.animate", //Bug 649671
       "browser.tabs.tabClipWidth",
       "browser.tabs.tabMaxWidth",

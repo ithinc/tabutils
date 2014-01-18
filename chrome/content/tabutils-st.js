@@ -75,7 +75,7 @@ tabutils._groupTabs = function() {
       this.detachTab(aTab);
 
     if (!bTab.hasAttribute("group")) {
-      bTab.setAttribute("group", Cc["@mozilla.org/uuid-generator;1"].getService(Ci.nsIUUIDGenerator).generateUUID());
+      bTab.setAttribute("group", Services.nsIUUIDGenerator.generateUUID());
       bTab.setAttribute("group-counter", 1);
     }
 
@@ -206,7 +206,7 @@ tabutils._groupTabs = function() {
       }
     }
 
-    let group = options.id ? Cc["@mozilla.org/uuid-generator;1"].getService(Ci.nsIUUIDGenerator).generateUUID().toString()
+    let group = options.id ? Services.nsIUUIDGenerator.generateUUID().toString()
                            : aTab.getAttribute("group");
     let color = "color" in options ? options.color : aTab.getAttribute("group-color");
     let collapsed = aTab.getAttribute("group-collapsed") == "true";

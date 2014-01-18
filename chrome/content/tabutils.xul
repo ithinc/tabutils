@@ -32,7 +32,7 @@
   <window id="main-window">
   <commandset id="tuCommandSet">
     <command id="cmd_tuOptions" oncommand="openDialog('chrome://tabutils/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=no').focus();"/>
-    <command id="cmd_copyPageLocation" oncommand="Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(gBrowser.currentURI.spec);"/>
+    <command id="cmd_copyPageLocation" oncommand="Services.nsIClipboardHelper.copyString(gBrowser.currentURI.spec);"/>
     <command id="cmd_cutPageLocation" oncommand="document.getElementById('cmd_copyPageLocation').doCommand();document.getElementById('cmd_close').doCommand();"/>
     <command id="cmd_pasteAndGo" oncommand="var url = readFromClipboard();if (url) if (gURLBar) {gURLBar.value = url;gURLBar.handleCommand();}"/>
     <command id="cmd_pasteAndSearch" oncommand="var url = readFromClipboard(), searchbar = BrowserSearch.searchBar;if (url) if (searchbar) {searchbar.value = url;searchbar.handleSearchCommand();}"/>
@@ -108,7 +108,7 @@
           <menuitem label="30 &minutes.label;" value="1800" type="radio"/>
           <menuseparator/>
           <menuitem anonid="custom" text="&reloadEvery.custom;" type="radio"
-                    oncommand="var reloadInterval = {value: this.value};if (Cc['@mozilla.org/embedcomp/prompt-service;1'].getService(Ci.nsIPromptService).prompt(null, '&reloadEvery.label;', '&reloadEvery.reloadInterval;', reloadInterval, null, {})) this.value = reloadInterval.value; else event.stopPropagation();"/>
+                    oncommand="var reloadInterval = {value: this.value};if (Services.prompt.prompt(null, '&reloadEvery.label;', '&reloadEvery.reloadInterval;', reloadInterval, null, {})) this.value = reloadInterval.value; else event.stopPropagation();"/>
           <menuseparator/>
           <menuitem anonid="enableAllTabs" label="&reloadEvery.enableAllTabs;"
                     oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, true, this.parentNode.value);event.stopPropagation();"/>
@@ -175,7 +175,7 @@
       <menuitem id="context_renameTab"
                 label="&renameTab.label;"
                 accesskey="&renameTab.accesskey;"
-                oncommand="var title = {value: gBrowser.mContextTab.label};if (Cc['@mozilla.org/embedcomp/prompt-service;1'].getService(Ci.nsIPromptService).prompt(null, '&renameTab.label;', '', title, null, {})) gBrowser.renameTab(gBrowser.mContextTab, title.value);"/>
+                oncommand="var title = {value: gBrowser.mContextTab.label};if (Services.prompt.prompt(null, '&renameTab.label;', '', title, null, {})) gBrowser.renameTab(gBrowser.mContextTab, title.value);"/>
       <menuitem id="context_restartTab"
                 label="&restartTab.label;"
                 accesskey="&restartTab.accesskey;"
@@ -212,7 +212,7 @@
                     label="&colorGroup.label;"
                     accesskey="&colorGroup.accesskey;"
                     grouponly="true"
-                    oncommand="var tab = gBrowser.mContextTab; if (!tab.hasAttribute('group') || tab.getAttribute('group-counter') == 1) return; var color = {value: tab.getAttribute('group-color')};if (Cc['@mozilla.org/embedcomp/prompt-service;1'].getService(Ci.nsIPromptService).prompt(null, '&colorGroup.label;', '', color, null, {})) gBrowser.updateGroup(tab, {id: !color.value, color: color.value});"/>
+                    oncommand="var tab = gBrowser.mContextTab; if (!tab.hasAttribute('group') || tab.getAttribute('group-counter') == 1) return; var color = {value: tab.getAttribute('group-color')};if (Services.prompt.prompt(null, '&colorGroup.label;', '', color, null, {})) gBrowser.updateGroup(tab, {id: !color.value, color: color.value});"/>
           <menuitem id="context_bookmarkGroup"
                     label="&bookmarkGroup.label;"
                     accesskey="&bookmarkGroup.accesskey;"
