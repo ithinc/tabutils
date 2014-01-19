@@ -6,7 +6,13 @@ tabutils._phantomTabs = function() {
       aForce = aRestoring = true;
     } catch (e) {}
 
-    if (aTab.pinned && aForce != true) {
+    if (aForce == aTab.pinned && !aForce)
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.pinned;
+
+    if (!aForce) {
       aTab.setAttribute("fadein", true);
       tabutils.removeAttribute(aTab, "pinned");
 
@@ -36,7 +42,7 @@ tabutils._phantomTabs = function() {
         this._setCloseKeyState(true);
       tabutils.dispatchEvent(aTab, "TabUnpinned", true, false);
     }
-    else if (!aTab.pinned && aForce == null || aForce == true) {
+    else {
       tabutils.setAttribute(aTab, "pinned", true);
 
       if (!aRestoring)

@@ -1087,14 +1087,20 @@ tabutils._unreadTab = function() {
 //保护标签页、锁定标签页、冻结标签页
 tabutils._protectAndLockTab = function() {
   gBrowser.protectTab = function protectTab(aTab, aForce, aRestoring) {
-    if (aTab.hasAttribute("protected") && aForce != true) {
+    if (aForce == aTab.hasAttribute("protected"))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("protected");
+
+    if (!aForce) {
       tabutils.removeAttribute(aTab, "protected");
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["protected"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
     }
-    else if (!aTab.hasAttribute("protected") && aForce != false) {
+    else {
       tabutils.setAttribute(aTab, "protected", true);
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoProtect", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["protected"]);
@@ -1104,13 +1110,19 @@ tabutils._protectAndLockTab = function() {
   };
 
   gBrowser.lockTab = function lockTab(aTab, aForce, aRestoring) {
-    if (aTab.hasAttribute("locked") && aForce != true) {
+    if (aForce == aTab.hasAttribute("locked"))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("locked");
+
+    if (!aForce) {
       tabutils.removeAttribute(aTab, "locked");
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["locked"]);
       }
     }
-    else if (!aTab.hasAttribute("locked") && aForce != false) {
+    else {
       tabutils.setAttribute(aTab, "locked", true);
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoLock", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["locked"]);
@@ -1119,11 +1131,18 @@ tabutils._protectAndLockTab = function() {
   };
 
   gBrowser.freezeTab = function freezeTab(aTab, aForce) {
-    if ((!aTab.hasAttribute("protected") || !aTab.hasAttribute("locked")) && aForce != false) {
+    if (aForce == aTab.hasAttribute("protected") &&
+        aForce == aTab.hasAttribute("locked"))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("protected") || !aTab.hasAttribute("locked");
+
+    if (aForce) {
       this.protectTab(aTab, true);
       this.lockTab(aTab, true);
     }
-    else if ((aTab.hasAttribute("protected") || aTab.hasAttribute("locked")) && aForce != true) {
+    else {
       this.protectTab(aTab, false);
       this.lockTab(aTab, false);
     }
@@ -1183,7 +1202,13 @@ tabutils._protectAndLockTab = function() {
 //图标化标签页
 tabutils._faviconizeTab = function() {
   gBrowser.faviconizeTab = function faviconizeTab(aTab, aForce, aRestoring) {
-    if (aTab.hasAttribute("faviconized") && aForce != true) {
+    if (aForce == aTab.hasAttribute("faviconized"))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("faviconized");
+
+    if (!aForce) {
       tabutils.removeAttribute(aTab, "faviconized");
       tabutils.setTabValue(aTab, "faviconized", false); //for pinned but not iconified tabs
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
@@ -1191,7 +1216,7 @@ tabutils._faviconizeTab = function() {
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
     }
-    else if (!aTab.hasAttribute("faviconized") && aForce != false) {
+    else {
       tabutils.setAttribute(aTab, "faviconized", true);
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
@@ -1338,7 +1363,13 @@ tabutils._restartTab = function() {
 //自动刷新标签页
 tabutils._reloadEvery = function() {
   gBrowser.autoReloadTab = function autoReloadTab(aTab, aForce, aInterval, aRestoring) {
-    if (aTab.hasAttribute("autoReload") && aForce != true) {
+    if (aForce == aTab.hasAttribute("autoReload") && !aForce)
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("autoReload");
+
+    if (!aForce) {
       tabutils.removeAttribute(aTab, "autoReload");
       tabutils.deleteTabValue(aTab, "reloadInterval");
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
@@ -1348,7 +1379,7 @@ tabutils._reloadEvery = function() {
 
       clearTimeout(aTab._reloadTimer);
     }
-    else if (!aTab.hasAttribute("autoReload") && aForce == null || aForce == true) {
+    else {
       tabutils.setAttribute(aTab, "autoReload", true);
       aTab._reloadInterval = aInterval || aTab._reloadInterval || TU_getPref("extensions.tabutils.reloadInterval", 10);
       TU_setPref("extensions.tabutils.reloadInterval", aTab._reloadInterval);
