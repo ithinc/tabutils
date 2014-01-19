@@ -77,16 +77,6 @@ var tabutils = {
     this._firstRun();
   },
 
-  getTabValue: function(aTab, aKey) {
-    let val = this._ss.getTabValue(aTab, aKey);
-    if (!val) {
-      let tabData = aTab.linkedBrowser.__SS_data;
-      if (tabData)
-        val = tabData.attributes[aKey] || tabData[aKey];
-    }
-    return val == null ? "" : val.toString();
-  },
-
   setTabValue: function() this._ss.setTabValue.apply(this._ss, arguments),
   deleteTabValue: function() this._ss.deleteTabValue.apply(this._ss, arguments),
 
@@ -101,7 +91,7 @@ var tabutils = {
   },
 
   restoreAttribute: function(aTab, aAttr) {
-    let aVal = this.getTabValue(aTab, aAttr);
+    let aVal = this._ss.getTabValue(aTab, aAttr);
     if (aVal)
       aTab.setAttribute(aAttr, aVal);
     else
@@ -1225,7 +1215,7 @@ tabutils._faviconizeTab = function() {
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
     this.faviconizeTab(aTab, ss.getTabValue(aTab, "faviconized") == "true" ||
-                             ss.getTabValue(aTab, "faviconized") != "false" && tabutils.getTabValue(aTab, "pinned") == "true", true);
+                             ss.getTabValue(aTab, "faviconized") != "false" && aTab.pinned, true);
   });
 
   gBrowser.autoFaviconizeTab = function autoFaviconizeTab(aTab, aURI, aTags) {

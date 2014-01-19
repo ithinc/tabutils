@@ -78,7 +78,7 @@ tabutils._phantomTabs = function() {
   };
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
-    this.pinTab(aTab, tabutils.getTabValue(aTab, "pinned") == "true", ss.getTabValue(aTab, "bookmarkId"), true);
+    this.pinTab(aTab, aTab.pinned, ss.getTabValue(aTab, "bookmarkId"), true);
 
     if (aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoRevert", false)) {
       let uri;
