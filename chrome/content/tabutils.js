@@ -146,10 +146,10 @@ var tabutils = {
     return ss.cssRules[ss.insertRule(rule, ss.cssRules.length)];
   },
 
-  dispatchEvent: function() {
+  dispatchEvent: function(target, type, bubbles = true, cancelable = false) {
     let event = document.createEvent("Events");
-    event.initEvent.apply(event, Array.slice(arguments, 1));
-    arguments[0].dispatchEvent(event);
+    event.initEvent(type, bubbles, cancelable);
+    target.dispatchEvent(event);
   },
 
   _eventListeners: [],
@@ -230,9 +230,7 @@ tabutils._tabEventListeners = {
 
     TU_hookCode("gBrowser.updateCurrentBrowser", /(?=.*createEvent.*)/, (function() {
       if (!oldTab.selected) {
-        let event = document.createEvent("Events");
-        event.initEvent("TabBlur", true, false);
-        oldTab.dispatchEvent(event);
+        tabutils.dispatchEvent(oldTab, "TabBlur");
       }
     }).toString().replace(/^.*{|}$/g, ""));
 

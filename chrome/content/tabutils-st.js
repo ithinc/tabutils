@@ -111,7 +111,7 @@ tabutils._groupTabs = function() {
 
     if (!options.suppressUpdate)
       this.updateGroup(bTab);
-    tabutils.dispatchEvent(aTab, "TabStacked", true, false);
+    tabutils.dispatchEvent(aTab, "TabStacked");
   };
 
   gBrowser.detachTab = function detachTab(aTab, aMove) {
@@ -125,7 +125,7 @@ tabutils._groupTabs = function() {
       delete aTab._suppressTabMove;
     }
     this.updateGroup(aTab, {excludeSelf: true});
-    tabutils.dispatchEvent(aTab, "TabUnstacked", true, false);
+    tabutils.dispatchEvent(aTab, "TabUnstacked");
 
     tabutils.removeAttribute(aTab, "group");
     tabutils.removeAttribute(aTab, "group-color");
@@ -157,7 +157,7 @@ tabutils._groupTabs = function() {
     if (tabcontent)
       tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
 
-    tabutils.dispatchEvent(aTab, "StackCollapsed", true, false);
+    tabutils.dispatchEvent(aTab, "StackCollapsed");
     this.mTabContainer.adjustTabstrip();
   };
 
@@ -174,7 +174,7 @@ tabutils._groupTabs = function() {
       if (tab.hasAttribute("group-counter"))
         aTab = tab;
     }
-    tabutils.dispatchEvent(aTab, "StackExpanded", true, false);
+    tabutils.dispatchEvent(aTab, "StackExpanded");
     this.mTabContainer.adjustTabstrip();
     this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[tabs.length - 1], false);
     this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[0], false);
