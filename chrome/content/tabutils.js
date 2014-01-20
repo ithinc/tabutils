@@ -437,15 +437,14 @@ tabutils._openLinkInTab = function() {
   //ÍÏÒ·Á´½Ó
   TU_hookCode("handleDroppedLink", /.*loadURI.*/, function(s) (function() {
     {
-      let event = arguments[0];
       switch (true) {
-        case /\.(xpi|user\.js)$/.test(uri):
+        case /\.(xpi|user\.js)$/.test(typeof data == "object" ? data.url : uri): // Bug 846635 [Fx25]
         case !TU_getPref("extensions.tabutils.dragAndGo", true):
           $0;break;
         case event.ctrlKey != TU_getPref("extensions.tabutils.invertDrag", false):
           BrowserSearch.loadSearch(name || url, true);break;
         default:
-          openNewTabWith(uri, null, postData.value, event, true, event.target.ownerDocument.documentURIObject);break;
+          openNewTabWith(typeof data == "object" ? data.url : uri, null, typeof data == "object" ? data.postData : postData.value, event, true, event.target.ownerDocument.documentURIObject);break;
       }
     }
   }).toString().replace(/^.*{|}$/g, "").replace("$0", s));
@@ -1679,7 +1678,7 @@ tabutils._multiTabHandler = function() {
     }
   };
 
-  TU_hookCode("undoCloseTab", /.*ss.undoCloseTab.*/, "for (let i = aIndex == null ? gBrowser._lastClosedTabsCount || 1 : 1; i > 0; i--) $&;");
+  TU_hookCode("undoCloseTab", /.*(ss|SessionStore).undoCloseTab.*/, "for (let i = aIndex == null ? gBrowser._lastClosedTabsCount || 1 : 1; i > 0; i--) $&"); // Bug 898732 [Fx26]
 
   gBrowser.closeLeftTabs = function(aTab) this.removeTabsBut(this.leftTabsOf(aTab), aTab);
   gBrowser.closeRightTabs = function(aTab) this.removeTabsBut(this.rightTabsOf(aTab), aTab);
@@ -2539,7 +2538,7 @@ tabutils._tabContextMenu = function() {
       gBrowser.selectedTab = aGroupItem.tab;
   };
 
-  var button = $("nav-bar")._getToolbarItem("tabview-button");
+  var button = $("tabview-button");
   if (button && !button.hasChildNodes()) {
     let popup = button.appendChild(document.createElement("menupopup"));
     popup.setAttribute("onpopupshowing", "TabView.populateGroupMenu(event.target, true);");
@@ -2620,7 +2619,9 @@ tabutils._hideTabBar = function() {
 
 //³·Ïú¹Ø±Õ±êÇ©Ò³°´Å¥
 tabutils._undoCloseTabButton = function() {
-  TU_hookCode("HistoryMenu.prototype._undoCloseMiddleClick",
+  TU_hookCode("RecentlyClosedTabsAndWindowsMenuUtils" in window ?
+              "RecentlyClosedTabsAndWindowsMenuUtils._undoCloseMiddleClick" : // Bug 928640 [Fx27]
+              "HistoryMenu.prototype._undoCloseMiddleClick",
     ["{", function() {
       if (aEvent.button == 2) {
         tabutils._ss.forgetClosedTab(window, Array.indexOf(aEvent.originalTarget.parentNode.childNodes, aEvent.originalTarget));
@@ -2630,27 +2631,35 @@ tabutils._undoCloseTabButton = function() {
         return;
       }
     }],
-    ["aEvent.originalTarget.value", "Array.indexOf(aEvent.originalTarget.parentNode.childNodes, aEvent.originalTarget)"],
-    [/.*undoCloseTab.*/, "$&;aEvent.originalTarget.parentNode.removeChild(aEvent.originalTarget);"]
+    [/undoCloseTab.*/, function() { // Bug 942464 [Fx28]
+      undoCloseTab(Array.indexOf(aEvent.originalTarget.parentNode.childNodes, aEvent.originalTarget));
+      aEvent.originalTarget.parentNode.removeChild(aEvent.originalTarget);
+    }]
   );
 
   TU_hookCode("HistoryMenu.prototype.populateUndoSubmenu",
-    ['" + i + "', "Array.indexOf(this.parentNode.childNodes, this)"],
+    ["}", function() { // Bug 926928 [Fx27]
+      for (let item = undoPopup.firstChild; item && item.localName == "menuitem"; item = item.nextSibling) {
+        item.setAttribute("oncommand", "undoCloseTab(Array.indexOf(this.parentNode.childNodes, this));");
+      }
+    }],
     ["}", function() {
       var sanitizeItem = document.getElementById("sanitizeItem");
-      m = undoPopup.appendChild(document.createElement("menuitem"));
+      var m = undoPopup.appendChild(document.createElement("menuitem"));
       m.setAttribute("label", sanitizeItem.getAttribute("label").replace("\u2026", ""));
       m.setAttribute("accesskey", sanitizeItem.getAttribute("accesskey"));
       m.addEventListener("command", function() {
-        for (let i = 0; i < undoItems.length; i++)
+        while (tabutils._ss.getClosedTabCount(window) > 0)
           tabutils._ss.forgetClosedTab(window, 0);
         tabutils.updateUndoCloseTabCommand();
       }, false);
+    }],
+    ["}", function() {
       undoPopup.setAttribute("onclick", "if (tabutils._ss.getClosedTabCount(window) == 0) closeMenus(this);event.stopPropagation();");
       undoPopup.setAttribute("oncommand", "event.stopPropagation();");
       undoPopup.setAttribute("context", "");
     }],
-    ["}", function() {
+    ["}", function() { // Bug 958813
       if (!undoPopup.hasStatusListener) {
         undoPopup.addEventListener("DOMMenuItemActive", function(event) {XULBrowserWindow.setOverLink(event.target.getAttribute("targetURI"));}, false);
         undoPopup.addEventListener("DOMMenuItemInactive", function() {XULBrowserWindow.setOverLink("");}, false);
