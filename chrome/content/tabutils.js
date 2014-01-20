@@ -1432,14 +1432,14 @@ tabutils._reloadEvery = function() {
   };
 };
 
-//±£´æÊéÇ©×é
+// Bookmark tabs with history
 tabutils._bookmarkTabs = function() {
   gBrowser.bookmarkTab = function(aTabs) {
     if (!("length" in aTabs))
       aTabs = [aTabs];
 
     if (aTabs.length > 1) {
-      let tabURIs = TU_getPref("extensions.tabutils.bookmarkWithHistory", false) ?
+      let tabURIs = !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkWithHistory", false) ?
                     Array.map(aTabs, function(aTab) [aTab.linkedBrowser.currentURI, [{name: 'bookmarkProperties/tabState', value: tabutils._ss.getTabState(aTab)}]]) :
                     Array.map(aTabs, function(aTab) aTab.linkedBrowser.currentURI);
       PlacesUIUtils.showBookmarkDialog({action: "add",
@@ -1454,7 +1454,7 @@ tabutils._bookmarkTabs = function() {
   TU_hookCode("PlacesCommandHook.bookmarkPage",
     [/(?=.*(createItem|PlacesCreateBookmarkTransaction).*)/, function() {
       var annos = [descAnno];
-      if (TU_getPref("extensions.tabutils.bookmarkWithHistory", false)) {
+      if (!gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkWithHistory", false)) {
         let tab = gBrowser.mTabs[gBrowser.browsers.indexOf(aBrowser)];
         if (tab)
           annos.push({name: "bookmarkProperties/tabState", value: tabutils._ss.getTabState(tab)});
@@ -1465,7 +1465,7 @@ tabutils._bookmarkTabs = function() {
 
   TU_hookCode("PlacesCommandHook.bookmarkCurrentPages",
     ["this.uniqueCurrentPages", (function() {
-      TU_getPref("extensions.tabutils.bookmarkAllWithHistory", true) ?
+      !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkAllWithHistory", true) ?
       Array.map(gBrowser.allTabs, function(aTab) [aTab.linkedBrowser.currentURI, [{name: 'bookmarkProperties/tabState', value: tabutils._ss.getTabState(aTab)}]]) :
       Array.map(gBrowser.allTabs, function(aTab) aTab.linkedBrowser.currentURI);
     }).toString().replace(/^.*{|}$/g, "")],
