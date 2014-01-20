@@ -2470,7 +2470,8 @@ tabutils._tabContextMenu = function() {
       m.setAttribute("label", win.gBrowser.mCurrentTab.label);
       m.setAttribute("image", win.gBrowser.mCurrentTab.image);
       m.setAttribute("acceltext", "[" + win.gBrowser.mTabs.length + "]");
-      m.setAttribute("disabled", win == window || aExcludePopup && !win.toolbar.visible);
+      m.setAttribute("disabled", win == window || aExcludePopup && !win.toolbar.visible ||
+                                 win.gPrivateBrowsingUI.privateBrowsingEnabled != gPrivateBrowsingUI.privateBrowsingEnabled);
       m.window = win;
       aPopup.appendChild(m);
     }
