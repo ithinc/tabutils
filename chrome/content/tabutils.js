@@ -2492,8 +2492,8 @@ tabutils._tabContextMenu = function() {
           let activeTab = groupItem.getActiveTab() || groupItem.getChild(0);
           let m = document.createElement("menuitem");
           m.setAttribute("class", "menuitem-iconic bookmark-item menuitem-with-favicon");
-          m.setAttribute("label", activeTab && activeTab.tab.label);
-          m.setAttribute("image", activeTab && activeTab.tab.image);
+          m.setAttribute("label", activeTab ? activeTab.tab.label : "");
+          m.setAttribute("image", activeTab ? activeTab.tab.image : "");
           m.setAttribute("acceltext", groupItem.getTitle() + "[" + groupItem.getChildren().length + "]");
           m.setAttribute("disabled", groupItem == activeGroupItem);
           m.value = groupItem;
