@@ -20,6 +20,7 @@ var tabutils = {
     this._restartTab();
     this._reloadEvery();
     this._bookmarkTabs();
+    this._tabView();
     this._multiTabHandler();
     this._groupTabs();
     this._multirowTabs();
@@ -2476,6 +2477,15 @@ tabutils._tabContextMenu = function() {
       aPopup.appendChild(m);
     }
   };
+};
+
+// Panorama enhancements
+tabutils._tabView = function() {
+  if (!("TabView" in window)) {
+    TU_setPref("extensions.tabutils.menu.context_tabViewMenu", false);
+    TU_setPref("extensions.tabutils.menu.context_mergeGroup", false);
+    return;
+  }
 
   TabView.populateGroupMenu = function(aPopup, aExcludeEmpty) {
     while (aPopup.lastChild && aPopup.lastChild.localName != "menuseparator")
@@ -2552,6 +2562,8 @@ tabutils._tabContextMenu = function() {
     item.setAttribute("command", "cmd_newGroup");
     popup.appendChild(document.createElement("menuseparator"));
   }
+
+  function $() {return document.getElementById.apply(document, arguments);}
 };
 
 //列出所有标签页弹出菜单
