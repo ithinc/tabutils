@@ -416,7 +416,9 @@ tabutils._openLinkInTab = function() {
     }
   }).toString().replace(/^.*{|}$/g, ""));
 
-  //外来链接
+  // Foreign Links
+  if ("_openURIInNewTab" in nsBrowserAccess.prototype) // Bug 902695 [Fx26]
+  TU_hookCode("nsBrowserAccess.prototype._openURIInNewTab", '"browser.tabs.loadDivertedInBackground"', 'aIsExternal ? "extensions.tabutils.loadForeignInBackground" : $&');
   TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.tabs.loadDivertedInBackground"', 'isExternal ? "extensions.tabutils.loadForeignInBackground" : $&', "g");
 
   //左键点击链接
