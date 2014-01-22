@@ -205,9 +205,9 @@ tabutils._openLinkInTab = function() {
 
   //外来链接
 
-  //左键点击链接
+  // L-click
   TU_hookCode("contentAreaClick", /.*handleLinkClick.*/g, "if (event.button || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) $&");
-  TU_hookCode("handleLinkClick", 'where == "current"', "false");
+  TU_hookCode("handleLinkClick", "current", "null");
 };
 
 tabutils._tabOpeningOptions = function() {
