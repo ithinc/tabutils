@@ -2,7 +2,3 @@
 window[v21="true"] #closetab-button {
   list-style-image: url("chrome://global/skin/icons/close.png");
 }
-
-.toolbarbutton-1 > .toolbarbutton-menubutton-button[disabled=false] > .toolbarbutton-icon {
-  opacity: 1;
-} /* Bug 748894 [Fx23] */

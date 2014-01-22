@@ -681,7 +681,10 @@ tabutils._undoCloseTabButton = function() {
   );
 
   tabutils.updateUndoCloseTabCommand = function updateUndoCloseTabCommand() {
-    document.getElementById("History:UndoCloseTab").setAttribute("disabled", tabutils._ss.getClosedTabCount(window) == 0);
+    if (tabutils._ss.getClosedTabCount(window) == 0)
+      document.getElementById("History:UndoCloseTab").setAttribute("disabled", true);
+    else
+      document.getElementById("History:UndoCloseTab").removeAttribute("disabled");
   };
   //tabutils.updateUndoCloseTabCommand();
   TU_hookCode("gBrowser.onTabClose", "}", "tabutils.updateUndoCloseTabCommand();");

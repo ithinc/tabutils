@@ -1,4 +1,0 @@
-/* Toolbar buttons */
-window[OS="Darwin"][v4="true"] #undoclosetab-button {
-  -moz-image-region: rect(0px, 80px, 20px, 60px);
-}
