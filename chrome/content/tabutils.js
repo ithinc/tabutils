@@ -2368,29 +2368,12 @@ tabutils._mainContextMenu = function() {
   });
 };
 
-//±êÇ©Ò³ÓÒ¼ü²Ëµ¥
+// Tab Context Menu
 tabutils._tabContextMenu = function() {
   function $() {return document.getElementById.apply(document, arguments);}
 
   var tabContextMenu = gBrowser.tabContextMenu;
-  tabContextMenu.insertBefore($("context_closeOtherTabs"), $("context_closeTab").nextSibling);
-
-  Array.slice($("tabContextMenu-template").childNodes).forEach(function(aItem, aIndex, aItems) {
-    var refNode;
-    switch (true) {
-      case aItem.getAttribute("insertafter") != "":
-        refNode = tabContextMenu.getElementsByAttribute("id", aItem.getAttribute("insertafter"))[0];
-        refNode = refNode && refNode.nextSibling;
-        break;
-      case aItem.getAttribute("insertbefore") != "":
-        refNode = tabContextMenu.getElementsByAttribute("id", aItem.getAttribute("insertbefore"))[0];
-        break;
-      default:
-        refNode = aItems[aIndex - 1] && aItems[aIndex - 1].nextSibling;
-        break;
-    }
-    tabContextMenu.insertBefore(aItem, refNode);
-  });
+  tabContextMenu.insertBefore($("context_closeOtherTabs"), $("context_closeRightTabs").nextSibling);
 
   tabutils.addEventListener(tabContextMenu.parentNode, "popupshowing", function(event) {
     if (event.target != tabContextMenu)
@@ -2478,10 +2461,7 @@ tabutils._tabContextMenu = function() {
     $("context_selectTab").setAttribute("checked", mselected);
     $("context_unselectAllTabs").setAttribute("disabled", selectedTabs.length == 0);
 
-    $("context_openTabInWindow").collapsed = !$("context_moveToWindow").collapsed;
     $("context_mergeWindow").setAttribute("disabled", Services.wm.getZOrderDOMWindowEnumerator("navigator:browser", false).getNext() == window);
-
-    $("context_mergeGroup").hidden = $("context_tabViewMenu").hidden;
     $("context_mergeGroup").setAttribute("disabled", !Array.some(gBrowser.mTabs, function(aTab) aTab.hidden));
   }, false);
 
