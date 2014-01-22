@@ -72,6 +72,8 @@
   TU_hookCode("whereToOpenLink",
     [/return "current";/, "e = {shiftKey:false, ctrlKey:false, metaKey:false, altKey:false, button:0};"],
     [/(?=return "current";)/, function() {
+      if (alt) // Bug 713052 [Fx13]
+        return "null";
       if (openInTab) {
         let w = getTopWin(true);
         if (!w)

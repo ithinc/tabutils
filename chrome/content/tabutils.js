@@ -418,14 +418,14 @@ tabutils._openLinkInTab = function() {
   //外来链接
   TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.link.open_newwindow"', 'isExternal ? "browser.link.open_external" : $&');
 
-  //左键点击链接
+  // L-click
   TU_hookCode("contentAreaClick", /.*handleLinkClick.*/g, "if (event.button || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) $&");
-  TU_hookCode("handleLinkClick", 'where == "current"', "false");
+  TU_hookCode("handleLinkClick", "current", "null");
 
-  //中键点击链接
+  // M-click
   TU_hookCode("openNewTabWith", "aEvent.shiftKey", "$& ^ (aEvent.button == 1 && TU_getPref('extensions.tabutils.middleClickLinks', 0) & 2) > 0");
 
-  //右键点击链接
+  // R-Click
   TU_hookCode("contentAreaClick",
     ["event.button == 2", "$& && (event.ctrlKey || event.altKey || event.metaKey || !TU_getPref('extensions.tabutils.rightClickLinks', 0))"]
   );
