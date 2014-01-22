@@ -28,7 +28,7 @@ tabutils._phantomTabs = function() {
         this.updatePinnedTabsBar();
       }
       aTab.bookmarkId = null;
-      tabutils.deleteTabValue(aTab, "bookmarkId");
+      tabutils._ss.deleteTabValue(aTab, "bookmarkId");
       tabutils.dispatchEvent(aTab, "TabUnpinning");
 
       this.mTabContainer.positionPinnedTab(aTab);
@@ -55,7 +55,7 @@ tabutils._phantomTabs = function() {
       else {
         aTab.bookmarkId = aBookmarkId;
       }
-      tabutils.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
+      tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
       tabutils.dispatchEvent(aTab, "TabPinning");
 
       this.mTabContainer.positionPinnedTab(aTab);

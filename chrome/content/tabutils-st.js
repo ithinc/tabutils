@@ -394,7 +394,7 @@ tabutils._groupTabs = function() {
   });
 
   TU_hookCode("gBrowser.onTabClosing", "}", function() {
-    tabutils.deleteTabValue(aTab, "group-collapsed");
+    tabutils._ss.deleteTabValue(aTab, "group-collapsed");
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {

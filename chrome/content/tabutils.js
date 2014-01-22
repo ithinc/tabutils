@@ -77,17 +77,14 @@ var tabutils = {
     this._firstRun();
   },
 
-  setTabValue: function() this._ss.setTabValue.apply(this._ss, arguments),
-  deleteTabValue: function() this._ss.deleteTabValue.apply(this._ss, arguments),
-
   setAttribute: function(aTab, aAttr, aVal) {
     aTab.setAttribute(aAttr, aVal);
-    this.setTabValue(aTab, aAttr, aVal);
+    this._ss.setTabValue(aTab, aAttr, aVal);
   },
 
   removeAttribute: function(aTab, aAttr) {
     aTab.removeAttribute(aAttr);
-    this.deleteTabValue(aTab, aAttr);
+    this._ss.deleteTabValue(aTab, aAttr);
   },
 
   restoreAttribute: function(aTab, aAttr) {
@@ -1198,7 +1195,7 @@ tabutils._faviconizeTab = function() {
 
     if (!aForce) {
       tabutils.removeAttribute(aTab, "faviconized");
-      tabutils.setTabValue(aTab, "faviconized", false); //for pinned but not iconified tabs
+      tabutils._ss.setTabValue(aTab, "faviconized", false); //for pinned but not iconified tabs
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
       }
@@ -1359,7 +1356,7 @@ tabutils._reloadEvery = function() {
 
     if (!aForce) {
       tabutils.removeAttribute(aTab, "autoReload");
-      tabutils.deleteTabValue(aTab, "reloadInterval");
+      tabutils._ss.deleteTabValue(aTab, "reloadInterval");
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["autoReload"]);
       }
@@ -1371,7 +1368,7 @@ tabutils._reloadEvery = function() {
       tabutils.setAttribute(aTab, "autoReload", true);
       aTab._reloadInterval = aInterval || aTab._reloadInterval || TU_getPref("extensions.tabutils.reloadInterval", 10);
       TU_setPref("extensions.tabutils.reloadInterval", aTab._reloadInterval);
-      tabutils.setTabValue(aTab, "reloadInterval", aTab._reloadInterval);
+      tabutils._ss.setTabValue(aTab, "reloadInterval", aTab._reloadInterval);
 
       if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoEnableAutoReload", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["autoReload"]);
