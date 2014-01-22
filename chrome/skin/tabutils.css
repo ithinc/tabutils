@@ -188,6 +188,10 @@ menuseparator:last-child {
   -moz-image-region: rect(0px, 16px, 16px, 0px);
 }
 
+#undoclosetab-button[disabled="true"] {
+  -moz-image-region: rect(16px, 16px, 32px, 0px);
+}
+
 #button_tuOptions .toolbarbutton-icon {
   width: 22px;
   height: 20px;

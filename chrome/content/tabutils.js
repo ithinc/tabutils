@@ -20,6 +20,7 @@ var tabutils = {
     this._restartTab();
     this._reloadEvery();
     this._bookmarkTabs();
+    this._tabView();
     this._multiTabHandler();
     this._groupTabs();
     this._previewTab();
@@ -421,14 +422,14 @@ tabutils._openLinkInTab = function() {
   TU_hookCode("nsBrowserAccess.prototype._openURIInNewTab", '"browser.tabs.loadDivertedInBackground"', 'aIsExternal ? "extensions.tabutils.loadForeignInBackground" : $&');
   TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.tabs.loadDivertedInBackground"', 'isExternal ? "extensions.tabutils.loadForeignInBackground" : $&', "g");
 
-  //左键点击链接
+  // L-click
   TU_hookCode("contentAreaClick", /.*handleLinkClick.*/g, "if (event.button || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) $&");
-  TU_hookCode("handleLinkClick", 'where == "current"', "false");
+  TU_hookCode("handleLinkClick", "current", "null");
 
-  //中键点击链接
+  // M-click
   TU_hookCode("openNewTabWith", "aEvent.shiftKey", "$& ^ (aEvent.button == 1 && TU_getPref('extensions.tabutils.middleClickLinks', 0) & 2) > 0");
 
-  //右键点击链接
+  // R-Click
   TU_hookCode("contentAreaClick",
     ["event.button == 2", "$& && (event.ctrlKey || event.altKey || event.metaKey || !TU_getPref('extensions.tabutils.rightClickLinks', 0))"]
   );
@@ -1434,14 +1435,14 @@ tabutils._reloadEvery = function() {
   };
 };
 
-//保存书签组
+// Bookmark tabs with history
 tabutils._bookmarkTabs = function() {
   gBrowser.bookmarkTab = function(aTabs) {
     if (!("length" in aTabs))
       aTabs = [aTabs];
 
     if (aTabs.length > 1) {
-      let tabURIs = TU_getPref("extensions.tabutils.bookmarkWithHistory", false) ?
+      let tabURIs = !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkWithHistory", false) ?
                     Array.map(aTabs, function(aTab) [aTab.linkedBrowser.currentURI, [{name: 'bookmarkProperties/tabState', value: tabutils._ss.getTabState(aTab)}]]) :
                     Array.map(aTabs, function(aTab) aTab.linkedBrowser.currentURI);
       PlacesUIUtils.showBookmarkDialog({action: "add",
@@ -1456,7 +1457,7 @@ tabutils._bookmarkTabs = function() {
   TU_hookCode("PlacesCommandHook.bookmarkPage",
     [/(?=.*(createItem|PlacesCreateBookmarkTransaction).*)/, function() {
       var annos = [descAnno];
-      if (TU_getPref("extensions.tabutils.bookmarkWithHistory", false)) {
+      if (!gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkWithHistory", false)) {
         let tab = gBrowser.mTabs[gBrowser.browsers.indexOf(aBrowser)];
         if (tab)
           annos.push({name: "bookmarkProperties/tabState", value: tabutils._ss.getTabState(tab)});
@@ -1467,7 +1468,7 @@ tabutils._bookmarkTabs = function() {
 
   TU_hookCode("PlacesCommandHook.bookmarkCurrentPages",
     ["this.uniqueCurrentPages", (function() {
-      TU_getPref("extensions.tabutils.bookmarkAllWithHistory", true) ?
+      !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkAllWithHistory", true) ?
       Array.map(gBrowser.allTabs, function(aTab) [aTab.linkedBrowser.currentURI, [{name: 'bookmarkProperties/tabState', value: tabutils._ss.getTabState(aTab)}]]) :
       Array.map(gBrowser.allTabs, function(aTab) aTab.linkedBrowser.currentURI);
     }).toString().replace(/^.*{|}$/g, "")],
@@ -2577,11 +2578,21 @@ tabutils._tabContextMenu = function() {
       m.setAttribute("label", win.gBrowser.mCurrentTab.label);
       m.setAttribute("image", win.gBrowser.mCurrentTab.image);
       m.setAttribute("acceltext", "[" + win.gBrowser.mTabs.length + "]");
-      m.setAttribute("disabled", win == window || aExcludePopup && !win.toolbar.visible);
+      m.setAttribute("disabled", win == window || aExcludePopup && !win.toolbar.visible ||
+                                 win.gPrivateBrowsingUI.privateBrowsingEnabled != gPrivateBrowsingUI.privateBrowsingEnabled);
       m.window = win;
       aPopup.appendChild(m);
     }
   };
+};
+
+// Panorama enhancements
+tabutils._tabView = function() {
+  if (!("TabView" in window)) {
+    TU_setPref("extensions.tabutils.menu.context_tabViewMenu", false);
+    TU_setPref("extensions.tabutils.menu.context_mergeGroup", false);
+    return;
+  }
 
   TabView.populateGroupMenu = function(aPopup, aExcludeEmpty) {
     while (aPopup.lastChild && aPopup.lastChild.localName != "menuseparator")
@@ -2598,8 +2609,8 @@ tabutils._tabContextMenu = function() {
           let activeTab = groupItem.getActiveTab() || groupItem.getChild(0);
           let m = document.createElement("menuitem");
           m.setAttribute("class", "menuitem-iconic bookmark-item menuitem-with-favicon");
-          m.setAttribute("label", activeTab && activeTab.tab.label);
-          m.setAttribute("image", activeTab && activeTab.tab.image);
+          m.setAttribute("label", activeTab ? activeTab.tab.label : "");
+          m.setAttribute("image", activeTab ? activeTab.tab.image : "");
           m.setAttribute("acceltext", groupItem.getTitle() + "[" + groupItem.getChildren().length + "]");
           m.setAttribute("disabled", groupItem == activeGroupItem);
           m.value = groupItem;
@@ -2658,6 +2669,8 @@ tabutils._tabContextMenu = function() {
     item.setAttribute("command", "cmd_newGroup");
     popup.appendChild(document.createElement("menuseparator"));
   }
+
+  function $() {return document.getElementById.apply(document, arguments);}
 };
 
 //列出所有标签页弹出菜单
@@ -2785,7 +2798,10 @@ tabutils._undoCloseTabButton = function() {
   );
 
   tabutils.updateUndoCloseTabCommand = function updateUndoCloseTabCommand() {
-    document.getElementById("History:UndoCloseTab").setAttribute("disabled", tabutils._ss.getClosedTabCount(window) == 0);
+    if (tabutils._ss.getClosedTabCount(window) == 0)
+      document.getElementById("History:UndoCloseTab").setAttribute("disabled", true);
+    else
+      document.getElementById("History:UndoCloseTab").removeAttribute("disabled");
     gBrowser._lastClosedTabsCount = null;
   };
   //tabutils.updateUndoCloseTabCommand();
