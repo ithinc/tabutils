@@ -16,7 +16,6 @@ var tabutils = {
   },
 
   onload: function() {
-    this._tabContextMenu();
     this._undoCloseTabButton();
     this._tabPrefObserver.init();
 
@@ -588,31 +587,6 @@ tabutils._miscFeatures = function() {
   document.documentElement.setAttribute("v6", version >= 6.0);
   document.documentElement.setAttribute("v14", version >= 14.0);
   document.documentElement.setAttribute("v21", version >= 21.0);
-};
-
-//±êÇ©Ò³ÓÒ¼ü²Ëµ¥
-tabutils._tabContextMenu = function() {
-  function $() {return document.getElementById.apply(document, arguments);}
-
-  var tabContextMenu = gBrowser.tabContextMenu;
-  tabContextMenu.insertBefore($("context_closeOtherTabs"), $("context_closeTab").nextSibling);
-
-  Array.slice($("tabContextMenu-template").childNodes).forEach(function(aItem, aIndex, aItems) {
-    var refNode;
-    switch (true) {
-      case aItem.getAttribute("insertafter") != "":
-        refNode = tabContextMenu.getElementsByAttribute("id", aItem.getAttribute("insertafter"))[0];
-        refNode = refNode && refNode.nextSibling;
-        break;
-      case aItem.getAttribute("insertbefore") != "":
-        refNode = tabContextMenu.getElementsByAttribute("id", aItem.getAttribute("insertbefore"))[0];
-        break;
-      default:
-        refNode = aItems[aIndex - 1] && aItems[aIndex - 1].nextSibling;
-        break;
-    }
-    tabContextMenu.insertBefore(aItem, refNode);
-  });
 };
 
 //³·Ïú¹Ø±Õ±êÇ©Ò³°´Å¥

@@ -30,23 +30,6 @@
   </keyset>
 
   <popupset id="tuPopupSet">
-    <menupopup id="tabContextMenu-template">
-      <menuitem id="context_duplicateTab"
-                label="&duplicateTab.label;"
-                accesskey="&duplicateTab.accesskey;"
-                insertafter="context_newTab"
-                insertbefore="context_reloadTab"
-                key="key_duplicateTab"
-                oncommand="gBrowser.duplicateTab(gBrowser.mContextTab);"/>
-      <menu id="context_recentlyClosedTabs"
-            label="&historyUndoMenu.label;"
-            insertafter="context_undoCloseTab">
-        <menupopup onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
-                   tooltip="bhTooltip" popupsinherittooltip="true"/>
-        <observes element="History:UndoCloseTab" attribute="disabled"/>
-      </menu>
-    </menupopup>
-
     <menupopup id="undoCloseTabPopup"
                onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
                tooltip="bhTooltip" popupsinherittooltip="true"/>
@@ -60,7 +43,21 @@
               insertbefore="context_reloadTab"
               oncommand="BrowserOpenTab();">
     </menuitem>
+    <menuitem id="context_duplicateTab"
+              label="&duplicateTab.label;"
+              accesskey="&duplicateTab.accesskey;"
+              insertbefore="context_reloadTab"
+              key="key_duplicateTab"
+              oncommand="gBrowser.duplicateTab(gBrowser.mContextTab);"/>
     <menuseparator insertbefore="context_reloadTab"/>
+    <menu id="context_recentlyClosedTabs"
+          label="&historyUndoMenu.label;"
+          insertafter="context_undoCloseTab">
+      <menupopup onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
+                 tooltip="bhTooltip" popupsinherittooltip="true"/>
+      <observes element="History:UndoCloseTab" attribute="disabled"/>
+    </menu>
+    <menuseparator insertbefore="context_closeTab"/>
   </menupopup>
 
   <menupopup id="menu_ToolsPopup">
