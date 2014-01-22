@@ -286,41 +286,6 @@
                 oncommand="gBrowser.selectedTabs = gBrowser.otherTabsOf(gBrowser.selectedTabs);event.stopPropagation();"/>
     </menupopup>
 
-    <menupopup id="alltabs-popup-template">
-      <menuitem id="context_showAllTabs"
-                label="&showAllTabs.label;"
-                type="checkbox"
-                oncommand="TU_setPref('extensions.tabutils.showAllTabs', !TU_getPref('extensions.tabutils.showAllTabs'));"/>
-      <menuseparator/>
-      <menuitem id="context_readAllTabs"
-                label_unchecked="&readAllTabs.label;"
-                label_checked="&unreadAllTabs.label;"
-                oncommand="gBrowser.unreadTab(gBrowser.allTabs, this.getAttribute('checked') == 'true');"/>
-      <menuitem id="context_protectAllTabs"
-                label="&protectAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.protectTab(gBrowser.allTabs);"/>
-      <menuitem id="context_lockAllTabs"
-                label="&lockAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.lockTab(gBrowser.allTabs);"/>
-      <menuitem id="context_faviconizeAllTabs"
-                label="&faviconizeAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.faviconizeTab(gBrowser.allTabs);"/>
-      <menuitem id="context_restartAllTabs"
-                label="&restartAllTabs.label;"
-                oncommand="gBrowser.allTabs.forEach(gBrowser.restartTab, gBrowser);"/>
-      <menuseparator id="sep_closeAllTabs"/>
-      <menuitem id="context_closeAllTabs"
-                label="&closeAllTabs.label;"
-                oncommand="gBrowser.closeAllTabs();"/>
-      <menuitem id="context_closeAllDuplicateTabs"
-                label="&closeAllDuplicateTabs.label;"
-                oncommand="gBrowser.closeAllDuplicateTabs();"/>
-      <menuseparator/>
-    </menupopup>
-
     <menupopup id="tabStackPopup"
                onpopupshowing="gBrowser.updateTabStackPopup(event.target);"
                oncommand="gBrowser.selectedTab = gBrowser.mTabs[event.originalTarget.value];"
@@ -389,6 +354,43 @@
         <menuseparator/>
       </menupopup>
     </menu>
+  </menupopup>
+
+  <menupopup id="alltabs-popup"
+             oncommand="event.stopPropagation();"
+             onclick="if (event.button == 0) event.stopPropagation();">
+    <menuitem id="context_showAllTabs"
+              label="&showAllTabs.label;"
+              type="checkbox"
+              oncommand="TU_setPref('extensions.tabutils.showAllTabs', !TU_getPref('extensions.tabutils.showAllTabs'));"/>
+    <menuseparator/>
+    <menuitem id="context_readAllTabs"
+              label_unchecked="&readAllTabs.label;"
+              label_checked="&unreadAllTabs.label;"
+              oncommand="gBrowser.unreadTab(gBrowser.allTabs, this.getAttribute('checked') == 'true');"/>
+    <menuitem id="context_protectAllTabs"
+              label="&protectAllTabs.label;"
+              type="checkbox"
+              oncommand="gBrowser.protectTab(gBrowser.allTabs);"/>
+    <menuitem id="context_lockAllTabs"
+              label="&lockAllTabs.label;"
+              type="checkbox"
+              oncommand="gBrowser.lockTab(gBrowser.allTabs);"/>
+    <menuitem id="context_faviconizeAllTabs"
+              label="&faviconizeAllTabs.label;"
+              type="checkbox"
+              oncommand="gBrowser.faviconizeTab(gBrowser.allTabs);"/>
+    <menuitem id="context_restartAllTabs"
+              label="&restartAllTabs.label;"
+              oncommand="gBrowser.allTabs.forEach(gBrowser.restartTab, gBrowser);"/>
+    <menuseparator id="sep_closeAllTabs"/>
+    <menuitem id="context_closeAllTabs"
+              label="&closeAllTabs.label;"
+              oncommand="gBrowser.closeAllTabs();"/>
+    <menuitem id="context_closeAllDuplicateTabs"
+              label="&closeAllDuplicateTabs.label;"
+              oncommand="gBrowser.closeAllDuplicateTabs();"/>
+    <menuseparator/>
   </menupopup>
 
   <menupopup id="menu_ToolsPopup">

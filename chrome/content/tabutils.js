@@ -2592,20 +2592,12 @@ tabutils._tabView = function() {
   function $() {return document.getElementById.apply(document, arguments);}
 };
 
-//列出所有标签页弹出菜单
+// List all tabs
 tabutils._allTabsPopup = function() {
-  function $() {return document.getElementById.apply(document, arguments);}
-
   var allTabsPopup = gBrowser.mTabContainer.mAllTabsPopup;
   if (!allTabsPopup)
     return;
 
-  Array.slice($("alltabs-popup-template").childNodes).forEach(function(aItem) {
-    allTabsPopup.appendChild(aItem);
-  });
-
-  allTabsPopup.setAttribute("oncommand", "event.stopPropagation();");
-  allTabsPopup.setAttribute("onclick", "if (event.button == 0) event.stopPropagation();");
   tabutils.addEventListener(allTabsPopup.parentNode, "popupshowing", function(event) {
     while (allTabsPopup.firstChild && allTabsPopup.firstChild.tab) //Bug 714594 (Fx12), 716271 (Fx12)
       allTabsPopup.removeChild(allTabsPopup.firstChild);
@@ -2639,9 +2631,7 @@ tabutils._allTabsPopup = function() {
     });
   }, true);
 
-  if ("MenuEdit" in window) { //Make allTabsPopup editable by MenuEdit
-    TU_hookCode("MenuEdit.getEditableMenus", /(?=return menus;)/, "menus['" + allTabsPopup.id + "'] = gBrowser.mTabContainer.mAllTabsPopup.parentNode.tooltipText;");
-  }
+  function $() {return document.getElementById.apply(document, arguments);}
 };
 
 tabutils._hideTabBar = function() {
