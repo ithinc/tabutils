@@ -22,18 +22,14 @@ var tabutils = {
     this._firstRun();
   },
 
-  getTabValue: function() this._ss.getTabValue.apply(this._ss, arguments),
-  setTabValue: function() this._ss.setTabValue.apply(this._ss, arguments),
-  deleteTabValue: function() this._ss.deleteTabValue.apply(this._ss, arguments),
-
   setAttribute: function(aTab, aAttr, aVal) {
     aTab.setAttribute(aAttr, aVal);
-    this.setTabValue(aTab, aAttr, aVal);
+    this._ss.setTabValue(aTab, aAttr, aVal);
   },
 
   removeAttribute: function(aTab, aAttr) {
     aTab.removeAttribute(aAttr);
-    this.deleteTabValue(aTab, aAttr);
+    this._ss.deleteTabValue(aTab, aAttr);
   },
 
   getDomainFromURI: function(aURI, aAllowThirdPartyFixup) {
