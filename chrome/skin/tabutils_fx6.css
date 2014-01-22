@@ -21,10 +21,6 @@ window[v6="true"] #closetab-button {
   list-style-image: url("resource://app/chrome/toolkit/skin/classic/global/icons/close.png");
 }
 
-window[v6="true"] #undoclosetab-button {
-  list-style-image: url("resource://app/chrome/browser/skin/classic/browser/Toolbar.png");
-}
-
 /* Statusbar buttons */
 window[v6="true"] #statusbar-openintab,
 window[v6="true"] #statusbar-loadinbackground,
