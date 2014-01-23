@@ -24,10 +24,9 @@ var tabutils = {
     this._multiTabHandler();
     this._groupTabs();
     this._previewTab();
+    this._multirowTabs();
+    this._verticalTabs();
     this._miscFeatures();
-
-    !TU_getPref("extensions.tabutils.disableMultirowTabs") && this._multirowTabs();
-    !TU_getPref("extensions.tabutils.disableVerticalTabs") && this._verticalTabs();
 
     window.addEventListener("load", this, false);
     window.addEventListener("unload", this, false);

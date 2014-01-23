@@ -159,7 +159,3 @@
 <!ENTITY statusbar.caption "状态栏">
 <!ENTITY hideStatusbarpanel.label1 "隐藏 [">
 <!ENTITY hideStatusbarpanel.label2 "]">
-<!ENTITY disableMultirowTabs.label "Disable multi-row tab bar permanently">
-<!ENTITY disableVerticalTabs.label "Disable vertical tab bar permanently">
-<!ENTITY disablePhantomTabs.label "Disable phantom tabs permanently">
-<!ENTITY disableTabStacking.label "Disable tab stacking permanently">

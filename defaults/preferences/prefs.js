@@ -262,11 +262,6 @@ pref("extensions.tabutils.colorStack.d", "#F8B7B3 20%");
 pref("extensions.tabutils.colorStack.e", "#F8D7DA 20%");
 pref("extensions.tabutils.colorStack.f", "#FFCF6E 20%");
 
-pref("extensions.tabutils.disableVerticalTabs", false);
-pref("extensions.tabutils.disableMultirowTabs", false);
-pref("extensions.tabutils.disablePhantomTabs", false);
-pref("extensions.tabutils.disableTabStacking", false);
-
 pref("browser.tabs.tabMaxWidth", 250);
 pref("browser.tabs.tabMinWidth", 100);
 pref("browser.tabs.tabMinHeight", 20);

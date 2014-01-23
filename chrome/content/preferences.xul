@@ -7,8 +7,6 @@
 %browserDTD;
 <!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
 %tabBrowserDTD;
-<!ENTITY % prefsDTD SYSTEM "chrome://browser/locale/preferences/preferences.dtd">
-%prefsDTD;
 <!ENTITY % tabsDTD SYSTEM "chrome://browser/locale/preferences/tabs.dtd">
 %tabsDTD;
 <!ENTITY % contentDTD SYSTEM "chrome://browser/locale/preferences/content.dtd">
@@ -797,22 +795,6 @@
       <preference name="browser.warnOnQuit" type="bool"/>
       <preference name="network.dns.ignoreHostonly" type="bool"/>
     </preferences>
-  </prefpane>
-
-  <prefpane id="pane5" label="&paneAdvanced.title;" helpTopic2="pane5" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
-    <preferences>
-      <preference id="disableMultirowTabs" name="extensions.tabutils.disableMultirowTabs" type="bool"/>
-      <preference id="disableVerticalTabs" name="extensions.tabutils.disableVerticalTabs" type="bool"/>
-      <preference id="disablePhantomTabs" name="extensions.tabutils.disablePhantomTabs" type="bool"/>
-      <preference id="disableTabStacking" name="extensions.tabutils.disableTabStacking" type="bool"/>
-    </preferences>
-
-    <groupbox>
-      <checkbox preference="disableMultirowTabs" label="&disableMultirowTabs.label;" disabled="true"/>
-      <checkbox preference="disableVerticalTabs" label="&disableVerticalTabs.label;" disabled="true"/>
-      <checkbox preference="disablePhantomTabs" label="&disablePhantomTabs.label;" hidden="true"/>
-      <checkbox preference="disableTabStacking" label="&disableTabStacking.label;" hidden="true"/>
-    </groupbox>
   </prefpane>
 
   <broadcasterset>

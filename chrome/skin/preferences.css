@@ -18,11 +18,6 @@ radio[pane=pane4] {
 	-moz-image-region: rect(0px, 128px, 32px, 96px);
 }
 
-radio[pane=pane5] {
-	list-style-image: url("chrome://browser/skin/preferences/Options.png");
-	-moz-image-region: rect(0, 224px, 32px, 192px);
-}
-
 checkbox:not([label]) > .checkbox-label-box {
   display: none;
 }
