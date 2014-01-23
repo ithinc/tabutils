@@ -90,7 +90,7 @@
 <!ENTITY invertFocus.tooltip "Invert tab focus when Middle-click opens in new tab">
 <!ENTITY stayMenuOpen.label "Stay menu open">
 <!ENTITY rightAsMiddle.label "R-click functions as M-click">
-<!ENTITY dragAndGo.label "Drag and go to open links or selected text in new tab">
+<!ENTITY dragAndGo.label "Drag links or selected text to open in new tab">
 <!ENTITY dragAndGo.tooltip "Ctrl+Drag: search link text; Shift+Drag: invert focus">
 <!ENTITY clickCurrentTab.label "On current tab:">
 <!ENTITY clickTab.label "On tabs:">
@@ -107,8 +107,8 @@
 <!ENTITY toolbarContextMenu.label "Toolbar Context Menu">
 <!ENTITY mouseReleaseSelect.label "Mouse click (down and release) to focus a tab">
 <!ENTITY mouseHoverPreview.label "Mouse hover to preview a tab with a delay of">
-<!ENTITY mouseHoverSelect.label "Focus the tab with a delay of">
-<!ENTITY mouseHoverLoad.label "Load the tab if unloaded">
+<!ENTITY mouseHoverSelect.label "Focus the tab after">
+<!ENTITY mouseHoverLoad.label "Load the tab after">
 <!ENTITY mouseScrollSelect.label "Mouse scroll to focus a tab">
 <!ENTITY mouseScrollSelectDir.label "Invert scrolling direction">
 <!ENTITY mouseScrollSelectWrap.label "Wrap when reaching ends of the tab bar">

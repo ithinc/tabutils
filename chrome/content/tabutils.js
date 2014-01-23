@@ -1900,6 +1900,7 @@ tabutils._previewTab = function() {
         return;
 
       clearTimeout(this._mouseHoverPreviewTimer);
+      clearTimeout(this._mouseHoverLoadTimer);
       this._mouseHoverPreviewTimer = setTimeout(function(self) {
         if (!tab.selected) {
           let mouseHoverSelectDelay = TU_getPref("extensions.tabutils.mouseHoverSelect", false) &&
@@ -1907,13 +1908,19 @@ tabutils._previewTab = function() {
           if (mouseHoverSelectDelay !== 0)
             gBrowser._previewMode = true;
           gBrowser.selectedTab = tab;
-          if (tab.hasAttribute("pending") && TU_getPref("extensions.tabutils.mouseHoverLoad", false))
-            gBrowser.reloadTab(tab);
           if (mouseHoverSelectDelay > 0) {
             self._mouseHoverPreviewTimer = setTimeout(function() {
-              gBrowser._previewMode = false;
-              gBrowser.updateCurrentBrowser(true);
+              if (gBrowser._previewMode) {
+                gBrowser._previewMode = false;
+                gBrowser.updateCurrentBrowser(true);
+              }
             }, mouseHoverSelectDelay);
+          }
+          if (tab.hasAttribute("pending") && TU_getPref("extensions.tabutils.mouseHoverLoad", false)) {
+            self._mouseHoverLoadTimer = setTimeout(function() {
+              if (gBrowser._previewMode)
+                gBrowser.reloadTab(tab);
+            }, TU_getPref("extensions.tabutils.mouseHoverLoadDelay", 750));
           }
         }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250), this);
@@ -1930,12 +1937,15 @@ tabutils._previewTab = function() {
         return;
 
       clearTimeout(this._mouseHoverPreviewTimer);
+      clearTimeout(this._mouseHoverLoadTimer);
       if (!gBrowser._previewMode)
         return;
 
       this._mouseHoverPreviewTimer = setTimeout(function() {
-        gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
-        gBrowser._previewMode = false;
+        if (gBrowser._previewMode) {
+          gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+          gBrowser._previewMode = false;
+        }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
     }
   }, false);
@@ -1945,11 +1955,16 @@ tabutils._previewTab = function() {
     let tab = event.target.tab || gBrowser.mTabs[event.target.value];
     if (tab && TU_getPref("extensions.tabutils.mouseHoverPreview", false)) {
       clearTimeout(popup._mouseHoverPreviewTimer);
+      clearTimeout(popup._mouseHoverLoadTimer);
       popup._mouseHoverPreviewTimer = setTimeout(function() {
         gBrowser._previewMode = true;
         gBrowser.selectedTab = tab;
-        if (tab.hasAttribute("pending") && TU_getPref("extensions.tabutils.mouseHoverLoad", false))
-          gBrowser.reloadTab(tab);
+        if (tab.hasAttribute("pending") && TU_getPref("extensions.tabutils.mouseHoverLoad", false)) {
+          popup._mouseHoverLoadTimer = setTimeout(function() {
+            if (gBrowser._previewMode)
+              gBrowser.reloadTab(tab);
+          }, TU_getPref("extensions.tabutils.mouseHoverLoadDelay", 750));
+        }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
     }
   };
@@ -1959,12 +1974,15 @@ tabutils._previewTab = function() {
     let tab = event.target.tab || gBrowser.mTabs[event.target.value];
     if (tab) {
       clearTimeout(popup._mouseHoverPreviewTimer);
+      clearTimeout(popup._mouseHoverLoadTimer);
       if (!gBrowser._previewMode)
         return;
 
       popup._mouseHoverPreviewTimer = setTimeout(function() {
-        gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
-        gBrowser._previewMode = false;
+        if (gBrowser._previewMode) {
+          gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+          gBrowser._previewMode = false;
+        }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
     }
   };

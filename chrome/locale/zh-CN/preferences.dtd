@@ -108,7 +108,7 @@
 <!ENTITY mouseReleaseSelect.label "鼠标点击并释放时才激活标签页">
 <!ENTITY mouseHoverPreview.label "鼠标悬停预览标签页, 延时">
 <!ENTITY mouseHoverSelect.label "自动激活该标签页, 延时">
-<!ENTITY mouseHoverLoad.label "自动加载该标签页">
+<!ENTITY mouseHoverLoad.label "自动加载该标签页, 延时">
 <!ENTITY mouseScrollSelect.label "鼠标滚轮激活标签页">
 <!ENTITY mouseScrollSelectDir.label "反转滚动方向">
 <!ENTITY mouseScrollSelectWrap.label "循环选择标签页">
