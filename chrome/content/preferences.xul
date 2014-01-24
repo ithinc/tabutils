@@ -466,13 +466,8 @@
     </tabbox>
     <spacer height="8"/>
 
-    <checkbox preference="dragAndGo" label="&dragAndGo.label;" tooltiptext="&dragAndGo.tooltip;"/>
+    <checkbox preference="dragAndGo" label="&dragAndGo.label;" tooltiptext="&dragAndGo.tooltip;" hidden="true"/>
     <checkbox preference="mouseReleaseSelect" label="&mouseReleaseSelect.label;"/>
-    <checkbox preference="mouseScrollSelect" label="&mouseScrollSelect.label;"/>
-    <vbox class="indent">
-      <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;" hidden="true"/>
-      <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;" hidden="true"/>
-    </vbox>
     <hbox align="center">
       <checkbox preference="mouseHoverPreview" label="&mouseHoverPreview.label;"/>
       <textbox preference="mouseHoverPreviewDelay" type="number" increment="50" size="4" maxlength="4"/>
@@ -488,6 +483,11 @@
       <textbox preference="mouseHoverLoadDelay" type="number" increment="50" size="4" maxlength="4"/>
       <label value="&time.label;"/>
     </hbox>
+    <checkbox preference="mouseScrollSelect" label="&mouseScrollSelect.label;"/>
+    <vbox class="indent">
+      <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;"/>
+      <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;" hidden="true"/>
+    </vbox>
   </prefpane>
 
   <prefpane id="pane4" label="&pane4.title;" helpTopic2="pane4" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
