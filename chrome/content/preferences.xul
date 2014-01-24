@@ -887,6 +887,14 @@
 
   <script type="application/javascript">
   <![CDATA[
+    Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+    Components.utils.import("resource://gre/modules/Services.jsm");
+    [
+      ["@mozilla.org/browser/browserglue;1", "nsIBrowserGlue"]
+    ].forEach(function([aContract, aInterface])
+      XPCOMUtils.defineLazyServiceGetter(Services, aInterface, aContract, aInterface)
+    );
+
     function onLoad() {
       if (document.documentElement.getButton("accept").hidden) {
         document.documentElement.getButton("extra1").hidden = true;
@@ -903,8 +911,7 @@
       var preferencesElements = document.getElementsByTagName("preferences");
       var preferencesElement = preferencesElements[preferencesElements.length - 1];
 
-      var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-      prefs.getChildList("extensions.tabutils.", {}).sort().forEach(function(aPrefName) {
+      Services.prefs.getChildList("extensions.tabutils.", {}).sort().forEach(function(aPrefName) {
         for (let preference of preferences) {
           if (preference.name == aPrefName)
             return;
@@ -913,7 +920,7 @@
         var preference = document.createElement("preference");
         preference.setAttribute("id", aPrefName);
         preference.setAttribute("name", aPrefName);
-        preference.setAttribute("type", {32: "string", 64: "int", 128: "bool"}[prefs.getPrefType(aPrefName)]);
+        preference.setAttribute("type", {32: "string", 64: "int", 128: "bool"}[Services.prefs.getPrefType(aPrefName)]);
         preferencesElement.appendChild(preference);
       });
 
@@ -958,7 +965,7 @@
       onHighlightStyle("Protected");
       onHighlightStyle("Locked");
 
-      let version = parseFloat(Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo).version);
+      let version = parseFloat(Services.appinfo.version);
       if (version >= 4.0) {
         $("autoHide").disabled = true;
       }
@@ -1080,9 +1087,7 @@
       if (fp.show() == fp.returnCancel)
         return;
 
-      var ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
-      var loader = Components.classes['@mozilla.org/moz/jssubscript-loader;1'].getService(Components.interfaces.mozIJSSubScriptLoader);
-      loader.loadSubScript(ioService.newFileURI(fp.file).spec);
+      Services.scriptloader.loadSubScript(Services.io.newFileURI(fp.file).spec);
     }
 
     function pref(aPrefName, aValue) {
@@ -1105,7 +1110,7 @@
     }
 
     function openHelp() {
-      var win = Components.classes['@mozilla.org/browser/browserglue;1'].getService(Components.interfaces.nsIBrowserGlue).getMostRecentBrowserWindow();
+      var win = Services.nsIBrowserGlue.getMostRecentBrowserWindow();
       win.gBrowser.loadOneTab(document.documentElement.getAttribute("helpURI"), null, null, null, false, false);
       win.focus();
     }

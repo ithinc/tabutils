@@ -75,7 +75,7 @@ tabutils._groupTabs = function() {
       this.detachTab(aTab);
 
     if (!bTab.hasAttribute("group")) {
-      bTab.setAttribute("group", Cc["@mozilla.org/uuid-generator;1"].getService(Ci.nsIUUIDGenerator).generateUUID());
+      bTab.setAttribute("group", Services.nsIUUIDGenerator.generateUUID());
       bTab.setAttribute("group-counter", 1);
     }
 
@@ -111,7 +111,7 @@ tabutils._groupTabs = function() {
 
     if (!options.suppressUpdate)
       this.updateGroup(bTab);
-    tabutils.dispatchEvent(aTab, "TabStacked", true, false);
+    tabutils.dispatchEvent(aTab, "TabStacked");
   };
 
   gBrowser.detachTab = function detachTab(aTab, aMove) {
@@ -125,7 +125,7 @@ tabutils._groupTabs = function() {
       delete aTab._suppressTabMove;
     }
     this.updateGroup(aTab, {excludeSelf: true});
-    tabutils.dispatchEvent(aTab, "TabUnstacked", true, false);
+    tabutils.dispatchEvent(aTab, "TabUnstacked");
 
     tabutils.removeAttribute(aTab, "group");
     tabutils.removeAttribute(aTab, "group-color");
@@ -157,7 +157,7 @@ tabutils._groupTabs = function() {
     if (tabcontent)
       tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
 
-    tabutils.dispatchEvent(aTab, "StackCollapsed", true, false);
+    tabutils.dispatchEvent(aTab, "StackCollapsed");
     this.mTabContainer.adjustTabstrip();
   };
 
@@ -174,7 +174,7 @@ tabutils._groupTabs = function() {
       if (tab.hasAttribute("group-counter"))
         aTab = tab;
     }
-    tabutils.dispatchEvent(aTab, "StackExpanded", true, false);
+    tabutils.dispatchEvent(aTab, "StackExpanded");
     this.mTabContainer.adjustTabstrip();
     this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[tabs.length - 1], false);
     this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[0], false);
@@ -206,7 +206,7 @@ tabutils._groupTabs = function() {
       }
     }
 
-    let group = options.id ? Cc["@mozilla.org/uuid-generator;1"].getService(Ci.nsIUUIDGenerator).generateUUID().toString()
+    let group = options.id ? Services.nsIUUIDGenerator.generateUUID().toString()
                            : aTab.getAttribute("group");
     let color = "color" in options ? options.color : aTab.getAttribute("group-color");
     let collapsed = aTab.getAttribute("group-collapsed") == "true";
@@ -394,7 +394,7 @@ tabutils._groupTabs = function() {
   });
 
   TU_hookCode("gBrowser.onTabClosing", "}", function() {
-    tabutils.deleteTabValue(aTab, "group-collapsed");
+    tabutils._ss.deleteTabValue(aTab, "group-collapsed");
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {

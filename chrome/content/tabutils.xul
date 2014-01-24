@@ -32,7 +32,7 @@
   <window id="main-window">
   <commandset id="tuCommandSet">
     <command id="cmd_tuOptions" oncommand="openDialog('chrome://tabutils/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=no').focus();"/>
-    <command id="cmd_copyPageLocation" oncommand="Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(gBrowser.currentURI.spec);"/>
+    <command id="cmd_copyPageLocation" oncommand="Services.nsIClipboardHelper.copyString(gBrowser.currentURI.spec);"/>
     <command id="cmd_cutPageLocation" oncommand="document.getElementById('cmd_copyPageLocation').doCommand();document.getElementById('cmd_close').doCommand();"/>
     <command id="cmd_pasteAndGo" oncommand="var url = readFromClipboard();if (url) if (gURLBar) {gURLBar.value = url;gURLBar.handleCommand();}"/>
     <command id="cmd_pasteAndSearch" oncommand="var url = readFromClipboard(), searchbar = BrowserSearch.searchBar;if (url) if (searchbar) {searchbar.value = url;searchbar.handleSearchCommand();}"/>
@@ -80,247 +80,6 @@
   </keyset>
 
   <popupset id="tuPopupSet">
-    <menupopup id="tabContextMenu-template">
-      <menuitem id="context_duplicateTab"
-                label="&duplicateTab.label;"
-                accesskey="&duplicateTab.accesskey;"
-                insertafter="context_newTab"
-                insertbefore="context_reloadTab"
-                key="key_duplicateTab"
-                oncommand="gBrowser.duplicateTab(gBrowser.mContextTab);"/>
-      <menu id="context_reloadEvery"
-            label="&reloadEvery.label;"
-            insertafter="context_reloadTab"
-            multiselected="any">
-        <menupopup onpopupshowing="gBrowser.updateAutoReloadPopup(event.target);"
-                   oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs, true, event.originalTarget.value);"
-                   minute="&minute.label;" minutes="&minutes.label;" second="&second.label;" seconds="&seconds.label;">
-          <menuitem anonid="enable" text="&reloadEvery.enable;" type="checkbox"
-                    oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs);event.stopPropagation();"/>
-          <menuseparator/>
-          <menuitem label="5 &seconds.label;" value="5" type="radio"/>
-          <menuitem label="10 &seconds.label;" value="10" type="radio"/>
-          <menuitem label="30 &seconds.label;" value="30" type="radio"/>
-          <menuitem label="1 &minute.label;" value="60" type="radio"/>
-          <menuitem label="2 &minutes.label;" value="120" type="radio"/>
-          <menuitem label="5 &minutes.label;" value="300" type="radio"/>
-          <menuitem label="10 &minutes.label;" value="600" type="radio"/>
-          <menuitem label="30 &minutes.label;" value="1800" type="radio"/>
-          <menuseparator/>
-          <menuitem anonid="custom" text="&reloadEvery.custom;" type="radio"
-                    oncommand="var reloadInterval = {value: this.value};if (Cc['@mozilla.org/embedcomp/prompt-service;1'].getService(Ci.nsIPromptService).prompt(null, '&reloadEvery.label;', '&reloadEvery.reloadInterval;', reloadInterval, null, {})) this.value = reloadInterval.value; else event.stopPropagation();"/>
-          <menuseparator/>
-          <menuitem anonid="enableAllTabs" label="&reloadEvery.enableAllTabs;"
-                    oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, true, this.parentNode.value);event.stopPropagation();"/>
-          <menuitem anonid="disableAllTabs" label="&reloadEvery.disableAllTabs;"
-                    oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, false);event.stopPropagation();"/>
-        </menupopup>
-      </menu>
-      <menu id="context_moveToWindow"
-            label="&moveToWindow.label;"
-            accesskey="&moveToWindow.accesskey;"
-            insertafter="context_openTabInWindow"
-            multiselected="any">
-        <menupopup onpopupshowing="tabutils.populateWindowMenu(event.target, true);"
-                   oncommand="gBrowser.moveTabToWindow(gBrowser.mContextTabs, event.originalTarget.window);">
-          <menuitem label="&newNavigatorCmd.label;"/>
-          <menuseparator/>
-        </menupopup>
-      </menu>
-      <menu id="context_mergeWindow"
-            label="&mergeWindow.label;"
-            accesskey="&mergeWindow.accesskey;">
-        <menupopup onpopupshowing="tabutils.populateWindowMenu(event.target);"
-                   oncommand="var tabbrowser = event.originalTarget.window.gBrowser;tabbrowser.moveTabToWindow(Array.slice(tabbrowser.mTabs), window);">
-          <menuitem label="&mergeAllWindows.label;"
-                    oncommand="for (var item = this.nextSibling.nextSibling; item; item = item.nextSibling) item.click();event.stopPropagation();"/>
-          <menuseparator/>
-        </menupopup>
-      </menu>
-      <menu id="context_recentlyClosedTabs"
-            label="&historyUndoMenu.label;"
-            insertafter="context_undoCloseTab">
-        <menupopup onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
-                   tooltip="bhTooltip" popupsinherittooltip="true"/>
-        <observes element="History:UndoCloseTab" attribute="disabled"/>
-      </menu>
-      <menuseparator insertbefore="context_closeTab"/>
-      <menuitem id="context_readTab"
-                label_unchecked="&readTab.label;"
-                label_checked="&unreadTab.label;"
-                accesskey="&readTab.accesskey;"
-                multiselected="any"
-                oncommand="gBrowser.unreadTab(gBrowser.mContextTabs, this.getAttribute('checked') == 'true');"/>
-      <menuitem id="context_protectTab"
-                label="&protectTab.label;"
-                accesskey="&protectTab.accesskey;"
-                key="key_protectTab"
-                type="checkbox"
-                multiselected="any"
-                oncommand="gBrowser.protectTab(gBrowser.mContextTabs);"/>
-      <menuitem id="context_lockTab"
-                label="&lockTab.label;"
-                accesskey="&lockTab.accesskey;"
-                key="key_lockTab"
-                type="checkbox"
-                multiselected="any"
-                oncommand="gBrowser.lockTab(gBrowser.mContextTabs);"/>
-      <menuitem id="context_faviconizeTab"
-                label="&faviconizeTab.label;"
-                accesskey="&faviconizeTab.accesskey;"
-                key="key_faviconizeTab"
-                type="checkbox"
-                multiselected="any"
-                oncommand="gBrowser.faviconizeTab(gBrowser.mContextTabs);"/>
-      <menuitem id="context_renameTab"
-                label="&renameTab.label;"
-                accesskey="&renameTab.accesskey;"
-                oncommand="var title = {value: gBrowser.mContextTab.label};if (Cc['@mozilla.org/embedcomp/prompt-service;1'].getService(Ci.nsIPromptService).prompt(null, '&renameTab.label;', '', title, null, {})) gBrowser.renameTab(gBrowser.mContextTab, title.value);"/>
-      <menuitem id="context_restartTab"
-                label="&restartTab.label;"
-                accesskey="&restartTab.accesskey;"
-                multiselected="any"
-                oncommand="gBrowser.mContextTabs.forEach(gBrowser.restartTab, gBrowser);"/>
-      <menuseparator/>
-      <menuitem id="context_groupTab"
-                label="&groupTab.label;"
-                accesskey="&groupTab.accesskey;"
-                multiselected="true"
-                oncommand="gBrowser.groupTabs(gBrowser.mContextTabs);"/>
-      <menuitem id="context_ungroupTab"
-                label="&ungroupTab.label;"
-                accesskey="&ungroupTab.accesskey;"
-                multiselected="any"
-                grouponly="true"
-                oncommand="gBrowser.ungroupTabs(gBrowser.mContextTabs);"/>
-      <menu id="context_tabStackMenu"
-            label="&tabStackMenu.label;"
-            accesskey="&tabStackMenu.accesskey;"
-            grouponly="true">
-        <menupopup>
-          <menuitem id="context_collapseGroup"
-                    label="&collapseGroup.label;"
-                    accesskey="&collapseGroup.accesskey;"
-                    grouponly="true"
-                    oncommand="gBrowser.collapseGroup(gBrowser.mContextTab);"/>
-          <menuitem id="context_expandGroup"
-                    label="&expandGroup.label;"
-                    accesskey="&expandGroup.accesskey;"
-                    grouponly="true"
-                    oncommand="gBrowser.expandGroup(gBrowser.mContextTab);"/>
-          <menuitem id="context_colorGroup"
-                    label="&colorGroup.label;"
-                    accesskey="&colorGroup.accesskey;"
-                    grouponly="true"
-                    oncommand="var tab = gBrowser.mContextTab; if (!tab.hasAttribute('group') || tab.getAttribute('group-counter') == 1) return; var color = {value: tab.getAttribute('group-color')};if (Cc['@mozilla.org/embedcomp/prompt-service;1'].getService(Ci.nsIPromptService).prompt(null, '&colorGroup.label;', '', color, null, {})) gBrowser.updateGroup(tab, {id: !color.value, color: color.value});"/>
-          <menuitem id="context_bookmarkGroup"
-                    label="&bookmarkGroup.label;"
-                    accesskey="&bookmarkGroup.accesskey;"
-                    grouponly="true"
-                    oncommand="gBrowser.bookmarkTab(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
-          <menuseparator/>
-          <menuitem id="context_splitGroup"
-                    label="&splitGroup.label;"
-                    accesskey="&splitGroup.accesskey;"
-                    grouponly="true"
-                    oncommand="gBrowser.groupTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab).filter(function(aTab) aTab._tPos >= gBrowser.mContextTab._tPos), null, true);"/>
-          <menuitem id="context_ungroupGroup"
-                    label="&ungroupGroup.label;"
-                    accesskey="&ungroupGroup.accesskey;"
-                    grouponly="true"
-                    oncommand="gBrowser.ungroupTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
-          <menuitem id="context_closeGroup"
-                    label="&closeGroup.label;"
-                    accesskey="&closeGroup.accesskey;"
-                    grouponly="true"
-                    oncommand="gBrowser.removeTabsBut(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
-        </menupopup>
-      </menu>
-      <menuseparator id="sep_closeTab"/>
-      <menuitem id="context_closeLeftTabs"
-                label="&closeLeftTabs.label;"
-                accesskey="&closeLeftTabs.accesskey;"
-                insertbefore="context_closeOtherTabs"
-                oncommand="gBrowser.closeLeftTabs(gBrowser.mContextTabs);"/>
-      <menuitem id="context_closeRightTabs"
-                label="&closeRightTabs.label;"
-                accesskey="&closeRightTabs.accesskey;"
-                oncommand="gBrowser.closeRightTabs(gBrowser.mContextTabs);"/>
-      <menuitem id="context_closeDuplicateTabs"
-                label="&closeDuplicateTabs.label;"
-                accesskey="&closeDuplicateTabs.accesskey;"
-                insertafter="context_closeOtherTabs"
-                multiselected="any"
-                oncommand="gBrowser.closeDuplicateTabs(gBrowser.mContextTabs);"/>
-      <menuitem id="context_closeSimilarTabs"
-                label="&closeSimilarTabs.label;"
-                accesskey="&closeSimilarTabs.accesskey;"
-                multiselected="any"
-                oncommand="gBrowser.closeSimilarTabs(gBrowser.mContextTabs);"/>
-      <menuseparator/>
-      <menuitem id="context_selectTab"
-                label="&selectTab.label;"
-                accesskey="&selectTab.accesskey;"
-                type="checkbox"
-                multiselected="any"
-                oncommand="gBrowser.selectTab(gBrowser.mContextTab);event.stopPropagation();"/>
-      <menuitem id="context_selectTabs"
-                label="&selectTabs.label;"
-                accesskey="&selectTabs.accesskey;"
-                multiselected="any"
-                oncommand="gBrowser.selectTabs(gBrowser.mContextTab);event.stopPropagation();"/>
-      <menuitem id="context_selectAllTabs"
-                label="&selectAllTabs.label;"
-                accesskey="&selectAllTabs.accesskey;"
-                multiselected="any"
-                oncommand="gBrowser.selectAllTabs();event.stopPropagation();"/>
-      <menuitem id="context_unselectAllTabs"
-                label="&unselectAllTabs.label;"
-                accesskey="&unselectAllTabs.accesskey;"
-                multiselected="any"
-                oncommand="gBrowser.selectedTabs = [];"/>
-      <menuitem id="context_invertSelection"
-                label="&invertSelection.label;"
-                accesskey="&invertSelection.accesskey;"
-                multiselected="any"
-                oncommand="gBrowser.selectedTabs = gBrowser.otherTabsOf(gBrowser.selectedTabs);event.stopPropagation();"/>
-    </menupopup>
-
-    <menupopup id="alltabs-popup-template">
-      <menuitem id="context_showAllTabs"
-                label="&showAllTabs.label;"
-                type="checkbox"
-                oncommand="TU_setPref('extensions.tabutils.showAllTabs', !TU_getPref('extensions.tabutils.showAllTabs'));"/>
-      <menuseparator/>
-      <menuitem id="context_readAllTabs"
-                label_unchecked="&readAllTabs.label;"
-                label_checked="&unreadAllTabs.label;"
-                oncommand="gBrowser.unreadTab(gBrowser.allTabs, this.getAttribute('checked') == 'true');"/>
-      <menuitem id="context_protectAllTabs"
-                label="&protectAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.protectTab(gBrowser.allTabs);"/>
-      <menuitem id="context_lockAllTabs"
-                label="&lockAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.lockTab(gBrowser.allTabs);"/>
-      <menuitem id="context_faviconizeAllTabs"
-                label="&faviconizeAllTabs.label;"
-                type="checkbox"
-                oncommand="gBrowser.faviconizeTab(gBrowser.allTabs);"/>
-      <menuitem id="context_restartAllTabs"
-                label="&restartAllTabs.label;"
-                oncommand="gBrowser.allTabs.forEach(gBrowser.restartTab, gBrowser);"/>
-      <menuseparator id="sep_closeAllTabs"/>
-      <menuitem id="context_closeAllTabs"
-                label="&closeAllTabs.label;"
-                oncommand="gBrowser.closeAllTabs();"/>
-      <menuitem id="context_closeAllDuplicateTabs"
-                label="&closeAllDuplicateTabs.label;"
-                oncommand="gBrowser.closeAllDuplicateTabs();"/>
-      <menuseparator/>
-    </menupopup>
-
     <menupopup id="tabStackPopup"
                onpopupshowing="gBrowser.updateTabStackPopup(event.target);"
                oncommand="gBrowser.selectedTab = gBrowser.mTabs[event.originalTarget.value];"
@@ -368,7 +127,41 @@
               insertbefore="context_reloadTab"
               oncommand="BrowserOpenTab();">
     </menuitem>
+    <menuitem id="context_duplicateTab"
+              label="&duplicateTab.label;"
+              accesskey="&duplicateTab.accesskey;"
+              insertbefore="context_reloadTab"
+              key="key_duplicateTab"
+              oncommand="gBrowser.duplicateTab(gBrowser.mContextTab);"/>
     <menuseparator insertbefore="context_reloadTab"/>
+    <menu id="context_reloadEvery"
+          label="&reloadEvery.label;"
+          insertafter="context_reloadTab"
+          multiselected="any">
+      <menupopup onpopupshowing="gBrowser.updateAutoReloadPopup(event.target);"
+                 oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs, true, event.originalTarget.value);"
+                 minute="&minute.label;" minutes="&minutes.label;" second="&second.label;" seconds="&seconds.label;">
+        <menuitem anonid="enable" text="&reloadEvery.enable;" type="checkbox"
+                  oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs);event.stopPropagation();"/>
+        <menuseparator/>
+        <menuitem label="5 &seconds.label;" value="5" type="radio"/>
+        <menuitem label="10 &seconds.label;" value="10" type="radio"/>
+        <menuitem label="30 &seconds.label;" value="30" type="radio"/>
+        <menuitem label="1 &minute.label;" value="60" type="radio"/>
+        <menuitem label="2 &minutes.label;" value="120" type="radio"/>
+        <menuitem label="5 &minutes.label;" value="300" type="radio"/>
+        <menuitem label="10 &minutes.label;" value="600" type="radio"/>
+        <menuitem label="30 &minutes.label;" value="1800" type="radio"/>
+        <menuseparator/>
+        <menuitem anonid="custom" text="&reloadEvery.custom;" type="radio"
+                  oncommand="var reloadInterval = {value: this.value};if (Services.prompt.prompt(null, '&reloadEvery.label;', '&reloadEvery.reloadInterval;', reloadInterval, null, {})) this.value = reloadInterval.value; else event.stopPropagation();"/>
+        <menuseparator/>
+        <menuitem anonid="enableAllTabs" label="&reloadEvery.enableAllTabs;"
+                  oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, true, this.parentNode.value);event.stopPropagation();"/>
+        <menuitem anonid="disableAllTabs" label="&reloadEvery.disableAllTabs;"
+                  oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, false);event.stopPropagation();"/>
+      </menupopup>
+    </menu>
     <menu id="context_tabViewMenu"
           multiselected="any">
       <menupopup id="context_tabViewMenuPopup"
@@ -389,6 +182,219 @@
         <menuseparator/>
       </menupopup>
     </menu>
+    <menu id="context_moveToWindow"
+          label="&moveToWindow.label;"
+          accesskey="&moveToWindow.accesskey;"
+          insertafter="context_openTabInWindow"
+          multiselected="any">
+      <menupopup onpopupshowing="tabutils.populateWindowMenu(event.target, true);"
+                 oncommand="gBrowser.moveTabToWindow(gBrowser.mContextTabs, event.originalTarget.window);">
+        <menuitem label="&newNavigatorCmd.label;"/>
+        <menuseparator/>
+      </menupopup>
+    </menu>
+    <menu id="context_mergeWindow"
+          label="&mergeWindow.label;"
+          accesskey="&mergeWindow.accesskey;"
+          insertafter="context_moveToWindow">
+      <menupopup onpopupshowing="tabutils.populateWindowMenu(event.target);"
+                 oncommand="var tabbrowser = event.originalTarget.window.gBrowser;tabbrowser.moveTabToWindow(Array.slice(tabbrowser.mTabs), window);">
+        <menuitem label="&mergeAllWindows.label;"
+                  oncommand="for (var item = this.nextSibling.nextSibling; item; item = item.nextSibling) item.click();event.stopPropagation();"/>
+        <menuseparator/>
+      </menupopup>
+    </menu>
+    <menu id="context_recentlyClosedTabs"
+          label="&historyUndoMenu.label;"
+          insertafter="context_undoCloseTab">
+      <menupopup onpopupshowing="return tabutils.populateUndoSubmenu(event.target);"
+                 tooltip="bhTooltip" popupsinherittooltip="true"/>
+      <observes element="History:UndoCloseTab" attribute="disabled"/>
+    </menu>
+    <menuseparator insertbefore="context_closeTab"/>
+    <menuitem id="context_readTab"
+              label_unchecked="&readTab.label;"
+              label_checked="&unreadTab.label;"
+              accesskey="&readTab.accesskey;"
+              insertbefore="context_closeTab"
+              multiselected="any"
+              oncommand="gBrowser.unreadTab(gBrowser.mContextTabs, this.getAttribute('checked') == 'true');"/>
+    <menuitem id="context_protectTab"
+              label="&protectTab.label;"
+              accesskey="&protectTab.accesskey;"
+              key="key_protectTab"
+              type="checkbox"
+              insertbefore="context_closeTab"
+              multiselected="any"
+              oncommand="gBrowser.protectTab(gBrowser.mContextTabs);"/>
+    <menuitem id="context_lockTab"
+              label="&lockTab.label;"
+              accesskey="&lockTab.accesskey;"
+              key="key_lockTab"
+              type="checkbox"
+              insertbefore="context_closeTab"
+              multiselected="any"
+              oncommand="gBrowser.lockTab(gBrowser.mContextTabs);"/>
+    <menuitem id="context_faviconizeTab"
+              label="&faviconizeTab.label;"
+              accesskey="&faviconizeTab.accesskey;"
+              key="key_faviconizeTab"
+              type="checkbox"
+              insertbefore="context_closeTab"
+              multiselected="any"
+              oncommand="gBrowser.faviconizeTab(gBrowser.mContextTabs);"/>
+    <menuitem id="context_renameTab"
+              label="&renameTab.label;"
+              accesskey="&renameTab.accesskey;"
+              insertbefore="context_closeTab"
+              oncommand="var title = {value: gBrowser.mContextTab.label};if (Services.prompt.prompt(null, '&renameTab.label;', '', title, null, {})) gBrowser.renameTab(gBrowser.mContextTab, title.value);"/>
+    <menuitem id="context_restartTab"
+              label="&restartTab.label;"
+              accesskey="&restartTab.accesskey;"
+              insertbefore="context_closeTab"
+              multiselected="any"
+              oncommand="gBrowser.mContextTabs.forEach(gBrowser.restartTab, gBrowser);"/>
+    <menuseparator insertbefore="context_closeTab"/>
+    <menuitem id="context_groupTab"
+              label="&groupTab.label;"
+              accesskey="&groupTab.accesskey;"
+              insertbefore="context_closeTab"
+              multiselected="true"
+              oncommand="gBrowser.groupTabs(gBrowser.mContextTabs);"/>
+    <menuitem id="context_ungroupTab"
+              label="&ungroupTab.label;"
+              accesskey="&ungroupTab.accesskey;"
+              insertbefore="context_closeTab"
+              multiselected="any"
+              grouponly="true"
+              oncommand="gBrowser.ungroupTabs(gBrowser.mContextTabs);"/>
+    <menu id="context_tabStackMenu"
+          label="&tabStackMenu.label;"
+          accesskey="&tabStackMenu.accesskey;"
+          insertbefore="context_closeTab"
+          grouponly="true">
+      <menupopup>
+        <menuitem id="context_collapseGroup"
+                  label="&collapseGroup.label;"
+                  accesskey="&collapseGroup.accesskey;"
+                  grouponly="true"
+                  oncommand="gBrowser.collapseGroup(gBrowser.mContextTab);"/>
+        <menuitem id="context_expandGroup"
+                  label="&expandGroup.label;"
+                  accesskey="&expandGroup.accesskey;"
+                  grouponly="true"
+                  oncommand="gBrowser.expandGroup(gBrowser.mContextTab);"/>
+        <menuitem id="context_colorGroup"
+                  label="&colorGroup.label;"
+                  accesskey="&colorGroup.accesskey;"
+                  grouponly="true"
+                  oncommand="var tab = gBrowser.mContextTab; if (!tab.hasAttribute('group') || tab.getAttribute('group-counter') == 1) return; var color = {value: tab.getAttribute('group-color')};if (Services.prompt.prompt(null, '&colorGroup.label;', '', color, null, {})) gBrowser.updateGroup(tab, {id: !color.value, color: color.value});"/>
+        <menuitem id="context_bookmarkGroup"
+                  label="&bookmarkGroup.label;"
+                  accesskey="&bookmarkGroup.accesskey;"
+                  grouponly="true"
+                  oncommand="gBrowser.bookmarkTab(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
+        <menuseparator/>
+        <menuitem id="context_splitGroup"
+                  label="&splitGroup.label;"
+                  accesskey="&splitGroup.accesskey;"
+                  grouponly="true"
+                  oncommand="gBrowser.groupTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab).filter(function(aTab) aTab._tPos >= gBrowser.mContextTab._tPos), null, true);"/>
+        <menuitem id="context_ungroupGroup"
+                  label="&ungroupGroup.label;"
+                  accesskey="&ungroupGroup.accesskey;"
+                  grouponly="true"
+                  oncommand="gBrowser.ungroupTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
+        <menuitem id="context_closeGroup"
+                  label="&closeGroup.label;"
+                  accesskey="&closeGroup.accesskey;"
+                  grouponly="true"
+                  oncommand="gBrowser.removeTabsBut(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
+      </menupopup>
+    </menu>
+    <menuseparator id="sep_closeTab" insertbefore="context_closeTab"/>
+    <menuitem id="context_closeLeftTabs"
+              label="&closeLeftTabs.label;"
+              accesskey="&closeLeftTabs.accesskey;"
+              oncommand="gBrowser.closeLeftTabs(gBrowser.mContextTabs);"/>
+    <menuitem id="context_closeRightTabs"
+              label="&closeRightTabs.label;"
+              accesskey="&closeRightTabs.accesskey;"
+              oncommand="gBrowser.closeRightTabs(gBrowser.mContextTabs);"/>
+    <menuitem id="context_closeDuplicateTabs"
+              label="&closeDuplicateTabs.label;"
+              accesskey="&closeDuplicateTabs.accesskey;"
+              multiselected="any"
+              oncommand="gBrowser.closeDuplicateTabs(gBrowser.mContextTabs);"/>
+    <menuitem id="context_closeSimilarTabs"
+              label="&closeSimilarTabs.label;"
+              accesskey="&closeSimilarTabs.accesskey;"
+              multiselected="any"
+              oncommand="gBrowser.closeSimilarTabs(gBrowser.mContextTabs);"/>
+    <menuseparator/>
+    <menuitem id="context_selectTab"
+              label="&selectTab.label;"
+              accesskey="&selectTab.accesskey;"
+              type="checkbox"
+              multiselected="any"
+              oncommand="gBrowser.selectTab(gBrowser.mContextTab);event.stopPropagation();"/>
+    <menuitem id="context_selectTabs"
+              label="&selectTabs.label;"
+              accesskey="&selectTabs.accesskey;"
+              multiselected="any"
+              oncommand="gBrowser.selectTabs(gBrowser.mContextTab);event.stopPropagation();"/>
+    <menuitem id="context_selectAllTabs"
+              label="&selectAllTabs.label;"
+              accesskey="&selectAllTabs.accesskey;"
+              multiselected="any"
+              oncommand="gBrowser.selectAllTabs();event.stopPropagation();"/>
+    <menuitem id="context_unselectAllTabs"
+              label="&unselectAllTabs.label;"
+              accesskey="&unselectAllTabs.accesskey;"
+              multiselected="any"
+              oncommand="gBrowser.selectedTabs = [];"/>
+    <menuitem id="context_invertSelection"
+              label="&invertSelection.label;"
+              accesskey="&invertSelection.accesskey;"
+              multiselected="any"
+              oncommand="gBrowser.selectedTabs = gBrowser.otherTabsOf(gBrowser.selectedTabs);event.stopPropagation();"/>
+  </menupopup>
+
+  <menupopup id="alltabs-popup"
+             oncommand="event.stopPropagation();"
+             onclick="if (event.button == 0) event.stopPropagation();">
+    <menuitem id="context_showAllTabs"
+              label="&showAllTabs.label;"
+              type="checkbox"
+              oncommand="TU_setPref('extensions.tabutils.showAllTabs', !TU_getPref('extensions.tabutils.showAllTabs'));"/>
+    <menuseparator/>
+    <menuitem id="context_readAllTabs"
+              label_unchecked="&readAllTabs.label;"
+              label_checked="&unreadAllTabs.label;"
+              oncommand="gBrowser.unreadTab(gBrowser.allTabs, this.getAttribute('checked') == 'true');"/>
+    <menuitem id="context_protectAllTabs"
+              label="&protectAllTabs.label;"
+              type="checkbox"
+              oncommand="gBrowser.protectTab(gBrowser.allTabs);"/>
+    <menuitem id="context_lockAllTabs"
+              label="&lockAllTabs.label;"
+              type="checkbox"
+              oncommand="gBrowser.lockTab(gBrowser.allTabs);"/>
+    <menuitem id="context_faviconizeAllTabs"
+              label="&faviconizeAllTabs.label;"
+              type="checkbox"
+              oncommand="gBrowser.faviconizeTab(gBrowser.allTabs);"/>
+    <menuitem id="context_restartAllTabs"
+              label="&restartAllTabs.label;"
+              oncommand="gBrowser.allTabs.forEach(gBrowser.restartTab, gBrowser);"/>
+    <menuseparator id="sep_closeAllTabs"/>
+    <menuitem id="context_closeAllTabs"
+              label="&closeAllTabs.label;"
+              oncommand="gBrowser.closeAllTabs();"/>
+    <menuitem id="context_closeAllDuplicateTabs"
+              label="&closeAllDuplicateTabs.label;"
+              oncommand="gBrowser.closeAllDuplicateTabs();"/>
+    <menuseparator/>
   </menupopup>
 
   <menupopup id="menu_ToolsPopup">
