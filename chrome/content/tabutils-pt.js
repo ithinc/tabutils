@@ -1,10 +1,8 @@
 //πÃ∂®±Í«©“≥
 tabutils._phantomTabs = function() {
   gBrowser.pinTab = function pinTab(aTab, aForce, aBookmarkId, aRestoring) {
-    try {
-    if (aForce == null && JSON.parse(tabutils._ss.getWindowState(window)).windows[0].busy)
+    if (arguments.length == 1)
       aForce = aRestoring = true;
-    } catch (e) {}
 
     if (aTab.pinned && aForce != true) {
       aTab.setAttribute("fadein", true);
@@ -67,10 +65,8 @@ tabutils._phantomTabs = function() {
   };
 
   gBrowser.unpinTab = function unpinTab(aTab, aForce, aBookmarkId, aRestoring) {
-    try {
-    if (JSON.parse(tabutils._ss.getWindowState(window)).windows[0].busy)
+    if (arguments.length == 1)
       aRestoring = true;
-    } catch (e) {}
 
     this.pinTab(aTab, false, null, aRestoring);
   };
