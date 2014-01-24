@@ -2924,9 +2924,9 @@ tabutils._tabPrefObserver = {
       case "browser.tabs.tabMinWidth": this.tabMinWidth();return;
       case "browser.tabs.tabMinHeight": this.tabMinHeight();return;
       case "browser.link.open_external": // Bug 509664 [Fx10]
-        if (gPrefService.prefHasUserValue(aData)) {
+        if (Services.prefs.prefHasUserValue(aData)) {
           TU_setPref("browser.link.open_newwindow.override.external", TU_getPref(aData));
-          gPrefService.clearUserPref(aData);
+          Services.prefs.clearUserPref(aData);
         }
         return;
     }
