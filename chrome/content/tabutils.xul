@@ -54,7 +54,7 @@
     <key id="key_lockTab" key="L" modifiers="accel,alt" oncommand="gBrowser.lockTab(gBrowser.mCurrentTab);"/>
     <key id="key_freezeTab" key="F" modifiers="accel,alt" oncommand="gBrowser.freezeTab(gBrowser.mCurrentTab);"/>
     <key id="key_faviconizeTab" key="I" modifiers="accel,alt" oncommand="gBrowser.faviconizeTab(gBrowser.mCurrentTab);"/>
-    <key id="key_pinTab" key="P" modifiers="accel,alt" oncommand="gBrowser.pinTab(gBrowser.mCurrentTab);"/>
+    <key id="key_pinTab" key="P" modifiers="accel,alt" oncommand="gBrowser.pinTab(gBrowser.mCurrentTab, !gBrowser.mCurrentTab.pinned);"/>
     <key id="key_closeLeftTabs" oncommand="gBrowser.closeLeftTabs(gBrowser.mCurrentTab);" keycode="VK_F3" modifiers="accel,shift"/>
     <key id="key_closeAllTabs" oncommand="gBrowser.closeAllTabs();" keycode="VK_F4" modifiers="accel,shift"/>
     <key id="key_closeRightTabs" oncommand="gBrowser.closeRightTabs(gBrowser.mCurrentTab);" keycode="VK_F5" modifiers="accel,shift"/>

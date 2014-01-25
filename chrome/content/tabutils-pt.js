@@ -1,8 +1,10 @@
 //¹Ì¶¨±êÇ©Ò³
 tabutils._phantomTabs = function() {
   gBrowser.pinTab = function pinTab(aTab, aForce, aRestoring, aBookmarkId) {
-    if (arguments.length == 1)
-      aForce = aRestoring = true;
+    if (arguments.length == 1) {
+      aForce = true;
+      aRestoring = false;
+    }
 
     if (aForce == aTab.pinned && (!aForce || aBookmarkId == aTab.bookmarkId))
       return;
@@ -29,7 +31,7 @@ tabutils._phantomTabs = function() {
       if (!aRestoring) {
         tabutils._ss.deleteTabValue(aTab, "pinned");
         tabutils._ss.deleteTabValue(aTab, "bookmarkId");
-        this.faviconizeTab(aTab, false, true);
+        this.faviconizeTab(aTab, false, false);
       }
       tabutils.dispatchEvent(aTab, "TabUnpinning");
 
@@ -58,7 +60,7 @@ tabutils._phantomTabs = function() {
       if (!aRestoring) {
         tabutils._ss.setTabValue(aTab, "pinned", true);
         tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
-        this.faviconizeTab(aTab, true, true);
+        this.faviconizeTab(aTab, true, false);
       }
       tabutils.dispatchEvent(aTab, "TabPinning");
 
@@ -74,7 +76,7 @@ tabutils._phantomTabs = function() {
     }
   };
 
-  gBrowser.unpinTab = function unpinTab(aTab) this.pinTab(aTab, false, true);
+  gBrowser.unpinTab = function unpinTab(aTab) this.pinTab(aTab, false, false);
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
     this.pinTab(aTab, aTab.pinned, true, ss.getTabValue(aTab, "bookmarkId"));
@@ -106,7 +108,7 @@ tabutils._phantomTabs = function() {
         aTags.indexOf("pinned") > -1 &&
         TU_getPref("extensions.tabutils.autoPin", true) &&
         !Array.some(this.mTabs, function(bTab) bTab.pinned && bTab.linkedBrowser.currentURI.spec == aURI.spec)) {
-      this.pinTab(aTab, true, false, PlacesUtils.getItemIdForTaggedURI(aURI, "pinned")); //Yes, it's false
+      this.pinTab(aTab, true, false, PlacesUtils.getItemIdForTaggedURI(aURI, "pinned"));
 
       if (aTab.mCorrespondingButton &&
           !TU_getPref("extensions.tabutils.pinTab.autoRevert", false) &&

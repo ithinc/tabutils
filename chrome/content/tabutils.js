@@ -1152,13 +1152,13 @@ tabutils._protectAndLockTab = function() {
 
   gBrowser.autoProtectTab = function autoProtectTab(aTab, aURI, aTags) {
     if (!aTab.hasAttribute("protected") && aTags.indexOf("protected") > -1 && TU_getPref("extensions.tabutils.autoProtect", true))
-      this.protectTab(aTab, true, true);
+      this.protectTab(aTab, true, false);
   };
 
   gBrowser.autoLockTab = function autoLockTab(aTab, aURI, aTags) {
     if (aURI.spec != "about:blank" && TU_getPref("extensions.tabutils.autoLock", true)) {
       let locked = tabutils.getURIsForTag("locked").some(function(bURI) aURI.spec.startsWith(bURI.spec));
-      this.lockTab(aTab, locked, true);
+      this.lockTab(aTab, locked, false);
     }
   };
 
@@ -1233,7 +1233,7 @@ tabutils._faviconizeTab = function() {
   gBrowser.autoFaviconizeTab = function autoFaviconizeTab(aTab, aURI, aTags) {
     if (this.mTabContainer.orient == "horizontal" && !aTab.pinned && aURI.spec != "about:blank" && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
       let faviconized = tabutils.getURIsForTag("faviconized").some(function(bURI) aURI.spec.startsWith(bURI.spec));
-      this.faviconizeTab(aTab, faviconized, true);
+      this.faviconizeTab(aTab, faviconized, false);
     }
   };
 
@@ -1277,7 +1277,7 @@ tabutils._renameTab = function() {
   gBrowser.autoRenameTab = function autoRenameTab(aTab, aURI, aTags) {
     if (!aTab.hasAttribute("title") && aTags.indexOf("autoRename") > -1 && TU_getPref("extensions.tabutils.autoRename", true)) {
       let itemId = PlacesUtils.getItemIdForTaggedURI(aURI, "autoRename");
-      this.renameTab(aTab, PlacesUtils.bookmarks.getItemTitle(itemId), true);
+      this.renameTab(aTab, PlacesUtils.bookmarks.getItemTitle(itemId), false);
     }
   };
 
@@ -1417,7 +1417,7 @@ tabutils._reloadEvery = function() {
       if (PlacesUtils.annotations.itemHasAnnotation(itemId, "reloadInterval")) {
         reloadInterval = PlacesUtils.annotations.getItemAnnotation(itemId, "reloadInterval");
       }
-      this.autoReloadTab(aTab, true, true, reloadInterval);
+      this.autoReloadTab(aTab, true, false, reloadInterval);
     }
   };
 
