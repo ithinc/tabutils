@@ -1080,14 +1080,14 @@ tabutils._protectAndLockTab = function() {
 
     if (!aForce) {
       tabutils.removeAttribute(aTab, "protected");
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["protected"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
     }
     else {
       tabutils.setAttribute(aTab, "protected", true);
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoProtect", true)) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoProtect", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["protected"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
@@ -1103,13 +1103,13 @@ tabutils._protectAndLockTab = function() {
 
     if (!aForce) {
       tabutils.removeAttribute(aTab, "locked");
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["locked"]);
       }
     }
     else {
       tabutils.setAttribute(aTab, "locked", true);
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoLock", true)) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoLock", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["locked"]);
       }
     }
@@ -1196,14 +1196,14 @@ tabutils._faviconizeTab = function() {
     if (!aForce) {
       tabutils.removeAttribute(aTab, "faviconized");
       tabutils._ss.setTabValue(aTab, "faviconized", false); //for pinned but not iconified tabs
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
     }
     else {
       tabutils.setAttribute(aTab, "faviconized", true);
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
@@ -1241,7 +1241,7 @@ tabutils._renameTab = function() {
     else
       tabutils.removeAttribute(aTab, "title");
 
-    if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoRename", true)) {
+    if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoRename", true)) {
       PlacesUtils.tagging[aTitle ? "tagURI" : "untagURI"](aTab.linkedBrowser.currentURI, ["autoRename"]);
 
       let itemId = PlacesUtils.getItemIdForTaggedURI(aTab.linkedBrowser.currentURI, "autoRename");
@@ -1357,7 +1357,7 @@ tabutils._reloadEvery = function() {
     if (!aForce) {
       tabutils.removeAttribute(aTab, "autoReload");
       tabutils._ss.deleteTabValue(aTab, "reloadInterval");
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["autoReload"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
@@ -1370,7 +1370,7 @@ tabutils._reloadEvery = function() {
       TU_setPref("extensions.tabutils.reloadInterval", aTab._reloadInterval);
       tabutils._ss.setTabValue(aTab, "reloadInterval", aTab._reloadInterval);
 
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoEnableAutoReload", true)) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoEnableAutoReload", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["autoReload"]);
 
         let itemId = PlacesUtils.getItemIdForTaggedURI(aTab.linkedBrowser.currentURI, "autoReload");

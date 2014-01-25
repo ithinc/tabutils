@@ -17,7 +17,7 @@ tabutils._phantomTabs = function() {
       if (!aRestoring)
         this.faviconizeTab(aTab, false, true);
 
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         let uri = aTab.linkedBrowser.currentURI;
         try {
           uri = PlacesUtils.bookmarks.getBookmarkURI(aTab.bookmarkId);
@@ -46,7 +46,7 @@ tabutils._phantomTabs = function() {
       if (!aRestoring)
         this.faviconizeTab(aTab, true, true);
 
-      if (!aRestoring && !aBookmarkId && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoPin", true)) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoPin", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["pinned"]);
         this.updatePinnedTabsBar();
 
