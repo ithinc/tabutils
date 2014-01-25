@@ -12,10 +12,7 @@ tabutils._phantomTabs = function() {
 
     if (!aForce) {
       aTab.setAttribute("fadein", true);
-      tabutils.removeAttribute(aTab, "pinned");
-
-      if (!aRestoring)
-        this.faviconizeTab(aTab, false, true);
+      aTab.removeAttribute("pinned");
 
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         let uri = aTab.linkedBrowser.currentURI;
@@ -28,7 +25,12 @@ tabutils._phantomTabs = function() {
         this.updatePinnedTabsBar();
       }
       aTab.bookmarkId = null;
-      tabutils._ss.deleteTabValue(aTab, "bookmarkId");
+
+      if (!aRestoring) {
+        tabutils._ss.deleteTabValue(aTab, "pinned");
+        tabutils._ss.deleteTabValue(aTab, "bookmarkId");
+        this.faviconizeTab(aTab, false, true);
+      }
       tabutils.dispatchEvent(aTab, "TabUnpinning");
 
       this.mTabContainer.positionPinnedTab(aTab);
@@ -41,10 +43,7 @@ tabutils._phantomTabs = function() {
       tabutils.dispatchEvent(aTab, "TabUnpinned");
     }
     else {
-      tabutils.setAttribute(aTab, "pinned", true);
-
-      if (!aRestoring)
-        this.faviconizeTab(aTab, true, true);
+      aTab.setAttribute("pinned", true);
 
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoPin", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["pinned"]);
@@ -55,7 +54,12 @@ tabutils._phantomTabs = function() {
       else {
         aTab.bookmarkId = aBookmarkId;
       }
-      tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
+
+      if (!aRestoring) {
+        tabutils._ss.setTabValue(aTab, "pinned", true);
+        tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
+        this.faviconizeTab(aTab, true, true);
+      }
       tabutils.dispatchEvent(aTab, "TabPinning");
 
       this.mTabContainer.positionPinnedTab(aTab);
