@@ -1483,8 +1483,9 @@ tabutils._bookmarkTabs = function() {
                                         URIList: tabURIs,
                                         hiddenRows: ["description"]}, window);
     }
-    else
-      PlacesCommandHook.bookmarkPage(aTabs[0].linkedBrowser, PlacesUtils.bookmarksMenuFolderId, true);
+    else {
+      PlacesCommandHook.bookmarkPage(aTabs[0].linkedBrowser);
+    }
   };
 
   TU_hookCode("PlacesCommandHook.bookmarkPage",
@@ -1911,7 +1912,6 @@ tabutils._multiTabHandler = function() {
     ["context_pinTab", "gBrowser.pinTab(gBrowser.mContextTabs, true);"],
     ["context_unpinTab", "gBrowser.pinTab(gBrowser.mContextTabs, false);"],
     ["context_openTabInWindow", "gBrowser.moveTabToWindow(gBrowser.mContextTabs);"],
-    ["context_bookmarkTab", "gBrowser.bookmarkTab(gBrowser.mContextTabs);"],
     ["context_closeTab", "gBrowser.removeTabsBut(gBrowser.mContextTabs);"],
     ["context_closeOtherTabs", "gBrowser.removeTabsBut(gBrowser.allTabs, gBrowser.mContextTabs);"]
   ].forEach(function([aId, aCommand]) {

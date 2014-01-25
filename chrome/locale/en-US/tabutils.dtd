@@ -12,6 +12,8 @@
 <!ENTITY mergeGroup.label "Merge Group">
 <!ENTITY mergeGroup.accesskey "M">
 <!ENTITY mergeAllGroups.label "Merge All Groups">
+<!ENTITY bookmarkTab.label "Bookmark This Tab">
+<!ENTITY bookmarkTab.accesskey "B">
 <!ENTITY readTab.label "Mark As Read">
 <!ENTITY unreadTab.label "Mark As Unread">
 <!ENTITY readTab.accesskey "M">

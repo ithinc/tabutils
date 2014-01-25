@@ -524,6 +524,7 @@
       <preference id="context_moveToWindow" name="extensions.tabutils.menu.context_moveToWindow" type="bool" suggest="true"/>
       <preference id="context_mergeWindow" name="extensions.tabutils.menu.context_mergeWindow" type="bool" suggest="true"/>
       <preference id="context_mergeGroup" name="extensions.tabutils.menu.context_mergeGroup" type="bool" suggest="true"/>
+      <preference id="context_bookmarkTab" name="extensions.tabutils.menu.context_bookmarkTab" type="bool"/>
       <preference id="context_recentlyClosedTabs" name="extensions.tabutils.menu.context_recentlyClosedTabs" type="bool" suggest="true"/>
       <preference id="context_readTab" name="extensions.tabutils.menu.context_readTab" type="bool"/>
       <preference id="context_protectTab" name="extensions.tabutils.menu.context_protectTab" type="bool" suggest="true"/>
@@ -729,6 +730,7 @@
               <checkbox preference="context_moveToWindow" label="&moveToWindow.label;"/>
               <checkbox preference="context_mergeWindow" label="&mergeWindow.label;"/>
               <checkbox preference="context_mergeGroup" label="&mergeGroup.label;"/>
+              <checkbox preference="context_bookmarkTab" label="&bookmarkTab.label;"/>
               <checkbox preference="context_recentlyClosedTabs" label="&historyUndoMenu.label;"/>
               <separator class="groove"/>
               <checkbox preference="context_readTab" label="&readTab.label;"/>

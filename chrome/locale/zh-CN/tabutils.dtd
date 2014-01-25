@@ -12,6 +12,8 @@
 <!ENTITY mergeGroup.label "合并分组">
 <!ENTITY mergeGroup.accesskey "M">
 <!ENTITY mergeAllGroups.label "合并所有分组">
+<!ENTITY bookmarkTab.label "将此标签页加入书签">
+<!ENTITY bookmarkTab.accesskey "B">
 <!ENTITY readTab.label "标记为已读">
 <!ENTITY unreadTab.label "标记为未读">
 <!ENTITY readTab.accesskey "M">

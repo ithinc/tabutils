@@ -116,6 +116,7 @@ pref("extensions.tabutils.menu.context_moveToWindow", false);
 pref("extensions.tabutils.menu.context_mergeWindow", false);
 pref("extensions.tabutils.menu.context_tabViewMenu", true);
 pref("extensions.tabutils.menu.context_mergeGroup", false);
+pref("extensions.tabutils.menu.context_bookmarkTab", false);
 pref("extensions.tabutils.menu.context_recentlyClosedTabs", true);
 pref("extensions.tabutils.menu.context_readTab", false);
 pref("extensions.tabutils.menu.context_protectTab", false);

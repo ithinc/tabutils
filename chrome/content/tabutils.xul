@@ -204,6 +204,12 @@
         <menuseparator/>
       </menupopup>
     </menu>
+    <menuitem id="context_bookmarkTab"
+              label="&bookmarkTab.label;"
+              accesskey="&bookmarkTab.accesskey;"
+              insertafter="context_bookmarkAllTabs"
+              multiselected="any"
+              oncommand="gBrowser.bookmarkTab(gBrowser.mContextTabs);"/>
     <menu id="context_recentlyClosedTabs"
           label="&historyUndoMenu.label;"
           insertafter="context_undoCloseTab">
