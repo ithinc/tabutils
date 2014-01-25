@@ -513,9 +513,14 @@ tabutils._singleWindowMode = function() {
   tabutils.addEventListener(window, "popupshown", function(event) {
     var singleWindowMode = TU_getPref("extensions.tabutils.singleWindowMode", false);
     [
+      "appmenu_newNavigator",
+      "appmenu_newPrivateWindow",
+      "appmenu_recentlyClosedWindowsMenu",
       "menu_newNavigator",
+      "menu_newPrivateWindow",
       "historyUndoWindowMenu",
       "context-openlink",
+      "context-openlinkprivate",
       "context-openframe",
       "placesContext_open:newwindow"
     ].forEach(function(aId) {
