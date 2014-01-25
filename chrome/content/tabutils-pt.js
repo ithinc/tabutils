@@ -1,10 +1,10 @@
 //¹Ì¶¨±êÇ©Ò³
 tabutils._phantomTabs = function() {
-  gBrowser.pinTab = function pinTab(aTab, aForce, aBookmarkId, aRestoring) {
+  gBrowser.pinTab = function pinTab(aTab, aForce, aRestoring, aBookmarkId) {
     if (arguments.length == 1)
       aForce = aRestoring = true;
 
-    if (aForce == aTab.pinned && !aForce)
+    if (aForce == aTab.pinned && (!aForce || aBookmarkId == aTab.bookmarkId))
       return;
 
     if (aForce == null)
@@ -70,15 +70,10 @@ tabutils._phantomTabs = function() {
     }
   };
 
-  gBrowser.unpinTab = function unpinTab(aTab, aForce, aBookmarkId, aRestoring) {
-    if (arguments.length == 1)
-      aRestoring = true;
-
-    this.pinTab(aTab, false, null, aRestoring);
-  };
+  gBrowser.unpinTab = function unpinTab(aTab) this.pinTab(aTab, false, true);
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
-    this.pinTab(aTab, aTab.pinned, ss.getTabValue(aTab, "bookmarkId"), true);
+    this.pinTab(aTab, aTab.pinned, true, ss.getTabValue(aTab, "bookmarkId"));
 
     if (aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoRevert", false)) {
       let uri;
@@ -107,7 +102,7 @@ tabutils._phantomTabs = function() {
         aTags.indexOf("pinned") > -1 &&
         TU_getPref("extensions.tabutils.autoPin", true) &&
         !Array.some(this.mTabs, function(bTab) bTab.pinned && bTab.linkedBrowser.currentURI.spec == aURI.spec)) {
-      this.pinTab(aTab, true, PlacesUtils.getItemIdForTaggedURI(aURI, "pinned"), false); //Yes, it's false
+      this.pinTab(aTab, true, false, PlacesUtils.getItemIdForTaggedURI(aURI, "pinned")); //Yes, it's false
 
       if (aTab.mCorrespondingButton &&
           !TU_getPref("extensions.tabutils.pinTab.autoRevert", false) &&

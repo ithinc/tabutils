@@ -139,7 +139,7 @@
           insertafter="context_reloadTab"
           multiselected="any">
       <menupopup onpopupshowing="gBrowser.updateAutoReloadPopup(event.target);"
-                 oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs, true, event.originalTarget.value);"
+                 oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs, true, null, event.originalTarget.value);"
                  minute="&minute.label;" minutes="&minutes.label;" second="&second.label;" seconds="&seconds.label;">
         <menuitem anonid="enable" text="&reloadEvery.enable;" type="checkbox"
                   oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs);event.stopPropagation();"/>
@@ -157,7 +157,7 @@
                   oncommand="var reloadInterval = {value: this.value};if (Services.prompt.prompt(null, '&reloadEvery.label;', '&reloadEvery.reloadInterval;', reloadInterval, null, {})) this.value = reloadInterval.value; else event.stopPropagation();"/>
         <menuseparator/>
         <menuitem anonid="enableAllTabs" label="&reloadEvery.enableAllTabs;"
-                  oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, true, this.parentNode.value);event.stopPropagation();"/>
+                  oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, true, null, this.parentNode.value);event.stopPropagation();"/>
         <menuitem anonid="disableAllTabs" label="&reloadEvery.disableAllTabs;"
                   oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, false);event.stopPropagation();"/>
       </menupopup>

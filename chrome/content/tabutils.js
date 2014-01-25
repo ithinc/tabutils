@@ -1347,8 +1347,8 @@ tabutils._restartTab = function() {
 
 //自动刷新标签页
 tabutils._reloadEvery = function() {
-  gBrowser.autoReloadTab = function autoReloadTab(aTab, aForce, aInterval, aRestoring) {
-    if (aForce == aTab.hasAttribute("autoReload") && !aForce)
+  gBrowser.autoReloadTab = function autoReloadTab(aTab, aForce, aRestoring, aInterval) {
+    if (aForce == aTab.hasAttribute("autoReload") && (!aForce || aInterval == aTab._reloadInterval))
       return;
 
     if (aForce == null)
@@ -1388,7 +1388,7 @@ tabutils._reloadEvery = function() {
   };
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
-    this.autoReloadTab(aTab, ss.getTabValue(aTab, "autoReload") == "true", ss.getTabValue(aTab, "reloadInterval"), true);
+    this.autoReloadTab(aTab, ss.getTabValue(aTab, "autoReload") == "true", true, ss.getTabValue(aTab, "reloadInterval"));
   });
 
   gBrowser.autoAutoReloadTab = function autoAutoReloadTab(aTab, aURI, aTags) {
@@ -1397,7 +1397,7 @@ tabutils._reloadEvery = function() {
       if (PlacesUtils.annotations.itemHasAnnotation(itemId, "reloadInterval")) {
         reloadInterval = PlacesUtils.annotations.getItemAnnotation(itemId, "reloadInterval");
       }
-      this.autoReloadTab(aTab, true, reloadInterval, true);
+      this.autoReloadTab(aTab, true, true, reloadInterval);
     }
   };
 
