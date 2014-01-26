@@ -71,10 +71,24 @@
       <preference id="userDefinedURL" name="browser.newtab.url" type="string"/>
     </preferences>
 
+    <preferences>
+      <preference id="autoStack" name="extensions.tabutils.autoStack" type="bool" suggest="true"/>
+      <preference id="dragToStack" name="extensions.tabutils.dragToStack" type="bool" suggest="true"/>
+      <preference id="colorStack" name="extensions.tabutils.colorStack" type="bool" suggest="true"/>
+      <preference id="mouseHoverPopup" name="extensions.tabutils.mouseHoverPopup" type="bool" suggest="true"/>
+      <preference id="mouseHoverPopupDelay" name="extensions.tabutils.mouseHoverPopupDelay" type="int"/>
+
+      <preference id="autoCollapseNewStack" name="extensions.tabutils.autoCollapseNewStack" type="bool"/>
+      <preference id="autoCollapseStackOnBlur" name="extensions.tabutils.autoCollapseStackOnBlur" type="bool"/>
+      <preference id="autoExpandStackAndCollapseOthersOnSelect" name="extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect" type="bool"/>
+      <preference id="autoExpandStackOnDragover" name="extensions.tabutils.autoExpandStackOnDragover" type="bool"/>
+    </preferences>
+
     <tabbox>
       <tabs>
         <tab label="&pane1.tab1.title;"/>
         <tab label="&pane1.tab2.title;"/>
+        <tab label="&tabStacking.caption;"/>
       </tabs>
       <tabpanels>
         <tabpanel orient="vertical">
@@ -226,6 +240,25 @@
             <caption label="&handleCtrlTab.caption;"/>
             <checkbox preference="handleCtrlTab" label="&handleCtrlTab.label;"/>
             <checkbox preference="handleCtrlArrow" label="&handleCtrlArrow.label;"/>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel orient="vertical">
+          <groupbox>
+            <caption label="&tabStacking.caption;"/>
+            <checkbox preference="autoStack" label="&autoStack.label;"/>
+            <checkbox preference="dragToStack" label="&dragToStack.label;"/>
+            <checkbox preference="colorStack" label="&colorizeStack.label;"/>
+            <hbox align="center">
+              <checkbox preference="mouseHoverPopup" label="&mouseHoverPopup.label;"/>
+              <textbox preference="mouseHoverPopupDelay" type="number" increment="50" size="4" maxlength="4"/>
+              <label value="&time.label;"/>
+            </hbox>
+            <separator class="groove"/>
+            <checkbox preference="autoCollapseNewStack" label="&autoCollapseNewStack.label;"/>
+            <checkbox preference="autoCollapseStackOnBlur" label="&autoCollapseStackOnBlur.label;"/>
+            <checkbox preference="autoExpandStackAndCollapseOthersOnSelect" label="&autoExpandStackAndCollapseOthersOnSelect.label;"/>
+            <checkbox preference="autoExpandStackOnDragover" label="&autoExpandStackOnDragover.label;"/>
           </groupbox>
         </tabpanel>
       </tabpanels>

@@ -244,10 +244,10 @@ pref("extensions.tabutils.restartAfter", 0);
 //Tab Stack
 pref("extensions.tabutils.autoStack", true);
 pref("extensions.tabutils.autoExpandStackOnDragover", false);
-pref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", true);
+pref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", false);
 pref("extensions.tabutils.autoCollapseStackOnBlur", false);
 pref("extensions.tabutils.autoCollapseNewStack", true);
-pref("extensions.tabutils.dragToStack", false);
+pref("extensions.tabutils.dragToStack", true);
 pref("extensions.tabutils.mouseHoverPopup", true);
 pref("extensions.tabutils.mouseHoverPopupDelay", 750);
 

@@ -162,3 +162,12 @@
 <!ENTITY statusbar.caption "状态栏">
 <!ENTITY hideStatusbarpanel.label1 "隐藏 [">
 <!ENTITY hideStatusbarpanel.label2 "]">
+<!ENTITY tabStacking.caption "堆叠标签页">
+<!ENTITY autoStack.label "自动堆叠从链接或书签组打开的标签页">
+<!ENTITY dragToStack.label "拖放创建新堆叠">
+<!ENTITY colorizeStack.label "彩色标签页堆叠">
+<!ENTITY mouseHoverPopup.label "鼠标悬停时显示堆叠内标签页列表, 延迟">
+<!ENTITY autoCollapseNewStack.label "自动折叠新堆叠">
+<!ENTITY autoCollapseStackOnBlur.label "切换到堆叠外时自动折叠堆叠">
+<!ENTITY autoExpandStackAndCollapseOthersOnSelect.label "切换到堆叠时自动展开堆叠, 同时折叠其它堆叠">
+<!ENTITY autoExpandStackOnDragover.label "拖放悬停时自动展开堆叠">

@@ -162,3 +162,12 @@
 <!ENTITY statusbar.caption "Status Bar">
 <!ENTITY hideStatusbarpanel.label1 "Hide [">
 <!ENTITY hideStatusbarpanel.label2 "]">
+<!ENTITY tabStacking.caption "Tab Stacking">
+<!ENTITY autoStack.label "Auto-stack tabs from links or a group of bookmarks">
+<!ENTITY dragToStack.label "Drop one tab onto another to make a new stack">
+<!ENTITY colorizeStack.label "Colorize tab stacks">
+<!ENTITY mouseHoverPopup.label "List tabs inside a collapsed stack with a delay of">
+<!ENTITY autoCollapseNewStack.label "Collapse new stacks">
+<!ENTITY autoCollapseStackOnBlur.label "Collapse a stack when leaving it">
+<!ENTITY autoExpandStackAndCollapseOthersOnSelect.label "Expand a stack when focusing it, and collapse others simultaneously">
+<!ENTITY autoExpandStackOnDragover.label "Expand a stack when dragging over it">
