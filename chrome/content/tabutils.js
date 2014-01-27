@@ -1208,7 +1208,7 @@ tabutils._faviconizeTab = function() {
     if (!aForce) {
       aTab.removeAttribute("faviconized");
       if (!aRestoring)
-        tabutils._ss[aTab.pinned ? "setTabValue" : "deleteTabValue"](aTab, "faviconized", false);
+        tabutils._ss.deleteTabValue(aTab, "faviconized");
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
       }
@@ -1226,8 +1226,7 @@ tabutils._faviconizeTab = function() {
   };
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
-    this.faviconizeTab(aTab, ss.getTabValue(aTab, "faviconized") == "true" ||
-                             ss.getTabValue(aTab, "faviconized") != "false" && aTab.pinned, true);
+    this.faviconizeTab(aTab, ss.getTabValue(aTab, "faviconized") == "true", true);
   });
 
   gBrowser.autoFaviconizeTab = function autoFaviconizeTab(aTab, aURI, aTags) {
@@ -2323,7 +2322,7 @@ tabutils._miscFeatures = function() {
               break;
             case ".tab-throbber[pinned], .tab-icon-image[pinned]":
             case ".tab-throbber[pinned], .tab-icon-image[pinned], .tabs-newtab-button > .toolbarbutton-icon":
-              tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, ".tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)"));
+              tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, '.tabbrowser-tabs[orient="horizontal"] > .tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)'));
               break;
           }
         }
@@ -2434,24 +2433,29 @@ tabutils._tabContextMenu = function() {
     item.setAttribute("disabled", gBrowser.mContextTabs.every(function(aTab) aTab.selected));
 
     [
-      ["context_protectTab", ["protected"]],
-      ["context_lockTab", ["locked"]],
-      ["context_faviconizeTab", ["faviconized"]]
-    ].forEach(function([aId, aAttrs]) {
-      $(aId).setAttribute("checked", gBrowser.mContextTabs.every(function(aTab) aAttrs.every(function(aAttr) aTab.hasAttribute(aAttr))));
+      ["context_protectTab", "protected", "autoProtect"],
+      ["context_lockTab", "locked", "autoLock"],
+      ["context_faviconizeTab", "faviconized", "autoFaviconize"]
+    ].forEach(function([aId, aAttr, aPref]) {
+      let item = $(aId);
+      if (item && !item.hidden && !item.collapsed) {
+        let disabled = TU_getPref("extensions.tabutils.pinTab." + aPref, false) &&
+                       gBrowser.mContextTabs.every(function(aTab) aTab.pinned && !aTab.hasAttribute(aAttr));
+        item.setAttribute("disabled", disabled);
+        item.setAttribute("checked", disabled || gBrowser.mContextTabs.every(function(aTab) aTab.hasAttribute(aAttr)));
+      }
     });
 
-    var autoProtect = TU_getPref("extensions.tabutils.pinTab.autoProtect", false);
-    var autoLock = TU_getPref("extensions.tabutils.pinTab.autoLock", false);
-    var disableProtect = autoProtect && gBrowser.mContextTabs.every(function(aTab) aTab.pinned && !aTab.hasAttribute("protected"));
-    var disableLock = autoLock && gBrowser.mContextTabs.every(function(aTab) aTab.pinned && !aTab.hasAttribute("locked"));
-
-    if (disableProtect) $("context_protectTab").setAttribute("checked", true);
-    if (disableLock) $("context_lockTab").setAttribute("checked", true);
+    if (gBrowser.mTabContainer.orient == "vertical") {
+      let item = $("context_faviconizeTab");
+      if (item && !item.hidden && !item.collapsed) {
+        item.setAttribute("disabled", gBrowser.mContextTabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
+        if (item.getAttribute("checked") != "true" && gBrowser.mContextTabs.every(function(aTab) aTab.pinned))
+          item.setAttribute("checked", true);
+      }
+    }
 
     $("context_closeTab").setAttribute("disabled", $("context_protectTab").getAttribute("checked") == "true");
-    $("context_protectTab").setAttribute("disabled", disableProtect);
-    $("context_lockTab").setAttribute("disabled", disableLock);
 
     var disableLeft = gBrowser.leftTabsOf(gBrowser.mContextTabs).length == 0;
     var disableRight = gBrowser.rightTabsOf(gBrowser.mContextTabs).length == 0;
@@ -2610,12 +2614,20 @@ tabutils._allTabsPopup = function() {
     item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
 
     [
-      ["context_protectAllTabs", ["protected"]],
-      ["context_lockAllTabs", ["locked"]],
-      ["context_faviconizeAllTabs", ["faviconized"]]
-    ].forEach(function([aId, aAttrs]) {
-      $(aId).setAttribute("checked", tabs.every(function(aTab) aAttrs.every(function(aAttr) aTab.hasAttribute(aAttr))));
+      ["context_protectAllTabs", "protected"],
+      ["context_lockAllTabs", "locked"],
+      ["context_faviconizeAllTabs", "faviconized"]
+    ].forEach(function([aId, aAttr]) {
+      let item = $(aId);
+      if (item && !item.hidden && !item.collapsed)
+        item.setAttribute("checked", tabs.every(function(aTab) aTab.hasAttribute(aAttr)));
     });
+
+    if (gBrowser.mTabContainer.orient == "vertical") {
+      let item = $("context_faviconizeAllTabs");
+      if (item && !item.hidden && !item.collapsed)
+        item.setAttribute("disabled", tabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
+    }
   }, true);
 
   function $() {return document.getElementById.apply(document, arguments);}
@@ -3136,6 +3148,12 @@ tabutils._tabPrefObserver = {
     let tabsToolbar = document.getElementById("TabsToolbar");
     if (tabsToolbar._dragBindingAlive != null)
       tabsToolbar._dragBindingAlive = TU_getPref("extensions.tabutils.dragBindingAlive", true);
+  },
+
+  pinTab_autoFaviconize: function() {
+    gBrowser.mTabContainer.setAttribute("autoFaviconizePinned", TU_getPref("extensions.tabutils.pinTab.autoFaviconize"));
+    gBrowser.mTabContainer.positionPinnedTabs();
+    gBrowser.mTabContainer.adjustTabstrip();
   },
 
   pinTab_showPhantom: function() {

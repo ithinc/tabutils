@@ -77,6 +77,8 @@ menuseparator:last-child {
 }
 
 /* Pinned Tab */
+.tabbrowser-tabs[orient="vertical"] > .tabbrowser-tab[pinned],
+.tabbrowser-tabs[autoFaviconizePinned="true"] > .tabbrowser-tab[pinned],
 .tabbrowser-tab[faviconized] {
   min-width: -moz-min-content !important;
 }
@@ -87,7 +89,7 @@ menuseparator:last-child {
   -moz-box-flex: 0 !important;
 }
 
-.tabbrowser-tab[faviconized] .tab-text:not(.tab-badge),
+.tabbrowser-tabs[orient="horizontal"] > .tabbrowser-tab[faviconized] .tab-text:not(.tab-badge),
 .tabbrowser-tab[protected]:not([autoReload]) .tab-close-button,
 .tabbrowser-tab[faviconized]:not([autoReload]) .tab-close-button,
 .tabbrowser-tab[pinned]:not([autoReload]) .tab-close-button {

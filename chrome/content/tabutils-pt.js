@@ -31,7 +31,6 @@ tabutils._phantomTabs = function() {
       if (!aRestoring) {
         tabutils._ss.deleteTabValue(aTab, "pinned");
         tabutils._ss.deleteTabValue(aTab, "bookmarkId");
-        this.faviconizeTab(aTab, false, false);
       }
       tabutils.dispatchEvent(aTab, "TabUnpinning");
 
@@ -60,7 +59,6 @@ tabutils._phantomTabs = function() {
       if (!aRestoring) {
         tabutils._ss.setTabValue(aTab, "pinned", true);
         tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
-        this.faviconizeTab(aTab, true, false);
       }
       tabutils.dispatchEvent(aTab, "TabPinning");
 
