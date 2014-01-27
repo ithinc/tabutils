@@ -223,7 +223,7 @@ pref("extensions.tabutils.autoPin", true);
 pref("extensions.tabutils.autoRename", true);
 pref("extensions.tabutils.autoEnableAutoReload", true);
 pref("extensions.tabutils.pinTab.autoProtect", false);
-pref("extensions.tabutils.pinTab.autoLock", false);
+pref("extensions.tabutils.pinTab.autoLock", true);
 pref("extensions.tabutils.pinTab.autoFaviconize", true);
 pref("extensions.tabutils.pinTab.autoRevert", false);
 pref("extensions.tabutils.pinTab.showPhantom", true);
