@@ -14,7 +14,7 @@
 <!ENTITY mergeAllGroups.label "Merge All Groups">
 <!ENTITY readTab.label "Mark As Read">
 <!ENTITY unreadTab.label "Mark As Unread">
-<!ENTITY readTab.accesskey "R">
+<!ENTITY readTab.accesskey "M">
 <!ENTITY protectTab.label "Protect Tab">
 <!ENTITY protectTab.tooltip "Protect a tab from being closed">
 <!ENTITY protectTab.accesskey "P">

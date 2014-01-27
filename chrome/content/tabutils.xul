@@ -213,12 +213,12 @@
     </menu>
     <menuseparator insertbefore="context_closeTab"/>
     <menuitem id="context_readTab"
-              label_unchecked="&readTab.label;"
-              label_checked="&unreadTab.label;"
+              label_read="&readTab.label;"
+              label_unread="&unreadTab.label;"
               accesskey="&readTab.accesskey;"
               insertbefore="context_closeTab"
               multiselected="any"
-              oncommand="gBrowser.unreadTab(gBrowser.mContextTabs, this.getAttribute('checked') == 'true');"/>
+              oncommand="gBrowser.unreadTab(gBrowser.mContextTabs, this.getAttribute('label') == this.getAttribute('label_unread'));"/>
     <menuitem id="context_protectTab"
               label="&protectTab.label;"
               accesskey="&protectTab.accesskey;"
@@ -369,9 +369,9 @@
               oncommand="TU_setPref('extensions.tabutils.showAllTabs', !TU_getPref('extensions.tabutils.showAllTabs'));"/>
     <menuseparator/>
     <menuitem id="context_readAllTabs"
-              label_unchecked="&readAllTabs.label;"
-              label_checked="&unreadAllTabs.label;"
-              oncommand="gBrowser.unreadTab(gBrowser.allTabs, this.getAttribute('checked') == 'true');"/>
+              label_read="&readAllTabs.label;"
+              label_unread="&unreadAllTabs.label;"
+              oncommand="gBrowser.unreadTab(gBrowser.allTabs, this.getAttribute('label') == this.getAttribute('label_unread'));"/>
     <menuitem id="context_protectAllTabs"
               label="&protectAllTabs.label;"
               type="checkbox"

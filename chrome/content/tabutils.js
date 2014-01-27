@@ -2425,10 +2425,11 @@ tabutils._tabContextMenu = function() {
       lastVisibleItem.hidden = true;
 
     var item = $("context_readTab");
-    var checked = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
-    item.setAttribute("label", checked ? item.getAttribute("label_checked") : item.getAttribute("label_unchecked"));
-    item.setAttribute("checked", checked);
-    item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
+    if (item && !item.hidden && !item.collapsed) {
+      let unread = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+      item.setAttribute("label", unread ? item.getAttribute("label_unread") : item.getAttribute("label_read"));
+      item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
+    }
 
     [
       ["context_protectTab", "protected", "autoProtect"],
@@ -2455,15 +2456,17 @@ tabutils._tabContextMenu = function() {
 
     $("context_closeTab").setAttribute("disabled", $("context_protectTab").getAttribute("checked") == "true");
 
-    var disableLeft = gBrowser.leftTabsOf(tabs).length == 0;
-    var disableRight = gBrowser.rightTabsOf(tabs).length == 0;
-    var disableOther = gBrowser.otherTabsOf(tabs).length == 0;
-
-    $("context_closeLeftTabs").setAttribute("disabled", disableLeft);
-    $("context_closeRightTabs").setAttribute("disabled", disableRight);
-    $("context_closeOtherTabs").setAttribute("disabled", disableOther);
-    $("context_closeDuplicateTabs").setAttribute("disabled", disableOther);
-    $("context_closeSimilarTabs").setAttribute("disabled", disableOther);
+    [
+      ["context_closeLeftTabs", "leftTabsOf"],
+      ["context_closeRightTabs", "rightTabsOf"],
+      ["context_closeOtherTabs", "otherTabsOf"],
+      ["context_closeDuplicateTabs", "otherTabsOf"],
+      ["context_closeSimilarTabs", "otherTabsOf"]
+    ].forEach(function([aId, aMethod]) {
+      let item = $(aId);
+      if (item && !item.hidden && !item.collapsed)
+        item.setAttribute("disabled", gBrowser[aMethod](tabs).length == 0);
+    });
 
     var selectedTabs = gBrowser.selectedTabs;
     $("context_groupTab").setAttribute("disabled", selectedTabs.length <= 1);
@@ -2604,15 +2607,18 @@ tabutils._allTabsPopup = function() {
     }
 
     var item = $("context_showAllTabs");
-    item.setAttribute("checked", gBrowser.mTabContainer.getAttribute("showAllTabs"));
-    item.setAttribute("disabled", gBrowser.mTabContainer.orient == "vertical");
+    if (item && !item.hidden && !item.collapsed) {
+      item.setAttribute("checked", gBrowser.mTabContainer.getAttribute("showAllTabs"));
+      item.setAttribute("disabled", gBrowser.mTabContainer.orient == "vertical");
+    }
 
     var tabs = gBrowser.allTabs;
     var item = $("context_readAllTabs");
-    var checked = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
-    item.setAttribute("label", checked ? item.getAttribute("label_checked") : item.getAttribute("label_unchecked"));
-    item.setAttribute("checked", checked);
-    item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
+    if (item && !item.hidden && !item.collapsed) {
+      let unread = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+      item.setAttribute("label", unread ? item.getAttribute("label_unread") : item.getAttribute("label_read"));
+      item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
+    }
 
     [
       ["context_protectAllTabs", "protected"],
@@ -2629,6 +2635,9 @@ tabutils._allTabsPopup = function() {
       if (item && !item.hidden && !item.collapsed)
         item.setAttribute("disabled", tabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
     }
+
+    $("context_closeAllTabs").setAttribute("disabled", $("context_protectAllTabs").getAttribute("checked") == "true");
+    $("context_closeAllDuplicateTabs").setAttribute("disabled", $("context_protectAllTabs").getAttribute("checked") == "true");
   }, true);
 
   function $() {return document.getElementById.apply(document, arguments);}
