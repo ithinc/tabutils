@@ -1166,7 +1166,8 @@ tabutils._protectAndLockTab = function() {
   TU_hookCode("gBrowser.onLocationChange", "}", "this.autoProtectTab(aTab, uri, tags);this.autoLockTab(aTab, uri, tags);");
 
   TU_hookCode("gBrowser.removeTab", "{", function() {
-    if (aTab.hasAttribute("protected") || aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoProtect", false))
+    if (aTab.hasAttribute("protected") ||
+        aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoProtect", false))
       return;
   });
   TU_hookCode("gBrowser.createTooltip", /(tab|tn).mOverCloseButton/, "$& && !$1.hasAttribute('protected')");
@@ -1305,10 +1306,12 @@ tabutils._renameTab = function() {
   );
 };
 
-//÷ÿ∆Ù±Í«©“≥
+// Restart Tab
 tabutils._restartTab = function() {
   gBrowser.restartTab = function restartTab(aTab) {
-    if (aTab.hasAttribute("pending")) // Bug 817947 [Fx20]
+    if (aTab.hasAttribute("pending") || // Bug 817947 [Fx20]
+        aTab.hasAttribute("locked") ||
+        aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoLock", false))
       return;
 
     var tabState = tabutils._ss.getTabState(aTab);
@@ -1321,15 +1324,13 @@ tabutils._restartTab = function() {
   };
 
   gBrowser.autoRestartTab = function autoRestartTab(aTab) {
-    if (aTab.selected || aTab._restartTimer || ["busy", "pending"].some(function(aAttr) aTab.hasAttribute(aAttr)))
+    if (aTab.selected || aTab._restartTimer ||
+        ["busy", "pending"].some(function(aAttr) aTab.hasAttribute(aAttr)) ||
+        isBlankPageURL(aTab.linkedBrowser.currentURI.spec))
       return;
 
     let restartAfter = TU_getPref("extensions.tabutils.restartAfter", 0);
     if (restartAfter == 0)
-      return;
-
-    let spec = aTab.linkedBrowser.currentURI.spec;
-    if (isBlankPageURL(spec) || tabutils.getURIsForTag("norestart").some(function(aURI) spec.startsWith(aURI.spec)))
       return;
 
     aTab._restartTimer = setTimeout(function(aTab) {
@@ -2455,6 +2456,7 @@ tabutils._tabContextMenu = function() {
     }
 
     $("context_closeTab").setAttribute("disabled", $("context_protectTab").getAttribute("checked") == "true");
+    $("context_restartTab").setAttribute("disabled", $("context_lockTab").getAttribute("checked") == "true");
 
     [
       ["context_closeLeftTabs", "leftTabsOf"],
@@ -2638,6 +2640,7 @@ tabutils._allTabsPopup = function() {
 
     $("context_closeAllTabs").setAttribute("disabled", $("context_protectAllTabs").getAttribute("checked") == "true");
     $("context_closeAllDuplicateTabs").setAttribute("disabled", $("context_protectAllTabs").getAttribute("checked") == "true");
+    $("context_restartAllTabs").setAttribute("disabled", $("context_lockAllTabs").getAttribute("checked") == "true");
   }, true);
 
   function $() {return document.getElementById.apply(document, arguments);}
@@ -3223,7 +3226,7 @@ tabutils._tabPrefObserver = {
 };
 
 tabutils._tagsFolderObserver = {
-  _tags: ["protected", "locked", "faviconized", "pinned", "autoRename", "autoReload", "norestart"],
+  _tags: ["protected", "locked", "faviconized", "pinned", "autoRename", "autoReload"],
   _tagIds: [],
   _taggedURIs: [],
 
