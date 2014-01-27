@@ -121,6 +121,7 @@ pref("extensions.tabutils.menu.context_closeLeftTabs", false);
 pref("extensions.tabutils.menu.context_closeRightTabs", false);
 pref("extensions.tabutils.menu.context_closeTabsToTheEnd", false);
 pref("extensions.tabutils.menu.context_closeOtherTabs", true);
+pref("extensions.tabutils.menu.context_closeOtherTabs.insertafter", "context_closeRightTabs");
 pref("extensions.tabutils.menu.context_closeDuplicateTabs", false);
 pref("extensions.tabutils.menu.context_closeSimilarTabs", false);
 pref("extensions.tabutils.menu.context_selectTab", false);
