@@ -2379,8 +2379,6 @@ tabutils._tabContextMenu = function() {
   function $() {return document.getElementById.apply(document, arguments);}
 
   var tabContextMenu = gBrowser.tabContextMenu;
-  tabContextMenu.insertBefore($("context_closeOtherTabs"), $("context_closeRightTabs").nextSibling);
-
   tabutils.addEventListener(tabContextMenu.parentNode, "popupshowing", function(event) {
     if (event.target != tabContextMenu)
       return;
@@ -2393,12 +2391,12 @@ tabutils._tabContextMenu = function() {
     if (event.target != tabContextMenu)
       return;
 
-    gBrowser.mContextTabs = gBrowser.contextTabsOf(gBrowser.mContextTab);
+    let tabs = gBrowser.mContextTabs = gBrowser.contextTabsOf(gBrowser.mContextTab);
 
     var mselected = gBrowser.mContextTab.hasAttribute("multiselected");
-    var grouponly = gBrowser.mContextTabs.every(function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1);
-//    var disableCollapse = grouponly && gBrowser.mContextTabs.every(function(aTab) aTab.getAttribute("group-collapsed") == "true");
-//    var disableExpand = grouponly && gBrowser.mContextTabs.every(function(aTab) aTab.getAttribute("group-collapsed") != "true");
+    var grouponly = tabs.every(function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1);
+//    var disableCollapse = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") == "true");
+//    var disableExpand = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") != "true");
 
     var contextTab = gBrowser.mContextTab;
     $("context_collapseGroup").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true");
@@ -2427,10 +2425,10 @@ tabutils._tabContextMenu = function() {
       lastVisibleItem.hidden = true;
 
     var item = $("context_readTab");
-    var checked = gBrowser.mContextTabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+    var checked = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
     item.setAttribute("label", checked ? item.getAttribute("label_checked") : item.getAttribute("label_unchecked"));
     item.setAttribute("checked", checked);
-    item.setAttribute("disabled", gBrowser.mContextTabs.every(function(aTab) aTab.selected));
+    item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
 
     [
       ["context_protectTab", "protected", "autoProtect"],
@@ -2440,26 +2438,26 @@ tabutils._tabContextMenu = function() {
       let item = $(aId);
       if (item && !item.hidden && !item.collapsed) {
         let disabled = TU_getPref("extensions.tabutils.pinTab." + aPref, false) &&
-                       gBrowser.mContextTabs.every(function(aTab) aTab.pinned && !aTab.hasAttribute(aAttr));
+                       tabs.every(function(aTab) aTab.pinned && !aTab.hasAttribute(aAttr));
         item.setAttribute("disabled", disabled);
-        item.setAttribute("checked", disabled || gBrowser.mContextTabs.every(function(aTab) aTab.hasAttribute(aAttr)));
+        item.setAttribute("checked", disabled || tabs.every(function(aTab) aTab.hasAttribute(aAttr)));
       }
     });
 
     if (gBrowser.mTabContainer.orient == "vertical") {
       let item = $("context_faviconizeTab");
       if (item && !item.hidden && !item.collapsed) {
-        item.setAttribute("disabled", gBrowser.mContextTabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
-        if (item.getAttribute("checked") != "true" && gBrowser.mContextTabs.every(function(aTab) aTab.pinned))
+        item.setAttribute("disabled", tabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
+        if (item.getAttribute("checked") != "true" && tabs.every(function(aTab) aTab.pinned))
           item.setAttribute("checked", true);
       }
     }
 
     $("context_closeTab").setAttribute("disabled", $("context_protectTab").getAttribute("checked") == "true");
 
-    var disableLeft = gBrowser.leftTabsOf(gBrowser.mContextTabs).length == 0;
-    var disableRight = gBrowser.rightTabsOf(gBrowser.mContextTabs).length == 0;
-    var disableOther = gBrowser.otherTabsOf(gBrowser.mContextTabs).length == 0;
+    var disableLeft = gBrowser.leftTabsOf(tabs).length == 0;
+    var disableRight = gBrowser.rightTabsOf(tabs).length == 0;
+    var disableOther = gBrowser.otherTabsOf(tabs).length == 0;
 
     $("context_closeLeftTabs").setAttribute("disabled", disableLeft);
     $("context_closeRightTabs").setAttribute("disabled", disableRight);
@@ -2594,7 +2592,10 @@ tabutils._allTabsPopup = function() {
       allTabsPopup.removeChild(allTabsPopup.firstChild);
 
     var lastVisibleItem = null;
-    for (let item = allTabsPopup.firstChild; item && !item.tab; item = item.nextSibling) {
+    for (let item of allTabsPopup.childNodes) {
+      if (item.tab)
+        break;
+
       if (item.localName == "menuseparator")
         item.hidden = !lastVisibleItem || lastVisibleItem.localName == "menuseparator";
 
