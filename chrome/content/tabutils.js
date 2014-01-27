@@ -2322,7 +2322,7 @@ tabutils._miscFeatures = function() {
               break;
             case ".tab-throbber[pinned], .tab-icon-image[pinned]":
             case ".tab-throbber[pinned], .tab-icon-image[pinned], .tabs-newtab-button > .toolbarbutton-icon":
-              tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, ".tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)"));
+              tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, '.tabbrowser-tabs[orient="horizontal"] > .tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)'));
               break;
           }
         }
@@ -2445,6 +2445,15 @@ tabutils._tabContextMenu = function() {
         item.setAttribute("checked", disabled || gBrowser.mContextTabs.every(function(aTab) aTab.hasAttribute(aAttr)));
       }
     });
+
+    if (gBrowser.mTabContainer.orient == "vertical") {
+      let item = $("context_faviconizeTab");
+      if (item && !item.hidden && !item.collapsed) {
+        item.setAttribute("disabled", gBrowser.mContextTabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
+        if (item.getAttribute("checked") != "true" && gBrowser.mContextTabs.every(function(aTab) aTab.pinned))
+          item.setAttribute("checked", true);
+      }
+    }
 
     $("context_closeTab").setAttribute("disabled", $("context_protectTab").getAttribute("checked") == "true");
 
@@ -2613,6 +2622,12 @@ tabutils._allTabsPopup = function() {
       if (item && !item.hidden && !item.collapsed)
         item.setAttribute("checked", tabs.every(function(aTab) aTab.hasAttribute(aAttr)));
     });
+
+    if (gBrowser.mTabContainer.orient == "vertical") {
+      let item = $("context_faviconizeAllTabs");
+      if (item && !item.hidden && !item.collapsed)
+        item.setAttribute("disabled", tabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
+    }
   }, true);
 
   function $() {return document.getElementById.apply(document, arguments);}
