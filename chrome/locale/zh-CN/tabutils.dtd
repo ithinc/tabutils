@@ -14,7 +14,7 @@
 <!ENTITY mergeAllGroups.label "合并所有分组">
 <!ENTITY readTab.label "标记为已读">
 <!ENTITY unreadTab.label "标记为未读">
-<!ENTITY readTab.accesskey "R">
+<!ENTITY readTab.accesskey "M">
 <!ENTITY protectTab.label "保护标签页">
 <!ENTITY protectTab.tooltip "保护标签页不被关闭">
 <!ENTITY protectTab.accesskey "P">

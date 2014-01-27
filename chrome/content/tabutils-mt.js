@@ -98,10 +98,10 @@ tabutils._multirowTabs = function() {
     if (["onxbldrop", "ondrop"].indexOf(arguments.callee.caller.name) > -1) {
       if (aTab.pinned) {
         if (aIndex >= this._numPinnedTabs)
-          this.unpinTab(aTab);
+          this.pinTab(aTab, false);
       } else {
         if (aIndex < this._numPinnedTabs)
-          this.pinTab(aTab);
+          this.pinTab(aTab, true);
       }
     }
   });
