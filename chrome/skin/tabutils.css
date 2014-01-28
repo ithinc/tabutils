@@ -89,7 +89,7 @@ menuseparator:last-child {
   -moz-box-flex: 0 !important;
 }
 
-.tabbrowser-tabs[orient="horizontal"] > .tabbrowser-tab[faviconized] .tab-text:not(.tab-badge),
+[orient="horizontal"] > .tabbrowser-tab[faviconized] .tab-text:not(.tab-badge),
 .tabbrowser-tab[protected]:not([autoReload]) .tab-close-button,
 .tabbrowser-tab[faviconized]:not([autoReload]) .tab-close-button,
 .tabbrowser-tab[pinned]:not([autoReload]) .tab-close-button {
