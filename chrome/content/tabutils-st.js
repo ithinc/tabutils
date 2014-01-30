@@ -516,35 +516,37 @@ tabutils._stackTabs = function() {
                      $0
   }).toString().replace(/^.*{|}$/g, "").replace("$0", s, "g").replace("$1", s1, "g"));
 
-  if (gBrowser.mTabContainer.mAllTabsPopup)
-  TU_hookCode("gBrowser.mTabContainer.mAllTabsPopup._setMenuitemAttributes",
-    ["aTab.selected", '$& || aTab.hasAttribute("group-counter") && arguments.callee.caller == gBrowser.updateTabStackPopup']
-  );
+  gBrowser._setMenuitemAttributes = function _setMenuitemAttributes(aItem, aTab) {
+    ["label", "crop", "image"].forEach(function(aProp) {
+      aItem[aProp] = aTab[aProp];
+    });
+
+    ["busy", "pending", "unread"].forEach(function(aAttr) {
+      if (aTab.hasAttribute(aAttr))
+        aItem.setAttribute(aAttr, "true");
+      else
+        aItem.removeAttribute(aAttr);
+    });
+
+    if (aTab.hasAttribute("busy"))
+      aItem.removeAttribute("image");
+
+    if (aTab.hasAttribute("group-counter"))
+      aItem.setAttribute("selected", "true");
+    else
+      aItem.removeAttribute("selected");
+  };
 
   gBrowser.updateTabStackPopup = function updateTabStackPopup(aPopup) {
     while (aPopup.hasChildNodes())
       aPopup.removeChild(aPopup.lastChild);
 
-    let tabs = this.siblingTabsOf(this.mTabs[aPopup.value]);
-    for (let tab of tabs) {
-      let item = document.createElement("menuitem");
+    for (let tab of this.siblingTabsOf(this.mTabs[aPopup.value])) {
+      let item = aPopup.appendChild(document.createElement("menuitem"));
       item.setAttribute("class", "menuitem-iconic alltabs-item menuitem-with-favicon");
-      item.setAttribute("label", tab.label);
-      item.setAttribute("crop", tab.crop);
-
-      if (tab.hasAttribute("busy"))
-        item.setAttribute("busy", "true");
-      else
-        item.setAttribute("image", tab.image);
-
-      if (tab.hasAttribute("group-counter"))
-        item.setAttribute("selected", "true");
-
-      if (gBrowser.mTabContainer.mAllTabsPopup)
-        gBrowser.mTabContainer.mAllTabsPopup._setMenuitemAttributes(item, tab);
-
       item.value = tab._tPos;
-      aPopup.appendChild(item);
+
+      gBrowser._setMenuitemAttributes(item, tab);
     }
   };
 
@@ -556,7 +558,7 @@ tabutils._stackTabs = function() {
     let tab = event.target;
     for (let item of popup.childNodes) {
       if (item.value == tab._tPos) {
-        gBrowser.mTabContainer.mAllTabsPopup._setMenuitemAttributes(item, tab);
+        gBrowser._setMenuitemAttributes(item, tab);
         break;
       }
     }
