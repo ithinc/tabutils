@@ -22,7 +22,7 @@ var tabutils = {
     this._bookmarkTabs();
     this._tabView();
     this._multiTabHandler();
-    this._groupTabs();
+    this._stackTabs();
     this._multirowTabs();
     this._verticalTabs();
 
@@ -1876,7 +1876,7 @@ tabutils._multiTabHandler = function() {
     }, aWindow.gBrowser);
 
     if (bTabs.length > 1 && aWindow.TU_getPref("extensions.tabutils.autoStack", false))
-      aWindow.gBrowser.groupTabs(bTabs);
+      aWindow.gBrowser.stackTabs(bTabs);
 
     return aWindow;
   };
@@ -1899,7 +1899,7 @@ tabutils._multiTabHandler = function() {
         }, this);
 
         if (bTabs.length < this.mTabs.length && TU_getPref("extensions.tabutils.autoStack", false))
-          this.groupTabs(bTabs);
+          this.stackTabs(bTabs);
 
         return;
       }
@@ -2167,12 +2167,12 @@ tabutils._tabClickingOptions = function() {
         break;
       case 51: //Collapse/Expand Stack
         if (gBrowser.mContextTab.getAttribute("group-collapsed") == "true")
-          $("context_expandGroup").doCommand();
+          $("context_expandStack").doCommand();
         else
-          $("context_collapseGroup").doCommand();
+          $("context_collapseStack").doCommand();
         break;
       case 52: //Recolor Stack
-        $("context_colorGroup").doCommand();
+        $("context_colorStack").doCommand();
         break;
       default: //Do Nothing
         break;
@@ -2405,9 +2405,9 @@ tabutils._tabContextMenu = function() {
 //    var disableExpand = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") != "true");
 
     var contextTab = gBrowser.mContextTab;
-    $("context_collapseGroup").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true");
-    $("context_expandGroup").setAttribute("disabled", contextTab.getAttribute("group-collapsed") != "true");
-    $("context_splitGroup").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true" ||
+    $("context_collapseStack").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true");
+    $("context_expandStack").setAttribute("disabled", contextTab.getAttribute("group-collapsed") != "true");
+    $("context_splitStack").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true" ||
                                                      contextTab.hasAttribute("group-first") ||
                                                      contextTab.hasAttribute("group-last"));
 
@@ -2476,7 +2476,7 @@ tabutils._tabContextMenu = function() {
     });
 
     var selectedTabs = gBrowser.selectedTabs;
-    $("context_groupTab").setAttribute("disabled", selectedTabs.length <= 1);
+    $("context_stackTab").setAttribute("disabled", selectedTabs.length <= 1);
     $("context_selectTab").setAttribute("checked", mselected);
     $("context_unselectAllTabs").setAttribute("disabled", selectedTabs.length == 0);
 
@@ -2856,7 +2856,7 @@ tabutils._tabPrefObserver = {
 
     //Tab stack coloring
     if (/^extensions.tabutils.colorStack.([0-9A-Fa-f]+)$/.test(aData)) {
-      this.updateGroupColor(RegExp.$1, TU_getPref(aData));
+      this.updateStackColor(RegExp.$1, TU_getPref(aData));
       return;
     }
 
@@ -3194,7 +3194,7 @@ tabutils._tabPrefObserver = {
   selectedTabTexture: "-moz-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.5) 50%)",
 
   _tabColoringRules: {},
-  updateGroupColor: function(group, color) {
+  updateStackColor: function(group, color) {
     if (color && !(group in this._tabColoringRules)) {
       let selectorText;
       if (group[0] == "{")

@@ -90,23 +90,23 @@
 <!ENTITY hide.label "Hide">
 <!ENTITY tabsToolbarCmd.label "Tabs Toolbar">
 <!ENTITY tabsToolbarCmd.accesskey "T">
-<!ENTITY groupTab.label "Stack Tabs">
-<!ENTITY groupTab.accesskey "S">
-<!ENTITY ungroupTab.label "Unstack Tab">
-<!ENTITY ungroupTab.accesskey "U">
+<!ENTITY stackTab.label "Stack Tabs">
+<!ENTITY stackTab.accesskey "S">
+<!ENTITY unstackTab.label "Unstack Tab">
+<!ENTITY unstackTab.accesskey "U">
 <!ENTITY tabStackMenu.label "Tab Stack">
 <!ENTITY tabStackMenu.accesskey "S">
-<!ENTITY collapseGroup.label "Collapse Stack">
-<!ENTITY collapseGroup.accesskey "C">
-<!ENTITY expandGroup.label "Expand Stack">
-<!ENTITY expandGroup.accesskey "E">
-<!ENTITY colorGroup.label "Recolor Stack...">
-<!ENTITY colorGroup.accesskey "R">
-<!ENTITY bookmarkGroup.label "Bookmark Stack...">
-<!ENTITY bookmarkGroup.accesskey "B">
-<!ENTITY splitGroup.label "Split Stack">
-<!ENTITY splitGroup.accesskey "S">
-<!ENTITY ungroupGroup.label "Unstack Stack">
-<!ENTITY ungroupGroup.accesskey "U">
-<!ENTITY closeGroup.label "Close Stack">
-<!ENTITY closeGroup.accesskey "C">
+<!ENTITY collapseStack.label "Collapse Stack">
+<!ENTITY collapseStack.accesskey "C">
+<!ENTITY expandStack.label "Expand Stack">
+<!ENTITY expandStack.accesskey "E">
+<!ENTITY colorStack.label "Recolor Stack...">
+<!ENTITY colorStack.accesskey "R">
+<!ENTITY bookmarkStack.label "Bookmark Stack...">
+<!ENTITY bookmarkStack.accesskey "B">
+<!ENTITY splitStack.label "Split Stack">
+<!ENTITY splitStack.accesskey "S">
+<!ENTITY unstackStack.label "Unstack Stack">
+<!ENTITY unstackStack.accesskey "U">
+<!ENTITY closeStack.label "Close Stack">
+<!ENTITY closeStack.accesskey "C">

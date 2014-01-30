@@ -90,23 +90,23 @@
 <!ENTITY hide.label "Nie wyświetlaj przycisku">
 <!ENTITY tabsToolbarCmd.label "Pasek kart">
 <!ENTITY tabsToolbarCmd.accesskey "T">
-<!ENTITY groupTab.label "Ułóż karty w stos">
-<!ENTITY groupTab.accesskey "U">
-<!ENTITY ungroupTab.label "Rozłóż karty ze stosu">
-<!ENTITY ungroupTab.accesskey "R">
+<!ENTITY stackTab.label "Ułóż karty w stos">
+<!ENTITY stackTab.accesskey "U">
+<!ENTITY unstackTab.label "Rozłóż karty ze stosu">
+<!ENTITY unstackTab.accesskey "R">
 <!ENTITY tabStackMenu.label "Stos kart">
 <!ENTITY tabStackMenu.accesskey "S">
-<!ENTITY collapseGroup.label "Zwiń stos">
-<!ENTITY collapseGroup.accesskey "Z">
-<!ENTITY expandGroup.label "Rozwiń stos">
-<!ENTITY expandGroup.accesskey "R">
-<!ENTITY colorGroup.label "Zmień kolor stosu…">
-<!ENTITY colorGroup.accesskey "Z">
-<!ENTITY bookmarkGroup.label "Dodaj zakładki do stosu…">
-<!ENTITY bookmarkGroup.accesskey "D">
-<!ENTITY splitGroup.label "Podziel stos">
-<!ENTITY splitGroup.accesskey "P">
-<!ENTITY ungroupGroup.label "Cofnij podział stosu">
-<!ENTITY ungroupGroup.accesskey "C">
-<!ENTITY closeGroup.label "Zamknij stos">
-<!ENTITY closeGroup.accesskey "M">
+<!ENTITY collapseStack.label "Zwiń stos">
+<!ENTITY collapseStack.accesskey "Z">
+<!ENTITY expandStack.label "Rozwiń stos">
+<!ENTITY expandStack.accesskey "R">
+<!ENTITY colorStack.label "Zmień kolor stosu…">
+<!ENTITY colorStack.accesskey "Z">
+<!ENTITY bookmarkStack.label "Dodaj zakładki do stosu…">
+<!ENTITY bookmarkStack.accesskey "D">
+<!ENTITY splitStack.label "Podziel stos">
+<!ENTITY splitStack.accesskey "P">
+<!ENTITY unstackStack.label "Cofnij podział stosu">
+<!ENTITY unstackStack.accesskey "C">
+<!ENTITY closeStack.label "Zamknij stos">
+<!ENTITY closeStack.accesskey "M">

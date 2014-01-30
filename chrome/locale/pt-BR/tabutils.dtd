@@ -90,23 +90,23 @@
 <!ENTITY hide.label "Esconder">
 <!ENTITY tabsToolbarCmd.label "Barra de Ferramentas das Abas">
 <!ENTITY tabsToolbarCmd.accesskey "B">
-<!ENTITY groupTab.label "Agrupar Abas">
-<!ENTITY groupTab.accesskey "A">
-<!ENTITY ungroupTab.label "Desagrupar Abas">
-<!ENTITY ungroupTab.accesskey "D">
+<!ENTITY stackTab.label "Agrupar Abas">
+<!ENTITY stackTab.accesskey "A">
+<!ENTITY unstackTab.label "Desagrupar Abas">
+<!ENTITY unstackTab.accesskey "D">
 <!ENTITY tabStackMenu.label "Menu Grupo de Abas">
 <!ENTITY tabStackMenu.accesskey "M">
-<!ENTITY collapseGroup.label "Reduzir Grupo">
-<!ENTITY collapseGroup.accesskey "z">
-<!ENTITY expandGroup.label "Expandir Grupo">
-<!ENTITY expandGroup.accesskey "E">
-<!ENTITY colorGroup.label "Alterar Cor do Grupo...">
-<!ENTITY colorGroup.accesskey "C">
-<!ENTITY bookmarkGroup.label "Colocar Grupo nas Preferências...">
-<!ENTITY bookmarkGroup.accesskey "P">
-<!ENTITY splitGroup.label "Dividir Grupo">
-<!ENTITY splitGroup.accesskey "i">
-<!ENTITY ungroupGroup.label "Desfazer Grupo">
-<!ENTITY ungroupGroup.accesskey "f">
-<!ENTITY closeGroup.label "Fechar Grupo">
-<!ENTITY closeGroup.accesskey "h">
+<!ENTITY collapseStack.label "Reduzir Grupo">
+<!ENTITY collapseStack.accesskey "z">
+<!ENTITY expandStack.label "Expandir Grupo">
+<!ENTITY expandStack.accesskey "E">
+<!ENTITY colorStack.label "Alterar Cor do Grupo...">
+<!ENTITY colorStack.accesskey "C">
+<!ENTITY bookmarkStack.label "Colocar Grupo nas Preferências...">
+<!ENTITY bookmarkStack.accesskey "P">
+<!ENTITY splitStack.label "Dividir Grupo">
+<!ENTITY splitStack.accesskey "i">
+<!ENTITY unstackStack.label "Desfazer Grupo">
+<!ENTITY unstackStack.accesskey "f">
+<!ENTITY closeStack.label "Fechar Grupo">
+<!ENTITY closeStack.accesskey "h">

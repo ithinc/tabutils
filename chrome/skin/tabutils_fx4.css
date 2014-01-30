@@ -66,7 +66,7 @@ window[v4="true"] browser {
   border-bottom-color: #000000;
 }
 
-/* Tab Grouping */
+/* Tab Stacking */
 .tabbrowser-tabs[orient="horizontal"]:not([colorStack="true"]) > .tabbrowser-tab:-moz-any(:not([group]):not([pinned]), [group-counter])
                                                                ~ .tabbrowser-tab[group-counter]:not([group-counter="1"])[group-collapsed="true"],
 .tabbrowser-tabs[orient="horizontal"]:not([colorStack="true"]) > .tabbrowser-tab:-moz-any(:not([group]):not([pinned]), [group-counter])
