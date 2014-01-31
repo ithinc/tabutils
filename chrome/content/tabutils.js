@@ -1750,11 +1750,11 @@ tabutils._multiTabHandler = function() {
   };
 
   gBrowser.moveTabBefore = function moveTabBefore(aTab, bTab) {
-    this.moveTabTo(aTab, aTab._tPos < bTab._tPos ? bTab._tPos - 1 : bTab._tPos);
+    this.moveTabTo(aTab, bTab ? aTab._tPos < bTab._tPos ? bTab._tPos - 1 : bTab._tPos : 0);
   };
 
   gBrowser.moveTabAfter = function moveTabAfter(aTab, bTab) {
-    this.moveTabTo(aTab, aTab._tPos > bTab._tPos ? bTab._tPos + 1 : bTab._tPos);
+    this.moveTabTo(aTab, bTab ? aTab._tPos > bTab._tPos ? bTab._tPos + 1 : bTab._tPos : this.mTabs.length - 1);
   };
 
   TU_hookCode("gBrowser.onTabMove", "{", function() {

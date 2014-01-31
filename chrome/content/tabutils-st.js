@@ -1,16 +1,33 @@
 // Tab Stack
 tabutils._stackTabs = function() {
-  gBrowser.siblingTabsOf = function siblingTabsOf(aTab, aFull) {
-    if (aFull)
-      return Array.filter(this.mTabs, function(bTab) aTab.getAttribute("group") == bTab.getAttribute("group") && this.isNormalTab(bTab), this);
 
+  if ("TabView" in window)
+  TU_hookCode("TabView.moveTabTo", "{", function() { // Ensure hidden tabs won't break tab stacks
+    this._initFrame(function() {
+      tab._suppressTabMove=true;
+      let groupItem = this._window.GroupItems.groupItem(groupItemId);
+      let tabItem = groupItem && groupItem.getChild(-1);
+      this._window.GroupItems.moveTabToGroupItem(tab, groupItemId);
+      gBrowser.moveTabAfter(tab, tabItem && tabItem.tab);
+      delete tab._suppressTabMove;
+    }.bind(this));
+    return;
+  });
+
+  gBrowser.siblingTabsOf = function siblingTabsOf(aTab) {
+    if (typeof aTab == "string") {
+      let group = aTab;
+      return Array.filter(this.visibleTabs, function(aTab) aTab.getAttribute("group") == group);
+    }
+
+    let group = aTab.getAttribute("group");
     let tabs = [aTab];
-    for (let tab = aTab; (tab = tab.nextSibling) && tab.getAttribute("group") == aTab.getAttribute("group");) {
-      if (this.isNormalTab(tab))
+    for (let tab = aTab; (tab = tab.nextSibling) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
         tabs.push(tab);
     }
-    for (let tab = aTab; (tab = tab.previousSibling) && tab.getAttribute("group") == aTab.getAttribute("group");) {
-      if (this.isNormalTab(tab))
+    for (let tab = aTab; (tab = tab.previousSibling) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
         tabs.unshift(tab);
     }
     return tabs;
@@ -18,18 +35,20 @@ tabutils._stackTabs = function() {
 
   gBrowser.previousSiblingTabOf = function previousSiblingTabOf(aTab) this.nextSiblingTabOf(aTab, -1);
   gBrowser.nextSiblingTabOf = function nextSiblingTabOf(aTab, aDir) {
+    let group = aTab.getAttribute("group");
     let next = aDir < 0 ? "previousSibling" : "nextSibling";
-    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == aTab.getAttribute("group");) {
-      if (this.isNormalTab(tab))
+    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
         return tab;
     }
   };
 
   gBrowser.firstSiblingTabOf = function firstSiblingTabOf(aTab) this.lastSiblingTabOf(aTab, -1);
   gBrowser.lastSiblingTabOf = function lastSiblingTabOf(aTab, aDir) {
+    let group = aTab.getAttribute("group");
     let next = aDir < 0 ? "previousSibling" : "nextSibling";
-    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == aTab.getAttribute("group");) {
-      if (this.isNormalTab(tab))
+    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
         aTab = tab;
     }
     return aTab;
@@ -187,7 +206,7 @@ tabutils._stackTabs = function() {
     if (!options)
       options = {};
 
-    let tabs = this.siblingTabsOf(aTab, true);
+    let tabs = this.siblingTabsOf(aTab.getAttribute("group"));
     if (options.excludeSelf) {
       let index = tabs.indexOf(aTab);
       if (index > -1)
@@ -352,7 +371,7 @@ tabutils._stackTabs = function() {
 
     if (aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1 && !aTab.hidden) {
       if (aTab.getAttribute("group-collapsed") == "true" && aTab.hasAttribute("group-counter")) {
-        let tabs = this.siblingTabsOf(aTab, true);
+        let tabs = this.siblingTabsOf(aTab.getAttribute("group"));
         tabs.splice(tabs.indexOf(aTab), 1);
 
         let index = 0;
@@ -387,7 +406,7 @@ tabutils._stackTabs = function() {
         }.bind(this), 0);
       else {
         if (aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1)
-          this.unstackTabs(this.siblingTabsOf(aTab, true), false);
+          this.unstackTabs(this.siblingTabsOf(aTab.getAttribute("group")), false);
         this.attachTabTo(aTab, nextTab);
       }
     }
