@@ -2397,19 +2397,11 @@ tabutils._tabContextMenu = function() {
     if (event.target != tabContextMenu)
       return;
 
-    let tabs = gBrowser.mContextTabs = gBrowser.contextTabsOf(gBrowser.mContextTab);
+    let tab = gBrowser.mContextTab;
+    let tabs = gBrowser.mContextTabs = gBrowser.contextTabsOf(tab);
 
-    var mselected = gBrowser.mContextTab.hasAttribute("multiselected");
+    var mselected = tab.hasAttribute("multiselected");
     var grouponly = tabs.every(function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1);
-//    var disableCollapse = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") == "true");
-//    var disableExpand = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") != "true");
-
-    var contextTab = gBrowser.mContextTab;
-    $("context_collapseStack").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true");
-    $("context_expandStack").setAttribute("disabled", contextTab.getAttribute("group-collapsed") != "true");
-    $("context_splitStack").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true" ||
-                                                     contextTab.hasAttribute("group-first") ||
-                                                     contextTab.hasAttribute("group-last"));
 
     var lastVisibleItem = null;
     for (let item of tabContextMenu.childNodes) {
@@ -2429,6 +2421,12 @@ tabutils._tabContextMenu = function() {
     }
     if (lastVisibleItem && lastVisibleItem.localName == "menuseparator")
       lastVisibleItem.hidden = true;
+
+    var item = $("context_tabStackMenu");
+    if (item && !item.hidden && !item.collapsed) {
+      $("context_collapseStack").setAttribute("disabled", tab.getAttribute("group-collapsed") == "true");
+      $("context_expandStack").setAttribute("disabled", tab.getAttribute("group-collapsed") != "true");
+    }
 
     var item = $("context_readTab");
     if (item && !item.hidden && !item.collapsed) {

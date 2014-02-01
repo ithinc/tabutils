@@ -277,38 +277,27 @@
         <menuitem id="context_collapseStack"
                   label="&collapseStack.label;"
                   accesskey="&collapseStack.accesskey;"
-                  grouponly="true"
                   oncommand="gBrowser.collapseStack(gBrowser.mContextTab);"/>
         <menuitem id="context_expandStack"
                   label="&expandStack.label;"
                   accesskey="&expandStack.accesskey;"
-                  grouponly="true"
                   oncommand="gBrowser.expandStack(gBrowser.mContextTab);"/>
         <menuitem id="context_colorStack"
                   label="&colorStack.label;"
                   accesskey="&colorStack.accesskey;"
-                  grouponly="true"
                   oncommand="var tab = gBrowser.mContextTab; if (!tab.hasAttribute('group') || tab.getAttribute('group-counter') == 1) return; var color = {value: tab.getAttribute('group-color')};if (Services.prompt.prompt(null, '&colorStack.label;', '', color, null, {})) gBrowser.updateStack(tab, {id: !color.value, color: color.value});"/>
         <menuitem id="context_bookmarkStack"
                   label="&bookmarkStack.label;"
                   accesskey="&bookmarkStack.accesskey;"
-                  grouponly="true"
                   oncommand="gBrowser.bookmarkTab(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
         <menuseparator/>
-        <menuitem id="context_splitStack"
-                  label="&splitStack.label;"
-                  accesskey="&splitStack.accesskey;"
-                  grouponly="true"
-                  oncommand="gBrowser.stackTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab).filter(function(aTab) aTab._tPos >= gBrowser.mContextTab._tPos), null, true);"/>
         <menuitem id="context_dismissStack"
                   label="&dismissStack.label;"
                   accesskey="&dismissStack.accesskey;"
-                  grouponly="true"
                   oncommand="gBrowser.unstackTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
         <menuitem id="context_closeStack"
                   label="&closeStack.label;"
                   accesskey="&closeStack.accesskey;"
-                  grouponly="true"
                   oncommand="gBrowser.removeTabsBut(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
       </menupopup>
     </menu>
