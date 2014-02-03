@@ -586,9 +586,9 @@ tabutils._tabOpeningOptions = function() {
         && aStatus == 0
         && TU_getPref("extensions.tabutils.removeUnintentionalBlank", true)) {
       let win = aWebProgress.DOMWindow;
-      win._closeTimer = win.setTimeout(function(self) {
-        self.mTabBrowser.isBlankTab(self.mTab) && self.mTabBrowser.removeTab(self.mTab);
-      }, 250, this);
+      win._closeTimer = win.setTimeout(function() {
+        this.mTabBrowser.isBlankTab(this.mTab) && this.mTabBrowser.removeTab(this.mTab);
+      }.bind(this), 250);
     }
   });
 
@@ -1794,11 +1794,11 @@ tabutils._multiTabHandler = function() {
           index++;
         tabs.splice(index, 0, aTab);
 
-        setTimeout(function(self) {
-          self.selectedTabs = [];
-          self.gatherTabs(tabs, aTab);
-          self.selectedTabs = selectedTabs;
-        }, 0, this);
+        setTimeout(function() {
+          this.selectedTabs = [];
+          this.gatherTabs(tabs, aTab);
+          this.selectedTabs = selectedTabs;
+        }.bind(this), 0);
       }
     }
   });
@@ -1813,21 +1813,21 @@ tabutils._multiTabHandler = function() {
   });
 
   TU_hookCode("gBrowser.moveTabBackward", "this.mCurrentTab._tPos", (function() { // Bug 656222 [Fx20]
-    (function (self) {
-      let tab = self.mCurrentTab.previousSibling;
+    (function () {
+      let tab = this.mCurrentTab.previousSibling;
       while (tab && tab.boxObject.width == 0)
         tab = tab.previousSibling;
       return tab ? tab._tPos + 1 : 0;
-    })(this)
+    }).apply(this)
   }).toString().replace(/^.*{|}$/g, ""));
 
   TU_hookCode("gBrowser.moveTabForward", "this.mCurrentTab._tPos", (function() {
-    (function (self) {
-      let tab = self.mCurrentTab.nextSibling;
+    (function () {
+      let tab = this.mCurrentTab.nextSibling;
       while (tab && tab.boxObject.width == 0)
         tab = tab.nextSibling;
-      return tab ? tab._tPos - 1 : self.mTabs.length;
-    })(this)
+      return tab ? tab._tPos - 1 : this.mTabs.length;
+    }).apply(this)
   }).toString().replace(/^.*{|}$/g, ""));
 
   //Protect/Lock/Faviconize/Pin All Tabs
@@ -1993,9 +1993,9 @@ tabutils._tabClickingOptions = function() {
       this.doClickAction(type, event);
     }
     else if (event.detail == 1 && !event.target.mOverCloseButton) {
-      event.target._leftClickTimer = setTimeout(function(self) {
-        self.doClickAction("left", event);
-      }, TU_getPref("extensions.tabutils.leftClickTabDelay", 250), this);
+      event.target._leftClickTimer = setTimeout(function() {
+        this.doClickAction("left", event);
+      }.bind(this), TU_getPref("extensions.tabutils.leftClickTabDelay", 250));
     }
   };
 
@@ -2519,10 +2519,9 @@ tabutils._tabView = function() {
     if (!this._window && !Array.some(gBrowser.mTabs, function(aTab) aTab.hidden))
       return;
 
-    let self = this;
     this._initFrame(function() {
-      let activeGroupItem = self._window.GroupItems.getActiveGroupItem();
-      self._window.GroupItems.groupItems.forEach(function(groupItem) {
+      let activeGroupItem = this._window.GroupItems.getActiveGroupItem();
+      this._window.GroupItems.groupItems.forEach(function(groupItem) {
         if (!groupItem.hidden && (groupItem.getChildren().length > 0 || !aExcludeEmpty && groupItem.getTitle().length > 0)) {
           let activeTab = groupItem.getActiveTab() || groupItem.getChild(0);
           let m = document.createElement("menuitem");
@@ -2535,7 +2534,7 @@ tabutils._tabView = function() {
           aPopup.appendChild(m);
         }
       });
-    });
+    }.bind(this));
   };
 
   TabView.moveTabsTo = function(aTabs, aGroupItem) {

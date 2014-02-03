@@ -361,12 +361,12 @@ tabutils._groupTabs = function() {
           index++;
         tabs.splice(index, 0, aTab);
 
-        setTimeout(function(self) { //gather group
-          let selectedTabs = self.selectedTabs;
-          self.selectedTabs = [];
-          self.gatherTabs(tabs, aTab);
-          self.selectedTabs = selectedTabs;
-        }, 0, this);
+        setTimeout(function() { //gather group
+          let selectedTabs = this.selectedTabs;
+          this.selectedTabs = [];
+          this.gatherTabs(tabs, aTab);
+          this.selectedTabs = selectedTabs;
+        }.bind(this), 0);
       }
       else if (aTab.getAttribute("group") == previousTab.getAttribute("group") || nextTab &&
                aTab.getAttribute("group") == nextTab.getAttribute("group"))
@@ -379,12 +379,12 @@ tabutils._groupTabs = function() {
         nextTab.getAttribute("group") != aTab.getAttribute("group") &&
         nextTab.getAttribute("group") == previousTab.getAttribute("group")) {
       if (nextTab.getAttribute("group-collapsed") == "true")
-        setTimeout(function(self) { //bypass group
+        setTimeout(function() { //bypass group
           if (ltr)
-            self.moveTabAfter(aTab, self.lastSiblingTabOf(nextTab));
+            this.moveTabAfter(aTab, this.lastSiblingTabOf(nextTab));
           else
-            self.moveTabBefore(aTab, self.firstSiblingTabOf(nextTab));
-        }, 0, this);
+            this.moveTabBefore(aTab, this.firstSiblingTabOf(nextTab));
+        }.bind(this), 0);
       else {
         if (aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1)
           this.ungroupTabs(this.siblingTabsOf(aTab, true), false);
@@ -551,10 +551,10 @@ tabutils._groupTabs = function() {
       clearTimeout(popup._mouseHoverTimer);
 
       popup.hidePopup();
-      popup._mouseHoverTimer = setTimeout(function(self) {
+      popup._mouseHoverTimer = setTimeout(function() {
         popup.value = tab._tPos;
-        popup.openPopup(tab, self.orient == "horizontal" ? "after_start" : "end_before");
-      }, TU_getPref("extensions.tabutils.mouseHoverPopupDelay", 250), this);
+        popup.openPopup(tab, this.orient == "horizontal" ? "after_start" : "end_before");
+      }.bind(this), TU_getPref("extensions.tabutils.mouseHoverPopupDelay", 250));
     }
   }, false);
 
@@ -569,9 +569,9 @@ tabutils._groupTabs = function() {
 
       let popup = document.getElementById("tabStackPopup");
       clearTimeout(popup._mouseHoverTimer);
-      popup._mouseHoverTimer = setTimeout(function(self) {
+      popup._mouseHoverTimer = setTimeout(function() {
         popup.hidePopup();
-      }, 250, this);
+      }, 250);
     }
   }, false);
 
@@ -589,8 +589,8 @@ tabutils._groupTabs = function() {
   }, false);
 
   tabutils.addEventListener(tabStackPopup, "mouseout", function(event) {
-    this._mouseHoverTimer = setTimeout(function(self) {
-      self.hidePopup();
-    }, 250, this);
+    this._mouseHoverTimer = setTimeout(function() {
+      this.hidePopup();
+    }.bind(this), 250);
   }, false);
 };
