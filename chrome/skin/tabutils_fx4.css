@@ -186,11 +186,6 @@ window[v4="true"] #closetab-button {
   -moz-image-region: rect(0px, 16px, 16px, 0px);
 }
 
-window[v4="true"] #undoclosetab-button {
-  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Toolbar.png");
-  -moz-image-region: rect(0px, 72px, 18px, 54px);
-}
-
 window[v4="true"]:not([OS="Linux"]) #button_tuOptions .toolbarbutton-icon,
 window[v4="true"]:not([OS="Linux"]) #closetab-button .toolbarbutton-icon {
   width: 16px;
@@ -198,10 +193,8 @@ window[v4="true"]:not([OS="Linux"]) #closetab-button .toolbarbutton-icon {
 }
 
 window[v4="true"]:not([OS="Linux"]) #undoclosetab-button .toolbarbutton-icon {
-  -moz-transform: scaleX(-1) rotate(30deg);
   width: auto;
   height: auto;
-  margin: 0px !important;
 }
 
 /* Statusbar buttons */

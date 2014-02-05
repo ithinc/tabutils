@@ -36,11 +36,6 @@ window[OS="Darwin"][v4="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-clos
 	-moz-image-region: rect(2px, 158px, 18px, 142px) !important;
 }
 
-/* Toolbar buttons */
-window[OS="Darwin"][v4="true"] #undoclosetab-button {
-  -moz-image-region: rect(0px, 80px, 20px, 60px);
-}
-
 /* Status bar buttons */
 window[OS="Darwin"][v4="true"] #statusbar-openintab {
   -moz-image-region: rect(0px, 220px, 20px, 200px);

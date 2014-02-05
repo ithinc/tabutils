@@ -1,19 +1,22 @@
 //¹Ì¶¨±êÇ©Ò³
 tabutils._phantomTabs = function() {
-  gBrowser.pinTab = function pinTab(aTab, aForce, aBookmarkId, aRestoring) {
-    try {
-    if (aForce == null && JSON.parse(tabutils._ss.getWindowState(window)).windows[0].busy)
-      aForce = aRestoring = true;
-    } catch (e) {}
+  gBrowser.pinTab = function pinTab(aTab, aForce, aRestoring, aBookmarkId) {
+    if (arguments.length == 1) {
+      aForce = true;
+      aRestoring = false;
+    }
 
-    if (aTab.pinned && aForce != true) {
+    if (aForce == aTab.pinned && (!aForce || aBookmarkId == aTab.bookmarkId))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.pinned;
+
+    if (!aForce) {
       aTab.setAttribute("fadein", true);
-      tabutils.removeAttribute(aTab, "pinned");
+      aTab.removeAttribute("pinned");
 
-      if (!aRestoring)
-        this.faviconizeTab(aTab, false, true);
-
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         let uri = aTab.linkedBrowser.currentURI;
         try {
           uri = PlacesUtils.bookmarks.getBookmarkURI(aTab.bookmarkId);
@@ -24,8 +27,12 @@ tabutils._phantomTabs = function() {
         this.updatePinnedTabsBar();
       }
       aTab.bookmarkId = null;
-      tabutils.deleteTabValue(aTab, "bookmarkId");
-      tabutils.dispatchEvent(aTab, "TabUnpinning", true, false);
+
+      if (!aRestoring) {
+        tabutils._ss.deleteTabValue(aTab, "pinned");
+        tabutils._ss.deleteTabValue(aTab, "bookmarkId");
+      }
+      tabutils.dispatchEvent(aTab, "TabUnpinning");
 
       this.mTabContainer.positionPinnedTab(aTab);
       this.mTabContainer.positionPinnedTabs();
@@ -34,15 +41,12 @@ tabutils._phantomTabs = function() {
       aTab.linkedBrowser.docShell.isAppTab = false;
       if (aTab.selected)
         this._setCloseKeyState(true);
-      tabutils.dispatchEvent(aTab, "TabUnpinned", true, false);
+      tabutils.dispatchEvent(aTab, "TabUnpinned");
     }
-    else if (!aTab.pinned && aForce == null || aForce == true) {
-      tabutils.setAttribute(aTab, "pinned", true);
+    else {
+      aTab.setAttribute("pinned", true);
 
-      if (!aRestoring)
-        this.faviconizeTab(aTab, true, true);
-
-      if (!aRestoring && !aBookmarkId && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoPin", true)) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoPin", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["pinned"]);
         this.updatePinnedTabsBar();
 
@@ -51,8 +55,12 @@ tabutils._phantomTabs = function() {
       else {
         aTab.bookmarkId = aBookmarkId;
       }
-      tabutils.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
-      tabutils.dispatchEvent(aTab, "TabPinning", true, false);
+
+      if (!aRestoring) {
+        tabutils._ss.setTabValue(aTab, "pinned", true);
+        tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
+      }
+      tabutils.dispatchEvent(aTab, "TabPinning");
 
       this.mTabContainer.positionPinnedTab(aTab);
       this.mTabContainer.positionPinnedTabs();
@@ -62,21 +70,14 @@ tabutils._phantomTabs = function() {
       aTab.linkedBrowser.docShell.isAppTab = true;
       if (aTab.selected)
         this._setCloseKeyState(false);
-      tabutils.dispatchEvent(aTab, "TabPinned", true, false);
+      tabutils.dispatchEvent(aTab, "TabPinned");
     }
   };
 
-  gBrowser.unpinTab = function unpinTab(aTab, aForce, aBookmarkId, aRestoring) {
-    try {
-    if (JSON.parse(tabutils._ss.getWindowState(window)).windows[0].busy)
-      aRestoring = true;
-    } catch (e) {}
-
-    this.pinTab(aTab, false, null, aRestoring);
-  };
+  gBrowser.unpinTab = function unpinTab(aTab) this.pinTab(aTab, false, false);
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
-    this.pinTab(aTab, tabutils.getTabValue(aTab, "pinned") == "true", ss.getTabValue(aTab, "bookmarkId"), true);
+    this.pinTab(aTab, aTab.pinned, true, ss.getTabValue(aTab, "bookmarkId"));
 
     if (aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoRevert", false)) {
       let uri;
@@ -105,7 +106,7 @@ tabutils._phantomTabs = function() {
         aTags.indexOf("pinned") > -1 &&
         TU_getPref("extensions.tabutils.autoPin", true) &&
         !Array.some(this.mTabs, function(bTab) bTab.pinned && bTab.linkedBrowser.currentURI.spec == aURI.spec)) {
-      this.pinTab(aTab, true, PlacesUtils.getItemIdForTaggedURI(aURI, "pinned"), false); //Yes, it's false
+      this.pinTab(aTab, true, false, PlacesUtils.getItemIdForTaggedURI(aURI, "pinned"));
 
       if (aTab.mCorrespondingButton &&
           !TU_getPref("extensions.tabutils.pinTab.autoRevert", false) &&
