@@ -1,0 +1,6 @@
+/* Toolbar buttons */
+window[v29="true"]:not([OS="Linux"]) #nav-bar #button_tuOptions .toolbarbutton-icon,
+window[v29="true"]:not([OS="Linux"]) #nav-bar #closetab-button .toolbarbutton-icon {
+  width: 32px;
+  height: 24px;
+}

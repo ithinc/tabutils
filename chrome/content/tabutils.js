@@ -583,6 +583,7 @@ tabutils._miscFeatures = function() {
   document.documentElement.setAttribute("v6", version >= 6.0);
   document.documentElement.setAttribute("v14", version >= 14.0);
   document.documentElement.setAttribute("v21", version >= 21.0);
+  document.documentElement.setAttribute("v29", version >= 29.0);
 };
 
 //撤销关闭标签页按钮
@@ -664,8 +665,8 @@ tabutils._firstRun = function() {
   TU_setPref("extensions.tabutils.firstRun", true);
 
   let navbar = document.getElementById("nav-bar");
-  navbar.currentSet = navbar.currentSet.replace(/undoclosetab-button|button_tuOptions/g, "")
-                                       .replace("urlbar-container", "undoclosetab-button,button_tuOptions,$&");
+  navbar.currentSet = navbar.currentSet.replace(/closetab-button|undoclosetab-button|button_tuOptions/g, "")
+                                       .replace("urlbar-container", "closetab-button,undoclosetab-button,button_tuOptions,$&");
   navbar.setAttribute("currentset", navbar.currentSet);
   document.persist(navbar.id, "currentset");
 };
