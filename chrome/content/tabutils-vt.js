@@ -74,27 +74,26 @@ tabutils._verticalTabs = function() {
   ]);
 
   // Hide tabs toolbar in Print Preview mode
-  TU_hookCode("PrintPreviewListener._hideChrome", /(?=.*addonBar.*)/, function() {
+  TU_hookCode("PrintPreviewListener._hideChrome", "}", function() {
     this._chromeState.tabsToolbarOpen = gBrowser.mTabContainer.visible;
     gBrowser.mTabContainer.visible = false;
   });
 
-  TU_hookCode("PrintPreviewListener._showChrome", /(?=.*addonBarOpen.*)/, function() {
+  TU_hookCode("PrintPreviewListener._showChrome", "}", function() {
     if (this._chromeState.tabsToolbarOpen)
       gBrowser.mTabContainer.visible = true;
   });
 
   tabutils._tabPrefObserver.tabBarPosition = function() {
     let tabsToolbar = document.getElementById("TabsToolbar");
-    let addonBar = document.getElementById("addon-bar");
     let appcontent = document.getElementById("appcontent");
-    let allTabsPopup = gBrowser.mTabContainer.mAllTabsPopup;
+    let bottombox = document.getElementById("browser-bottombox");
 
     switch (TU_getPref("extensions.tabutils.tabBarPosition")) {
       case 1: //Bottom
-        if (tabsToolbar.nextSibling != addonBar) {
+        if (tabsToolbar.parentNode != bottombox) {
           gBrowser.mTabContainer.mTabstrip._stopSmoothScroll();
-          addonBar.parentNode.insertBefore(tabsToolbar, addonBar);
+          bottombox.insertBefore(tabsToolbar, bottombox.firstChild);
           tabsToolbar.orient = gBrowser.mTabContainer.orient = gBrowser.mTabContainer.mTabstrip.orient = "horizontal";
           TabsInTitlebar.allowedBy("tabbarposition", false);
         }

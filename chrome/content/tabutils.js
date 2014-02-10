@@ -2651,7 +2651,7 @@ tabutils._allTabsPopup = function() {
 
 tabutils._hideTabBar = function() {
   if (onViewToolbarsPopupShowing.name == "onViewToolbarsPopupShowing") //Compa. with Omnibar
-  TU_hookCode("onViewToolbarsPopupShowing", /(?=.*addon-bar.*)/, function() {
+  TU_hookCode("onViewToolbarsPopupShowing", /(?=.*addon-bar.*)/, function() { // Bug 749804 [Fx29]
     let tabsToolbar = document.getElementById("TabsToolbar");
     if (toolbarNodes.indexOf(tabsToolbar) == -1)
       toolbarNodes.push(tabsToolbar);
