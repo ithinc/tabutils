@@ -121,7 +121,10 @@ tabutils._verticalTabs = function() {
       default:
         if (tabsToolbar.parentNode != gNavToolbox) {
           gBrowser.mTabContainer.mTabstrip._stopSmoothScroll();
-          gNavToolbox.appendChild(tabsToolbar);
+          if ("TabsOnTop" in window) // Bug 755593 [Fx28]
+            gNavToolbox.appendChild(tabsToolbar);
+          else
+            gNavToolbox.insertBefore(tabsToolbar, document.getElementById("nav-bar"));
           tabsToolbar.orient = gBrowser.mTabContainer.orient = gBrowser.mTabContainer.mTabstrip.orient = "horizontal";
           TabsInTitlebar.allowedBy("tabbarposition", true);
         }
