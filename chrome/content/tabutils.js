@@ -20,6 +20,7 @@ var tabutils = {
     this._restartTab();
     this._reloadEvery();
     this._bookmarkTabs();
+    this._tabView();
     this._multiTabHandler();
     this._groupTabs();
     this._multirowTabs();
@@ -76,31 +77,18 @@ var tabutils = {
     this._firstRun();
   },
 
-  getTabValue: function(aTab, aKey) {
-    let val = this._ss.getTabValue(aTab, aKey);
-    if (!val) {
-      let tabData = aTab.linkedBrowser.__SS_data;
-      if (tabData)
-        val = tabData.attributes[aKey] || tabData[aKey];
-    }
-    return val == null ? "" : val.toString();
-  },
-
-  setTabValue: function() this._ss.setTabValue.apply(this._ss, arguments),
-  deleteTabValue: function() this._ss.deleteTabValue.apply(this._ss, arguments),
-
   setAttribute: function(aTab, aAttr, aVal) {
     aTab.setAttribute(aAttr, aVal);
-    this.setTabValue(aTab, aAttr, aVal);
+    this._ss.setTabValue(aTab, aAttr, aVal);
   },
 
   removeAttribute: function(aTab, aAttr) {
     aTab.removeAttribute(aAttr);
-    this.deleteTabValue(aTab, aAttr);
+    this._ss.deleteTabValue(aTab, aAttr);
   },
 
   restoreAttribute: function(aTab, aAttr) {
-    let aVal = this.getTabValue(aTab, aAttr);
+    let aVal = this._ss.getTabValue(aTab, aAttr);
     if (aVal)
       aTab.setAttribute(aAttr, aVal);
     else
@@ -113,12 +101,12 @@ var tabutils = {
   getDomainFromURI: function(aURI, aAllowThirdPartyFixup) {
     try {
       if (typeof aURI == "string")
-        aURI = this._URIFixup.createFixupURI(aURI, aAllowThirdPartyFixup);
+        aURI = Services.nsIURIFixup.createFixupURI(aURI, aAllowThirdPartyFixup);
     }
     catch (e) {}
 
     try {
-      return this._eTLDService.getBaseDomain(aURI);
+      return Services.eTLD.getBaseDomain(aURI);
     }
     catch (e) {}
 
@@ -145,10 +133,10 @@ var tabutils = {
     return ss.cssRules[ss.insertRule(rule, ss.cssRules.length)];
   },
 
-  dispatchEvent: function() {
+  dispatchEvent: function(target, type, bubbles = true, cancelable = false) {
     let event = document.createEvent("Events");
-    event.initEvent.apply(event, Array.slice(arguments, 1));
-    arguments[0].dispatchEvent(event);
+    event.initEvent(type, bubbles, cancelable);
+    target.dispatchEvent(event);
   },
 
   _eventListeners: [],
@@ -173,17 +161,14 @@ var tabutils = {
 };
 window.addEventListener("DOMContentLoaded", tabutils, false);
 
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_ss",
-                                   "@mozilla.org/browser/sessionstore;1",
-                                   "nsISessionStore");
-
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_URIFixup",
-                                   "@mozilla.org/docshell/urifixup;1",
-                                   "nsIURIFixup");
-
-XPCOMUtils.defineLazyServiceGetter(tabutils, "_eTLDService",
-                                   "@mozilla.org/network/effective-tld-service;1",
-                                   "nsIEffectiveTLDService");
+[
+  ["@mozilla.org/browser/sessionstore;1", "nsISessionStore", "_ss", tabutils], // Bug 898732 [Fx26]
+  ["@mozilla.org/docshell/urifixup;1", "nsIURIFixup"], // Bug 802026 [Fx20]
+  ["@mozilla.org/widget/clipboardhelper;1", "nsIClipboardHelper"],
+  ["@mozilla.org/uuid-generator;1", "nsIUUIDGenerator"]
+].forEach(function([aContract, aInterface, aName, aObject])
+  XPCOMUtils.defineLazyServiceGetter(aObject || Services, aName || aInterface, aContract, aInterface)
+);
 
 tabutils._tabEventListeners = {
   init: function() {
@@ -226,15 +211,13 @@ tabutils._tabEventListeners = {
     TU_hookCode("gBrowser.mTabProgressListener", /(?=.*isBlankPageURL.*)/, function() {
       if (!isBlankPageURL(this.mBrowser.currentURI.spec) &&
           (!this.mBrowser.lastURI || isBlankPageURL(this.mBrowser.lastURI.spec)) &&
-          !this.mBrowser.__SS_tabStillLoading) // Bug 698565 [Fx11]
+          !this.mBrowser.__SS_data) // Bug 867097 [Fx28]
         this.mTabBrowser.onLocationChange(this.mTab);
     });
 
     TU_hookCode("gBrowser.updateCurrentBrowser", /(?=.*createEvent.*)/, (function() {
       if (!oldTab.selected) {
-        let event = document.createEvent("Events");
-        event.initEvent("TabBlur", true, false);
-        oldTab.dispatchEvent(event);
+        tabutils.dispatchEvent(oldTab, "TabBlur");
       }
     }).toString().replace(/^.*{|}$/g, ""));
 
@@ -417,14 +400,14 @@ tabutils._openLinkInTab = function() {
   //外来链接
   TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.link.open_newwindow"', 'isExternal ? "browser.link.open_external" : $&');
 
-  //左键点击链接
+  // L-click
   TU_hookCode("contentAreaClick", /.*handleLinkClick.*/g, "if (event.button || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) $&");
-  TU_hookCode("handleLinkClick", 'where == "current"', "false");
+  TU_hookCode("handleLinkClick", "current", "null");
 
-  //中键点击链接
+  // M-click
   TU_hookCode("openNewTabWith", "aEvent.shiftKey", "$& ^ (aEvent.button == 1 && TU_getPref('extensions.tabutils.middleClickLinks', 0) & 2) > 0");
 
-  //右键点击链接
+  // R-Click
   TU_hookCode("contentAreaClick",
     ["event.button == 2", "$& && (event.ctrlKey || event.altKey || event.metaKey || !TU_getPref('extensions.tabutils.rightClickLinks', 0))"]
   );
@@ -1088,17 +1071,31 @@ tabutils._unreadTab = function() {
 
 //保护标签页、锁定标签页、冻结标签页
 tabutils._protectAndLockTab = function() {
+  /* aRestoring = null: setAttribute + setTabValue + tagURI
+   * aRestoring = false: setAttribute + setTabValue
+   * aRestoring = true: setAttribute
+   */
   gBrowser.protectTab = function protectTab(aTab, aForce, aRestoring) {
-    if (aTab.hasAttribute("protected") && aForce != true) {
-      tabutils.removeAttribute(aTab, "protected");
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+    if (aForce == aTab.hasAttribute("protected"))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("protected");
+
+    if (!aForce) {
+      aTab.removeAttribute("protected");
+      if (!aRestoring)
+        tabutils._ss.deleteTabValue(aTab, "protected");
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["protected"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
     }
-    else if (!aTab.hasAttribute("protected") && aForce != false) {
-      tabutils.setAttribute(aTab, "protected", true);
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoProtect", true)) {
+    else {
+      aTab.setAttribute("protected", true);
+      if (!aRestoring)
+        tabutils._ss.setTabValue(aTab, "protected", true);
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoProtect", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["protected"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
@@ -1106,26 +1103,43 @@ tabutils._protectAndLockTab = function() {
   };
 
   gBrowser.lockTab = function lockTab(aTab, aForce, aRestoring) {
-    if (aTab.hasAttribute("locked") && aForce != true) {
-      tabutils.removeAttribute(aTab, "locked");
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+    if (aForce == aTab.hasAttribute("locked"))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("locked");
+
+    if (!aForce) {
+      aTab.removeAttribute("locked");
+      if (!aRestoring)
+        tabutils._ss.deleteTabValue(aTab, "locked");
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["locked"]);
       }
     }
-    else if (!aTab.hasAttribute("locked") && aForce != false) {
-      tabutils.setAttribute(aTab, "locked", true);
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoLock", true)) {
+    else {
+      aTab.setAttribute("locked", true);
+      if (!aRestoring)
+        tabutils._ss.setTabValue(aTab, "locked", true);
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoLock", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["locked"]);
       }
     }
   };
 
   gBrowser.freezeTab = function freezeTab(aTab, aForce) {
-    if ((!aTab.hasAttribute("protected") || !aTab.hasAttribute("locked")) && aForce != false) {
+    if (aForce == aTab.hasAttribute("protected") &&
+        aForce == aTab.hasAttribute("locked"))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("protected") || !aTab.hasAttribute("locked");
+
+    if (aForce) {
       this.protectTab(aTab, true);
       this.lockTab(aTab, true);
     }
-    else if ((aTab.hasAttribute("protected") || aTab.hasAttribute("locked")) && aForce != true) {
+    else {
       this.protectTab(aTab, false);
       this.lockTab(aTab, false);
     }
@@ -1138,13 +1152,13 @@ tabutils._protectAndLockTab = function() {
 
   gBrowser.autoProtectTab = function autoProtectTab(aTab, aURI, aTags) {
     if (!aTab.hasAttribute("protected") && aTags.indexOf("protected") > -1 && TU_getPref("extensions.tabutils.autoProtect", true))
-      this.protectTab(aTab, true, true);
+      this.protectTab(aTab, true, false);
   };
 
   gBrowser.autoLockTab = function autoLockTab(aTab, aURI, aTags) {
     if (aURI.spec != "about:blank" && TU_getPref("extensions.tabutils.autoLock", true)) {
       let locked = tabutils.getURIsForTag("locked").some(function(bURI) aURI.spec.startsWith(bURI.spec));
-      this.lockTab(aTab, locked, true);
+      this.lockTab(aTab, locked, false);
     }
   };
 
@@ -1152,7 +1166,8 @@ tabutils._protectAndLockTab = function() {
   TU_hookCode("gBrowser.onLocationChange", "}", "this.autoProtectTab(aTab, uri, tags);this.autoLockTab(aTab, uri, tags);");
 
   TU_hookCode("gBrowser.removeTab", "{", function() {
-    if (aTab.hasAttribute("protected") || aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoProtect", false))
+    if (aTab.hasAttribute("protected") ||
+        aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoProtect", false))
       return;
   });
   TU_hookCode("gBrowser.createTooltip", /(tab|tn).mOverCloseButton/, "$& && !$1.hasAttribute('protected')");
@@ -1185,17 +1200,26 @@ tabutils._protectAndLockTab = function() {
 //图标化标签页
 tabutils._faviconizeTab = function() {
   gBrowser.faviconizeTab = function faviconizeTab(aTab, aForce, aRestoring) {
-    if (aTab.hasAttribute("faviconized") && aForce != true) {
-      tabutils.removeAttribute(aTab, "faviconized");
-      tabutils.setTabValue(aTab, "faviconized", false); //for pinned but not iconified tabs
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+    if (aForce == aTab.hasAttribute("faviconized"))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("faviconized");
+
+    if (!aForce) {
+      aTab.removeAttribute("faviconized");
+      if (!aRestoring)
+        tabutils._ss.deleteTabValue(aTab, "faviconized");
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
     }
-    else if (!aTab.hasAttribute("faviconized") && aForce != false) {
-      tabutils.setAttribute(aTab, "faviconized", true);
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
+    else {
+      aTab.setAttribute("faviconized", true);
+      if (!aRestoring)
+        tabutils._ss.setTabValue(aTab, "faviconized", true);
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
@@ -1203,14 +1227,13 @@ tabutils._faviconizeTab = function() {
   };
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
-    this.faviconizeTab(aTab, ss.getTabValue(aTab, "faviconized") == "true" ||
-                             ss.getTabValue(aTab, "faviconized") != "false" && tabutils.getTabValue(aTab, "pinned") == "true", true);
+    this.faviconizeTab(aTab, ss.getTabValue(aTab, "faviconized") == "true", true);
   });
 
   gBrowser.autoFaviconizeTab = function autoFaviconizeTab(aTab, aURI, aTags) {
     if (this.mTabContainer.orient == "horizontal" && !aTab.pinned && aURI.spec != "about:blank" && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
       let faviconized = tabutils.getURIsForTag("faviconized").some(function(bURI) aURI.spec.startsWith(bURI.spec));
-      this.faviconizeTab(aTab, faviconized, true);
+      this.faviconizeTab(aTab, faviconized, false);
     }
   };
 
@@ -1228,12 +1251,11 @@ tabutils._renameTab = function() {
     if (aTab.getAttribute("title") == aTitle)
       return;
 
-    if (aTitle)
-      tabutils.setAttribute(aTab, "title", aTitle);
-    else
-      tabutils.removeAttribute(aTab, "title");
+    aTab[aTitle ? "setAttribute" : "removeAttribute"]("title", aTitle);
+    if (!aRestoring)
+      tabutils._ss[aTitle ? "setTabValue" : "deleteTabValue"](aTab, "title", aTitle);
 
-    if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoRename", true)) {
+    if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoRename", true)) {
       PlacesUtils.tagging[aTitle ? "tagURI" : "untagURI"](aTab.linkedBrowser.currentURI, ["autoRename"]);
 
       let itemId = PlacesUtils.getItemIdForTaggedURI(aTab.linkedBrowser.currentURI, "autoRename");
@@ -1255,7 +1277,7 @@ tabutils._renameTab = function() {
   gBrowser.autoRenameTab = function autoRenameTab(aTab, aURI, aTags) {
     if (!aTab.hasAttribute("title") && aTags.indexOf("autoRename") > -1 && TU_getPref("extensions.tabutils.autoRename", true)) {
       let itemId = PlacesUtils.getItemIdForTaggedURI(aURI, "autoRename");
-      this.renameTab(aTab, PlacesUtils.bookmarks.getItemTitle(itemId), true);
+      this.renameTab(aTab, PlacesUtils.bookmarks.getItemTitle(itemId), false);
     }
   };
 
@@ -1284,10 +1306,14 @@ tabutils._renameTab = function() {
   );
 };
 
-//重启标签页
+// Restart Tab
 tabutils._restartTab = function() {
   gBrowser.restartTab = function restartTab(aTab) {
     if (aTab.hasAttribute("pending")) // Bug 817947 [Fx20]
+      return;
+
+    if (aTab.hasAttribute("locked") ||
+        aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoLock", false))
       return;
 
     var tabState = tabutils._ss.getTabState(aTab);
@@ -1303,12 +1329,11 @@ tabutils._restartTab = function() {
     if (aTab.selected || aTab._restartTimer || ["busy", "pending"].some(function(aAttr) aTab.hasAttribute(aAttr)))
       return;
 
-    let restartAfter = TU_getPref("extensions.tabutils.restartAfter", 0);
-    if (restartAfter == 0)
+    if (isBlankPageURL(aTab.linkedBrowser.currentURI.spec))
       return;
 
-    let spec = aTab.linkedBrowser.currentURI.spec;
-    if (isBlankPageURL(spec) || tabutils.getURIsForTag("norestart").some(function(aURI) spec.startsWith(aURI.spec)))
+    let restartAfter = TU_getPref("extensions.tabutils.restartAfter", 0);
+    if (restartAfter == 0)
       return;
 
     aTab._restartTimer = setTimeout(function(aTab) {
@@ -1339,24 +1364,36 @@ tabutils._restartTab = function() {
 
 //自动刷新标签页
 tabutils._reloadEvery = function() {
-  gBrowser.autoReloadTab = function autoReloadTab(aTab, aForce, aInterval, aRestoring) {
-    if (aTab.hasAttribute("autoReload") && aForce != true) {
-      tabutils.removeAttribute(aTab, "autoReload");
-      tabutils.deleteTabValue(aTab, "reloadInterval");
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled) {
+  gBrowser.autoReloadTab = function autoReloadTab(aTab, aForce, aRestoring, aInterval) {
+    if (aForce == aTab.hasAttribute("autoReload") && (!aForce || aInterval == aTab._reloadInterval))
+      return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("autoReload");
+
+    if (!aForce) {
+      aTab.removeAttribute("autoReload");
+      if (!aRestoring) {
+        tabutils._ss.deleteTabValue(aTab, "autoReload");
+        tabutils._ss.deleteTabValue(aTab, "reloadInterval");
+      }
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled) {
         PlacesUtils.tagging.untagURI(aTab.linkedBrowser.currentURI, ["autoReload"]);
       }
       this.mTabContainer.adjustTabstrip(aTab.pinned);
 
       clearTimeout(aTab._reloadTimer);
     }
-    else if (!aTab.hasAttribute("autoReload") && aForce == null || aForce == true) {
-      tabutils.setAttribute(aTab, "autoReload", true);
+    else {
+      aTab.setAttribute("autoReload", true);
       aTab._reloadInterval = aInterval || aTab._reloadInterval || TU_getPref("extensions.tabutils.reloadInterval", 10);
       TU_setPref("extensions.tabutils.reloadInterval", aTab._reloadInterval);
-      tabutils.setTabValue(aTab, "reloadInterval", aTab._reloadInterval);
+      if (!aRestoring) {
+        tabutils._ss.setTabValue(aTab, "autoReload", true);
+        tabutils._ss.setTabValue(aTab, "reloadInterval", aTab._reloadInterval);
+      }
 
-      if (!aRestoring && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoEnableAutoReload", true)) {
+      if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoEnableAutoReload", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["autoReload"]);
 
         let itemId = PlacesUtils.getItemIdForTaggedURI(aTab.linkedBrowser.currentURI, "autoReload");
@@ -1374,7 +1411,7 @@ tabutils._reloadEvery = function() {
   };
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
-    this.autoReloadTab(aTab, ss.getTabValue(aTab, "autoReload") == "true", ss.getTabValue(aTab, "reloadInterval"), true);
+    this.autoReloadTab(aTab, ss.getTabValue(aTab, "autoReload") == "true", true, ss.getTabValue(aTab, "reloadInterval"));
   });
 
   gBrowser.autoAutoReloadTab = function autoAutoReloadTab(aTab, aURI, aTags) {
@@ -1383,7 +1420,7 @@ tabutils._reloadEvery = function() {
       if (PlacesUtils.annotations.itemHasAnnotation(itemId, "reloadInterval")) {
         reloadInterval = PlacesUtils.annotations.getItemAnnotation(itemId, "reloadInterval");
       }
-      this.autoReloadTab(aTab, true, reloadInterval, true);
+      this.autoReloadTab(aTab, true, false, reloadInterval);
     }
   };
 
@@ -1432,14 +1469,14 @@ tabutils._reloadEvery = function() {
   };
 };
 
-//保存书签组
+// Bookmark tabs with history
 tabutils._bookmarkTabs = function() {
   gBrowser.bookmarkTab = function(aTabs) {
     if (!("length" in aTabs))
       aTabs = [aTabs];
 
     if (aTabs.length > 1) {
-      let tabURIs = TU_getPref("extensions.tabutils.bookmarkWithHistory", false) ?
+      let tabURIs = !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkWithHistory", false) ?
                     Array.map(aTabs, function(aTab) [aTab.linkedBrowser.currentURI, [{name: 'bookmarkProperties/tabState', value: tabutils._ss.getTabState(aTab)}]]) :
                     Array.map(aTabs, function(aTab) aTab.linkedBrowser.currentURI);
       PlacesUIUtils.showBookmarkDialog({action: "add",
@@ -1454,7 +1491,7 @@ tabutils._bookmarkTabs = function() {
   TU_hookCode("PlacesCommandHook.bookmarkPage",
     [/(?=.*(createItem|PlacesCreateBookmarkTransaction).*)/, function() {
       var annos = [descAnno];
-      if (TU_getPref("extensions.tabutils.bookmarkWithHistory", false)) {
+      if (!gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkWithHistory", false)) {
         let tab = gBrowser.mTabs[gBrowser.browsers.indexOf(aBrowser)];
         if (tab)
           annos.push({name: "bookmarkProperties/tabState", value: tabutils._ss.getTabState(tab)});
@@ -1465,7 +1502,7 @@ tabutils._bookmarkTabs = function() {
 
   TU_hookCode("PlacesCommandHook.bookmarkCurrentPages",
     ["this.uniqueCurrentPages", (function() {
-      TU_getPref("extensions.tabutils.bookmarkAllWithHistory", true) ?
+      !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkAllWithHistory", true) ?
       Array.map(gBrowser.allTabs, function(aTab) [aTab.linkedBrowser.currentURI, [{name: 'bookmarkProperties/tabState', value: tabutils._ss.getTabState(aTab)}]]) :
       Array.map(gBrowser.allTabs, function(aTab) aTab.linkedBrowser.currentURI);
     }).toString().replace(/^.*{|}$/g, "")],
@@ -2228,7 +2265,7 @@ tabutils._miscFeatures = function() {
               && aFlags & Ci.nsIWebNavigation.LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP
               && TU_getPref("keyword.enabled")
               && TU_getPref("network.dns.ignoreHostonly", false))
-            aURI = tabutils._URIFixup.keywordToURI(aURI).spec;
+            aURI = Services.nsIURIFixup.keywordToURI(aURI).spec;
         }
         catch (e) {}
       }
@@ -2264,6 +2301,7 @@ tabutils._miscFeatures = function() {
   document.documentElement.setAttribute("v6", version >= 6.0);
   document.documentElement.setAttribute("v14", version >= 14.0);
   document.documentElement.setAttribute("v21", version >= 21.0);
+  document.documentElement.setAttribute("v29", version >= 29.0);
 
   for (let sheet of Array.slice(document.styleSheets)) {
     switch (sheet.href) {
@@ -2289,7 +2327,7 @@ tabutils._miscFeatures = function() {
               break;
             case ".tab-throbber[pinned], .tab-icon-image[pinned]":
             case ".tab-throbber[pinned], .tab-icon-image[pinned], .tabs-newtab-button > .toolbarbutton-icon":
-              tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, ".tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)"));
+              tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, '.tabbrowser-tabs[orient="horizontal"] > .tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)'));
               break;
           }
         }
@@ -2341,30 +2379,11 @@ tabutils._mainContextMenu = function() {
   });
 };
 
-//标签页右键菜单
+// Tab Context Menu
 tabutils._tabContextMenu = function() {
   function $() {return document.getElementById.apply(document, arguments);}
 
   var tabContextMenu = gBrowser.tabContextMenu;
-  tabContextMenu.insertBefore($("context_closeOtherTabs"), $("context_closeTab").nextSibling);
-
-  Array.slice($("tabContextMenu-template").childNodes).forEach(function(aItem, aIndex, aItems) {
-    var refNode;
-    switch (true) {
-      case aItem.getAttribute("insertafter") != "":
-        refNode = tabContextMenu.getElementsByAttribute("id", aItem.getAttribute("insertafter"))[0];
-        refNode = refNode && refNode.nextSibling;
-        break;
-      case aItem.getAttribute("insertbefore") != "":
-        refNode = tabContextMenu.getElementsByAttribute("id", aItem.getAttribute("insertbefore"))[0];
-        break;
-      default:
-        refNode = aItems[aIndex - 1] && aItems[aIndex - 1].nextSibling;
-        break;
-    }
-    tabContextMenu.insertBefore(aItem, refNode);
-  });
-
   tabutils.addEventListener(tabContextMenu.parentNode, "popupshowing", function(event) {
     if (event.target != tabContextMenu)
       return;
@@ -2377,12 +2396,12 @@ tabutils._tabContextMenu = function() {
     if (event.target != tabContextMenu)
       return;
 
-    gBrowser.mContextTabs = gBrowser.contextTabsOf(gBrowser.mContextTab);
+    let tabs = gBrowser.mContextTabs = gBrowser.contextTabsOf(gBrowser.mContextTab);
 
     var mselected = gBrowser.mContextTab.hasAttribute("multiselected");
-    var grouponly = gBrowser.mContextTabs.every(function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1);
-//    var disableCollapse = grouponly && gBrowser.mContextTabs.every(function(aTab) aTab.getAttribute("group-collapsed") == "true");
-//    var disableExpand = grouponly && gBrowser.mContextTabs.every(function(aTab) aTab.getAttribute("group-collapsed") != "true");
+    var grouponly = tabs.every(function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1);
+//    var disableCollapse = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") == "true");
+//    var disableExpand = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") != "true");
 
     var contextTab = gBrowser.mContextTab;
     $("context_collapseGroup").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true");
@@ -2411,50 +2430,56 @@ tabutils._tabContextMenu = function() {
       lastVisibleItem.hidden = true;
 
     var item = $("context_readTab");
-    var checked = gBrowser.mContextTabs.every(function(aTab) aTab.getAttribute("unread") != "true");
-    item.setAttribute("label", checked ? item.getAttribute("label_checked") : item.getAttribute("label_unchecked"));
-    item.setAttribute("checked", checked);
-    item.setAttribute("disabled", gBrowser.mContextTabs.every(function(aTab) aTab.selected));
+    if (item && !item.hidden && !item.collapsed) {
+      let unread = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+      item.setAttribute("label", unread ? item.getAttribute("label_unread") : item.getAttribute("label_read"));
+      item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
+    }
 
     [
-      ["context_protectTab", ["protected"]],
-      ["context_lockTab", ["locked"]],
-      ["context_faviconizeTab", ["faviconized"]]
-    ].forEach(function([aId, aAttrs]) {
-      $(aId).setAttribute("checked", gBrowser.mContextTabs.every(function(aTab) aAttrs.every(function(aAttr) aTab.hasAttribute(aAttr))));
+      ["context_protectTab", "protected", "autoProtect"],
+      ["context_lockTab", "locked", "autoLock"],
+      ["context_faviconizeTab", "faviconized", "autoFaviconize"]
+    ].forEach(function([aId, aAttr, aPref]) {
+      let item = $(aId);
+      if (item && !item.hidden && !item.collapsed) {
+        let disabled = TU_getPref("extensions.tabutils.pinTab." + aPref, false) &&
+                       tabs.every(function(aTab) aTab.pinned && !aTab.hasAttribute(aAttr));
+        item.setAttribute("disabled", disabled);
+        item.setAttribute("checked", disabled || tabs.every(function(aTab) aTab.hasAttribute(aAttr)));
+      }
     });
 
-    var autoProtect = TU_getPref("extensions.tabutils.pinTab.autoProtect", false);
-    var autoLock = TU_getPref("extensions.tabutils.pinTab.autoLock", false);
-    var disableProtect = autoProtect && gBrowser.mContextTabs.every(function(aTab) aTab.pinned && !aTab.hasAttribute("protected"));
-    var disableLock = autoLock && gBrowser.mContextTabs.every(function(aTab) aTab.pinned && !aTab.hasAttribute("locked"));
-
-    if (disableProtect) $("context_protectTab").setAttribute("checked", true);
-    if (disableLock) $("context_lockTab").setAttribute("checked", true);
+    if (gBrowser.mTabContainer.orient == "vertical") {
+      let item = $("context_faviconizeTab");
+      if (item && !item.hidden && !item.collapsed) {
+        item.setAttribute("disabled", tabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
+        if (item.getAttribute("checked") != "true" && tabs.every(function(aTab) aTab.pinned))
+          item.setAttribute("checked", true);
+      }
+    }
 
     $("context_closeTab").setAttribute("disabled", $("context_protectTab").getAttribute("checked") == "true");
-    $("context_protectTab").setAttribute("disabled", disableProtect);
-    $("context_lockTab").setAttribute("disabled", disableLock);
+    $("context_restartTab").setAttribute("disabled", $("context_lockTab").getAttribute("checked") == "true");
 
-    var disableLeft = gBrowser.leftTabsOf(gBrowser.mContextTabs).length == 0;
-    var disableRight = gBrowser.rightTabsOf(gBrowser.mContextTabs).length == 0;
-    var disableOther = gBrowser.otherTabsOf(gBrowser.mContextTabs).length == 0;
-
-    $("context_closeLeftTabs").setAttribute("disabled", disableLeft);
-    $("context_closeRightTabs").setAttribute("disabled", disableRight);
-    $("context_closeOtherTabs").setAttribute("disabled", disableOther);
-    $("context_closeDuplicateTabs").setAttribute("disabled", disableOther);
-    $("context_closeSimilarTabs").setAttribute("disabled", disableOther);
+    [
+      ["context_closeLeftTabs", "leftTabsOf"],
+      ["context_closeRightTabs", "rightTabsOf"],
+      ["context_closeOtherTabs", "otherTabsOf"],
+      ["context_closeDuplicateTabs", "otherTabsOf"],
+      ["context_closeSimilarTabs", "otherTabsOf"]
+    ].forEach(function([aId, aMethod]) {
+      let item = $(aId);
+      if (item && !item.hidden && !item.collapsed)
+        item.setAttribute("disabled", gBrowser[aMethod](tabs).length == 0);
+    });
 
     var selectedTabs = gBrowser.selectedTabs;
     $("context_groupTab").setAttribute("disabled", selectedTabs.length <= 1);
     $("context_selectTab").setAttribute("checked", mselected);
     $("context_unselectAllTabs").setAttribute("disabled", selectedTabs.length == 0);
 
-    $("context_openTabInWindow").collapsed = !$("context_moveToWindow").collapsed;
     $("context_mergeWindow").setAttribute("disabled", Services.wm.getZOrderDOMWindowEnumerator("navigator:browser", false).getNext() == window);
-
-    $("context_mergeGroup").hidden = $("context_tabViewMenu").hidden;
     $("context_mergeGroup").setAttribute("disabled", !Array.some(gBrowser.mTabs, function(aTab) aTab.hidden));
   }, false);
 
@@ -2470,11 +2495,21 @@ tabutils._tabContextMenu = function() {
       m.setAttribute("label", win.gBrowser.mCurrentTab.label);
       m.setAttribute("image", win.gBrowser.mCurrentTab.image);
       m.setAttribute("acceltext", "[" + win.gBrowser.mTabs.length + "]");
-      m.setAttribute("disabled", win == window || aExcludePopup && !win.toolbar.visible);
+      m.setAttribute("disabled", win == window || aExcludePopup && !win.toolbar.visible ||
+                                 win.gPrivateBrowsingUI.privateBrowsingEnabled != gPrivateBrowsingUI.privateBrowsingEnabled);
       m.window = win;
       aPopup.appendChild(m);
     }
   };
+};
+
+// Panorama enhancements
+tabutils._tabView = function() {
+  if (!("TabView" in window)) {
+    TU_setPref("extensions.tabutils.menu.context_tabViewMenu", false);
+    TU_setPref("extensions.tabutils.menu.context_mergeGroup", false);
+    return;
+  }
 
   TabView.populateGroupMenu = function(aPopup, aExcludeEmpty) {
     while (aPopup.lastChild && aPopup.lastChild.localName != "menuseparator")
@@ -2491,8 +2526,8 @@ tabutils._tabContextMenu = function() {
           let activeTab = groupItem.getActiveTab() || groupItem.getChild(0);
           let m = document.createElement("menuitem");
           m.setAttribute("class", "menuitem-iconic bookmark-item menuitem-with-favicon");
-          m.setAttribute("label", activeTab && activeTab.tab.label);
-          m.setAttribute("image", activeTab && activeTab.tab.image);
+          m.setAttribute("label", activeTab ? activeTab.tab.label : "");
+          m.setAttribute("image", activeTab ? activeTab.tab.image : "");
           m.setAttribute("acceltext", groupItem.getTitle() + "[" + groupItem.getChildren().length + "]");
           m.setAttribute("disabled", groupItem == activeGroupItem);
           m.value = groupItem;
@@ -2551,28 +2586,25 @@ tabutils._tabContextMenu = function() {
     item.setAttribute("command", "cmd_newGroup");
     popup.appendChild(document.createElement("menuseparator"));
   }
+
+  function $() {return document.getElementById.apply(document, arguments);}
 };
 
-//列出所有标签页弹出菜单
+// List all tabs
 tabutils._allTabsPopup = function() {
-  function $() {return document.getElementById.apply(document, arguments);}
-
   var allTabsPopup = gBrowser.mTabContainer.mAllTabsPopup;
   if (!allTabsPopup)
     return;
 
-  Array.slice($("alltabs-popup-template").childNodes).forEach(function(aItem) {
-    allTabsPopup.appendChild(aItem);
-  });
-
-  allTabsPopup.setAttribute("oncommand", "event.stopPropagation();");
-  allTabsPopup.setAttribute("onclick", "if (event.button == 0) event.stopPropagation();");
   tabutils.addEventListener(allTabsPopup.parentNode, "popupshowing", function(event) {
     while (allTabsPopup.firstChild && allTabsPopup.firstChild.tab) //Bug 714594 (Fx12), 716271 (Fx12)
       allTabsPopup.removeChild(allTabsPopup.firstChild);
 
     var lastVisibleItem = null;
-    for (let item = allTabsPopup.firstChild; item && !item.tab; item = item.nextSibling) {
+    for (let item of allTabsPopup.childNodes) {
+      if (item.tab)
+        break;
+
       if (item.localName == "menuseparator")
         item.hidden = !lastVisibleItem || lastVisibleItem.localName == "menuseparator";
 
@@ -2581,33 +2613,46 @@ tabutils._allTabsPopup = function() {
     }
 
     var item = $("context_showAllTabs");
-    item.setAttribute("checked", gBrowser.mTabContainer.getAttribute("showAllTabs"));
-    item.setAttribute("disabled", gBrowser.mTabContainer.orient == "vertical");
+    if (item && !item.hidden && !item.collapsed) {
+      item.setAttribute("checked", gBrowser.mTabContainer.getAttribute("showAllTabs"));
+      item.setAttribute("disabled", gBrowser.mTabContainer.orient == "vertical");
+    }
 
     var tabs = gBrowser.allTabs;
     var item = $("context_readAllTabs");
-    var checked = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
-    item.setAttribute("label", checked ? item.getAttribute("label_checked") : item.getAttribute("label_unchecked"));
-    item.setAttribute("checked", checked);
-    item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
+    if (item && !item.hidden && !item.collapsed) {
+      let unread = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+      item.setAttribute("label", unread ? item.getAttribute("label_unread") : item.getAttribute("label_read"));
+      item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
+    }
 
     [
-      ["context_protectAllTabs", ["protected"]],
-      ["context_lockAllTabs", ["locked"]],
-      ["context_faviconizeAllTabs", ["faviconized"]]
-    ].forEach(function([aId, aAttrs]) {
-      $(aId).setAttribute("checked", tabs.every(function(aTab) aAttrs.every(function(aAttr) aTab.hasAttribute(aAttr))));
+      ["context_protectAllTabs", "protected"],
+      ["context_lockAllTabs", "locked"],
+      ["context_faviconizeAllTabs", "faviconized"]
+    ].forEach(function([aId, aAttr]) {
+      let item = $(aId);
+      if (item && !item.hidden && !item.collapsed)
+        item.setAttribute("checked", tabs.every(function(aTab) aTab.hasAttribute(aAttr)));
     });
+
+    if (gBrowser.mTabContainer.orient == "vertical") {
+      let item = $("context_faviconizeAllTabs");
+      if (item && !item.hidden && !item.collapsed)
+        item.setAttribute("disabled", tabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
+    }
+
+    $("context_closeAllTabs").setAttribute("disabled", $("context_protectAllTabs").getAttribute("checked") == "true");
+    $("context_closeAllDuplicateTabs").setAttribute("disabled", $("context_protectAllTabs").getAttribute("checked") == "true");
+    $("context_restartAllTabs").setAttribute("disabled", $("context_lockAllTabs").getAttribute("checked") == "true");
   }, true);
 
-  if ("MenuEdit" in window) { //Make allTabsPopup editable by MenuEdit
-    TU_hookCode("MenuEdit.getEditableMenus", /(?=return menus;)/, "menus['" + allTabsPopup.id + "'] = gBrowser.mTabContainer.mAllTabsPopup.parentNode.tooltipText;");
-  }
+  function $() {return document.getElementById.apply(document, arguments);}
 };
 
 tabutils._hideTabBar = function() {
   if (onViewToolbarsPopupShowing.name == "onViewToolbarsPopupShowing") //Compa. with Omnibar
-  TU_hookCode("onViewToolbarsPopupShowing", /(?=.*addon-bar.*)/, function() {
+  TU_hookCode("onViewToolbarsPopupShowing", /(?=.*addon-bar.*)/, function() { // Bug 749804 [Fx29]
     let tabsToolbar = document.getElementById("TabsToolbar");
     if (toolbarNodes.indexOf(tabsToolbar) == -1)
       toolbarNodes.push(tabsToolbar);
@@ -2678,7 +2723,10 @@ tabutils._undoCloseTabButton = function() {
   );
 
   tabutils.updateUndoCloseTabCommand = function updateUndoCloseTabCommand() {
-    document.getElementById("History:UndoCloseTab").setAttribute("disabled", tabutils._ss.getClosedTabCount(window) == 0);
+    if (tabutils._ss.getClosedTabCount(window) == 0)
+      document.getElementById("History:UndoCloseTab").setAttribute("disabled", true);
+    else
+      document.getElementById("History:UndoCloseTab").removeAttribute("disabled");
     gBrowser._lastClosedTabsCount = null;
   };
   //tabutils.updateUndoCloseTabCommand();
@@ -2694,8 +2742,8 @@ tabutils._firstRun = function() {
   TU_setPref("extensions.tabutils.firstRun", true);
 
   let navbar = document.getElementById("nav-bar");
-  navbar.currentSet = navbar.currentSet.replace(/undoclosetab-button|button_tuOptions/g, "")
-                                       .replace("urlbar-container", "undoclosetab-button,button_tuOptions,$&");
+  navbar.currentSet = navbar.currentSet.replace(/closetab-button|undoclosetab-button|button_tuOptions/g, "")
+                                       .replace("urlbar-container", "closetab-button,undoclosetab-button,button_tuOptions,$&");
   navbar.setAttribute("currentset", navbar.currentSet);
   document.persist(navbar.id, "currentset");
 };
@@ -2749,7 +2797,7 @@ tabutils._tabPrefObserver = {
     if ("_update" in TabsInTitlebar) // Compat. with Linux
     TU_hookCode("TabsInTitlebar._update", "!this._dragBindingAlive", "$& && TU_getPref('extensions.tabutils.dragBindingAlive', true)");
 
-    gPrefService.getChildList("extensions.tabutils.", {}).sort().concat([
+    Services.prefs.getChildList("extensions.tabutils.", {}).sort().concat([
       "browser.tabs.animate", //Bug 649671
       "browser.tabs.tabClipWidth",
       "browser.tabs.tabMaxWidth",
@@ -3119,6 +3167,12 @@ tabutils._tabPrefObserver = {
       tabsToolbar._dragBindingAlive = TU_getPref("extensions.tabutils.dragBindingAlive", true);
   },
 
+  pinTab_autoFaviconize: function() {
+    gBrowser.mTabContainer.setAttribute("autoFaviconizePinned", TU_getPref("extensions.tabutils.pinTab.autoFaviconize"));
+    gBrowser.mTabContainer.positionPinnedTabs();
+    gBrowser.mTabContainer.adjustTabstrip();
+  },
+
   pinTab_showPhantom: function() {
     gBrowser.updatePinnedTabsBar();
     gBrowser.mTabContainer.setAttribute("showPhantom", TU_getPref("extensions.tabutils.pinTab.showPhantom"));
@@ -3176,7 +3230,7 @@ tabutils._tabPrefObserver = {
 };
 
 tabutils._tagsFolderObserver = {
-  _tags: ["protected", "locked", "faviconized", "pinned", "autoRename", "autoReload", "norestart"],
+  _tags: ["protected", "locked", "faviconized", "pinned", "autoRename", "autoReload"],
   _tagIds: [],
   _taggedURIs: [],
 
