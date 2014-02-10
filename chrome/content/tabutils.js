@@ -1309,8 +1309,10 @@ tabutils._renameTab = function() {
 // Restart Tab
 tabutils._restartTab = function() {
   gBrowser.restartTab = function restartTab(aTab) {
-    if (aTab.hasAttribute("pending") || // Bug 817947 [Fx20]
-        aTab.hasAttribute("locked") ||
+    if (aTab.hasAttribute("pending")) // Bug 817947 [Fx20]
+      return;
+
+    if (aTab.hasAttribute("locked") ||
         aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoLock", false))
       return;
 
@@ -1324,9 +1326,10 @@ tabutils._restartTab = function() {
   };
 
   gBrowser.autoRestartTab = function autoRestartTab(aTab) {
-    if (aTab.selected || aTab._restartTimer ||
-        ["busy", "pending"].some(function(aAttr) aTab.hasAttribute(aAttr)) ||
-        isBlankPageURL(aTab.linkedBrowser.currentURI.spec))
+    if (aTab.selected || aTab._restartTimer || ["busy", "pending"].some(function(aAttr) aTab.hasAttribute(aAttr)))
+      return;
+
+    if (isBlankPageURL(aTab.linkedBrowser.currentURI.spec))
       return;
 
     let restartAfter = TU_getPref("extensions.tabutils.restartAfter", 0);
