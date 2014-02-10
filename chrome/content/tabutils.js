@@ -1310,8 +1310,10 @@ tabutils._renameTab = function() {
 // Restart Tab
 tabutils._restartTab = function() {
   gBrowser.restartTab = function restartTab(aTab) {
-    if (aTab.hasAttribute("pending") || // Bug 817947 [Fx20]
-        aTab.hasAttribute("locked") ||
+    if (aTab.hasAttribute("pending")) // Bug 817947 [Fx20]
+      return;
+
+    if (aTab.hasAttribute("locked") ||
         aTab.pinned && TU_getPref("extensions.tabutils.pinTab.autoLock", false))
       return;
 
@@ -1325,9 +1327,10 @@ tabutils._restartTab = function() {
   };
 
   gBrowser.autoRestartTab = function autoRestartTab(aTab) {
-    if (aTab.selected || aTab._restartTimer ||
-        ["busy", "pending"].some(function(aAttr) aTab.hasAttribute(aAttr)) ||
-        isBlankPageURL(aTab.linkedBrowser.currentURI.spec))
+    if (aTab.selected || aTab._restartTimer || ["busy", "pending"].some(function(aAttr) aTab.hasAttribute(aAttr)))
+      return;
+
+    if (isBlankPageURL(aTab.linkedBrowser.currentURI.spec))
       return;
 
     let restartAfter = TU_getPref("extensions.tabutils.restartAfter", 0);
@@ -2422,6 +2425,7 @@ tabutils._miscFeatures = function() {
   document.documentElement.setAttribute("v6", version >= 6.0);
   document.documentElement.setAttribute("v14", version >= 14.0);
   document.documentElement.setAttribute("v21", version >= 21.0);
+  document.documentElement.setAttribute("v29", version >= 29.0);
 
   for (let sheet of Array.slice(document.styleSheets)) {
     switch (sheet.href) {
@@ -2772,7 +2776,7 @@ tabutils._allTabsPopup = function() {
 
 tabutils._hideTabBar = function() {
   if (onViewToolbarsPopupShowing.name == "onViewToolbarsPopupShowing") //Compa. with Omnibar
-  TU_hookCode("onViewToolbarsPopupShowing", /(?=.*addon-bar.*)/, function() {
+  TU_hookCode("onViewToolbarsPopupShowing", /(?=.*addon-bar.*)/, function() { // Bug 749804 [Fx29]
     let tabsToolbar = document.getElementById("TabsToolbar");
     if (toolbarNodes.indexOf(tabsToolbar) == -1)
       toolbarNodes.push(tabsToolbar);
@@ -2862,8 +2866,8 @@ tabutils._firstRun = function() {
   TU_setPref("extensions.tabutils.firstRun", true);
 
   let navbar = document.getElementById("nav-bar");
-  navbar.currentSet = navbar.currentSet.replace(/undoclosetab-button|button_tuOptions/g, "")
-                                       .replace("urlbar-container", "undoclosetab-button,button_tuOptions,$&");
+  navbar.currentSet = navbar.currentSet.replace(/closetab-button|undoclosetab-button|button_tuOptions/g, "")
+                                       .replace("urlbar-container", "closetab-button,undoclosetab-button,button_tuOptions,$&");
   navbar.setAttribute("currentset", navbar.currentSet);
   document.persist(navbar.id, "currentset");
 };
