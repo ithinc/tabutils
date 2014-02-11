@@ -135,6 +135,7 @@ window[v4="true"] .tabbrowser-tabs[dontanimate="true"] > .tabbrowser-tab {
 }
 
 /* Tab Highlighting */
+window[v4="true"] .tabbrowser-tab[locked]:not(:hover) .tab-throbber:not([busy]),
 window[v4="true"] .tabbrowser-tab[protected] .tab-close-button {
   list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Secure24.png");
   -moz-image-region: auto;

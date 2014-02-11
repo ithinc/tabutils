@@ -54,9 +54,21 @@ menuseparator:last-child {
 }
 
 /* Tab Highlighting */
+.tabbrowser-tab[locked]:not(:hover) .tab-throbber,
 .tabbrowser-tab[protected] .tab-close-button {
   display: -moz-box !important;
+}
+
+.tabbrowser-tab[locked]:not(:hover) .tab-icon-image {
+  display: none !important;
+}
+
+.tabbrowser-tab[protected] .tab-close-button {
   visibility: visible !important;
+}
+
+.tabbrowser-tab[locked]:not(:hover) .tab-throbber:not([busy]),
+.tabbrowser-tab[protected] .tab-close-button {
   list-style-image: url(chrome://browser/skin/Secure.png);
   -moz-image-region: rect(1px, 15px, 15px, 1px);
 }
