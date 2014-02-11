@@ -40,7 +40,11 @@ window[OS="Darwin"][v17="true"] .tabbrowser-tab[protected] .tab-close-button {
 }
 
 window[OS="Darwin"][v4="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
-	-moz-image-region: rect(2px, 158px, 18px, 142px) !important;
+  -moz-image-region: rect(2px, 158px, 18px, 142px) !important;
+}
+
+window[OS="Darwin"][v29="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
+  -moz-image-region: rect(1px, 179px, 17px, 163px) !important;
 }
 
 /* Status bar buttons */
