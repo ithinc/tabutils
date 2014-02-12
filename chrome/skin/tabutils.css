@@ -54,7 +54,7 @@ menuseparator:last-child {
 }
 
 /* Tab Highlighting */
-.tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
+.tabbrowser-tab[protected] .tab-close-button {
   display: -moz-box !important;
   visibility: visible !important;
   list-style-image: url(chrome://browser/skin/Secure.png);
@@ -90,13 +90,11 @@ menuseparator:last-child {
 }
 
 [orient="horizontal"] > .tabbrowser-tab[faviconized] .tab-text:not(.tab-badge),
-.tabbrowser-tab[protected]:not([autoReload]) .tab-close-button,
-.tabbrowser-tab[faviconized]:not([autoReload]) .tab-close-button,
-.tabbrowser-tab[pinned]:not([autoReload]) .tab-close-button {
+.tabbrowser-tab[faviconized]:not([protected]):not([autoReload]) .tab-close-button,
+.tabbrowser-tab[pinned]:not([protected]):not([autoReload]) .tab-close-button {
   display: none !important;
 }
 
-.tabbrowser-tab[protected][autoReload]:hover .tab-close-button,
 .tabbrowser-tab[faviconized][autoReload]:hover .tab-close-button,
 .tabbrowser-tab[pinned][autoReload]:hover .tab-close-button {
   visibility: hidden;

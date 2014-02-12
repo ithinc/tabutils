@@ -1,14 +1,14 @@
 /* Tab Highlighting */
-window[OS="Linux"] .tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
+window[OS="Linux"] .tabbrowser-tab[protected] .tab-close-button {
   list-style-image: url("jar:resource://app/chrome/classic.jar!/skin/classic/browser/Secure.png");
-	-moz-image-region: auto;
+  -moz-image-region: auto;
 }
 
-window[OS="Linux"][v4="true"] .tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
+window[OS="Linux"][v4="true"] .tabbrowser-tab[protected] .tab-close-button {
   list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Secure.png");
 }
 
-window[OS="Linux"][v6="true"] .tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
+window[OS="Linux"][v6="true"] .tabbrowser-tab[protected] .tab-close-button {
   list-style-image: url("resource://app/chrome/browser/skin/classic/browser/Secure.png");
 }
 
