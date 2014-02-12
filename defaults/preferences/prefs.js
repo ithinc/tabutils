@@ -95,6 +95,13 @@ pref("extensions.tabutils.styles.unloaded", '{"opacity":true,"opacityCode":0.5}'
 pref("extensions.tabutils.styles.selected", '{"color":true,"colorCode":"highlighttext","bgColor":true,"bgColorCode":"highlight"}');
 pref("extensions.tabutils.styles.protected", "");
 pref("extensions.tabutils.styles.locked", '{"outline":true,"outlineColorCode":"red"}');
+pref("extensions.tabutils.selector.current", '[selected="true"]');
+pref("extensions.tabutils.selector.unread", '[unread="true"]:not([selected="true"])');
+pref("extensions.tabutils.selector.read", ':not([unread="true"]):not([selected="true"])');
+pref("extensions.tabutils.selector.unloaded", '[pending]');
+pref("extensions.tabutils.selector.selected", '[multiselected]');
+pref("extensions.tabutils.selector.protected", '[protected]');
+pref("extensions.tabutils.selector.locked", '[locked]');
 
 pref("extensions.tabutils.statusbarMode", 0);
 pref("extensions.tabutils.hideOpenInTab", false);
