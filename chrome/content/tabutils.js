@@ -709,7 +709,6 @@ tabutils._tabPrefObserver = {
     '.alltabs-item#Selector#'
   ].join(),
   textSelector: [
-    '.tabbrowser-tab#Selector# > * > .tab-content',
     '.tabbrowser-tab#Selector# > * > .tab-content > .tab-text',
     '.alltabs-item#Selector#'
   ].join(),
