@@ -9,13 +9,13 @@ var tabutils = {
     this._tabClosingOptions();
 
     this._unreadTab();
-    this._miscFeatures();
 
     window.addEventListener("load", this, false);
     window.addEventListener("unload", this, false);
   },
 
   onload: function() {
+    this._miscFeatures();
     this._undoCloseTabButton();
     this._tabPrefObserver.init();
 
@@ -703,17 +703,22 @@ tabutils._tabPrefObserver = {
     Services.prefs.removeObserver("", this);
   },
 
-  get cssRules() {
-    delete this.cssRules;
-    return this.cssRules = {
-      current:   { tab:  tabutils.insertRule('.tabbrowser-tab[selected="true"] {}'),
-                   text: tabutils.insertRule('.tabbrowser-tab[selected="true"] * {}')},
-      unread:    { tab:  tabutils.insertRule('.tabbrowser-tab[unread="true"]:not([selected="true"]) {}'),
-                   text: tabutils.insertRule('.tabbrowser-tab[unread="true"]:not([selected="true"]) * {}')},
-      read:      { tab:  tabutils.insertRule('.tabbrowser-tab:not([unread="true"]):not([selected="true"]) {}'),
-                   text: tabutils.insertRule('.tabbrowser-tab:not([unread="true"]):not([selected="true"]) * {}')}
-    };
-  },
+  cssRules: {},
+  tabSelector: [
+    '.tabbrowser-tab#Selector# > * > .tab-content',
+    '.alltabs-item#Selector#'
+  ].join(),
+  textSelector: [
+    '.tabbrowser-tab#Selector# > * > .tab-content',
+    '.tabbrowser-tab#Selector# > * > .tab-content > .tab-text',
+    '.alltabs-item#Selector#'
+  ].join(),
+  bgSelector: [
+    '.tabbrowser-tab#Selector#',
+    '.tabbrowser-tab#Selector# > * > .tab-content',
+    '.tabbrowser-tab#Selector# > * > .tab-content > *',
+    '.alltabs-item#Selector#'
+  ].join(),
 
   batching: false,
   observe: function(aSubject, aTopic, aData) {
@@ -739,34 +744,42 @@ tabutils._tabPrefObserver = {
     }
 
     //Tab highlighting
-    if (/^extensions.tabutils.(?:highlight|styles.)([^.]+)$/.test(aData)) {
+    if (/^extensions.tabutils.(?:highlight|styles.|selector.)([^.]+)$/.test(aData)) {
       let prefName = RegExp.$1.toLowerCase();
+      if (!(prefName in this.cssRules)) {
+        let selector = TU_getPref("extensions.tabutils.selector." + prefName);
+        if (!selector)
+          return;
+
+        this.cssRules[prefName] = {
+          tab: tabutils.insertRule(this.tabSelector.replace('#Selector#', selector, 'g') + '{}'),
+          text: tabutils.insertRule(this.textSelector.replace('#Selector#', selector, 'g') + '{}'),
+          bg: tabutils.insertRule(this.bgSelector.replace('#Selector#', selector, 'g') + '{}')
+        };
+      }
+
       let style = {};
       try {
-        style = JSON.parse(TU_getPref("extensions.tabutils.styles." + prefName));
-        if (!TU_getPref("extensions.tabutils.highlight" + prefName[0].toUpperCase() + prefName.slice(1)))
-          style.bold = style.italic = style.underline = style.strikethrough = style.outline = style.color = style.bgColor = style.opacity = false;
+        if (TU_getPref("extensions.tabutils.highlight" + prefName[0].toUpperCase() + prefName.slice(1)))
+          style = JSON.parse(TU_getPref("extensions.tabutils.styles." + prefName));
       }
       catch (e) {}
 
-      if (!(prefName in this.cssRules))
-        return;
-
       let tabStyle = this.cssRules[prefName].tab.style;
-      tabStyle.setProperty("font-weight", style.bold ? "bold" : "", "");
-      tabStyle.setProperty("font-style", style.italic ? "italic" : "", "");
-      tabStyle.setProperty("text-decoration", style.underline ? "underline" : style.strikethrough ? "line-through" : "", "");
       tabStyle.setProperty("outline", style.outline ? "1px solid" : "", "");
       tabStyle.setProperty("outline-offset", style.outline ? "-1px" : "", "");
       tabStyle.setProperty("outline-color", style.outline ? style.outlineColorCode : "", "");
       tabStyle.setProperty("-moz-outline-radius", style.outline ? "4px" : "", "");
-      tabStyle.setProperty("color", style.color ? style.colorCode : "", "important");
-      tabStyle.setProperty("background-image", style.bgColor ? "-moz-linear-gradient(" + style.bgColorCode + "," + style.bgColorCode + ")" : "", "important");
       tabStyle.setProperty("opacity", style.opacity ? style.opacityCode : "", "");
 
       let textStyle = this.cssRules[prefName].text.style;
+      textStyle.setProperty("font-weight", style.bold ? "bold" : "", "");
+      textStyle.setProperty("font-style", style.italic ? "italic" : "", "");
+      textStyle.setProperty("text-decoration", style.underline ? "underline" : style.strikethrough ? "line-through" : "", "");
       textStyle.setProperty("color", style.color ? style.colorCode : "", "important");
-      textStyle.setProperty("background-image", style.bgColor ? "-moz-linear-gradient(" + style.bgColorCode + "," + style.bgColorCode + ")" : "", "important");
+
+      let bgStyle = this.cssRules[prefName].bg.style;
+      bgStyle.setProperty("background-image", style.bgColor ? "-moz-linear-gradient(" + style.bgColorCode + "," + style.bgColorCode + ")" : "", "important");
       return;
     }
   },

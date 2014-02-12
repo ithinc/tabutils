@@ -38,6 +38,9 @@ pref("extensions.tabutils.highlightRead", false);
 pref("extensions.tabutils.styles.current", '{"bold":true,"color":true,"colorCode":"blue"}');
 pref("extensions.tabutils.styles.unread", '{"italic":true,"color":true,"colorCode":"red"}');
 pref("extensions.tabutils.styles.read", "");
+pref("extensions.tabutils.selector.current", '[selected="true"]');
+pref("extensions.tabutils.selector.unread", '[unread="true"]:not([selected="true"])');
+pref("extensions.tabutils.selector.read", ':not([unread="true"]):not([selected="true"])');
 
 pref("extensions.tabutils.invertAlt", true);
 pref("extensions.tabutils.dragBindingAlive", true);
