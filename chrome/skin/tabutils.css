@@ -54,19 +54,28 @@ menuseparator:last-child {
 }
 
 /* Tab Highlighting */
-.tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
-  display: -moz-box !important;
-  visibility: visible !important;
-  list-style-image: url(chrome://browser/skin/Secure.png);
-  -moz-image-region: rect(1px, 15px, 15px, 1px);
-}
-
+.tabbrowser-tab[locked]:not(:hover) .tab-throbber,
+.tabbrowser-tab[protected] .tab-close-button,
 .tabbrowser-tab[autoReload] .tab-close-button {
   display: -moz-box !important;
 }
 
+.tabbrowser-tab[locked]:not(:hover) .tab-icon-image {
+  display: none !important;
+}
+
+.tabbrowser-tab[protected] .tab-close-button,
 .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
   visibility: visible !important;
+}
+
+.tabbrowser-tab[locked]:not(:hover) .tab-throbber:not([busy]),
+.tabbrowser-tab[protected] .tab-close-button {
+  list-style-image: url(chrome://browser/skin/Secure.png);
+  -moz-image-region: rect(1px, 15px, 15px, 1px);
+}
+
+.tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
   list-style-image: url("jar:resource://app/chrome/classic.jar!/skin/classic/browser/Toolbar-small.png") !important;
   -moz-image-region: rect(1px, 111px, 15px, 97px) !important;
 }
@@ -90,13 +99,11 @@ menuseparator:last-child {
 }
 
 [orient="horizontal"] > .tabbrowser-tab[faviconized] .tab-text:not(.tab-badge),
-.tabbrowser-tab[protected]:not([autoReload]) .tab-close-button,
-.tabbrowser-tab[faviconized]:not([autoReload]) .tab-close-button,
-.tabbrowser-tab[pinned]:not([autoReload]) .tab-close-button {
+.tabbrowser-tab[faviconized]:not([protected]):not([autoReload]) .tab-close-button,
+.tabbrowser-tab[pinned]:not([protected]):not([autoReload]) .tab-close-button {
   display: none !important;
 }
 
-.tabbrowser-tab[protected][autoReload]:hover .tab-close-button,
 .tabbrowser-tab[faviconized][autoReload]:hover .tab-close-button,
 .tabbrowser-tab[pinned][autoReload]:hover .tab-close-button {
   visibility: hidden;

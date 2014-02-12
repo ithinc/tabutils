@@ -630,8 +630,8 @@
                 <tab label="&highlight.tab3.label;" observes="b.highlightRead"/>
                 <tab label="&highlight.tab6.label;" observes="b.highlightUnloaded"/>
                 <tab label="&highlight.tab7.label;" observes="b.highlightSelected"/>
-                <tab label="&highlight.tab4.label;" observes="b.highlightProtected"/>
-                <tab label="&highlight.tab5.label;" observes="b.highlightLocked"/>
+                <tab label="&highlight.tab4.label;" observes="b.highlightProtected" hidden="true"/>
+                <tab label="&highlight.tab5.label;" observes="b.highlightLocked" hidden="true"/>
               </tabs>
               <tabpanels>
                 <tabpanel orient="vertical">
