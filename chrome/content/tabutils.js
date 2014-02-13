@@ -582,7 +582,6 @@ tabutils._miscFeatures = function() {
   document.documentElement.setAttribute("v4", version >= 4.0);
   document.documentElement.setAttribute("v6", version >= 6.0);
   document.documentElement.setAttribute("v14", version >= 14.0);
-  document.documentElement.setAttribute("v21", version >= 21.0);
   document.documentElement.setAttribute("v29", version >= 29.0);
 };
 
