@@ -210,7 +210,7 @@ pref("extensions.tabutils.js.example", "");
 
 pref("extensions.tabutils.disableTabMoveAnimation", true);
 pref("extensions.tabutils.css.disableTabMoveAnimation", ".tabbrowser-tab[pinned] {-moz-transform: none !important;}");
-pref("extensions.tabutils.css.fixTabViewButton", "#tabview-button > toolbarbutton > .toolbarbutton-icon:not(:-moz-lwtheme) {list-style-image: url('chrome://browser/skin/tabview/tabview-inverted.png') !important;} /* Bug 748894 [Fx23] */");
+pref("extensions.tabutils.css.fixTabViewButton", "window[OS='WINNT']:not([v29='true']) #tabview-button > toolbarbutton > .toolbarbutton-icon:not(:-moz-lwtheme) {list-style-image: url('chrome://browser/skin/tabview/tabview-inverted.png') !important;} /* Bug 748894 [Fx23] */");
 
 pref("extensions.tabutils.invertAlt", true);
 pref("extensions.tabutils.invertDrag", false);
