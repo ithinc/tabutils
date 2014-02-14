@@ -46,12 +46,12 @@ pref("extensions.tabutils.leftClickTabDelay", 250);
 pref("extensions.tabutils.middleClickTab", 4);
 pref("extensions.tabutils.rightClickTab", 0);
 pref("extensions.tabutils.dblClickTab", 4);
-pref("extensions.tabutils.ctrlClickTab", 31);
+pref("extensions.tabutils.ctrlClickTab", 0);
 pref("extensions.tabutils.altClickTab", 0);
-pref("extensions.tabutils.shiftClickTab", 32);
-pref("extensions.tabutils.ctrlShiftClickTab", 33);
+pref("extensions.tabutils.shiftClickTab", 0);
+pref("extensions.tabutils.ctrlShiftClickTab", 0);
 
-pref("extensions.tabutils.leftClickTabBar", 35);
+pref("extensions.tabutils.leftClickTabBar", 0);
 pref("extensions.tabutils.middleClickTabBar", 5);
 pref("extensions.tabutils.rightClickTabBar", 0);
 pref("extensions.tabutils.dblClickTabBar", 0);
@@ -69,7 +69,7 @@ pref("extensions.tabutils.mouse.100.label", "");
 pref("extensions.tabutils.mouse.100.oncommand", "");
 
 pref("extensions.tabutils.dragAndGo", false);
-pref("extensions.tabutils.mouseReleaseSelect", true);
+pref("extensions.tabutils.mouseReleaseSelect", false);
 pref("extensions.tabutils.mouseHoverPreview", true);
 pref("extensions.tabutils.mouseHoverPreviewDelay", 250);
 pref("extensions.tabutils.mouseHoverSelect", false);

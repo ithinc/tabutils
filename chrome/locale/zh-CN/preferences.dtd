@@ -105,6 +105,7 @@
 <!ENTITY sessionHistoryMenu.label "会话历史菜单">
 <!ENTITY tabContextMenu.label "标签页右键菜单">
 <!ENTITY toolbarContextMenu.label "工具栏右键菜单">
+<!ENTITY multipleTabHandler.label "允许同时操作多个标签页">
 <!ENTITY mouseReleaseSelect.label "鼠标点击并释放时才激活标签页">
 <!ENTITY mouseHoverPreview.label "鼠标悬停预览标签页, 延时">
 <!ENTITY mouseHoverSelect.label "自动激活该标签页, 延时">

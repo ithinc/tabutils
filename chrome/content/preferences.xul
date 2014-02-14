@@ -321,17 +321,17 @@
       <preference id="middleClickTab" name="extensions.tabutils.middleClickTab" type="int"/>
       <preference id="rightClickTab" name="extensions.tabutils.rightClickTab" type="int"/>
       <preference id="dblClickTab" name="extensions.tabutils.dblClickTab" type="int"/>
-      <preference id="ctrlClickTab" name="extensions.tabutils.ctrlClickTab" type="int"/>
+      <preference id="ctrlClickTab" name="extensions.tabutils.ctrlClickTab" type="int" suggest="31" onchange="mouseReleaseSelect();"/>
       <preference id="altClickTab" name="extensions.tabutils.altClickTab" type="int"/>
-      <preference id="shiftClickTab" name="extensions.tabutils.shiftClickTab" type="int"/>
-      <preference id="ctrlShiftClickTab" name="extensions.tabutils.ctrlShiftClickTab" type="int"/>
+      <preference id="shiftClickTab" name="extensions.tabutils.shiftClickTab" type="int" suggest="32" onchange="mouseReleaseSelect();"/>
+      <preference id="ctrlShiftClickTab" name="extensions.tabutils.ctrlShiftClickTab" type="int" suggest="33" onchange="mouseReleaseSelect();"/>
 
-      <preference id="leftClickTabBar" name="extensions.tabutils.leftClickTabBar" type="int"/>
+      <preference id="leftClickTabBar" name="extensions.tabutils.leftClickTabBar" type="int" suggest="35" onchange="mouseReleaseSelect();"/>
       <preference id="middleClickTabBar" name="extensions.tabutils.middleClickTabBar" type="int"/>
       <preference id="rightClickTabBar" name="extensions.tabutils.rightClickTabBar" type="int" suggest="12"/>
       <preference id="dblClickTabBar" name="extensions.tabutils.dblClickTabBar" type="int" onchange="$('dragBindingAlive').value = this.value == 0;"/>
       <preference id="dragBindingAlive" name="extensions.tabutils.dragBindingAlive" type="bool"/>
-      <preference id="ctrlClickTabBar" name="extensions.tabutils.ctrlClickTabBar" type="int" suggest="34"/>
+      <preference id="ctrlClickTabBar" name="extensions.tabutils.ctrlClickTabBar" type="int" suggest="34" onchange="mouseReleaseSelect();"/>
       <preference id="altClickTabBar" name="extensions.tabutils.altClickTabBar" type="int"/>
       <preference id="shiftClickTabBar" name="extensions.tabutils.shiftClickTabBar" type="int"/>
 
@@ -342,7 +342,7 @@
       <preference id="shiftClickNewTabButton" name="extensions.tabutils.shiftClickNewTabButton" type="int"/>
 
       <preference id="dragAndGo" name="extensions.tabutils.dragAndGo" type="bool" suggest="true"/>
-      <preference id="mouseReleaseSelect" name="extensions.tabutils.mouseReleaseSelect" type="bool" suggest="true"/>
+      <preference id="mouseReleaseSelect" name="extensions.tabutils.mouseReleaseSelect" type="bool" suggest="true" onchange="mouseReleaseSelect();"/>
       <preference id="mouseHoverPreview" name="extensions.tabutils.mouseHoverPreview" type="bool" onchange="mouseHoverPreview();"/>
       <preference id="mouseHoverPreviewDelay" name="extensions.tabutils.mouseHoverPreviewDelay" type="int"/>
       <preference id="mouseHoverSelect" name="extensions.tabutils.mouseHoverSelect" type="bool" onchange="mouseHoverSelect();"/>
@@ -467,7 +467,13 @@
     <spacer height="8"/>
 
     <checkbox preference="dragAndGo" label="&dragAndGo.label;" tooltiptext="&dragAndGo.tooltip;" hidden="true"/>
+    <checkbox id="multipleTabHandler" label="&multipleTabHandler.label;" oncommand="multipleTabHandler();"/>
     <checkbox preference="mouseReleaseSelect" label="&mouseReleaseSelect.label;"/>
+    <checkbox preference="mouseScrollSelect" label="&mouseScrollSelect.label;"/>
+    <vbox class="indent">
+      <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;" hidden="true"/>
+      <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;" hidden="true"/>
+    </vbox>
     <hbox align="center">
       <checkbox preference="mouseHoverPreview" label="&mouseHoverPreview.label;"/>
       <textbox preference="mouseHoverPreviewDelay" type="number" increment="50" size="4" maxlength="4"/>
@@ -483,11 +489,6 @@
       <textbox preference="mouseHoverLoadDelay" type="number" increment="50" size="4" maxlength="4"/>
       <label value="&time.label;"/>
     </hbox>
-    <checkbox preference="mouseScrollSelect" label="&mouseScrollSelect.label;"/>
-    <vbox class="indent">
-      <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;"/>
-      <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;" hidden="true"/>
-    </vbox>
   </prefpane>
 
   <prefpane id="pane4" label="&pane4.title;" helpTopic2="pane4" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
@@ -938,6 +939,7 @@
       openNewWindow();
       openNewWindowRestriction();
       singleWindowMode();
+      mouseReleaseSelect();
       mouseHoverPreview();
       mouseHoverSelect();
       mouseHoverLoad();
@@ -1142,6 +1144,33 @@
       setDisabled("b.singleWindowMode", singleWindowMode);
     }
 
+    function mouseReleaseSelect() {
+      $("multipleTabHandler").checked = $("mouseReleaseSelect").value &&
+                                        $("ctrlClickTab").value == 31 &&
+                                        $("shiftClickTab").value == 32 &&
+                                        $("ctrlShiftClickTab").value == 33 &&
+                                        $("ctrlClickTabBar").value == 34 &&
+                                        $("leftClickTabBar").value == 35;
+      $("multipleTabHandler").doCommand();
+    }
+
+    function multipleTabHandler() {
+      if ($("multipleTabHandler").checked) {
+        $("mouseReleaseSelect").value = true;
+        $("ctrlClickTab").value = 31;
+        $("shiftClickTab").value = 32;
+        $("ctrlShiftClickTab").value = 33;
+        $("ctrlClickTabBar").value = 34;
+        $("leftClickTabBar").value = 35;
+      }
+      $("mouseReleaseSelect").disabled = $("multipleTabHandler").checked;
+      $("ctrlClickTab").disabled = $("multipleTabHandler").checked;
+      $("shiftClickTab").disabled = $("multipleTabHandler").checked;
+      $("ctrlShiftClickTab").disabled = $("multipleTabHandler").checked;
+      $("ctrlClickTabBar").disabled = $("multipleTabHandler").checked;
+      $("leftClickTabBar").disabled = $("multipleTabHandler").checked;
+    }
+
     function mouseHoverPreview() {
       $("mouseHoverPreviewDelay").disabled = !$("mouseHoverPreview").value;
       $("mouseHoverSelect").disabled = !$("mouseHoverPreview").value;
@@ -1181,6 +1210,7 @@
     }
 
     function setDisabled(id, val) {
+      val ? $(id).removeAttribute("disabled") : $(id).setAttribute("disabled", true);
       val ? $(id).setAttribute("disabled", true) : $(id).removeAttribute("disabled");
     }
 
@@ -1208,7 +1238,7 @@
           element.removeAttribute("preference");
           element.value = 0;
         }
-        setDisabled(aId.replace("c", "b"), !element.hasAttribute("preference"));
+        setDisabled(aId.replace("c", "b"), !preference || preference.disabled);
       });
 
       setDisabled("b.clickBookmarks", ["middle", "right", "ctrl", "shift"].indexOf(tabs[target.selectedIndex]) == -1);
