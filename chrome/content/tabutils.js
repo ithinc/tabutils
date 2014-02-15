@@ -1563,7 +1563,7 @@ tabutils._multiTabHandler = function() {
     Array.forEach(this.mTabs, function(aTab) aTab.removeAttribute("multiselected"));
     Array.forEach(val, function(aTab) {
       if (aTab.boxObject.width > 0) {
-        if (aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1) {
+        if (this.isCollapsedStack(aTab)) {
           let tabs = this.siblingTabsOf(aTab);
           tabs.forEach(function(aTab) aTab.setAttribute("multiselected", true));
         }
@@ -1576,14 +1576,14 @@ tabutils._multiTabHandler = function() {
 
   gBrowser.contextTabsOf = function contextTabsOf(aTab) {
     return aTab.hasAttribute("multiselected") ? this.selectedTabs :
-           aTab.getAttribute("group-collapsed") == "true" || aTab.mOverTwisty ? this.siblingTabsOf(aTab) : [aTab];
+           this.isCollapsedStack(aTab) || aTab.mOverTwisty ? this.siblingTabsOf(aTab) : [aTab];
   };
 
   gBrowser.selectTab = function selectTab(aTab, aForce) {
     if (aForce == null)
       aForce = !aTab.hasAttribute("multiselected");
 
-    if (aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1) {
+    if (this.isCollapsedStack(aTab)) {
       let tabs = this.siblingTabsOf(aTab);
       if (aForce)
         tabs.forEach(function(aTab) aTab.setAttribute("multiselected", true));

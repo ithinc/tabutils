@@ -54,6 +54,8 @@ tabutils._stackTabs = function() {
     return aTab;
   };
 
+  gBrowser.isCollapsedStack = function(aTab) aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1;
+
   gBrowser.stackTabs = function stackTabs(aTabs, aTab, aExpand) {
     aTabs = aTabs.filter(function(aTab) !aTab.pinned)
                  .sort(function(aTab, bTab) aTab._tPos - bTab._tPos);
@@ -244,8 +246,7 @@ tabutils._stackTabs = function() {
 
   tabutils.addEventListener(gBrowser.mTabContainer, "dragover", function(event) {
     let tab = event.target.localName == "tab" ? event.target : null;
-    if (tab && tab.getAttribute("group-collapsed") == "true" &&
-        tab.getAttribute("group-counter") != 1 &&
+    if (tab && gBrowser.isCollapsedStack(tab) &&
         TU_getPref("extensions.tabutils.autoExpandStackOnDragover", true)) {
       if (!this._dragTime)
         this._dragTime = Date.now();
@@ -309,7 +310,7 @@ tabutils._stackTabs = function() {
         move = "after";
         break;
       default:
-        if (tab.getAttribute("group-collapsed") == "true" && tab.getAttribute("group-counter") > 1)
+        if (gBrowser.isCollapsedStack(tab))
           move = "end";
         else
           move = "stack";
@@ -361,7 +362,7 @@ tabutils._stackTabs = function() {
     let nextTab = ltr ? aTab.nextSibling : aTab.previousSibling;
 
     if (aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1 && !aTab.hidden) {
-      if (aTab.getAttribute("group-collapsed") == "true" && aTab.hasAttribute("group-counter")) {
+      if (this.isCollapsedStack(aTab)) {
         let tabs = this.siblingTabsOf(aTab.getAttribute("group"));
         tabs.splice(tabs.indexOf(aTab), 1);
 
@@ -371,7 +372,7 @@ tabutils._stackTabs = function() {
           index++;
         tabs.splice(index, 0, aTab);
 
-        setTimeout(function() { //gather stack
+        setTimeout(function() { // gather stack
           let selectedTabs = this.selectedTabs;
           this.selectedTabs = [];
           this.gatherTabs(tabs, aTab);
@@ -385,19 +386,21 @@ tabutils._stackTabs = function() {
         this.detachTab(aTab);
     }
 
+    // Move into a stack
     if (nextTab && nextTab.hasAttribute("group") &&
         nextTab.getAttribute("group") != aTab.getAttribute("group") &&
         nextTab.getAttribute("group") == previousTab.getAttribute("group")) {
-      if (nextTab.getAttribute("group-collapsed") == "true")
-        setTimeout(function() { //bypass stack
+      if (nextTab.getAttribute("group-collapsed") == "true") { // Move into a collapsed stack
+        setTimeout(function() { // bypass stack
           if (ltr)
             this.moveTabAfter(aTab, this.lastSiblingTabOf(nextTab));
           else
             this.moveTabBefore(aTab, this.firstSiblingTabOf(nextTab));
         }.bind(this), 0);
+      }
       else {
-        if (aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1)
-          this.unstackTabs(this.siblingTabsOf(aTab.getAttribute("group")), false);
+        if (this.isCollapsedStack(aTab)) // Move a collapsed stack
+          this.unstackTabs(this.siblingTabsOf(aTab.getAttribute("group")), false); // to be gathered
         this.attachTabTo(aTab, nextTab);
       }
     }
@@ -411,12 +414,10 @@ tabutils._stackTabs = function() {
     if (aTab.selected && aTab.hasAttribute("group") && !aTab.hasAttribute("opener"))
       this.selectedTab = this.nextSiblingTabOf(aTab) || this.previousSiblingTabOf(aTab);
 
-    if (aTab.getAttribute("group-collapsed") == "true" &&
-        aTab.getAttribute("group-counter") > 1) {
-      aTab.removeAttribute("group-counter");
-    }
     if (aTab.hasAttribute("group")) {
       this.updateStack(aTab.getAttribute("group"));
+      if (this.isCollapsedStack(aTab))
+        aTab.removeAttribute("group-counter");
     }
   });
 
@@ -500,7 +501,7 @@ tabutils._stackTabs = function() {
     $1.mOverTwisty ? $1.getAttribute("group-collapsed") == "true" ?
                      document.getElementById("context_expandStack").getAttribute("label") :
                      document.getElementById("context_collapseStack").getAttribute("label")
-                   : $1.getAttribute("group-collapsed") == "true" && $1.getAttribute("group-counter") != 1 ?
+                   : this.isCollapsedStack($1) ?
                      TU_getPref("extensions.tabutils.mouseHoverPopup", true) ?
                      event.preventDefault() :
                      this.siblingTabsOf($1).map(function($1) ($1.hasAttribute("group-counter") ? "> " : "# ") + $0).join("\n") :
@@ -555,8 +556,7 @@ tabutils._stackTabs = function() {
 
   tabutils.addEventListener(gBrowser.mTabContainer, "mouseover", function(event) {
     if (event.target.localName == "tab" &&
-        event.target.getAttribute("group-collapsed") == "true" &&
-        event.target.getAttribute("group-counter") != 1 &&
+        gBrowser.isCollapsedStack(event.target) &&
         TU_getPref("extensions.tabutils.mouseHoverPopup", true)) {
       let tab = event.target;
       let target = event.relatedTarget;
