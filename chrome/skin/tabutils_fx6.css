@@ -8,7 +8,7 @@ window[v6="true"] .tabbrowser-tab[group-first]:not([group-last]):not([group-coll
 }
 
 /* Tab Highlighting */
-window[v6="true"] .tabbrowser-tab[locked]:not(:hover) .tab-throbber:not([busy]),
+window[v6="true"] .tabbrowser-tab[locked] .tab-throbber:not([busy]),
 window[v6="true"] .tabbrowser-tab[protected] .tab-close-button {
   list-style-image: url("resource://app/chrome/browser/skin/classic/browser/Secure24.png");
 }
