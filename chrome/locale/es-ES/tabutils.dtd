@@ -106,7 +106,7 @@
 <!ENTITY bookmarkStack.accesskey "A">
 <!ENTITY splitStack.label "Separar en dos pilas">
 <!ENTITY splitStack.accesskey "S">
-<!ENTITY unstackStack.label "Desapilar">
-<!ENTITY unstackStack.accesskey "D">
+<!ENTITY dismissStack.label "Desapilar">
+<!ENTITY dismissStack.accesskey "D">
 <!ENTITY closeStack.label "Cerrar pila">
 <!ENTITY closeStack.accesskey "C">

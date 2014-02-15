@@ -106,7 +106,7 @@
 <!ENTITY bookmarkStack.accesskey "P">
 <!ENTITY splitStack.label "Dividir Grupo">
 <!ENTITY splitStack.accesskey "i">
-<!ENTITY unstackStack.label "Desfazer Grupo">
-<!ENTITY unstackStack.accesskey "f">
+<!ENTITY dismissStack.label "Desfazer Grupo">
+<!ENTITY dismissStack.accesskey "f">
 <!ENTITY closeStack.label "Fechar Grupo">
 <!ENTITY closeStack.accesskey "h">

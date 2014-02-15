@@ -106,7 +106,7 @@
 <!ENTITY bookmarkStack.accesskey "B">
 <!ENTITY splitStack.label "スタックを分ける">
 <!ENTITY splitStack.accesskey "S">
-<!ENTITY unstackStack.label "スタックをばらす">
-<!ENTITY unstackStack.accesskey "U">
+<!ENTITY dismissStack.label "スタックをばらす">
+<!ENTITY dismissStack.accesskey "D">
 <!ENTITY closeStack.label "スタックを閉じる">
 <!ENTITY closeStack.accesskey "C">

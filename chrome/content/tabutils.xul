@@ -300,9 +300,9 @@
                   accesskey="&splitStack.accesskey;"
                   grouponly="true"
                   oncommand="gBrowser.stackTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab).filter(function(aTab) aTab._tPos >= gBrowser.mContextTab._tPos), null, true);"/>
-        <menuitem id="context_unstackStack"
-                  label="&unstackStack.label;"
-                  accesskey="&unstackStack.accesskey;"
+        <menuitem id="context_dismissStack"
+                  label="&dismissStack.label;"
+                  accesskey="&dismissStack.accesskey;"
                   grouponly="true"
                   oncommand="gBrowser.unstackTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
         <menuitem id="context_closeStack"

@@ -106,7 +106,7 @@
 <!ENTITY bookmarkStack.accesskey "B">
 <!ENTITY splitStack.label "拆分分组">
 <!ENTITY splitStack.accesskey "S">
-<!ENTITY unstackStack.label "解散分组">
-<!ENTITY unstackStack.accesskey "U">
+<!ENTITY dismissStack.label "解散分组">
+<!ENTITY dismissStack.accesskey "D">
 <!ENTITY closeStack.label "关闭分组">
 <!ENTITY closeStack.accesskey "C">

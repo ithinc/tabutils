@@ -106,7 +106,7 @@
 <!ENTITY bookmarkStack.accesskey "D">
 <!ENTITY splitStack.label "Podziel stos">
 <!ENTITY splitStack.accesskey "P">
-<!ENTITY unstackStack.label "Cofnij podział stosu">
-<!ENTITY unstackStack.accesskey "C">
+<!ENTITY dismissStack.label "Cofnij podział stosu">
+<!ENTITY dismissStack.accesskey "C">
 <!ENTITY closeStack.label "Zamknij stos">
 <!ENTITY closeStack.accesskey "M">
