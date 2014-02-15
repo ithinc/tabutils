@@ -133,6 +133,7 @@ pref("extensions.tabutils.menu.context_closeSimilarTabs", false);
 pref("extensions.tabutils.menu.context_markTab", false);
 pref("extensions.tabutils.menu.context_markTabs", false);
 pref("extensions.tabutils.menu.context_selectTabs", false);
+pref("extensions.tabutils.menu.context_selectSimilarTabs", false);
 pref("extensions.tabutils.menu.context_selectAllTabs", false);
 pref("extensions.tabutils.menu.context_unselectAllTabs", false);
 pref("extensions.tabutils.menu.context_invertSelection", false);

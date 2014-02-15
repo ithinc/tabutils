@@ -539,6 +539,7 @@
       <preference id="context_markTab" name="extensions.tabutils.menu.context_markTab" type="bool" suggest="true"/>
       <preference id="context_markTabs" name="extensions.tabutils.menu.context_markTabs" type="bool" suggest="true"/>
       <preference id="context_selectTabs" name="extensions.tabutils.menu.context_selectTabs" type="bool"/>
+      <preference id="context_selectSimilarTabs" name="extensions.tabutils.menu.context_selectSimilarTabs" type="bool"/>
       <preference id="context_selectAllTabs" name="extensions.tabutils.menu.context_selectAllTabs" type="bool"/>
       <preference id="context_unselectAllTabs" name="extensions.tabutils.menu.context_unselectAllTabs" type="bool"/>
       <preference id="context_invertSelection" name="extensions.tabutils.menu.context_invertSelection" type="bool"/>
@@ -744,6 +745,7 @@
               <checkbox preference="context_markTab" label="&markTab.label;"/>
               <checkbox preference="context_markTabs" label="&markTabs.label;"/>
               <checkbox preference="context_selectTabs" label="&selectTabs.label;"/>
+              <checkbox preference="context_selectSimilarTabs" label="&selectSimilarTabs.label;"/>
               <checkbox preference="context_selectAllTabs" label="&selectAllTabs.label;"/>
               <checkbox preference="context_unselectAllTabs" label="&unselectAllTabs.label;"/>
               <checkbox preference="context_invertSelection" label="&invertSelection.label;"/>

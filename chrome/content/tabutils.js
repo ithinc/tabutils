@@ -2279,8 +2279,8 @@ tabutils._tabClickingOptions = function() {
       case 36: //Invert Selection
         $("context_invertSelection").doCommand();
         break;
-      case 37: //Select Similar Tabs
-        gBrowser.selectedTabs = gBrowser.similarTabsOf(gBrowser.mContextTabs);
+      case 37: // Select Similar Tabs
+        $("context_selectSimilarTabs").doCommand();
         break;
       case 41: //Close Left Tabs
         $("context_closeLeftTabs").doCommand();

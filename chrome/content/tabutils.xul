@@ -349,6 +349,11 @@
               accesskey="&selectTabs.accesskey;"
               multiselected="any"
               oncommand="gBrowser.markTabs(gBrowser.mContextTab, true, false);event.stopPropagation();"/>
+    <menuitem id="context_selectSimilarTabs"
+              label="&selectSimilarTabs.label;"
+              accesskey="&selectSimilarTabs.accesskey;"
+              multiselected="any"
+              oncommand="gBrowser.selectedTabs = gBrowser.similarTabsOf(gBrowser.mContextTabs);event.stopPropagation();"/>
     <menuitem id="context_selectAllTabs"
               label="&selectAllTabs.label;"
               accesskey="&selectAllTabs.accesskey;"
