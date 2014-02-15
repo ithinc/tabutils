@@ -61,7 +61,6 @@ tabutils._verticalTabs = function() {
   });
 
   TU_hookCode("FullScreen.showXULChrome",
-    [/(?=.*var ctlsOnTabbar.*)/, 'var fullscreenctls = navbar._getToolbarItem("window-controls");'],
     ['fullscreenctls.parentNode == navbar', 'document.getElementById("TabsToolbar").parentNode == gNavToolbox'],
     ['fullscreenctls.parentNode.id == "TabsToolbar" && !ctlsOnTabbar', 'fullscreenctls.parentNode != navbar']
   );

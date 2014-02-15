@@ -24,19 +24,9 @@ window[OS="Darwin"][v4="true"] .tabbrowser-tabs[orient="vertical"] > .tabbrowser
 }
 
 /* Tab Highlighting */
-window[OS="Darwin"][v4="true"] .tabbrowser-tab[locked]:not(:hover) .tab-throbber:not([busy]),
-window[OS="Darwin"][v4="true"] .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Secure-Glyph-White.png");
-}
-
-window[OS="Darwin"][v6="true"] .tabbrowser-tab[locked]:not(:hover) .tab-throbber:not([busy]),
-window[OS="Darwin"][v6="true"] .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url("resource://app/chrome/browser/skin/classic/browser/Secure-Glyph-White.png");
-}
-
-window[OS="Darwin"][v17="true"] .tabbrowser-tab[locked]:not(:hover) .tab-throbber:not([busy]),
+window[OS="Darwin"][v17="true"] .tabbrowser-tab[locked] .tab-throbber:not([busy]),
 window[OS="Darwin"][v17="true"] .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url("resource://app/chrome/browser/skin/classic/browser/Secure-Glyph.png");
+  list-style-image: url("chrome://browser/skin/Secure-Glyph.png");
 }
 
 window[OS="Darwin"][v4="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {

@@ -54,14 +54,11 @@ menuseparator:last-child {
 }
 
 /* Tab Highlighting */
-.tabbrowser-tab[locked]:not(:hover) .tab-throbber,
+.tabbrowser-tab[locked] .tab-throbber:not([busy]),
+.tabbrowser-tab[locked] .tab-throbber:not([busy]) + .tab-icon-image,
 .tabbrowser-tab[protected] .tab-close-button,
 .tabbrowser-tab[autoReload] .tab-close-button {
   display: -moz-box !important;
-}
-
-.tabbrowser-tab[locked]:not(:hover) .tab-icon-image {
-  display: none !important;
 }
 
 .tabbrowser-tab[protected] .tab-close-button,
@@ -69,7 +66,17 @@ menuseparator:last-child {
   visibility: visible !important;
 }
 
-.tabbrowser-tab[locked]:not(:hover) .tab-throbber:not([busy]),
+.tabbrowser-tab[locked] .tab-throbber:not([busy]) {
+  -moz-margin-end: -8px;
+}
+
+.tabbrowser-tab[locked] .tab-throbber:not([busy]) + .tab-icon-image {
+  -moz-margin-start: -8px;
+  position: relative;
+  z-index: -1;
+}
+
+.tabbrowser-tab[locked] .tab-throbber:not([busy]),
 .tabbrowser-tab[protected] .tab-close-button {
   list-style-image: url(chrome://browser/skin/Secure.png);
   -moz-image-region: rect(1px, 15px, 15px, 1px);

@@ -91,22 +91,16 @@ pref("extensions.tabutils.highlightUnread", false);
 pref("extensions.tabutils.highlightRead", false);
 pref("extensions.tabutils.highlightUnloaded", true);
 pref("extensions.tabutils.highlightSelected", true);
-pref("extensions.tabutils.highlightProtected", false);
-pref("extensions.tabutils.highlightLocked", false);
 pref("extensions.tabutils.styles.current", '{"bold":true,"color":true,"colorCode":"blue"}');
 pref("extensions.tabutils.styles.unread", '{"italic":true,"color":true,"colorCode":"red"}');
 pref("extensions.tabutils.styles.read", "");
 pref("extensions.tabutils.styles.unloaded", '{"opacity":true,"opacityCode":0.5}');
 pref("extensions.tabutils.styles.selected", '{"color":true,"colorCode":"highlighttext","bgColor":true,"bgColorCode":"highlight"}');
-pref("extensions.tabutils.styles.protected", "");
-pref("extensions.tabutils.styles.locked", '{"outline":true,"outlineColorCode":"red"}');
 pref("extensions.tabutils.selector.current", '[selected="true"]');
 pref("extensions.tabutils.selector.unread", '[unread="true"]:not([selected="true"])');
 pref("extensions.tabutils.selector.read", ':not([unread="true"]):not([selected="true"])');
 pref("extensions.tabutils.selector.unloaded", '[pending]');
 pref("extensions.tabutils.selector.selected", '[multiselected]');
-pref("extensions.tabutils.selector.protected", '[protected]');
-pref("extensions.tabutils.selector.locked", '[locked]');
 
 pref("extensions.tabutils.statusbarMode", 0);
 pref("extensions.tabutils.hideOpenInTab", false);
@@ -221,7 +215,7 @@ pref("extensions.tabutils.js.example", "");
 
 pref("extensions.tabutils.disableTabMoveAnimation", true);
 pref("extensions.tabutils.css.disableTabMoveAnimation", ".tabbrowser-tab[pinned] {-moz-transform: none !important;}");
-pref("extensions.tabutils.css.fixTabViewButton", "#tabview-button > toolbarbutton > .toolbarbutton-icon:not(:-moz-lwtheme) {list-style-image: url('chrome://browser/skin/tabview/tabview-inverted.png') !important;} /* Bug 748894 [Fx23] */");
+pref("extensions.tabutils.css.fixTabViewButton", "window[OS='WINNT']:not([v29='true']) #tabview-button > toolbarbutton > .toolbarbutton-icon:not(:-moz-lwtheme) {list-style-image: url('chrome://browser/skin/tabview/tabview-inverted.png') !important;} /* Bug 748894 [Fx23] */");
 
 pref("extensions.tabutils.invertAlt", true);
 pref("extensions.tabutils.invertDrag", false);
