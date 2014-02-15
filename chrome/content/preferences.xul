@@ -338,7 +338,6 @@
       <preference id="altClickNewTabButton" name="extensions.tabutils.altClickNewTabButton" type="int"/>
       <preference id="shiftClickNewTabButton" name="extensions.tabutils.shiftClickNewTabButton" type="int"/>
 
-
       <preference id="dragAndGo" name="extensions.tabutils.dragAndGo" type="bool" suggest="true"/>
       <preference id="mouseReleaseSelect" name="extensions.tabutils.mouseReleaseSelect" type="bool" suggest="true"/>
       <preference id="mouseHoverSelect" name="extensions.tabutils.mouseHoverSelect" type="bool" onchange="mouseHoverSelect();"/>
@@ -488,15 +487,11 @@
       <preference id="highlightRead" name="extensions.tabutils.highlightRead" type="bool" onchange="onHighlightEnabled('Read');"/>
       <preference id="highlightUnloaded" name="extensions.tabutils.highlightUnloaded" type="bool" onchange="onHighlightEnabled('Unloaded');"/>
       <preference id="highlightSelected" name="extensions.tabutils.highlightSelected" type="bool" onchange="onHighlightEnabled('Selected');"/>
-      <preference id="highlightProtected" name="extensions.tabutils.highlightProtected" type="bool" onchange="onHighlightEnabled('Protected');"/>
-      <preference id="highlightLocked" name="extensions.tabutils.highlightLocked" type="bool" onchange="onHighlightEnabled('Locked');"/>
       <preference id="styleCurrent" name="extensions.tabutils.styles.current" type="string" onchange="onHighlightStyle('Current');"/>
       <preference id="styleUnread" name="extensions.tabutils.styles.unread" type="string" onchange="onHighlightStyle('Unread');"/>
       <preference id="styleRead" name="extensions.tabutils.styles.read" type="string" onchange="onHighlightStyle('Read');"/>
       <preference id="styleUnloaded" name="extensions.tabutils.styles.unloaded" type="string" onchange="onHighlightStyle('Unloaded');"/>
       <preference id="styleSelected" name="extensions.tabutils.styles.selected" type="string" onchange="onHighlightStyle('Selected');"/>
-      <preference id="styleProtected" name="extensions.tabutils.styles.protected" type="string" onchange="onHighlightStyle('Protected');"/>
-      <preference id="styleLocked" name="extensions.tabutils.styles.locked" type="string" onchange="onHighlightStyle('Locked');"/>
 
       <preference id="autoHide" name="browser.tabs.autoHide" type="bool" inverted="true" suggest="false"/>
       <preference id="tabClipWidth" name="browser.tabs.tabClipWidth" type="int"/>
@@ -614,8 +609,6 @@
                 <tab label="&highlight.tab3.label;" observes="b.highlightRead"/>
                 <tab label="&highlight.tab6.label;" observes="b.highlightUnloaded"/>
                 <tab label="&highlight.tab7.label;" observes="b.highlightSelected"/>
-                <tab label="&highlight.tab4.label;" observes="b.highlightProtected" hidden="true"/>
-                <tab label="&highlight.tab5.label;" observes="b.highlightLocked" hidden="true"/>
               </tabs>
               <tabpanels>
                 <tabpanel orient="vertical">
@@ -801,8 +794,6 @@
     <broadcaster id="b.highlightRead"/>
     <broadcaster id="b.highlightUnloaded"/>
     <broadcaster id="b.highlightSelected"/>
-    <broadcaster id="b.highlightProtected"/>
-    <broadcaster id="b.highlightLocked"/>
     <broadcaster id="b.highlightEnabled"/>
     <broadcaster id="b.highlightColor"/>
     <broadcaster id="b.highlightBgColor"/>
@@ -868,8 +859,6 @@
       <menuitem label="&settings.suggest;" oncommand="onSuggest();"/>
     </menupopup>
   </popupset>
-
-
 
   <script type="application/javascript">
   <![CDATA[
@@ -946,8 +935,6 @@
       onHighlightStyle("Read");
       onHighlightStyle("Unloaded");
       onHighlightStyle("Selected");
-      onHighlightStyle("Protected");
-      onHighlightStyle("Locked");
 
       let version = parseFloat(Services.appinfo.version);
       if (version >= 4.0) {
@@ -1111,9 +1098,6 @@
         $("loadAllInBackground").value = false;
     }
 
-
-
-
     function openTabNext() {
       $("keepOrder").disabled = $("openTabNext").value == 0;
     }
@@ -1129,7 +1113,6 @@
     function openNewWindowRestriction() {
       setDisabled("b.openNewWindowRestriction", $("openNewWindowRestriction").value == 0);
     }
-
 
     function singleWindowMode() {
       var singleWindowMode = $("singleWindowMode").value;
@@ -1204,7 +1187,7 @@
 
     function onHighlightTabSelect() {
       var target = $("highlight");
-      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected", "Protected", "Locked"];
+      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected"];
 
       $("c.highlightEnabled").setAttribute("preference", "highlight" + tabs[target.selectedIndex]);
       $("c.highlightEnabled").checked = $("highlight" + tabs[target.selectedIndex]).value;
@@ -1213,7 +1196,7 @@
     }
 
     function onHighlightEnabled(item) {
-      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected", "Protected", "Locked"];
+      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected"];
       if (item == tabs[$("highlight").selectedIndex]) {
         setDisabled("b.highlightEnabled", !$("highlight" + item).value);
       }
@@ -1241,7 +1224,7 @@
                                     : ""
       );
 
-      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected", "Protected", "Locked"];
+      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected"];
       if (item == tabs[$("highlight").selectedIndex]) {
         $("c.highlightBold").checked = style.bold;
         $("c.highlightItalic").checked = style.italic;
@@ -1282,7 +1265,7 @@
         opacityCode: $("c.highlightOpacityCode").value / 100
       };
 
-      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected", "Protected", "Locked"];
+      var tabs = ["Current", "Unread", "Read", "Unloaded", "Selected"];
       $("style" + tabs[$("highlight").selectedIndex]).value = JSON.stringify(style);
     }
 
