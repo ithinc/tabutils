@@ -45,11 +45,12 @@
 <!ENTITY closeDuplicateTabs.accesskey "D">
 <!ENTITY closeSimilarTabs.label "Close Similar Tabs">
 <!ENTITY closeSimilarTabs.accesskey "S">
-<!ENTITY selectTab.label "Select a Tab">
-<!ENTITY selectTab.accesskey "S">
+<!ENTITY markTab.label "Mark Tab">
+<!ENTITY markTab.accesskey "M">
+<!ENTITY markTabs.label "Mark Multiple Tabs">
+<!ENTITY markTabs.accesskey "M">
 <!ENTITY selectTabs.label "Select Multiple Tabs">
 <!ENTITY selectTabs.accesskey "M">
-<!ENTITY selectTabs2.label "Select Multiple Tabs (+)">
 <!ENTITY selectSimilarTabs.label "Select Similar Tabs">
 <!ENTITY selectSimilarTabs.accesskey "S">
 <!ENTITY selectAllTabs.label "Select All Tabs">

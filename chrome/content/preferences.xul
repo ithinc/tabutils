@@ -536,7 +536,8 @@
       <preference id="context_closeOtherTabs" name="extensions.tabutils.menu.context_closeOtherTabs" type="bool"/>
       <preference id="context_closeDuplicateTabs" name="extensions.tabutils.menu.context_closeDuplicateTabs" type="bool"/>
       <preference id="context_closeSimilarTabs" name="extensions.tabutils.menu.context_closeSimilarTabs" type="bool" suggest="true"/>
-      <preference id="context_selectTab" name="extensions.tabutils.menu.context_selectTab" type="bool"/>
+      <preference id="context_markTab" name="extensions.tabutils.menu.context_markTab" type="bool" suggest="true"/>
+      <preference id="context_markTabs" name="extensions.tabutils.menu.context_markTabs" type="bool" suggest="true"/>
       <preference id="context_selectTabs" name="extensions.tabutils.menu.context_selectTabs" type="bool"/>
       <preference id="context_selectAllTabs" name="extensions.tabutils.menu.context_selectAllTabs" type="bool"/>
       <preference id="context_unselectAllTabs" name="extensions.tabutils.menu.context_unselectAllTabs" type="bool"/>
@@ -740,7 +741,8 @@
               <checkbox preference="context_closeDuplicateTabs" label="&closeDuplicateTabs.label;" hidden="true"/>
               <checkbox preference="context_closeSimilarTabs" label="&closeSimilarTabs.label;"/>
               <separator class="groove"/>
-              <checkbox preference="context_selectTab" label="&selectTab.label;"/>
+              <checkbox preference="context_markTab" label="&markTab.label;"/>
+              <checkbox preference="context_markTabs" label="&markTabs.label;"/>
               <checkbox preference="context_selectTabs" label="&selectTabs.label;"/>
               <checkbox preference="context_selectAllTabs" label="&selectAllTabs.label;"/>
               <checkbox preference="context_unselectAllTabs" label="&unselectAllTabs.label;"/>
@@ -858,9 +860,9 @@
       <menuitem value="45" label="&closeSimilarTabs.label;"/>
       <menuitem value="46" label="&closeAllTabs.label;"/>
       <menuseparator/>
-      <menuitem value="31" label="&selectTab.label;"/>
+      <menuitem value="31" label="&markTab.label;"/>
+      <menuitem value="33" label="&markTabs.label;"/>
       <menuitem value="32" label="&selectTabs.label;"/>
-      <menuitem value="33" label="&selectTabs2.label;"/>
       <menuitem value="37" label="&selectSimilarTabs.label;"/>
       <menuitem value="34" label="&selectAllTabs.label;"/>
       <menuitem value="35" label="&unselectAllTabs.label;"/>

@@ -45,11 +45,12 @@
 <!ENTITY closeDuplicateTabs.accesskey "D">
 <!ENTITY closeSimilarTabs.label "关闭相似标签页">
 <!ENTITY closeSimilarTabs.accesskey "S">
-<!ENTITY selectTab.label "选择单个标签页">
-<!ENTITY selectTab.accesskey "S">
+<!ENTITY markTab.label "标记单个标签页">
+<!ENTITY markTab.accesskey "M">
+<!ENTITY markTabs.label "标记多个标签页">
+<!ENTITY markTabs.accesskey "M">
 <!ENTITY selectTabs.label "选择多个标签页">
 <!ENTITY selectTabs.accesskey "M">
-<!ENTITY selectTabs2.label "选择多个标签页 (+)">
 <!ENTITY selectSimilarTabs.label "选择相似标签页">
 <!ENTITY selectSimilarTabs.accesskey "S">
 <!ENTITY selectAllTabs.label "选择所有标签页">

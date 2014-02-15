@@ -1571,7 +1571,7 @@ tabutils._multiTabHandler = function() {
         aTab.setAttribute("multiselected", true);
       }
     }, this);
-    this._lastClickedTab = null;
+    this._anchorTab = null;
     return val;
   });
 
@@ -1580,7 +1580,7 @@ tabutils._multiTabHandler = function() {
            aTab.getAttribute("group-collapsed") == "true" || aTab.mOverTwisty ? this.siblingTabsOf(aTab) : [aTab];
   };
 
-  gBrowser.selectTab = function selectTab(aTab, aForce) {
+  gBrowser.markTab = function markTab(aTab, aForce) {
     if (aForce == null)
       aForce = !aTab.hasAttribute("multiselected");
 
@@ -1592,15 +1592,20 @@ tabutils._multiTabHandler = function() {
         tabs.forEach(function(aTab) aTab.removeAttribute("multiselected"));
     }
     aForce ? aTab.setAttribute("multiselected", true) : aTab.removeAttribute("multiselected");
-    this._lastClickedTab = aTab;
+    this._anchorTab = aTab;
   };
 
-  gBrowser.selectTabs = function selectTabs(aTab, aKeepSelection) {
-    var bTab = this._lastClickedTab || this.mCurrentTab;
+  gBrowser.markTabs = function markTabs(aTab, aForce, aKeepSelection = true) {
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("multiselected");
+
+    var bTab = this._anchorTab || this.mCurrentTab;
     var [start, end] = aTab._tPos < bTab._tPos ? [aTab._tPos, bTab._tPos] : [bTab._tPos, aTab._tPos];
-    this.selectedTabs = Array.slice(this.mTabs, start, end + 1)
-                             .concat(aKeepSelection ? this.selectedTabs : []);
-    this._lastClickedTab = bTab;
+    var aTabs = Array.slice(this.mTabs, start, end + 1);
+    this.selectedTabs = aForce ?
+      Array.reduce(aTabs, function(aRes, aTab) (aRes.indexOf(aTab) == -1 && aRes.push(aTab), aRes), aKeepSelection ? this.selectedTabs : []) :
+      Array.reduce(this.selectedTabs, function(aRes, aTab) (aTabs.indexOf(aTab) == -1 && aRes.push(aTab), aRes), []);
+    this._anchorTab = bTab;
   };
 
   gBrowser.selectAllTabs = function() {
@@ -2256,14 +2261,14 @@ tabutils._tabClickingOptions = function() {
       case 29: //Reload Tab Every
         $("context_reloadEvery").getElementsByAttribute("anonid", "enable")[0].doCommand();
         break;
-      case 31: //Select a Tab
-        $("context_selectTab").doCommand();
+      case 31: // Mark Tab
+        $("context_markTab").doCommand();
         break;
-      case 32: //Select Multiple Tabs
+      case 32: // Select Multiple Tabs
         $("context_selectTabs").doCommand();
         break;
-      case 33: //Select Multiple Tabs (+)
-        gBrowser.selectTabs(gBrowser.mContextTab, true);
+      case 33: // Mark Multiple Tabs
+        $("context_markTabs").doCommand();
         break;
       case 34: //Select All Tabs
         $("context_selectAllTabs").doCommand();
@@ -2601,7 +2606,8 @@ tabutils._tabContextMenu = function() {
 
     var selectedTabs = gBrowser.selectedTabs;
     $("context_groupTab").setAttribute("disabled", selectedTabs.length <= 1);
-    $("context_selectTab").setAttribute("checked", mselected);
+    $("context_markTab").setAttribute("checked", gBrowser.mContextTab.hasAttribute("multiselected"));
+    $("context_markTabs").setAttribute("checked", gBrowser.mContextTab.hasAttribute("multiselected"));
     $("context_unselectAllTabs").setAttribute("disabled", selectedTabs.length == 0);
 
     $("context_mergeWindow").setAttribute("disabled", Services.wm.getZOrderDOMWindowEnumerator("navigator:browser", false).getNext() == window);
