@@ -731,7 +731,7 @@ tabutils._tabClosingOptions = function() {
           for (let i = tabHistory.length - 1; i >= 0; i--) yield tabHistory[i];
           break;
         case 0x20: //Unread
-          for (let tab of __tabs__()) if (tab.getAttribute("unread") == "true") yield tab;
+          for (let tab of __tabs__()) if (tab.hasAttribute("unread")) yield tab;
           break;
         case 0x40: //Related
           for (let tab of __tabs__()) if (gBrowser.isRelatedTab(tab, aTab)) yield tab;
@@ -1034,7 +1034,7 @@ tabutils._tabClosingOptions = function() {
 tabutils._unreadTab = function() {
   gBrowser.unreadTab = function unreadTab(aTab, aForce) {
     if (aForce == null)
-      aForce = aTab.getAttribute("unread") != "true";
+      aForce = !aTab.hasAttribute("unread");
 
     if (aForce && !aTab.selected) {
       tabutils.setAttribute(aTab, "unread", true);
@@ -2430,7 +2430,7 @@ tabutils._tabContextMenu = function() {
 
     var item = $("context_readTab");
     if (item && !item.hidden && !item.collapsed) {
-      let unread = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+      let unread = tabs.every(function(aTab) !aTab.hasAttribute("unread"));
       item.setAttribute("label", unread ? item.getAttribute("label_unread") : item.getAttribute("label_read"));
       item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
     }
@@ -2619,7 +2619,7 @@ tabutils._allTabsPopup = function() {
     var tabs = gBrowser.allTabs;
     var item = $("context_readAllTabs");
     if (item && !item.hidden && !item.collapsed) {
-      let unread = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+      let unread = tabs.every(function(aTab) !aTab.hasAttribute("unread"));
       item.setAttribute("label", unread ? item.getAttribute("label_unread") : item.getAttribute("label_read"));
       item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
     }

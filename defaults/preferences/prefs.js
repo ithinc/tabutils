@@ -92,8 +92,8 @@ pref("extensions.tabutils.styles.read", "");
 pref("extensions.tabutils.styles.unloaded", '{"opacity":true,"opacityCode":0.5}');
 pref("extensions.tabutils.styles.selected", '{"color":true,"colorCode":"highlighttext","bgColor":true,"bgColorCode":"highlight"}');
 pref("extensions.tabutils.selector.current", '[selected="true"]');
-pref("extensions.tabutils.selector.unread", '[unread="true"]:not([selected="true"])');
-pref("extensions.tabutils.selector.read", ':not([unread="true"]):not([selected="true"])');
+pref("extensions.tabutils.selector.unread", '[unread]:not([selected="true"])');
+pref("extensions.tabutils.selector.read", ':not([unread]):not([selected="true"])');
 pref("extensions.tabutils.selector.unloaded", '[pending]');
 pref("extensions.tabutils.selector.selected", '[multiselected]');
 
