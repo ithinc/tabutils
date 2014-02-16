@@ -67,11 +67,11 @@ menuseparator:last-child {
 }
 
 .tabbrowser-tab[locked] .tab-throbber:not([busy]) {
-  -moz-margin-end: -8px;
+  -moz-margin-end: -8px !important;
 }
 
 .tabbrowser-tab[locked] .tab-throbber:not([busy]) + .tab-icon-image {
-  -moz-margin-start: -8px;
+  -moz-margin-start: -8px !important;
   position: relative;
   z-index: -1;
 }
