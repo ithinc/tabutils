@@ -3203,8 +3203,8 @@ tabutils._tabPrefObserver = {
       this._tabColoringRules[group] = [
         tabutils.insertRule(selectorText + '{}'),
         tabutils.insertRule(selectorText + ':hover {}'),
-        tabutils.insertRule(selectorText + '[selected="true"] {}'),
-        tabutils.insertRule('#main-window[tabsontop=false]:not([disablechrome]) ' + selectorText.replace('#main-window', '#tabbrowser-tabs >') + '[selected="true"]:not(:-moz-lwtheme) {}')
+        tabutils.insertRule(selectorText + '[selected] {}'),
+        tabutils.insertRule('#main-window[tabsontop=false]:not([disablechrome]) ' + selectorText.replace('#main-window', '#tabbrowser-tabs >') + '[selected]:not(:-moz-lwtheme) {}')
       ];
     }
 

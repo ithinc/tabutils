@@ -275,8 +275,8 @@ tabutils._phantomTabs = function() {
                           '.tabbrowser-tabs[orient="vertical"] #PinnedTabsBar[style*="border"]:empty {}'),
       tabutils.insertRule('.tabbrowser-tabs[multirow] > .tabbrowser-tab[pinned],' +
                           '#main-window .tabbrowser-tabs[orient="vertical"] > .tabbrowser-tab[pinned] {}'),
-      tabutils.insertRule('#main-window .tabbrowser-tab[pinned]:not([selected="true"]) {}'),
-      tabutils.insertRule('#main-window .tabbrowser-tab[pinned][selected="true"] {}'),
+      tabutils.insertRule('#main-window .tabbrowser-tab[pinned]:not([selected]) {}'),
+      tabutils.insertRule('#main-window .tabbrowser-tab[pinned][selected] {}'),
       tabutils.insertRule('#main-window .tabbrowser-tab[pinned] > * {}')
     ];
   });

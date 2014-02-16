@@ -1,5 +1,5 @@
 /* Close Tab buttons */
-window[OS="Darwin"][v4="true"] .tabbrowser-tabs[closeButtonOnPointedTab="true"][closebuttons="activetab"] > .tabbrowser-tab:not([selected="true"]):not(:hover) .tab-close-button,
+window[OS="Darwin"][v4="true"] .tabbrowser-tabs[closeButtonOnPointedTab="true"][closebuttons="activetab"] > .tabbrowser-tab:not([selected]):not(:hover) .tab-close-button,
 window[OS="Darwin"][v4="true"] .tabbrowser-tabs[closeButtonOnPointedTab="true"]:not([closebuttons="activetab"]):not([closebuttons="alltabs"]) > .tabbrowser-tab:not(:hover) .tab-close-button {
   display: -moz-box;
   visibility: hidden;
