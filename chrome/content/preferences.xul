@@ -66,7 +66,7 @@
       <preference id="loadBookmarksInBackground" name="browser.tabs.loadBookmarksInBackground" type="bool" inverted="true"/>
       <preference id="loadDivertedInBackground" name="browser.tabs.loadDivertedInBackground" type="bool" inverted="true"/>
       <preference id="loadInBackground" name="browser.tabs.loadInBackground" type="bool" inverted="true"/>
-      <preference id="maxTabsUndo" name="browser.sessionstore.max_tabs_undo" type="int" suggest="15"/>
+      <preference id="maxTabsUndo" name="browser.sessionstore.max_tabs_undo" type="int" suggest="20"/>
       <preference id="userDefinedURL" name="browser.newtab.url" type="string"/>
     </preferences>
 
@@ -504,27 +504,27 @@
       <preference id="context_duplicateTab" name="extensions.tabutils.menu.context_duplicateTab" type="bool" suggest="true"/>
       <preference id="context_reloadEvery" name="extensions.tabutils.menu.context_reloadEvery" type="bool" suggest="true"/>
       <preference id="context_moveToWindow" name="extensions.tabutils.menu.context_moveToWindow" type="bool" suggest="true"/>
-      <preference id="context_mergeWindow" name="extensions.tabutils.menu.context_mergeWindow" type="bool" suggest="true"/>
-      <preference id="context_mergeGroup" name="extensions.tabutils.menu.context_mergeGroup" type="bool" suggest="true"/>
+      <preference id="context_mergeWindow" name="extensions.tabutils.menu.context_mergeWindow" type="bool"/>
+      <preference id="context_mergeGroup" name="extensions.tabutils.menu.context_mergeGroup" type="bool"/>
       <preference id="context_recentlyClosedTabs" name="extensions.tabutils.menu.context_recentlyClosedTabs" type="bool" suggest="true"/>
       <preference id="context_readTab" name="extensions.tabutils.menu.context_readTab" type="bool"/>
       <preference id="context_protectTab" name="extensions.tabutils.menu.context_protectTab" type="bool" suggest="true"/>
       <preference id="context_lockTab" name="extensions.tabutils.menu.context_lockTab" type="bool" suggest="true"/>
-      <preference id="context_faviconizeTab" name="extensions.tabutils.menu.context_faviconizeTab" type="bool" suggest="true"/>
+      <preference id="context_faviconizeTab" name="extensions.tabutils.menu.context_faviconizeTab" type="bool"/>
       <preference id="context_renameTab" name="extensions.tabutils.menu.context_renameTab" type="bool"/>
       <preference id="context_restartTab" name="extensions.tabutils.menu.context_restartTab" type="bool" suggest="true"/>
       <preference id="context_closeLeftTabs" name="extensions.tabutils.menu.context_closeLeftTabs" type="bool"/>
-      <preference id="context_closeRightTabs" name="extensions.tabutils.menu.context_closeRightTabs" type="bool"/>
+      <preference id="context_closeRightTabs" name="extensions.tabutils.menu.context_closeRightTabs" type="bool" suggest="false"/>
       <preference id="context_closeOtherTabs" name="extensions.tabutils.menu.context_closeOtherTabs" type="bool"/>
       <preference id="context_closeDuplicateTabs" name="extensions.tabutils.menu.context_closeDuplicateTabs" type="bool"/>
-      <preference id="context_closeSimilarTabs" name="extensions.tabutils.menu.context_closeSimilarTabs" type="bool" suggest="true"/>
+      <preference id="context_closeSimilarTabs" name="extensions.tabutils.menu.context_closeSimilarTabs" type="bool"/>
       <preference id="context_selectTab" name="extensions.tabutils.menu.context_selectTab" type="bool"/>
       <preference id="context_selectTabs" name="extensions.tabutils.menu.context_selectTabs" type="bool"/>
-      <preference id="context_showAllTabs" name="extensions.tabutils.menu.context_showAllTabs" type="bool" suggest="true"/>
+      <preference id="context_showAllTabs" name="extensions.tabutils.menu.context_showAllTabs" type="bool"/>
       <preference id="context_readAllTabs" name="extensions.tabutils.menu.context_readAllTabs" type="bool"/>
       <preference id="context_protectAllTabs" name="extensions.tabutils.menu.context_protectAllTabs" type="bool" suggest="true"/>
       <preference id="context_lockAllTabs" name="extensions.tabutils.menu.context_lockAllTabs" type="bool" suggest="true"/>
-      <preference id="context_faviconizeAllTabs" name="extensions.tabutils.menu.context_faviconizeAllTabs" type="bool" suggest="true"/>
+      <preference id="context_faviconizeAllTabs" name="extensions.tabutils.menu.context_faviconizeAllTabs" type="bool"/>
       <preference id="context_restartAllTabs" name="extensions.tabutils.menu.context_restartAllTabs" type="bool" suggest="true"/>
       <preference id="context_closeAllTabs" name="extensions.tabutils.menu.context_closeAllTabs" type="bool" suggest="true"/>
       <preference id="context_closeAllDuplicateTabs" name="extensions.tabutils.menu.context_closeAllDuplicateTabs" type="bool" suggest="true"/>

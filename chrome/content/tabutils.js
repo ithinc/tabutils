@@ -2469,7 +2469,13 @@ tabutils._tabContextMenu = function() {
     $("context_stackTab").setAttribute("disabled", gBrowser.selectedTabs.length <= 1);
     $("context_selectTab").setAttribute("checked", mselected);
 
+    $("context_openTabInWindow").hidden = !$("context_moveToWindow").collapsed;
     $("context_mergeWindow").setAttribute("disabled", Services.wm.getZOrderDOMWindowEnumerator("navigator:browser", false).getNext() == window);
+
+    if (!("TabView" in window)) // Compat. with Pale Moon
+      $("context_tabViewMenu").hidden = true;
+
+    $("context_mergeGroup").hidden = $("context_tabViewMenu").hidden;
     $("context_mergeGroup").setAttribute("disabled", !Array.some(gBrowser.mTabs, function(aTab) aTab.hidden));
   }, false);
 
@@ -2495,11 +2501,8 @@ tabutils._tabContextMenu = function() {
 
 // Panorama enhancements
 tabutils._tabView = function() {
-  if (!("TabView" in window)) {
-    TU_setPref("extensions.tabutils.menu.context_tabViewMenu", false);
-    TU_setPref("extensions.tabutils.menu.context_mergeGroup", false);
+  if (!("TabView" in window))
     return;
-  }
 
   TabView.populateGroupMenu = function(aPopup, aExcludeEmpty) {
     while (aPopup.lastChild && aPopup.lastChild.localName != "menuseparator")
