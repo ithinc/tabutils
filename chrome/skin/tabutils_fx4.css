@@ -77,10 +77,6 @@ window[v4="true"] browser {
   -moz-margin-start: 9px;
 }
 
-.tabbrowser-tab[group]:not([group-counter])[group-collapsed="true"] {
-  display: none;
-}
-
 .tabbrowser-tab[group-counter]:not([group-counter="1"])[group-collapsed="true"] .tab-twisty {
   list-style-image: url("jar:resource://app/omni.jar!/chrome/toolkit/skin/classic/global/tree/twisty-clsd.png");
 }

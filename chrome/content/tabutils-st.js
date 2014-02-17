@@ -154,6 +154,7 @@ tabutils._stackTabs = function() {
     tabutils.removeAttribute(aTab, "group-counter");
     aTab.removeAttribute("group-first");
     aTab.removeAttribute("group-last");
+    aTab.collapsed = false;
 
     this.updateStack(group);
     tabutils.dispatchEvent(aTab, "TabUnstacked");
@@ -172,10 +173,12 @@ tabutils._stackTabs = function() {
 
     let tabs = this.siblingTabsOf(aTab);
     for (let tab of tabs) {
+      tab.collapsed = true;
       tabutils.setAttribute(tab, "group-collapsed", true);
       if (tab.hasAttribute("group-counter"))
         aTab = tab;
     }
+    aTab.collapsed = false;
 
     let tabcontent = document.getAnonymousElementByAttribute(aTab, "class", "tab-content");
     if (tabcontent)
@@ -194,6 +197,7 @@ tabutils._stackTabs = function() {
 
     let tabs = this.siblingTabsOf(aTab);
     for (let tab of tabs) {
+      tab.collapsed = false;
       tabutils.removeAttribute(tab, "group-collapsed");
       if (tab.hasAttribute("group-counter"))
         aTab = tab;
@@ -230,12 +234,14 @@ tabutils._stackTabs = function() {
       tabutils.removeAttribute(tab, "group-counter");
       tab.removeAttribute("group-first");
       tab.removeAttribute("group-last");
+      tab.collapsed = collapsed;
     }
     tabutils._tabPrefObserver.updateStackColor(group, color);
 
     if (!aTab.selected && tabs.indexOf(this.mCurrentTab) > -1)
       aTab = this.mCurrentTab;
 
+    aTab.collapsed = false;
     tabutils.setAttribute(aTab, "group-counter", tabs.length);
     tabs[0].setAttribute("group-first", true);
     tabs[tabs.length - 1].setAttribute("group-last", true);
@@ -421,7 +427,7 @@ tabutils._stackTabs = function() {
     if (aTab.hasAttribute("group")) {
       this.updateStack(aTab.getAttribute("group"));
       if (this.isCollapsedStack(aTab))
-        aTab.removeAttribute("group-counter");
+        aTab.collapsed = true;
     }
   });
 
@@ -432,7 +438,7 @@ tabutils._stackTabs = function() {
     tabutils.restoreAttribute(aTab, "group-counter");
     if (aTab.hasAttribute("group")) {
       this.updateStack(aTab);
-      if (aTab.getAttribute("group-collapsed") == "true")
+      if (aTab.collapsed)
         this.mTabContainer.adjustTabstrip();
     }
   });
@@ -497,9 +503,7 @@ tabutils._stackTabs = function() {
     }]
   );
 
-  TU_hookCode("gBrowser.mTabContainer._selectNewTab", "aNewTab.disabled",
-    "$& || aNewTab.getAttribute('group-collapsed') == 'true' && !aNewTab.hasAttribute('group-counter')"
-  );
+  TU_hookCode("gBrowser.mTabContainer._selectNewTab", "aNewTab.hidden", "$& || aNewTab.collapsed");
 
   TU_hookCode("gBrowser.createTooltip", /(tab|tn).getAttribute\("label"\)/, function(s, s1) (function() {
     $1.mOverTwisty ? $1.getAttribute("group-collapsed") == "true" ?
