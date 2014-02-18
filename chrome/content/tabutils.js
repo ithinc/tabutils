@@ -311,10 +311,15 @@ tabutils._tabOpeningOptions = function() {
 tabutils._tabClosingOptions = function() {
 
   //关闭标签页时选择左侧/右侧/第一个/最后一个标签
-  gBrowser._tabsToSelect = function _tabsToSelect(aTab) {
-    if (!aTab)
-      aTab = this.mCurrentTab;
+  gBrowser._tabsToSelect = function _tabsToSelect(aTabs) {
+    if (!aTabs)
+      aTabs = this.visibleTabs;
 
+    let tabs = new Array(this.mTabs.length);
+    for (let tab of aTabs)
+      tabs[tab._tPos] = tab;
+
+    var aTab = this.mCurrentTab;
     var seenTabs = [];
     seenTabs[aTab._tPos] = true;
 
@@ -327,7 +332,7 @@ tabutils._tabClosingOptions = function() {
 
     function _tabs_(selectOnClose) {
       for (let tab of __tabs__(selectOnClose)) {
-        if (!tab.hidden && !tab.closing && !(tab._tPos in seenTabs)) {
+        if (!(tab._tPos in seenTabs)) {
           seenTabs[tab._tPos] = true;
           yield tab;
         }
@@ -335,23 +340,22 @@ tabutils._tabClosingOptions = function() {
     }
 
     function __tabs__(selectOnClose) {
-      var tabs = gBrowser.mTabs;
       switch (selectOnClose) {
         case 1: //Left
-          for (let i = aTab._tPos - 1; i >= 0; i--) yield tabs[i];
+          for (let i = aTab._tPos - 1; i >= 0; i--) if (i in tabs) yield tabs[i];
           break;
         case 2: //Right
-          for (let i = aTab._tPos + 1; i < tabs.length; i++) yield tabs[i];
+          for (let i = aTab._tPos + 1; i < tabs.length; i++) if (i in tabs) yield tabs[i];
           break;
         case 4: //First
-          for (let i = 0; i < tabs.length; i++) yield tabs[i];
+          for (let i = 0; i < tabs.length; i++) if (i in tabs) yield tabs[i];
           break;
         case 8: //Last
-          for (let i = tabs.length - 1; i >= 0; i--) yield tabs[i];
+          for (let i = tabs.length - 1; i >= 0; i--) if (i in tabs) yield tabs[i];
           break;
         case 0x10: //Last selected
           var tabHistory = gBrowser.mTabContainer._tabHistory;
-          for (let i = tabHistory.length - 1; i >= 0; i--) yield tabHistory[i];
+          for (let i = tabHistory.length - 1; i >= 0; i--) if (tabHistory[i]._tPos in tabs) yield tabHistory[i];
           break;
         case 0x20: //Unread
           for (let tab of __tabs__()) if (tab.hasAttribute("unread")) yield tab;
@@ -363,8 +367,8 @@ tabutils._tabClosingOptions = function() {
           for (let tab of __tabs__(0x20)) if (gBrowser.isRelatedTab(tab, aTab)) yield tab;
           break;
         case undefined: //Right or Rightmost
-          for (let i = aTab._tPos + 1; i < tabs.length; i++) yield tabs[i];
-          for (let i = aTab._tPos - 1; i >= 0; i--) yield tabs[i];
+          for (let i = aTab._tPos + 1; i < tabs.length; i++) if (i in tabs) yield tabs[i];
+          for (let i = aTab._tPos - 1; i >= 0; i--) if (i in tabs) yield tabs[i];
           break;
       }
     }
