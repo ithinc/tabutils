@@ -736,8 +736,7 @@ tabutils._tabClosingOptions = function() {
           for (let i = tabs.length - 1; i >= 0; i--) if (i in tabs) yield tabs[i];
           break;
         case 0x10: //Last selected
-          var tabHistory = gBrowser.mTabContainer._tabHistory;
-          for (let i = tabHistory.length - 1; i >= 0; i--) if (tabHistory[i]._tPos in tabs) yield tabHistory[i];
+          for (let tab of gBrowser.mTabContainer._tabHistory) if (tab._tPos in tabs) yield tab;
           break;
         case 0x20: //Unread
           for (let tab of __tabs__()) if (tab.hasAttribute("unread")) yield tab;
@@ -813,32 +812,32 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
     if (aTab.hasAttribute("opener")) {
-      let index = tabHistory.lastIndexOf(this.mCurrentTab);
-      while (index > 0 && tabHistory[index - 1].getAttribute("opener") == aTab.getAttribute("opener"))
-        index--;
+      let index = tabHistory.indexOf(this.mCurrentTab) + 1;
+      while (index < tabHistory.length && tabHistory[index].getAttribute("opener") == aTab.getAttribute("opener"))
+        index++;
       tabHistory.splice(index, 0, aTab);
     }
     else
-      tabHistory.unshift(aTab);
+      tabHistory.push(aTab);
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    tabHistory.splice(tabHistory.lastIndexOf(aTab), 1);
-    tabHistory.push(aTab);
+    tabHistory.splice(tabHistory.indexOf(aTab), 1);
+    tabHistory.unshift(aTab);
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    tabHistory.splice(tabHistory.lastIndexOf(aTab), 1);
+    tabHistory.splice(tabHistory.indexOf(aTab), 1);
   });
 
   gBrowser.getLastSelectedTab = function getLastSelectedTab(aDir, aIgnoreHidden) {
     var tabHistory = this.mTabContainer._tabHistory;
-    var index = tabHistory.lastIndexOf(this.mCurrentTab);
+    var index = tabHistory.indexOf(this.mCurrentTab);
     for (var i = (index > -1); i < tabHistory.length; i++) {
-      var tab = tabHistory[index = aDir < 0 ? index + 1 : index - 1]
-             || tabHistory[index = aDir < 0 ? 0 : tabHistory.length - 1];
+      var tab = tabHistory[index = aDir < 0 ? index - 1 : index + 1]
+             || tabHistory[index = aDir < 0 ? tabHistory.length - 1 : 0];
       if ((aIgnoreHidden || !tab.hidden) && !tab.closing)
         return tab;
     }
@@ -907,7 +906,7 @@ tabutils._tabClosingOptions = function() {
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (gBrowser._previewMode) {
-      gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+      gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
       gBrowser._previewMode = false;
     }
   });
