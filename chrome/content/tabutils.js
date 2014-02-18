@@ -136,12 +136,6 @@ var tabutils = {
     return ss.cssRules[ss.insertRule(rule, ss.cssRules.length)];
   },
 
-  dispatchEvent: function(target, type, bubbles = true, cancelable = false) {
-    let event = document.createEvent("Events");
-    event.initEvent(type, bubbles, cancelable);
-    target.dispatchEvent(event);
-  },
-
   _eventListeners: [],
   addEventListener: function() {
     document.addEventListener.apply(arguments[0], Array.slice(arguments, 1));

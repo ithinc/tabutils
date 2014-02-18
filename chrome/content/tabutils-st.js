@@ -122,7 +122,7 @@ tabutils._stackTabs = function() {
 
     if (!options.suppressUpdate)
       this.updateStack(bTab);
-    tabutils.dispatchEvent(aTab, "TabStacked");
+    aTab.dispatchEvent(new CustomEvent("TabStacked", {bubbles: true}));
   };
 
   gBrowser.detachTab = function detachTab(aTab, aMove) {
@@ -147,7 +147,7 @@ tabutils._stackTabs = function() {
     aTab.collapsed = false;
 
     this.updateStack(group);
-    tabutils.dispatchEvent(aTab, "TabUnstacked");
+    aTab.dispatchEvent(new CustomEvent("TabUnstacked", {bubbles: true}));
   };
 
   gBrowser.collapseStack = function collapseStack(aTab) {
@@ -170,7 +170,7 @@ tabutils._stackTabs = function() {
     if (tabcontent)
       tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
 
-    tabutils.dispatchEvent(aTab, "StackCollapsed");
+    aTab.dispatchEvent(new CustomEvent("StackCollapsed", {bubbles: true}));
     this.mTabContainer.adjustTabstrip();
   };
 
@@ -188,7 +188,7 @@ tabutils._stackTabs = function() {
       if (tab.hasAttribute("group-selected"))
         aTab = tab;
     }
-    tabutils.dispatchEvent(aTab, "StackExpanded");
+    aTab.dispatchEvent(new CustomEvent("StackExpanded", {bubbles: true}));
     this.mTabContainer.adjustTabstrip();
     this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[tabs.length - 1], false);
     this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[0], false);
