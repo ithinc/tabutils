@@ -33,16 +33,6 @@ tabutils._stackTabs = function() {
     return tabs;
   };
 
-  gBrowser.previousSiblingTabOf = function previousSiblingTabOf(aTab) this.nextSiblingTabOf(aTab, -1);
-  gBrowser.nextSiblingTabOf = function nextSiblingTabOf(aTab, aDir) {
-    let group = aTab.getAttribute("group");
-    let next = aDir < 0 ? "previousSibling" : "nextSibling";
-    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == group && !tab.hidden;) {
-      if (!tab.closing)
-        return tab;
-    }
-  };
-
   gBrowser.firstSiblingTabOf = function firstSiblingTabOf(aTab) this.lastSiblingTabOf(aTab, -1);
   gBrowser.lastSiblingTabOf = function lastSiblingTabOf(aTab, aDir) {
     let group = aTab.getAttribute("group");
@@ -128,8 +118,6 @@ tabutils._stackTabs = function() {
     }
 
     aTab.setAttribute("group", bTab.getAttribute("group"));
-    if (aTab.getAttribute("opener") != bTab.linkedPanel)
-      aTab.setAttribute("opener", bTab.getAttribute("opener") || bTab.linkedPanel);
 
     if (!options.suppressUpdate)
       this.updateStack(bTab);
@@ -158,10 +146,6 @@ tabutils._stackTabs = function() {
 
     this.updateStack(group);
     tabutils.dispatchEvent(aTab, "TabUnstacked");
-
-    aTab.removeAttribute("opener");
-    if (aTab.selected)
-      this.updateCurrentBrowser(true);
   };
 
   gBrowser.collapseStack = function collapseStack(aTab) {
@@ -421,10 +405,14 @@ tabutils._stackTabs = function() {
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
-    if (aTab.selected && aTab.hasAttribute("group") && !aTab.hasAttribute("opener"))
-      this.selectedTab = this.nextSiblingTabOf(aTab) || this.previousSiblingTabOf(aTab);
+    if (this.isStackedTab(aTab)) {
+      if (aTab.selected) {
+        try {
+          this.selectedTab = this._tabsToSelect(this.siblingTabsOf(aTab)).next();
+        }
+        catch (e) {}
+      }
 
-    if (aTab.hasAttribute("group")) {
       this.updateStack(aTab.getAttribute("group"));
       if (this.isCollapsedStack(aTab))
         aTab.collapsed = true;
