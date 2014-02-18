@@ -105,7 +105,7 @@ tabutils._phantomTabs = function() {
     if (!aTab.pinned &&
         aTags.indexOf("pinned") > -1 &&
         TU_getPref("extensions.tabutils.autoPin", true) &&
-        !Array.some(this.mTabs, function(bTab) bTab.pinned && bTab.linkedBrowser.currentURI.spec == aURI.spec)) {
+        !Array.some(this.visibleTabs.slice(0, this._numPinnedTabs), function(bTab) bTab.linkedBrowser.currentURI.spec == aURI.spec)) {
       this.pinTab(aTab, true, false, PlacesUtils.getItemIdForTaggedURI(aURI, "pinned"));
 
       if (aTab.mCorrespondingButton &&
@@ -350,7 +350,7 @@ tabutils._phantomTabs = function() {
   }, false);
 
   gBrowser.selectUnpinnedTabAtIndex = function selectUnpinnedTabAtIndex(aIndex, aEvent) {
-    var tabs = Array.filter(this.mTabs, function(aTab) !aTab.pinned && aTab.boxObject.width > 0);
+    var tabs = Array.filter(this.allTabs, function(aTab) !aTab.collapsed);
     if (aIndex < 0)
       aIndex += tabs.length;
 
@@ -366,7 +366,7 @@ tabutils._phantomTabs = function() {
   gBrowser.selectPinnedTabAtIndex = function selectPinnedTabAtIndex(aIndex, aEvent) {
     var tabs = this.mTabContainer.mTabstrip._pinnedbox.childNodes;
     if (tabs.length == 0)
-      tabs = Array.filter(this.mTabs, function(aTab) aTab.pinned);
+      tabs = Array.slice(this.visibleTabs, 0, this._numPinnedTabs);
 
     if (aIndex < 0)
       aIndex += tabs.length;

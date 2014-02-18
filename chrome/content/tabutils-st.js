@@ -360,7 +360,7 @@ tabutils._stackTabs = function() {
   }, true);
 
   tabutils.addEventListener(gBrowser.mTabContainer, "dragend", function(event) { //Bug 460801
-    Array.forEach(this.childNodes, function(aTab) aTab.removeAttribute("dragover"));
+    Array.forEach(this.tabbrowser.visibleTabs, function(aTab) aTab.removeAttribute("dragover"));
   }, true);
 
   TU_hookCode("gBrowser.onTabMove", "}", function() {
@@ -449,8 +449,8 @@ tabutils._stackTabs = function() {
 
       if (aTab.getAttribute("group-collapsed") == "true" &&
           TU_getPref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", true)) {
-        Array.forEach(this.mTabs, function(aTab) {
-          if (aTab.getAttribute("group-counter") > 1 && !aTab.hidden && !aTab.selected)
+        Array.forEach(this.visibleTabs, function(aTab) {
+          if (aTab.getAttribute("group-counter") > 1 && !aTab.selected)
             this.collapseStack(aTab);
         }, this);
         this.expandStack(aTab);

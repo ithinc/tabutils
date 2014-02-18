@@ -560,7 +560,7 @@ tabutils._tabOpeningOptions = function() {
   };
 
   gBrowser.getFirstBlankTabBut = function getFirstBlankTabBut(aTab) {
-    for (let tab of this.mTabs) {
+    for (let tab of this.visibleTabs) {
       if (tab != aTab && this.isBlankTab(tab))
         return tab;
     }
@@ -568,8 +568,7 @@ tabutils._tabOpeningOptions = function() {
 
   gBrowser.isBlankTab = function isBlankTab(aTab) {
     return this.isBlankBrowser(aTab.linkedBrowser)
-        && ["busy", "pending", "ontap"].every(function(aAttr) !aTab.hasAttribute(aAttr))
-        && !aTab.hidden && !aTab.closing;
+        && ["busy", "pending"].every(function(aAttr) !aTab.hasAttribute(aAttr));
   };
 
   gBrowser.isBlankBrowser = function isBlankBrowser(aBrowser) {
@@ -768,7 +767,7 @@ tabutils._tabClosingOptions = function() {
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var panelId = aTab.linkedPanel;
-    Array.forEach(this.mTabs, function(aTab) {
+    Array.forEach(this.visibleTabs, function(aTab) {
       if (aTab.getAttribute("opener").startsWith(panelId))
         aTab.setAttribute("opener", panelId + (+aTab.getAttribute("opener").slice(panelId.length) + 1));
     });
@@ -778,7 +777,7 @@ tabutils._tabClosingOptions = function() {
     if (aTab.hasAttribute("opener")) {
       let opener = aTab.getAttribute("opener");
       let panelId = aTab.linkedPanel;
-      Array.forEach(this.mTabs, function(aTab) {
+      Array.forEach(this.visibleTabs, function(aTab) {
         if (aTab.getAttribute("opener").startsWith(panelId))
           aTab.setAttribute("opener", opener);
       });
@@ -2750,8 +2749,8 @@ tabutils._tabPrefObserver = {
     TU_hookCode("gBrowser.mTabContainer.adjustTabstrip",
       [/let tab.*/, function() {
         let tab;
-        Array.some(this.childNodes, function(aTab) {
-          return !aTab.pinned && !aTab.hasAttribute("faviconized") && aTab.boxObject.width > 0 && (tab = aTab);
+        Array.some(this.tabbrowser.visibleTabs, function(aTab) {
+          return !aTab.collapsed && getComputedStyle(aTab).MozBoxFlex > 0 && (tab = aTab);
         });
       }],
       ["this.mCloseButtons", "($& & 0x0f)"],
