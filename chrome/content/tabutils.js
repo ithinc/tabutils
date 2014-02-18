@@ -384,9 +384,6 @@ tabutils._tabClosingOptions = function() {
       if (this.selectedTab = this.getLastSelectedTab())
         return this.selectedTab;
 
-      if (this.selectedTab = this.getLastSelectedTab(1, true)) // Bug 633707, 651440, 654295, 654311, 663421
-        return this.selectedTab;
-
       return this.selectedTab = BrowserOpenTab() || gBrowser.getLastOpenedTab();
     }
   };
@@ -450,15 +447,11 @@ tabutils._tabClosingOptions = function() {
     tabHistory.splice(tabHistory.indexOf(aTab), 1);
   });
 
-  gBrowser.getLastSelectedTab = function getLastSelectedTab(aDir, aIgnoreHidden) {
+  gBrowser.getLastSelectedTab = function getLastSelectedTab(aDir) {
     var tabHistory = this.mTabContainer._tabHistory;
     var index = tabHistory.indexOf(this.mCurrentTab);
-    for (var i = (index > -1); i < tabHistory.length; i++) {
-      var tab = tabHistory[index = aDir < 0 ? index - 1 : index + 1]
-             || tabHistory[index = aDir < 0 ? tabHistory.length - 1 : 0];
-      if ((aIgnoreHidden || !tab.hidden) && !tab.closing)
-        return tab;
-    }
+    return tabHistory[aDir < 0 ? index - 1 : index + 1]
+        || tabHistory[aDir < 0 ? tabHistory.length - 1 : 0];
   };
 
   //Ctrl+Tab切换到上次浏览的标签
