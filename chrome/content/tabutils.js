@@ -2307,17 +2307,11 @@ tabutils._miscFeatures = function() {
     switch (sheet.href) {
       case "chrome://browser/skin/browser.css":
         for (let cssRule of Array.slice(sheet.cssRules)) {
-          if (/> .tabbrowser-tab/.test(cssRule.selectorText)) {
-            tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, ".tabbrowser-tab"));
-            continue;
-          }
-
-          if (/> .tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox/.test(cssRule.selectorText)) {
-            tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, "#PinnedTabsBarItems"));
-            continue;
-          }
-
           switch (cssRule.selectorText) {
+            case "#tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned]:before": // Bug 877368 [Fx29]
+            case "#tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned]::before":
+              tabutils.insertRule(cssRule.cssText.replace("#tabbrowser-tabs[positionpinnedtabs] >", ""));
+              break;
             case ".tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox":
               tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, ".tabbrowser-tabs[orient='horizontal']:not([overflow]):not([multirow]) $&"))
                       .style.MozMarginStart = "-" + cssRule.style.MozPaddingStart;
@@ -2329,6 +2323,16 @@ tabutils._miscFeatures = function() {
             case ".tab-throbber[pinned], .tab-icon-image[pinned], .tabs-newtab-button > .toolbarbutton-icon":
               tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, '.tabbrowser-tabs[orient="horizontal"] > .tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)'));
               break;
+            default:
+              if (/> .tabbrowser-tab/.test(cssRule.selectorText)) {
+                tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, ".tabbrowser-tab"));
+                continue;
+              }
+
+              if (/> .tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox/.test(cssRule.selectorText)) {
+                tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, "#PinnedTabsBarItems"));
+                continue;
+              }
           }
         }
         break;
