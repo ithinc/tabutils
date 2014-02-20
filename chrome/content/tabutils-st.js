@@ -88,6 +88,7 @@ tabutils._stackTabs = function() {
 
     if (!bTab.hasAttribute("group")) {
       bTab.setAttribute("group", Services.nsIUUIDGenerator.generateUUID());
+      bTab.setAttribute("group-selected", true);
       bTab.setAttribute("group-counter", 1);
     }
 
@@ -97,7 +98,7 @@ tabutils._stackTabs = function() {
     }
 
     //must happen after "group" is set to avoid bypassing stack, and
-    //before "group-counter" is set to avoid moving stack, if TabMove event is not suppressed
+    //before "group-selected" is set to avoid moving stack, if TabMove event is not suppressed
     if (options.move) {
       aTab._suppressTabMove = true;
       switch (options.move) {
@@ -139,7 +140,8 @@ tabutils._stackTabs = function() {
     tabutils.removeAttribute(aTab, "group");
     tabutils.removeAttribute(aTab, "group-color");
     tabutils.removeAttribute(aTab, "group-collapsed");
-    tabutils.removeAttribute(aTab, "group-counter");
+    tabutils.removeAttribute(aTab, "group-selected");
+    aTab.removeAttribute("group-counter");
     aTab.removeAttribute("group-first");
     aTab.removeAttribute("group-last");
     aTab.collapsed = false;
@@ -159,7 +161,7 @@ tabutils._stackTabs = function() {
     for (let tab of tabs) {
       tab.collapsed = true;
       tabutils.setAttribute(tab, "group-collapsed", true);
-      if (tab.hasAttribute("group-counter"))
+      if (tab.hasAttribute("group-selected"))
         aTab = tab;
     }
     aTab.collapsed = false;
@@ -183,7 +185,7 @@ tabutils._stackTabs = function() {
     for (let tab of tabs) {
       tab.collapsed = false;
       tabutils.removeAttribute(tab, "group-collapsed");
-      if (tab.hasAttribute("group-counter"))
+      if (tab.hasAttribute("group-selected"))
         aTab = tab;
     }
     tabutils.dispatchEvent(aTab, "StackExpanded");
@@ -197,10 +199,10 @@ tabutils._stackTabs = function() {
     if (tabs.length == 0)
       return;
 
-    if (typeof aTab == "string" || !aTab.selected && !aTab.hasAttribute("group-counter")) {
+    if (typeof aTab == "string" || !aTab.selected && !aTab.hasAttribute("group-selected")) {
       aTab = tabs[0];
       for (let tab of tabs) {
-        if (tab.hasAttribute("group-counter")) {
+        if (tab.hasAttribute("group-selected")) {
           aTab = tab;
           break;
         }
@@ -215,7 +217,8 @@ tabutils._stackTabs = function() {
       tabutils.setAttribute(tab, "group", group);
       tabutils.setAttribute(tab, "group-color", color);
       tabutils.setAttribute(tab, "group-collapsed", collapsed);
-      tabutils.removeAttribute(tab, "group-counter");
+      tabutils.removeAttribute(tab, "group-selected");
+      tab.removeAttribute("group-counter");
       tab.removeAttribute("group-first");
       tab.removeAttribute("group-last");
       tab.collapsed = collapsed;
@@ -226,7 +229,8 @@ tabutils._stackTabs = function() {
       aTab = this.mCurrentTab;
 
     aTab.collapsed = false;
-    tabutils.setAttribute(aTab, "group-counter", tabs.length);
+    tabutils.setAttribute(aTab, "group-selected", true);
+    aTab.setAttribute("group-counter", tabs.length);
     tabs[0].setAttribute("group-first", true);
     tabs[tabs.length - 1].setAttribute("group-last", true);
 
@@ -425,7 +429,7 @@ tabutils._stackTabs = function() {
     tabutils.restoreAttribute(aTab, "group");
     tabutils.restoreAttribute(aTab, "group-color");
     tabutils.restoreAttribute(aTab, "group-collapsed");
-    tabutils.restoreAttribute(aTab, "group-counter");
+    tabutils.restoreAttribute(aTab, "group-selected");
     if (aTab.hasAttribute("group")) {
       this.updateStack(aTab);
       if (aTab.collapsed)
@@ -440,7 +444,7 @@ tabutils._stackTabs = function() {
       if (aTab.getAttribute("group-collapsed") == "true" &&
           TU_getPref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", true)) {
         Array.forEach(this.visibleTabs, function(aTab) {
-          if (aTab.getAttribute("group-counter") > 1 && !aTab.selected)
+          if (aTab.hasAttribute("group-selected") && !aTab.selected)
             this.collapseStack(aTab);
         }, this);
         this.expandStack(aTab);
@@ -502,7 +506,7 @@ tabutils._stackTabs = function() {
                    : this.isCollapsedStack($1) ?
                      TU_getPref("extensions.tabutils.mouseHoverPopup", true) ?
                      event.preventDefault() :
-                     this.siblingTabsOf($1).map(function($1) ($1.hasAttribute("group-counter") ? "> " : "# ") + $0).join("\n") :
+                     this.siblingTabsOf($1).map(function($1) ($1.hasAttribute("group-selected") ? "> " : "# ") + $0).join("\n") :
                      $0
   }).toString().replace(/^.*{|}$/g, "").replace("$0", s, "g").replace("$1", s1, "g"));
 
@@ -521,7 +525,7 @@ tabutils._stackTabs = function() {
     if (aTab.hasAttribute("busy"))
       aItem.removeAttribute("image");
 
-    if (aTab.hasAttribute("group-counter"))
+    if (aTab.hasAttribute("group-selected"))
       aItem.setAttribute("selected", "true");
     else
       aItem.removeAttribute("selected");
