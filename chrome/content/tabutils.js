@@ -78,6 +78,9 @@ var tabutils = {
   },
 
   setAttribute: function(aTab, aAttr, aVal) {
+    if (!aVal)
+      return this.removeAttribute(aTab, aAttr);
+
     aTab.setAttribute(aAttr, aVal);
     this._ss.setTabValue(aTab, aAttr, aVal);
   },
@@ -2162,7 +2165,7 @@ tabutils._tabClickingOptions = function() {
         $("context_closeAllTabs").doCommand();
         break;
       case 51: //Collapse/Expand Stack
-        if (gBrowser.mContextTab.getAttribute("group-collapsed") == "true")
+        if (gBrowser.mContextTab.hasAttribute("group-collapsed"))
           $("context_expandStack").doCommand();
         else
           $("context_collapseStack").doCommand();
@@ -2420,8 +2423,8 @@ tabutils._tabContextMenu = function() {
 
     var item = $("context_tabStackMenu");
     if (item && !item.hidden && !item.collapsed) {
-      $("context_collapseStack").setAttribute("disabled", tab.getAttribute("group-collapsed") == "true");
-      $("context_expandStack").setAttribute("disabled", tab.getAttribute("group-collapsed") != "true");
+      $("context_collapseStack").setAttribute("disabled", tab.hasAttribute("group-collapsed"));
+      $("context_expandStack").setAttribute("disabled", !tab.hasAttribute("group-collapsed"));
     }
 
     var item = $("context_readTab");

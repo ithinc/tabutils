@@ -68,20 +68,20 @@ window[v4="true"] browser {
 
 /* Tab Stacking */
 .tabbrowser-tabs[orient="horizontal"]:not([colorStack="true"]) > .tabbrowser-tab:-moz-any(:not([group]):not([pinned]), [group-selected])
-                                                               ~ .tabbrowser-tab[group-selected]:not([group-counter="1"])[group-collapsed="true"],
+                                                               ~ .tabbrowser-tab[group-selected]:not([group-counter="1"])[group-collapsed],
 .tabbrowser-tabs[orient="horizontal"]:not([colorStack="true"]) > .tabbrowser-tab:-moz-any(:not([group]):not([pinned]), [group-selected])
-                                                               ~ .tabbrowser-tab[group-first]:not([group-last]):not([group-collapsed="true"]),
+                                                               ~ .tabbrowser-tab[group-first]:not([group-last]):not([group-collapsed]),
 .tabbrowser-tabs[orient="horizontal"]:not([colorStack="true"]) > .tabbrowser-tab[group-last]:not([group-first])
                                                                + .tabbrowser-tab:-moz-any(:not([group]), [group-counter="1"]),
-.tabbrowser-tabs[orient="vertical"] > .tabbrowser-tab[group]:not([group-first]):not([group-collapsed="true"]) {
+.tabbrowser-tabs[orient="vertical"] > .tabbrowser-tab[group]:not([group-first]):not([group-collapsed]) {
   -moz-margin-start: 9px;
 }
 
-.tabbrowser-tab[group-selected]:not([group-counter="1"])[group-collapsed="true"] .tab-twisty {
+.tabbrowser-tab[group-selected]:not([group-counter="1"])[group-collapsed] .tab-twisty {
   list-style-image: url("jar:resource://app/omni.jar!/chrome/toolkit/skin/classic/global/tree/twisty-clsd.png");
 }
 
-.tabbrowser-tab[group-first]:not([group-last]):not([group-collapsed="true"]) .tab-twisty {
+.tabbrowser-tab[group-first]:not([group-last]):not([group-collapsed]) .tab-twisty {
   list-style-image: url("jar:resource://app/omni.jar!/chrome/toolkit/skin/classic/global/tree/twisty-open.png");
 }
 
@@ -93,7 +93,7 @@ window[v4="true"] browser {
   display: none;
 }
 
-.tabbrowser-tab[group-selected]:not([group-counter="1"])[group-collapsed="true"] .tab-counter {
+.tabbrowser-tab[group-selected]:not([group-counter="1"])[group-collapsed] .tab-counter {
   display: -moz-box !important;
 }
 
