@@ -22,7 +22,7 @@ var tabutils = {
     this._bookmarkTabs();
     this._tabView();
     this._multiTabHandler();
-    this._groupTabs();
+    this._stackTabs();
     this._previewTab();
     this._multirowTabs();
     this._verticalTabs();
@@ -587,9 +587,9 @@ tabutils._tabOpeningOptions = function() {
         && aStatus == 0
         && TU_getPref("extensions.tabutils.removeUnintentionalBlank", true)) {
       let win = aWebProgress.DOMWindow;
-      win._closeTimer = win.setTimeout(function(self) {
-        self.mTabBrowser.isBlankTab(self.mTab) && self.mTabBrowser.removeTab(self.mTab);
-      }, 250, this);
+      win._closeTimer = win.setTimeout(function() {
+        this.mTabBrowser.isBlankTab(this.mTab) && this.mTabBrowser.removeTab(this.mTab);
+      }.bind(this), 250);
     }
   });
 
@@ -1800,11 +1800,11 @@ tabutils._multiTabHandler = function() {
           index++;
         tabs.splice(index, 0, aTab);
 
-        setTimeout(function(self) {
-          self.selectedTabs = [];
-          self.gatherTabs(tabs, aTab);
-          self.selectedTabs = selectedTabs;
-        }, 0, this);
+        setTimeout(function() {
+          this.selectedTabs = [];
+          this.gatherTabs(tabs, aTab);
+          this.selectedTabs = selectedTabs;
+        }.bind(this), 0);
       }
     }
   });
@@ -1819,21 +1819,21 @@ tabutils._multiTabHandler = function() {
   });
 
   TU_hookCode("gBrowser.moveTabBackward", "this.mCurrentTab._tPos", (function() { // Bug 656222 [Fx20]
-    (function (self) {
-      let tab = self.mCurrentTab.previousSibling;
+    (function () {
+      let tab = this.mCurrentTab.previousSibling;
       while (tab && tab.boxObject.width == 0)
         tab = tab.previousSibling;
       return tab ? tab._tPos + 1 : 0;
-    })(this)
+    }).apply(this)
   }).toString().replace(/^.*{|}$/g, ""));
 
   TU_hookCode("gBrowser.moveTabForward", "this.mCurrentTab._tPos", (function() {
-    (function (self) {
-      let tab = self.mCurrentTab.nextSibling;
+    (function () {
+      let tab = this.mCurrentTab.nextSibling;
       while (tab && tab.boxObject.width == 0)
         tab = tab.nextSibling;
-      return tab ? tab._tPos - 1 : self.mTabs.length;
-    })(this)
+      return tab ? tab._tPos - 1 : this.mTabs.length;
+    }).apply(this)
   }).toString().replace(/^.*{|}$/g, ""));
 
   //Protect/Lock/Faviconize/Pin All Tabs
@@ -1882,7 +1882,7 @@ tabutils._multiTabHandler = function() {
     }, aWindow.gBrowser);
 
     if (bTabs.length > 1 && aWindow.TU_getPref("extensions.tabutils.autoStack", false))
-      aWindow.gBrowser.groupTabs(bTabs);
+      aWindow.gBrowser.stackTabs(bTabs);
 
     return aWindow;
   };
@@ -1905,7 +1905,7 @@ tabutils._multiTabHandler = function() {
         }, this);
 
         if (bTabs.length < this.mTabs.length && TU_getPref("extensions.tabutils.autoStack", false))
-          this.groupTabs(bTabs);
+          this.stackTabs(bTabs);
 
         return;
       }
@@ -2128,9 +2128,9 @@ tabutils._tabClickingOptions = function() {
       this.doClickAction(type, event);
     }
     else if (event.detail == 1 && !event.target.mOverCloseButton) {
-      event.target._leftClickTimer = setTimeout(function(self) {
-        self.doClickAction("left", event);
-      }, TU_getPref("extensions.tabutils.leftClickTabDelay", 250), this);
+      event.target._leftClickTimer = setTimeout(function() {
+        this.doClickAction("left", event);
+      }.bind(this), TU_getPref("extensions.tabutils.leftClickTabDelay", 250));
     }
   };
 
@@ -2302,12 +2302,12 @@ tabutils._tabClickingOptions = function() {
         break;
       case 51: //Collapse/Expand Stack
         if (gBrowser.mContextTab.getAttribute("group-collapsed") == "true")
-          $("context_expandGroup").doCommand();
+          $("context_expandStack").doCommand();
         else
-          $("context_collapseGroup").doCommand();
+          $("context_collapseStack").doCommand();
         break;
       case 52: //Recolor Stack
-        $("context_colorGroup").doCommand();
+        $("context_colorStack").doCommand();
         break;
       default: //Do Nothing
         break;
@@ -2526,19 +2526,11 @@ tabutils._tabContextMenu = function() {
     if (event.target != tabContextMenu)
       return;
 
-    let tabs = gBrowser.mContextTabs = gBrowser.contextTabsOf(gBrowser.mContextTab);
+    let tab = gBrowser.mContextTab;
+    let tabs = gBrowser.mContextTabs = gBrowser.contextTabsOf(tab);
 
-    var mselected = gBrowser.mContextTab.hasAttribute("multiselected");
+    var mselected = tab.hasAttribute("multiselected");
     var grouponly = tabs.every(function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1);
-//    var disableCollapse = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") == "true");
-//    var disableExpand = grouponly && tabs.every(function(aTab) aTab.getAttribute("group-collapsed") != "true");
-
-    var contextTab = gBrowser.mContextTab;
-    $("context_collapseGroup").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true");
-    $("context_expandGroup").setAttribute("disabled", contextTab.getAttribute("group-collapsed") != "true");
-    $("context_splitGroup").setAttribute("disabled", contextTab.getAttribute("group-collapsed") == "true" ||
-                                                     contextTab.hasAttribute("group-first") ||
-                                                     contextTab.hasAttribute("group-last"));
 
     var lastVisibleItem = null;
     for (let item of tabContextMenu.childNodes) {
@@ -2558,6 +2550,12 @@ tabutils._tabContextMenu = function() {
     }
     if (lastVisibleItem && lastVisibleItem.localName == "menuseparator")
       lastVisibleItem.hidden = true;
+
+    var item = $("context_tabStackMenu");
+    if (item && !item.hidden && !item.collapsed) {
+      $("context_collapseStack").setAttribute("disabled", tab.getAttribute("group-collapsed") == "true");
+      $("context_expandStack").setAttribute("disabled", tab.getAttribute("group-collapsed") != "true");
+    }
 
     var item = $("context_readTab");
     if (item && !item.hidden && !item.collapsed) {
@@ -2605,7 +2603,7 @@ tabutils._tabContextMenu = function() {
     });
 
     var selectedTabs = gBrowser.selectedTabs;
-    $("context_groupTab").setAttribute("disabled", selectedTabs.length <= 1);
+    $("context_stackTab").setAttribute("disabled", selectedTabs.length <= 1);
     $("context_markTab").setAttribute("checked", gBrowser.mContextTab.hasAttribute("multiselected"));
     $("context_markTabs").setAttribute("checked", gBrowser.mContextTab.hasAttribute("multiselected"));
     $("context_unselectAllTabs").setAttribute("disabled", selectedTabs.length == 0);
@@ -2649,10 +2647,9 @@ tabutils._tabView = function() {
     if (!this._window && !Array.some(gBrowser.mTabs, function(aTab) aTab.hidden))
       return;
 
-    let self = this;
     this._initFrame(function() {
-      let activeGroupItem = self._window.GroupItems.getActiveGroupItem();
-      self._window.GroupItems.groupItems.forEach(function(groupItem) {
+      let activeGroupItem = this._window.GroupItems.getActiveGroupItem();
+      this._window.GroupItems.groupItems.forEach(function(groupItem) {
         if (!groupItem.hidden && (groupItem.getChildren().length > 0 || !aExcludeEmpty && groupItem.getTitle().length > 0)) {
           let activeTab = groupItem.getActiveTab() || groupItem.getChild(0);
           let m = document.createElement("menuitem");
@@ -2665,7 +2662,7 @@ tabutils._tabView = function() {
           aPopup.appendChild(m);
         }
       });
-    });
+    }.bind(this));
   };
 
   TabView.moveTabsTo = function(aTabs, aGroupItem) {
@@ -2994,7 +2991,7 @@ tabutils._tabPrefObserver = {
 
     //Tab stack coloring
     if (/^extensions.tabutils.colorStack.([0-9A-Fa-f]+)$/.test(aData)) {
-      this.updateGroupColor(RegExp.$1, TU_getPref(aData));
+      this.updateStackColor(RegExp.$1, TU_getPref(aData));
       return;
     }
 
@@ -3332,7 +3329,7 @@ tabutils._tabPrefObserver = {
   selectedTabTexture: "-moz-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.5) 50%)",
 
   _tabColoringRules: {},
-  updateGroupColor: function(group, color) {
+  updateStackColor: function(group, color) {
     if (color && !(group in this._tabColoringRules)) {
       let selectorText;
       if (group[0] == "{")

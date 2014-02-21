@@ -852,8 +852,8 @@
       <menuitem value="28" label="&restartTab.label;"/>
       <menuitem value="29" label="&reloadEvery.label;"/>
       <menuseparator/>
-      <menuitem value="51" label="&collapseGroup.label;/&expandGroup.label;"/>
-      <menuitem value="52" label="&colorGroup.label;"/>
+      <menuitem value="51" label="&collapseStack.label;/&expandStack.label;"/>
+      <menuitem value="52" label="&colorStack.label;"/>
       <menuseparator/>
       <menuitem value="41" label="&closeLeftTabs.label;"/>
       <menuitem value="42" label="&closeRightTabs.label;"/>
