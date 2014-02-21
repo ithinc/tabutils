@@ -123,6 +123,7 @@ pref("extensions.tabutils.menu.context_lockTab", false);
 pref("extensions.tabutils.menu.context_faviconizeTab", false);
 pref("extensions.tabutils.menu.context_renameTab", false);
 pref("extensions.tabutils.menu.context_restartTab", false);
+pref("extensions.tabutils.menu.context_copyTabURL", false);
 pref("extensions.tabutils.menu.context_closeLeftTabs", false);
 pref("extensions.tabutils.menu.context_closeRightTabs", false);
 pref("extensions.tabutils.menu.context_closeTabsToTheEnd", false);
@@ -145,12 +146,6 @@ pref("extensions.tabutils.menu.context_faviconizeAllTabs", false);
 pref("extensions.tabutils.menu.context_restartAllTabs", false);
 pref("extensions.tabutils.menu.context_closeAllTabs", false);
 pref("extensions.tabutils.menu.context_closeAllDuplicateTabs", false);
-
-pref("extensions.tabutils.menu.context_copyTabURL", false);
-pref("extensions.tabutils.menu.context_copyTabURL.label", "Copy Tab URL");
-pref("extensions.tabutils.menu.context_copyTabURL.accesskey", "U");
-pref("extensions.tabutils.menu.context_copyTabURL.multiselected", "any");
-pref("extensions.tabutils.menu.context_copyTabURL.oncommand", "Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString([tab.linkedBrowser.currentURI.spec for (tab of gBrowser.mContextTabs)].join('\\n'));");
 
 pref("extensions.tabutils.menu.context_template", false);
 pref("extensions.tabutils.menu.context_template.label", "");

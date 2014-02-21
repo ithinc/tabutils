@@ -254,6 +254,12 @@
               insertbefore="context_closeTab"
               multiselected="any"
               oncommand="gBrowser.mContextTabs.forEach(gBrowser.restartTab, gBrowser);"/>
+    <menuitem id="context_copyTabURL"
+              label="&copyTabURL.label;"
+              accesskey="&copyTabURL.accesskey;"
+              insertbefore="context_closeTab"
+              multiselected="any"
+              oncommand="Services.nsIClipboardHelper.copyString([tab.linkedBrowser.currentURI.spec for (tab of gBrowser.mContextTabs)].join('\n'));"/>
     <menuseparator insertbefore="context_closeTab"/>
     <menuitem id="context_stackTab"
               label="&stackTab.label;"
