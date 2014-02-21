@@ -32,7 +32,7 @@ tabutils._phantomTabs = function() {
         tabutils._ss.deleteTabValue(aTab, "pinned");
         tabutils._ss.deleteTabValue(aTab, "bookmarkId");
       }
-      tabutils.dispatchEvent(aTab, "TabUnpinning");
+      aTab.dispatchEvent(new CustomEvent("TabUnpinning", {bubbles: true}));
 
       this.mTabContainer.positionPinnedTab(aTab);
       this.mTabContainer.positionPinnedTabs();
@@ -41,7 +41,7 @@ tabutils._phantomTabs = function() {
       aTab.linkedBrowser.docShell.isAppTab = false;
       if (aTab.selected)
         this._setCloseKeyState(true);
-      tabutils.dispatchEvent(aTab, "TabUnpinned");
+      aTab.dispatchEvent(new CustomEvent("TabUnpinned", {bubbles: true}));
     }
     else {
       aTab.setAttribute("pinned", true);
@@ -60,7 +60,7 @@ tabutils._phantomTabs = function() {
         tabutils._ss.setTabValue(aTab, "pinned", true);
         tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
       }
-      tabutils.dispatchEvent(aTab, "TabPinning");
+      aTab.dispatchEvent(new CustomEvent("TabPinning", {bubbles: true}));
 
       this.mTabContainer.positionPinnedTab(aTab);
       this.mTabContainer.positionPinnedTabs();
@@ -70,7 +70,7 @@ tabutils._phantomTabs = function() {
       aTab.linkedBrowser.docShell.isAppTab = true;
       if (aTab.selected)
         this._setCloseKeyState(false);
-      tabutils.dispatchEvent(aTab, "TabPinned");
+      aTab.dispatchEvent(new CustomEvent("TabPinned", {bubbles: true}));
     }
   };
 

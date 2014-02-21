@@ -79,6 +79,9 @@ var tabutils = {
   },
 
   setAttribute: function(aTab, aAttr, aVal) {
+    if (!aVal)
+      return this.removeAttribute(aTab, aAttr);
+
     aTab.setAttribute(aAttr, aVal);
     this._ss.setTabValue(aTab, aAttr, aVal);
   },
@@ -132,12 +135,6 @@ var tabutils = {
   insertRule: function(rule) {
     var ss = this._styleSheet;
     return ss.cssRules[ss.insertRule(rule, ss.cssRules.length)];
-  },
-
-  dispatchEvent: function(target, type, bubbles = true, cancelable = false) {
-    let event = document.createEvent("Events");
-    event.initEvent(type, bubbles, cancelable);
-    target.dispatchEvent(event);
   },
 
   _eventListeners: [],
@@ -218,14 +215,14 @@ tabutils._tabEventListeners = {
 
     TU_hookCode("gBrowser.updateCurrentBrowser", /(?=.*createEvent.*)/, (function() {
       if (!oldTab.selected) {
-        tabutils.dispatchEvent(oldTab, "TabBlur");
+        oldTab.dispatchEvent(new CustomEvent("TabBlur", {bubbles: true, detail: this.mCurrentTab._tPos}));
       }
     }).toString().replace(/^.*{|}$/g, ""));
 
     gBrowser.onTabMove = function onTabMove(aTab, event) {};
     gBrowser.onTabClose = function onTabClose(aTab) {};
     gBrowser.onTabSelect = function onTabSelect(aTab) {};
-    gBrowser.onTabBlur = function onTabBlur(aTab) {};
+    gBrowser.onTabBlur = function onTabBlur(aTab, event) {};
     gBrowser.onTabPinning = function onTabPinning(aTab) {};
     gBrowser.onTabPinned = function onTabPinned(aTab) {};
     gBrowser.onTabHide = function onTabHide(aTab) {};
@@ -254,7 +251,7 @@ tabutils._tabEventListeners = {
       case "TabMove": gBrowser.onTabMove(event.target, event);break;
       case "TabClose": gBrowser.onTabClose(event.target);break;
       case "TabSelect": gBrowser.onTabSelect(event.target);break;
-      case "TabBlur": gBrowser.onTabBlur(event.target);break;
+      case "TabBlur": gBrowser.onTabBlur(event.target, event);break;
       case "TabPinning": gBrowser.onTabPinning(event.target);break;
       case "TabPinned": gBrowser.onTabPinned(event.target);break;
       case "TabHide": gBrowser.onTabHide(event.target);break;
@@ -638,6 +635,12 @@ tabutils._tabOpeningOptions = function() {
     aTab.removeAttribute("opener");
   });
 
+  TU_hookCode("gBrowser.onTabUnstacked", "}", function() {
+    aTab.removeAttribute("opener");
+    if (aTab.selected)
+      this.updateCurrentBrowser(true);
+  });
+
   //新建标签页
   if (BrowserOpenTab.name == "BrowserOpenTab") { //Compatibility with Speed Dial
     TU_hookCode("BrowserOpenTab",
@@ -688,10 +691,15 @@ tabutils._tabOpeningOptions = function() {
 tabutils._tabClosingOptions = function() {
 
   //关闭标签页时选择左侧/右侧/第一个/最后一个标签
-  gBrowser._tabsToSelect = function _tabsToSelect(aTab) {
-    if (!aTab)
-      aTab = this.mCurrentTab;
+  gBrowser._tabsToSelect = function _tabsToSelect(aTabs) {
+    if (!aTabs)
+      aTabs = this.visibleTabs;
 
+    let tabs = new Array(this.mTabs.length);
+    for (let tab of aTabs)
+      tabs[tab._tPos] = tab;
+
+    var aTab = this.mCurrentTab;
     var seenTabs = [];
     seenTabs[aTab._tPos] = true;
 
@@ -704,7 +712,7 @@ tabutils._tabClosingOptions = function() {
 
     function _tabs_(selectOnClose) {
       for (let tab of __tabs__(selectOnClose)) {
-        if (!tab.hidden && !tab.closing && !(tab._tPos in seenTabs)) {
+        if (!(tab._tPos in seenTabs)) {
           seenTabs[tab._tPos] = true;
           yield tab;
         }
@@ -712,23 +720,21 @@ tabutils._tabClosingOptions = function() {
     }
 
     function __tabs__(selectOnClose) {
-      var tabs = gBrowser.mTabs;
       switch (selectOnClose) {
         case 1: //Left
-          for (let i = aTab._tPos - 1; i >= 0; i--) yield tabs[i];
+          for (let i = aTab._tPos - 1; i >= 0; i--) if (i in tabs) yield tabs[i];
           break;
         case 2: //Right
-          for (let i = aTab._tPos + 1; i < tabs.length; i++) yield tabs[i];
+          for (let i = aTab._tPos + 1; i < tabs.length; i++) if (i in tabs) yield tabs[i];
           break;
         case 4: //First
-          for (let i = 0; i < tabs.length; i++) yield tabs[i];
+          for (let i = 0; i < tabs.length; i++) if (i in tabs) yield tabs[i];
           break;
         case 8: //Last
-          for (let i = tabs.length - 1; i >= 0; i--) yield tabs[i];
+          for (let i = tabs.length - 1; i >= 0; i--) if (i in tabs) yield tabs[i];
           break;
         case 0x10: //Last selected
-          var tabHistory = gBrowser.mTabContainer._tabHistory;
-          for (let i = tabHistory.length - 1; i >= 0; i--) yield tabHistory[i];
+          for (let tab of gBrowser.mTabContainer._tabHistory) if (tab._tPos in tabs) yield tab;
           break;
         case 0x20: //Unread
           for (let tab of __tabs__()) if (tab.hasAttribute("unread")) yield tab;
@@ -740,8 +746,8 @@ tabutils._tabClosingOptions = function() {
           for (let tab of __tabs__(0x20)) if (gBrowser.isRelatedTab(tab, aTab)) yield tab;
           break;
         case undefined: //Right or Rightmost
-          for (let i = aTab._tPos + 1; i < tabs.length; i++) yield tabs[i];
-          for (let i = aTab._tPos - 1; i >= 0; i--) yield tabs[i];
+          for (let i = aTab._tPos + 1; i < tabs.length; i++) if (i in tabs) yield tabs[i];
+          for (let i = aTab._tPos - 1; i >= 0; i--) if (i in tabs) yield tabs[i];
           break;
       }
     }
@@ -756,9 +762,6 @@ tabutils._tabClosingOptions = function() {
     }
     catch (e) {
       if (this.selectedTab = this.getLastSelectedTab())
-        return this.selectedTab;
-
-      if (this.selectedTab = this.getLastSelectedTab(1, true)) // Bug 633707, 651440, 654295, 654311, 663421
         return this.selectedTab;
 
       return this.selectedTab = BrowserOpenTab() || gBrowser.getLastOpenedTab();
@@ -804,35 +807,31 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
     if (aTab.hasAttribute("opener")) {
-      let index = tabHistory.lastIndexOf(this.mCurrentTab);
-      while (index > 0 && tabHistory[index - 1].getAttribute("opener") == aTab.getAttribute("opener"))
-        index--;
+      let index = tabHistory.indexOf(this.mCurrentTab) + 1;
+      while (index < tabHistory.length && tabHistory[index].getAttribute("opener") == aTab.getAttribute("opener"))
+        index++;
       tabHistory.splice(index, 0, aTab);
     }
     else
-      tabHistory.unshift(aTab);
+      tabHistory.push(aTab);
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    tabHistory.splice(tabHistory.lastIndexOf(aTab), 1);
-    tabHistory.push(aTab);
+    tabHistory.splice(tabHistory.indexOf(aTab), 1);
+    tabHistory.unshift(aTab);
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    tabHistory.splice(tabHistory.lastIndexOf(aTab), 1);
+    tabHistory.splice(tabHistory.indexOf(aTab), 1);
   });
 
-  gBrowser.getLastSelectedTab = function getLastSelectedTab(aDir, aIgnoreHidden) {
+  gBrowser.getLastSelectedTab = function getLastSelectedTab(aDir) {
     var tabHistory = this.mTabContainer._tabHistory;
-    var index = tabHistory.lastIndexOf(this.mCurrentTab);
-    for (var i = (index > -1); i < tabHistory.length; i++) {
-      var tab = tabHistory[index = aDir < 0 ? index + 1 : index - 1]
-             || tabHistory[index = aDir < 0 ? 0 : tabHistory.length - 1];
-      if ((aIgnoreHidden || !tab.hidden) && !tab.closing)
-        return tab;
-    }
+    var index = tabHistory.indexOf(this.mCurrentTab);
+    return tabHistory[aDir < 0 ? index - 1 : index + 1]
+        || tabHistory[aDir < 0 ? tabHistory.length - 1 : 0];
   };
 
   //Ctrl+Tab切换到上次浏览的标签
@@ -898,7 +897,7 @@ tabutils._tabClosingOptions = function() {
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (gBrowser._previewMode) {
-      gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+      gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
       gBrowser._previewMode = false;
     }
   });
@@ -1978,7 +1977,7 @@ tabutils._previewTab = function() {
 
       this._mouseHoverPreviewTimer = setTimeout(function() {
         if (gBrowser._previewMode) {
-          gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+          gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
           gBrowser._previewMode = false;
         }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
@@ -2015,7 +2014,7 @@ tabutils._previewTab = function() {
 
       popup._mouseHoverPreviewTimer = setTimeout(function() {
         if (gBrowser._previewMode) {
-          gBrowser.selectedTab = let (tabHistory = gBrowser.mTabContainer._tabHistory) tabHistory[tabHistory.length - 1];
+          gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
           gBrowser._previewMode = false;
         }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
@@ -2295,7 +2294,7 @@ tabutils._tabClickingOptions = function() {
         $("context_closeAllTabs").doCommand();
         break;
       case 51: //Collapse/Expand Stack
-        if (gBrowser.mContextTab.getAttribute("group-collapsed") == "true")
+        if (gBrowser.mContextTab.hasAttribute("group-collapsed"))
           $("context_expandStack").doCommand();
         else
           $("context_collapseStack").doCommand();
@@ -2547,8 +2546,8 @@ tabutils._tabContextMenu = function() {
 
     var item = $("context_tabStackMenu");
     if (item && !item.hidden && !item.collapsed) {
-      $("context_collapseStack").setAttribute("disabled", tab.getAttribute("group-collapsed") == "true");
-      $("context_expandStack").setAttribute("disabled", tab.getAttribute("group-collapsed") != "true");
+      $("context_collapseStack").setAttribute("disabled", tab.hasAttribute("group-collapsed"));
+      $("context_expandStack").setAttribute("disabled", !tab.hasAttribute("group-collapsed"));
     }
 
     var item = $("context_readTab");

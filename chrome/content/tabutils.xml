@@ -177,7 +177,7 @@
         let bindingParent = document.getBindingParent(this);
         let tab = document.getBindingParent(bindingParent);
 
-        if (tab.getAttribute("group-collapsed") == "true")
+        if (tab.hasAttribute("group-collapsed"))
           gBrowser.expandStack(tab);
         else
           gBrowser.collapseStack(tab);
