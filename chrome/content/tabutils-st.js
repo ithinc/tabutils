@@ -353,7 +353,7 @@ tabutils._stackTabs = function() {
     let nextTab = ltr ? aTab.nextSibling : aTab.previousSibling;
 
     // Move a stacked tab
-    if (this.isStackedTab(aTab) && !aTab.hidden) {
+    if (aTab.hasAttribute("group") && !aTab.hidden) {
       if (this.isCollapsedStack(aTab)) {
         let tabs = this.siblingTabsOf(aTab.getAttribute("group"));
         tabs.splice(tabs.indexOf(aTab), 1);
@@ -398,10 +398,6 @@ tabutils._stackTabs = function() {
         this.attachTabTo(aTab, nextTab);
       }
     }
-  });
-
-  TU_hookCode("gBrowser.onTabClosing", "}", function() {
-    tabutils._ss.deleteTabValue(aTab, "group-collapsed");
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
