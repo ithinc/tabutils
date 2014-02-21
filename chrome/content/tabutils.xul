@@ -120,7 +120,7 @@
               insertbefore="context-sep-open"/>
   </menupopup>
 
-  <menupopup id="tabContextMenu">
+  <menupopup id="tabContextMenu" oncommand="gBrowser.selectedTabs = [];">
     <menuitem id="context_newTab"
               label="&tabCmd.label;"
               accesskey="&tabCmd.accesskey;"
@@ -285,7 +285,7 @@
         <menuitem id="context_colorStack"
                   label="&colorStack.label;"
                   accesskey="&colorStack.accesskey;"
-                  oncommand="var tab = gBrowser.mContextTab; if (!tab.hasAttribute('group') || tab.getAttribute('group-counter') == 1) return; var color = {value: tab.getAttribute('group-color')};if (Services.prompt.prompt(null, '&colorStack.label;', '', color, null, {})) gBrowser.updateStack(tab, {id: !color.value, color: color.value});"/>
+                  oncommand="var tab = gBrowser.mContextTab; if (!gBrowser.isStackedTab(tab)) return; var color = {value: tab.getAttribute('group-color')};if (Services.prompt.prompt(null, '&colorStack.label;', '', color, null, {})) gBrowser.updateStack(tab, {id: !color.value, color: color.value});"/>
         <menuitem id="context_bookmarkStack"
                   label="&bookmarkStack.label;"
                   accesskey="&bookmarkStack.accesskey;"
@@ -347,12 +347,12 @@
               label="&selectAllTabs.label;"
               accesskey="&selectAllTabs.accesskey;"
               multiselected="any"
-              oncommand="gBrowser.selectAllTabs();event.stopPropagation();"/>
+              oncommand="gBrowser.selectedTabs = gBrowser.allTabs;event.stopPropagation();"/>
     <menuitem id="context_unselectAllTabs"
               label="&unselectAllTabs.label;"
               accesskey="&unselectAllTabs.accesskey;"
               multiselected="any"
-              oncommand="gBrowser.selectedTabs = [];"/>
+              oncommand="gBrowser.selectedTabs = [];event.stopPropagation();"/>
     <menuitem id="context_invertSelection"
               label="&invertSelection.label;"
               accesskey="&invertSelection.accesskey;"

@@ -129,8 +129,7 @@
       <method name="_canScrollToElement">
         <parameter name="tab"/>
         <body><![CDATA[
-          return !tab.pinned && !tab.hidden && !tab.disabled &&
-                (tab.hasAttribute("group-counter") || tab.getAttribute("group-collapsed") != "true");
+          return !tab.pinned && !tab.hidden && !tab.collapsed;
         ]]></body>
       </method>
     </implementation>
@@ -198,7 +197,7 @@
         let bindingParent = document.getBindingParent(this);
         let tab = document.getBindingParent(bindingParent);
 
-        tab.mOverTwisty = tab.hasAttribute("group") && tab.getAttribute("group-counter") != 1;
+        tab.mOverTwisty = gBrowser.isStackedTab(tab);
       ]]></handler>
 
       <handler event="mouseout"><![CDATA[

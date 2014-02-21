@@ -561,7 +561,7 @@ tabutils._tabOpeningOptions = function() {
   };
 
   gBrowser.getFirstBlankTabBut = function getFirstBlankTabBut(aTab) {
-    for (let tab of this.mTabs) {
+    for (let tab of this.visibleTabs) {
       if (tab != aTab && this.isBlankTab(tab))
         return tab;
     }
@@ -569,8 +569,7 @@ tabutils._tabOpeningOptions = function() {
 
   gBrowser.isBlankTab = function isBlankTab(aTab) {
     return this.isBlankBrowser(aTab.linkedBrowser)
-        && ["busy", "pending", "ontap"].every(function(aAttr) !aTab.hasAttribute(aAttr))
-        && !aTab.hidden && !aTab.closing;
+        && ["busy", "pending"].every(function(aAttr) !aTab.hasAttribute(aAttr));
   };
 
   gBrowser.isBlankBrowser = function isBlankBrowser(aBrowser) {
@@ -602,7 +601,7 @@ tabutils._tabOpeningOptions = function() {
         function shouldStack(tab) let (args = tab.arguments) (args.aReferrerURI || args.aRelatedToCurrent && args.aURI != "about:blank");
 
         let lastRelatedTab = this.mCurrentTab;
-        let isStack = lastRelatedTab.hasAttribute("group") && lastRelatedTab.getAttribute("group-counter") != 1;
+        let isStack = this.isStackedTab(lastRelatedTab);
         let willStack = (isStack || TU_getPref("extensions.tabutils.autoStack", false)) && shouldStack(t);
         if (isStack && !willStack)
           lastRelatedTab = this.lastSiblingTabOf(lastRelatedTab);
@@ -666,7 +665,7 @@ tabutils._tabOpeningOptions = function() {
       this.detachTab(tab, true);
       if (["_onDrop", "onxbldrop", "duplicateTabIn"].indexOf(arguments.callee.caller.name) == -1) {
         if (TU_getPref("extensions.tabutils.openDuplicateNext", true)) {
-          if (aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1 ||
+          if (this.isStackedTab(aTab) ||
               TU_getPref("extensions.tabutils.autoStack", false))
             this.attachTabTo(tab, aTab, {move: true, expand: true});
           this.moveTabTo(tab, tab._tPos > aTab._tPos ? aTab._tPos + 1 : aTab._tPos);
@@ -732,7 +731,7 @@ tabutils._tabClosingOptions = function() {
           for (let i = tabHistory.length - 1; i >= 0; i--) yield tabHistory[i];
           break;
         case 0x20: //Unread
-          for (let tab of __tabs__()) if (tab.getAttribute("unread") == "true") yield tab;
+          for (let tab of __tabs__()) if (tab.hasAttribute("unread")) yield tab;
           break;
         case 0x40: //Related
           for (let tab of __tabs__()) if (gBrowser.isRelatedTab(tab, aTab)) yield tab;
@@ -769,7 +768,7 @@ tabutils._tabClosingOptions = function() {
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var panelId = aTab.linkedPanel;
-    Array.forEach(this.mTabs, function(aTab) {
+    Array.forEach(this.visibleTabs, function(aTab) {
       if (aTab.getAttribute("opener").startsWith(panelId))
         aTab.setAttribute("opener", panelId + (+aTab.getAttribute("opener").slice(panelId.length) + 1));
     });
@@ -779,7 +778,7 @@ tabutils._tabClosingOptions = function() {
     if (aTab.hasAttribute("opener")) {
       let opener = aTab.getAttribute("opener");
       let panelId = aTab.linkedPanel;
-      Array.forEach(this.mTabs, function(aTab) {
+      Array.forEach(this.visibleTabs, function(aTab) {
         if (aTab.getAttribute("opener").startsWith(panelId))
           aTab.setAttribute("opener", opener);
       });
@@ -1035,7 +1034,7 @@ tabutils._tabClosingOptions = function() {
 tabutils._unreadTab = function() {
   gBrowser.unreadTab = function unreadTab(aTab, aForce) {
     if (aForce == null)
-      aForce = aTab.getAttribute("unread") != "true";
+      aForce = !aTab.hasAttribute("unread");
 
     if (aForce && !aTab.selected) {
       tabutils.setAttribute(aTab, "unread", true);
@@ -1546,45 +1545,42 @@ tabutils._bookmarkTabs = function() {
 
 tabutils._multiTabHandler = function() {
 
-  //选择多个标签页
-  gBrowser.isNormalTab = function isNormalTab(aTab) {
-    return !aTab.pinned && !aTab.hidden && !aTab.closing;
-  };
-
+  // Select Multiple Tabs
   gBrowser.__defineGetter__("allTabs", function() {
-    let tabs = Array.filter(this.mTabs, this.isNormalTab);
-    return tabs.length > 0 ? tabs : (this.visibleTabs || this.mTabs);
+    return this.visibleTabs.slice(this._numPinnedTabs);
   });
 
   gBrowser.__defineGetter__("selectedTabs", function() {
-    return Array.filter(this.mTabs, function(aTab) aTab.hasAttribute("multiselected"));
+    return this._selectedTabs ||
+           (this._selectedTabs = Array.filter(this.visibleTabs, function(aTab) aTab.hasAttribute("multiselected")));
   });
 
   gBrowser.__defineSetter__("selectedTabs", function(val) {
-    Array.forEach(this.mTabs, function(aTab) aTab.removeAttribute("multiselected"));
+    Array.forEach(this.visibleTabs, function(aTab) aTab.removeAttribute("multiselected"));
     Array.forEach(val, function(aTab) {
-      if (aTab.boxObject.width > 0) {
-        if (aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1) {
+      if (!aTab.collapsed) {
+        if (this.isCollapsedStack(aTab)) {
           let tabs = this.siblingTabsOf(aTab);
           tabs.forEach(function(aTab) aTab.setAttribute("multiselected", true));
         }
         aTab.setAttribute("multiselected", true);
       }
     }, this);
+    this._selectedTabs = null;
     this._anchorTab = null;
     return val;
   });
 
   gBrowser.contextTabsOf = function contextTabsOf(aTab) {
     return aTab.hasAttribute("multiselected") ? this.selectedTabs :
-           aTab.getAttribute("group-collapsed") == "true" || aTab.mOverTwisty ? this.siblingTabsOf(aTab) : [aTab];
+           this.isCollapsedStack(aTab) || aTab.mOverTwisty ? this.siblingTabsOf(aTab) : [aTab];
   };
 
   gBrowser.markTab = function markTab(aTab, aForce) {
     if (aForce == null)
       aForce = !aTab.hasAttribute("multiselected");
 
-    if (aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1) {
+    if (this.isCollapsedStack(aTab)) {
       let tabs = this.siblingTabsOf(aTab);
       if (aForce)
         tabs.forEach(function(aTab) aTab.setAttribute("multiselected", true));
@@ -1592,6 +1588,7 @@ tabutils._multiTabHandler = function() {
         tabs.forEach(function(aTab) aTab.removeAttribute("multiselected"));
     }
     aForce ? aTab.setAttribute("multiselected", true) : aTab.removeAttribute("multiselected");
+    this._selectedTabs = null;
     this._anchorTab = aTab;
   };
 
@@ -1605,13 +1602,8 @@ tabutils._multiTabHandler = function() {
     this.selectedTabs = aForce ?
       Array.reduce(aTabs, function(aRes, aTab) (aRes.indexOf(aTab) == -1 && aRes.push(aTab), aRes), aKeepSelection ? this.selectedTabs : []) :
       Array.reduce(this.selectedTabs, function(aRes, aTab) (aTabs.indexOf(aTab) == -1 && aRes.push(aTab), aRes), []);
+    this._selectedTabs = null;
     this._anchorTab = bTab;
-  };
-
-  gBrowser.selectAllTabs = function() {
-    var allTabs = this.allTabs;
-    this.selectedTabs = this.selectedTabs.map(function(aTab) aTab._tPos).join() ==
-                        allTabs.map(function(aTab) aTab._tPos).join() ? (this.visibleTabs || this.mTabs) : allTabs;
   };
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
@@ -1620,61 +1612,63 @@ tabutils._multiTabHandler = function() {
   });
 
   TU_hookCode("gBrowser.onTabHide", "}", function() {
-    aTab.removeAttribute("multiselected");
+    if (aTab.hasAttribute("multiselected")) {
+      aTab.removeAttribute("multiselected");
+      this._selectedTabs = null;
+    }
   });
 
   TU_hookCode("gBrowser.onStackCollapsed", "}", function() {
     let tabs = this.siblingTabsOf(aTab);
-    if (!tabs.every(function(aTab) aTab.hasAttribute("multiselected")))
+    if (!tabs.every(function(aTab) aTab.hasAttribute("multiselected"))) {
       tabs.forEach(function(aTab) aTab.removeAttribute("multiselected"));
+      this._selectedTabs = null;
+    }
   });
 
-//  var tabContextMenu = gBrowser.tabContextMenu;
-//  tabContextMenu.setAttribute("oncommand", "gBrowser.selectedTabs = [];");
-
-  //左侧/右侧/其他/重复/相似标签页
+  // Left/Right/Other/Duplicate/Similar Tabs
   gBrowser.leftTabsOf = function leftTabsOf(aTabs) {
     if (!("length" in aTabs))
       aTabs = [aTabs];
 
-    return Array.slice(this.mTabs, 0, aTabs[0]._tPos).filter(this.isNormalTab);
+    return Array.slice(this.visibleTabs, this._numPinnedTabs, this.visibleTabs.indexOf(aTabs[0]));
   };
 
   gBrowser.rightTabsOf = function rightTabsOf(aTabs) {
     if (!("length" in aTabs))
       aTabs = [aTabs];
 
-    return Array.slice(this.mTabs, aTabs[aTabs.length - 1]._tPos + 1).filter(this.isNormalTab);
+    return Array.slice(this.allTabs, this.allTabs.indexOf(aTabs[aTabs.length - 1]) + 1);
   };
 
   gBrowser.otherTabsOf = function otherTabsOf(aTabs) {
     if (!("length" in aTabs))
       aTabs = [aTabs];
 
-    return Array.filter(this.mTabs, function(aTab) this.isNormalTab(aTab) && Array.indexOf(aTabs, aTab) == -1, this);
+    return Array.filter(this.allTabs, function(aTab) Array.indexOf(aTabs, aTab) == -1);
   };
 
   gBrowser.duplicateTabsOf = function duplicateTabsOf(aTabs) {
     if (!("length" in aTabs))
       aTabs = [aTabs];
 
-    return Array.filter(this.mTabs, function(aTab) this.isNormalTab(aTab) && Array.some(aTabs, function(bTab) {
+    return Array.filter(this.allTabs, function(aTab) Array.some(aTabs, function(bTab) {
       return aTab.linkedBrowser.currentURI.spec == bTab.linkedBrowser.currentURI.spec;
-    }), this);
+    }));
   };
 
   gBrowser.similarTabsOf = function similarTabsOf(aTabs) {
     if (!("length" in aTabs))
       aTabs = [aTabs];
 
-    return Array.filter(this.mTabs, function(aTab) this.isNormalTab(aTab) && Array.some(aTabs, function(bTab) {
+    return Array.filter(this.allTabs, function(aTab) Array.some(aTabs, function(bTab) {
       try {
         return aTab.linkedBrowser.currentURI.host == bTab.linkedBrowser.currentURI.host;
       }
       catch (e) {
         return aTab.linkedBrowser.currentURI.spec == bTab.linkedBrowser.currentURI.spec;
       }
-    }), this);
+    }));
   };
 
   gBrowser.uniqueTabsOf = function uniqueTabsOf(aTabs) {
@@ -1756,11 +1750,11 @@ tabutils._multiTabHandler = function() {
   };
 
   gBrowser.moveTabBefore = function moveTabBefore(aTab, bTab) {
-    this.moveTabTo(aTab, aTab._tPos < bTab._tPos ? bTab._tPos - 1 : bTab._tPos);
+    this.moveTabTo(aTab, bTab ? aTab._tPos < bTab._tPos ? bTab._tPos - 1 : bTab._tPos : 0);
   };
 
   gBrowser.moveTabAfter = function moveTabAfter(aTab, bTab) {
-    this.moveTabTo(aTab, aTab._tPos > bTab._tPos ? bTab._tPos + 1 : bTab._tPos);
+    this.moveTabTo(aTab, bTab ? aTab._tPos > bTab._tPos ? bTab._tPos + 1 : bTab._tPos : this.mTabs.length - 1);
   };
 
   TU_hookCode("gBrowser.onTabMove", "{", function() {
@@ -1791,7 +1785,7 @@ tabutils._multiTabHandler = function() {
     if (aTab.hasAttribute("multiselected")) {
       let selectedTabs = this.selectedTabs;
       if (selectedTabs[selectedTabs.length - 1]._tPos - selectedTabs[0]._tPos >= selectedTabs.length) {
-        let tabs = selectedTabs.filter(function(aTab) aTab.boxObject.width > 0);
+        let tabs = selectedTabs.filter(function(aTab) !aTab.collapsed);
         tabs.splice(tabs.indexOf(aTab), 1);
 
         let index = 0;
@@ -1865,7 +1859,7 @@ tabutils._multiTabHandler = function() {
 
   gBrowser.moveTabToWindow = function moveTabToWindow(aTabs, aWindow) {
     if (!aWindow) {
-      aTabs[0].selectedTabs = aTabs;
+      aTabs[0]._selectedTabs = aTabs;
       return this.replaceTabWithWindow(aTabs[0]);
     }
 
@@ -1890,7 +1884,7 @@ tabutils._multiTabHandler = function() {
   TU_hookCode("gBrowser.swapBrowsersAndCloseOther", /(?=.*_beginRemoveTab.*)/, function() {
     if ([gBrowserInit.onLoad, gBrowserInit._delayedStartup].indexOf(arguments.callee.caller) > -1 ||  // Bug 756313 [Fx19]
         ["onxbldrop", "_handleTabDrop"].indexOf(arguments.callee.caller.name) > -1) {
-      let selectedTabs = aOtherTab.selectedTabs || remoteBrowser.contextTabsOf(aOtherTab);
+      let selectedTabs = aOtherTab._selectedTabs || remoteBrowser.contextTabsOf(aOtherTab);
       if (selectedTabs.length > 1) {
         this.swapBrowsersAndCloseOther(aOurTab, selectedTabs.shift());
 
@@ -2530,7 +2524,7 @@ tabutils._tabContextMenu = function() {
     let tabs = gBrowser.mContextTabs = gBrowser.contextTabsOf(tab);
 
     var mselected = tab.hasAttribute("multiselected");
-    var grouponly = tabs.every(function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1);
+    var grouponly = tabs.every(function(aTab) gBrowser.isStackedTab(aTab));
 
     var lastVisibleItem = null;
     for (let item of tabContextMenu.childNodes) {
@@ -2559,7 +2553,7 @@ tabutils._tabContextMenu = function() {
 
     var item = $("context_readTab");
     if (item && !item.hidden && !item.collapsed) {
-      let unread = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+      let unread = tabs.every(function(aTab) !aTab.hasAttribute("unread"));
       item.setAttribute("label", unread ? item.getAttribute("label_unread") : item.getAttribute("label_read"));
       item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
     }
@@ -2749,7 +2743,7 @@ tabutils._allTabsPopup = function() {
     var tabs = gBrowser.allTabs;
     var item = $("context_readAllTabs");
     if (item && !item.hidden && !item.collapsed) {
-      let unread = tabs.every(function(aTab) aTab.getAttribute("unread") != "true");
+      let unread = tabs.every(function(aTab) !aTab.hasAttribute("unread"));
       item.setAttribute("label", unread ? item.getAttribute("label_unread") : item.getAttribute("label_read"));
       item.setAttribute("disabled", tabs.every(function(aTab) aTab.selected));
     }
@@ -2885,8 +2879,8 @@ tabutils._tabPrefObserver = {
     TU_hookCode("gBrowser.mTabContainer.adjustTabstrip",
       [/let tab.*/, function() {
         let tab;
-        Array.some(this.childNodes, function(aTab) {
-          return !aTab.pinned && !aTab.hasAttribute("faviconized") && aTab.boxObject.width > 0 && (tab = aTab);
+        Array.some(this.tabbrowser.visibleTabs, function(aTab) {
+          return !aTab.collapsed && getComputedStyle(aTab).MozBoxFlex > 0 && (tab = aTab);
         });
       }],
       ["this.mCloseButtons", "($& & 0x0f)"],
@@ -3340,8 +3334,8 @@ tabutils._tabPrefObserver = {
       this._tabColoringRules[group] = [
         tabutils.insertRule(selectorText + '{}'),
         tabutils.insertRule(selectorText + ':hover {}'),
-        tabutils.insertRule(selectorText + '[selected="true"] {}'),
-        tabutils.insertRule('#main-window[tabsontop=false]:not([disablechrome]) ' + selectorText.replace('#main-window', '#tabbrowser-tabs >') + '[selected="true"]:not(:-moz-lwtheme) {}')
+        tabutils.insertRule(selectorText + '[selected] {}'),
+        tabutils.insertRule('#main-window[tabsontop=false]:not([disablechrome]) ' + selectorText.replace('#main-window', '#tabbrowser-tabs >') + '[selected]:not(:-moz-lwtheme) {}')
       ];
     }
 
