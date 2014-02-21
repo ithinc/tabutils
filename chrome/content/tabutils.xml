@@ -198,7 +198,7 @@
         let bindingParent = document.getBindingParent(this);
         let tab = document.getBindingParent(bindingParent);
 
-        tab.mOverTwisty = tab.hasAttribute("group") && tab.getAttribute("group-counter") != 1;
+        tab.mOverTwisty = gBrowser.isStackedTab(tab);
       ]]></handler>
 
       <handler event="mouseout"><![CDATA[
