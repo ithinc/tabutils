@@ -290,16 +290,22 @@ tabutils._stackTabs = function() {
     switch (tab.getAttribute("dragover")) {
       case "left":
       case "top":
-        if (!tab.hasAttribute("group-first") || tab.getAttribute("group-collapsed") == "true")
-          return;
-        move = "before";
-        break;
+        if (tab.hasAttribute("group-first") &&
+            !tab.hasAttribute("group-last") &&
+            tab.getAttribute("group-collapsed") != "true") {
+          move = "before";
+          break;
+        }
+        return;
       case "right":
       case "bottom":
-        if (!tab.hasAttribute("group-last") || tab.getAttribute("group-collapsed") == "true")
-          return;
-        move = "after";
-        break;
+        if (tab.hasAttribute("group-last") &&
+            !tab.hasAttribute("group-first") &&
+            tab.getAttribute("group-collapsed") != "true") {
+          move = "after";
+          break;
+        }
+        return;
       default:
         if (gBrowser.isCollapsedStack(tab))
           move = "end";
