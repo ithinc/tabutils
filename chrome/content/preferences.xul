@@ -532,6 +532,7 @@
       <preference id="context_renameTab" name="extensions.tabutils.menu.context_renameTab" type="bool"/>
       <preference id="context_restartTab" name="extensions.tabutils.menu.context_restartTab" type="bool" suggest="true"/>
       <preference id="context_copyTabURL" name="extensions.tabutils.menu.context_copyTabURL" type="bool"/>
+      <preference id="context_copyTitleAndURL" name="extensions.tabutils.menu.context_copyTitleAndURL" type="bool" suggest="true"/>
       <preference id="context_closeLeftTabs" name="extensions.tabutils.menu.context_closeLeftTabs" type="bool"/>
       <preference id="context_closeRightTabs" name="extensions.tabutils.menu.context_closeRightTabs" type="bool"/>
       <preference id="context_closeOtherTabs" name="extensions.tabutils.menu.context_closeOtherTabs" type="bool"/>
@@ -737,6 +738,7 @@
               <checkbox preference="context_renameTab" label="&renameTab.label;"/>
               <checkbox preference="context_restartTab" label="&restartTab.label;"/>
               <checkbox preference="context_copyTabURL" label="&copyTabURL.label;"/>
+              <checkbox preference="context_copyTitleAndURL" label="&copyTitleAndURL.label;"/>
               <separator class="groove"/>
               <checkbox preference="context_closeLeftTabs" label="&closeLeftTabs.label;"/>
               <checkbox preference="context_closeRightTabs" label="&closeRightTabs.label;"/>

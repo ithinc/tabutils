@@ -260,6 +260,16 @@
               insertbefore="context_closeTab"
               multiselected="any"
               oncommand="Services.nsIClipboardHelper.copyString([tab.linkedBrowser.currentURI.spec for (tab of gBrowser.mContextTabs)].join('\n'));"/>
+    <menu id="context_copyTitleAndURL"
+          label="&copyTitleAndURL.label;"
+          accesskey="&copyTitleAndURL.accesskey;"
+          insertbefore="context_closeTab"
+          multiselected="any">
+      <menupopup onpopupshowing="JSON.parse(this.parentNode.getAttribute('format')).forEach(function([label, format]) {if (label) {var item = this.appendChild(document.createElement('menuitem'));item.setAttribute('label', label);item.setAttribute('format', format);} else {this.appendChild(document.createElement('menuseparator'));}}, this);"
+                 onpopuphidden="while (this.hasChildNodes()) this.removeChild(this.lastChild);"
+                 oncommand="Services.nsIClipboardHelper.copyString([event.originalTarget.getAttribute('format').replace('%T', tab.label).replace('%U', tab.linkedBrowser.currentURI.spec) for (tab of gBrowser.mContextTabs)].join('\n'));">
+      </menupopup>
+    </menu>
     <menuseparator insertbefore="context_closeTab"/>
     <menuitem id="context_stackTab"
               label="&stackTab.label;"

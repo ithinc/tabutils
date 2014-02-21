@@ -39,6 +39,8 @@
 <!ENTITY restartTab.accesskey "R">
 <!ENTITY copyTabURL.label "复制网址">
 <!ENTITY copyTabURL.accesskey "C">
+<!ENTITY copyTitleAndURL.label "复制标题和网址为">
+<!ENTITY copyTitleAndURL.accesskey "C">
 <!ENTITY closeLeftTabs.label "关闭左侧标签页">
 <!ENTITY closeLeftTabs.accesskey "L">
 <!ENTITY closeRightTabs.label "关闭右侧标签页">

@@ -39,6 +39,8 @@
 <!ENTITY restartTab.accesskey "R">
 <!ENTITY copyTabURL.label "Copy URL">
 <!ENTITY copyTabURL.accesskey "C">
+<!ENTITY copyTitleAndURL.label "Copy Title and URL As">
+<!ENTITY copyTitleAndURL.accesskey "C">
 <!ENTITY closeLeftTabs.label "Close Left Tabs">
 <!ENTITY closeLeftTabs.accesskey "L">
 <!ENTITY closeRightTabs.label "Close Right Tabs">

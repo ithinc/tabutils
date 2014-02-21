@@ -124,6 +124,8 @@ pref("extensions.tabutils.menu.context_faviconizeTab", false);
 pref("extensions.tabutils.menu.context_renameTab", false);
 pref("extensions.tabutils.menu.context_restartTab", false);
 pref("extensions.tabutils.menu.context_copyTabURL", false);
+pref("extensions.tabutils.menu.context_copyTitleAndURL", false);
+pref("extensions.tabutils.menu.context_copyTitleAndURL.format", '[["Plain Text", "%T - %U"], ["HTML Link", "<a href=\\"%U\\">%T</a>"], [], ["BB Code", "[url=%U]%T[/url]"], ["Markdown", "[%T](%U)"], ["Wikipedia", "[%U %T]"]]');
 pref("extensions.tabutils.menu.context_closeLeftTabs", false);
 pref("extensions.tabutils.menu.context_closeRightTabs", false);
 pref("extensions.tabutils.menu.context_closeTabsToTheEnd", false);
