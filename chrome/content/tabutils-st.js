@@ -143,15 +143,17 @@ tabutils._stackTabs = function() {
       this.mTabContainer._notifyBackgroundTab(aTab);
       delete aTab._suppressTabMove;
     }
-    this.updateStack(aTab, {excludeSelf: true});
-    tabutils.dispatchEvent(aTab, "TabUnstacked");
 
+    let group = aTab.getAttribute("group");
     tabutils.removeAttribute(aTab, "group");
     tabutils.removeAttribute(aTab, "group-color");
     tabutils.removeAttribute(aTab, "group-collapsed");
     tabutils.removeAttribute(aTab, "group-counter");
     aTab.removeAttribute("group-first");
     aTab.removeAttribute("group-last");
+
+    this.updateStack(group);
+    tabutils.dispatchEvent(aTab, "TabUnstacked");
 
     aTab.removeAttribute("opener");
     if (aTab.selected)
@@ -199,27 +201,16 @@ tabutils._stackTabs = function() {
     this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[0], false);
   };
 
-  gBrowser.updateStack = function updateStack(aTab, options) {
-    if (!aTab.hasAttribute("group"))
-      return;
-
-    if (!options)
-      options = {};
-
-    let tabs = this.siblingTabsOf(aTab.getAttribute("group"));
-    if (options.excludeSelf) {
-      let index = tabs.indexOf(aTab);
-      if (index > -1)
-        tabs.splice(index, 1);
-    }
+  gBrowser.updateStack = function updateStack(aTab, options = {}) {
+    let tabs = this.siblingTabsOf(aTab);
     if (tabs.length == 0)
       return;
 
-    if (!aTab.selected && !aTab.hasAttribute("group-counter") || tabs.indexOf(aTab) == -1) {
+    if (typeof aTab == "string" || !aTab.selected && !aTab.hasAttribute("group-counter")) {
       aTab = tabs[0];
-      for (let i = 1; i < tabs.length; i++) {
-        if (tabs[i].hasAttribute("group-counter")) {
-          aTab = tabs[i];
+      for (let tab of tabs) {
+        if (tab.hasAttribute("group-counter")) {
+          aTab = tab;
           break;
         }
       }
@@ -424,7 +415,9 @@ tabutils._stackTabs = function() {
         aTab.getAttribute("group-counter") > 1) {
       aTab.removeAttribute("group-counter");
     }
-    this.updateStack(aTab, {excludeSelf: true});
+    if (aTab.hasAttribute("group")) {
+      this.updateStack(aTab.getAttribute("group"));
+    }
   });
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
@@ -432,10 +425,11 @@ tabutils._stackTabs = function() {
     tabutils.restoreAttribute(aTab, "group-color");
     tabutils.restoreAttribute(aTab, "group-collapsed");
     tabutils.restoreAttribute(aTab, "group-counter");
-    this.updateStack(aTab);
-
-    if (aTab.getAttribute("group-collapsed") == "true")
-      this.mTabContainer.adjustTabstrip();
+    if (aTab.hasAttribute("group")) {
+      this.updateStack(aTab);
+      if (aTab.getAttribute("group-collapsed") == "true")
+        this.mTabContainer.adjustTabstrip();
+    }
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
@@ -464,7 +458,7 @@ tabutils._stackTabs = function() {
     this.detachTab(aTab);
   });
 
-  gBrowser.showOnlyTheseTabs = function showOnlyTheseTabs(aTabs) {
+  TU_hookCode("gBrowser.showOnlyTheseTabs", "{", function() { // Ensure selected tab keeps when switching group
     Array.reduceRight(this.mTabs, function(self, aTab) {
       if (aTabs.indexOf(aTab) == -1)
         this.hideTab(aTab);
@@ -474,14 +468,19 @@ tabutils._stackTabs = function() {
         this.showTab(aTab);
     }.bind(this), this);
     this.tabContainer.mTabstrip.ensureElementIsVisible(this.selectedTab, false);
-  };
+    return;
+  });
 
   TU_hookCode("gBrowser.onTabHide", "}", function() {
-    this.updateStack(aTab, {excludeSelf: true});
+    if (aTab.hasAttribute("group")) {
+      this.updateStack(aTab.getAttribute("group"));
+    }
   });
 
   TU_hookCode("gBrowser.onTabShow", "}", function() {
-    this.updateStack(aTab);
+    if (aTab.hasAttribute("group")) {
+      this.updateStack(aTab);
+    }
   });
 
   TU_hookCode("gBrowser.loadTabs",
