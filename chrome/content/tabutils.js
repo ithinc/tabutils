@@ -605,7 +605,7 @@ tabutils._tabOpeningOptions = function() {
 
         if (TU_getPref("extensions.tabutils.openTabNext.keepOrder", true)) {
           let tab = lastRelatedTab.nextSibling;
-          let panelId = this.mCurrentTab.linkedPanel;
+          let panelId = this.mCurrentTab.linkedPanel + "#";
           for (; tab && tab.pinned; tab = tab.nextSibling);
           for (; tab && tab.getAttribute("opener") == panelId && tab != t && (!willStack || shouldStack(tab)); tab = tab.nextSibling)
             lastRelatedTab = tab;
@@ -627,7 +627,7 @@ tabutils._tabOpeningOptions = function() {
         default: return false; //None
       }
     })()) {
-      aTab.setAttribute("opener", this.mCurrentTab.linkedPanel);
+      aTab.setAttribute("opener", this.mCurrentTab.linkedPanel + "#");
     }
   });
 
@@ -770,7 +770,7 @@ tabutils._tabClosingOptions = function() {
 
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
-    var panelId = aTab.linkedPanel;
+    var panelId = aTab.linkedPanel + "#";
     Array.forEach(this.visibleTabs, function(aTab) {
       if (aTab.getAttribute("opener").startsWith(panelId))
         aTab.setAttribute("opener", panelId + (+aTab.getAttribute("opener").slice(panelId.length) + 1));
@@ -780,7 +780,7 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (aTab.hasAttribute("opener")) {
       let opener = aTab.getAttribute("opener");
-      let panelId = aTab.linkedPanel;
+      let panelId = aTab.linkedPanel + "#";
       Array.forEach(this.visibleTabs, function(aTab) {
         if (aTab.getAttribute("opener").startsWith(panelId))
           aTab.setAttribute("opener", opener);
@@ -798,8 +798,8 @@ tabutils._tabClosingOptions = function() {
       bTab = this.mCurrentTab;
 
     return aTab.hasAttribute("opener") && aTab.getAttribute("opener") == bTab.getAttribute("opener")
-        || aTab.getAttribute("opener").startsWith(bTab.linkedPanel)
-        || bTab.getAttribute("opener").startsWith(aTab.linkedPanel);
+        || aTab.getAttribute("opener").startsWith(bTab.linkedPanel + "#")
+        || bTab.getAttribute("opener").startsWith(aTab.linkedPanel + "#");
   };
 
   //关闭标签页时选择上次浏览的标签
@@ -2429,17 +2429,11 @@ tabutils._miscFeatures = function() {
     switch (sheet.href) {
       case "chrome://browser/skin/browser.css":
         for (let cssRule of Array.slice(sheet.cssRules)) {
-          if (/> .tabbrowser-tab/.test(cssRule.selectorText)) {
-            tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, ".tabbrowser-tab"));
-            continue;
-          }
-
-          if (/> .tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox/.test(cssRule.selectorText)) {
-            tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, "#PinnedTabsBarItems"));
-            continue;
-          }
-
           switch (cssRule.selectorText) {
+            case "#tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned]:before": // Bug 877368 [Fx29]
+            case "#tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned]::before":
+              tabutils.insertRule(cssRule.cssText.replace("#tabbrowser-tabs[positionpinnedtabs] >", ""));
+              break;
             case ".tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox":
               tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, ".tabbrowser-tabs[orient='horizontal']:not([overflow]):not([multirow]) $&"))
                       .style.MozMarginStart = "-" + cssRule.style.MozPaddingStart;
@@ -2451,6 +2445,16 @@ tabutils._miscFeatures = function() {
             case ".tab-throbber[pinned], .tab-icon-image[pinned], .tabs-newtab-button > .toolbarbutton-icon":
               tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, '.tabbrowser-tabs[orient="horizontal"] > .tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)'));
               break;
+            default:
+              if (/> .tabbrowser-tab/.test(cssRule.selectorText)) {
+                tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, ".tabbrowser-tab"));
+                continue;
+              }
+
+              if (/> .tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox/.test(cssRule.selectorText)) {
+                tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, "#PinnedTabsBarItems"));
+                continue;
+              }
           }
         }
         break;
