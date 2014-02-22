@@ -247,7 +247,7 @@ tabutils._tabOpeningOptions = function() {
       }()) {
         let lastRelatedTab = this.mCurrentTab;
         if (TU_getPref("extensions.tabutils.openTabNext.keepOrder", true)) {
-          let panelId = this.mCurrentTab.linkedPanel;
+          let panelId = this.mCurrentTab.linkedPanel + "#";
           for (let i = this.mTabs.length - 1; i >= 0; i--) {
             if (this.mTabs[i].getAttribute("opener") == panelId) {
               lastRelatedTab = this.mTabs[i];
@@ -390,7 +390,7 @@ tabutils._tabClosingOptions = function() {
 
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
-    var panelId = aTab.linkedPanel;
+    var panelId = aTab.linkedPanel + "#";
     Array.forEach(this.visibleTabs, function(aTab) {
       if (aTab.getAttribute("opener").startsWith(panelId))
         aTab.setAttribute("opener", panelId + (+aTab.getAttribute("opener").slice(panelId.length) + 1));
@@ -400,7 +400,7 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (aTab.hasAttribute("opener")) {
       let opener = aTab.getAttribute("opener");
-      let panelId = aTab.linkedPanel;
+      let panelId = aTab.linkedPanel + "#";
       Array.forEach(this.visibleTabs, function(aTab) {
         if (aTab.getAttribute("opener").startsWith(panelId))
           aTab.setAttribute("opener", opener);
@@ -418,8 +418,8 @@ tabutils._tabClosingOptions = function() {
       bTab = this.mCurrentTab;
 
     return aTab.hasAttribute("opener") && aTab.getAttribute("opener") == bTab.getAttribute("opener")
-        || aTab.getAttribute("opener").startsWith(bTab.linkedPanel)
-        || bTab.getAttribute("opener").startsWith(aTab.linkedPanel);
+        || aTab.getAttribute("opener").startsWith(bTab.linkedPanel + "#")
+        || bTab.getAttribute("opener").startsWith(aTab.linkedPanel + "#");
   };
 
   //关闭标签页时选择上次浏览的标签
