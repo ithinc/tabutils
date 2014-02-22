@@ -106,8 +106,8 @@ tabutils._groupTabs = function() {
     }
 
     aTab.setAttribute("group", bTab.getAttribute("group"));
-    if (aTab.getAttribute("opener") != bTab.linkedPanel)
-      aTab.setAttribute("opener", bTab.getAttribute("opener") || bTab.linkedPanel);
+    if (aTab.getAttribute("opener") != (bTab.linkedPanel + "#"))
+      aTab.setAttribute("opener", bTab.getAttribute("opener") || bTab.linkedPanel + "#");
 
     if (!options.suppressUpdate)
       this.updateGroup(bTab);

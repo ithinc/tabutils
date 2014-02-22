@@ -608,7 +608,7 @@ tabutils._tabOpeningOptions = function() {
 
         if (TU_getPref("extensions.tabutils.openTabNext.keepOrder", true)) {
           let tab = lastRelatedTab.nextSibling;
-          let panelId = this.mCurrentTab.linkedPanel;
+          let panelId = this.mCurrentTab.linkedPanel + "#";
           for (; tab && tab.pinned; tab = tab.nextSibling);
           for (; tab && tab.getAttribute("opener") == panelId && tab != t && (!willStack || shouldStack(tab)); tab = tab.nextSibling)
             lastRelatedTab = tab;
@@ -630,7 +630,7 @@ tabutils._tabOpeningOptions = function() {
         default: return false; //None
       }
     })()) {
-      aTab.setAttribute("opener", this.mCurrentTab.linkedPanel);
+      aTab.setAttribute("opener", this.mCurrentTab.linkedPanel + "#");
     }
   });
 
@@ -767,7 +767,7 @@ tabutils._tabClosingOptions = function() {
 
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
-    var panelId = aTab.linkedPanel;
+    var panelId = aTab.linkedPanel + "#";
     Array.forEach(this.mTabs, function(aTab) {
       if (aTab.getAttribute("opener").startsWith(panelId))
         aTab.setAttribute("opener", panelId + (+aTab.getAttribute("opener").slice(panelId.length) + 1));
@@ -777,7 +777,7 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (aTab.hasAttribute("opener")) {
       let opener = aTab.getAttribute("opener");
-      let panelId = aTab.linkedPanel;
+      let panelId = aTab.linkedPanel + "#";
       Array.forEach(this.mTabs, function(aTab) {
         if (aTab.getAttribute("opener").startsWith(panelId))
           aTab.setAttribute("opener", opener);
@@ -795,8 +795,8 @@ tabutils._tabClosingOptions = function() {
       bTab = this.mCurrentTab;
 
     return aTab.hasAttribute("opener") && aTab.getAttribute("opener") == bTab.getAttribute("opener")
-        || aTab.getAttribute("opener").startsWith(bTab.linkedPanel)
-        || bTab.getAttribute("opener").startsWith(aTab.linkedPanel);
+        || aTab.getAttribute("opener").startsWith(bTab.linkedPanel + "#")
+        || bTab.getAttribute("opener").startsWith(aTab.linkedPanel + "#");
   };
 
   //关闭标签页时选择上次浏览的标签
