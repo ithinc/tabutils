@@ -365,21 +365,6 @@
               accesskey="&selectSimilarTabs.accesskey;"
               multiselected="any"
               oncommand="gBrowser.selectedTabs = gBrowser.similarTabsOf(gBrowser.mContextTabs);event.stopPropagation();"/>
-    <menuitem id="context_selectAllTabs"
-              label="&selectAllTabs.label;"
-              accesskey="&selectAllTabs.accesskey;"
-              multiselected="any"
-              oncommand="gBrowser.selectedTabs = gBrowser.allTabs;event.stopPropagation();"/>
-    <menuitem id="context_unselectAllTabs"
-              label="&unselectAllTabs.label;"
-              accesskey="&unselectAllTabs.accesskey;"
-              multiselected="any"
-              oncommand="gBrowser.selectedTabs = [];event.stopPropagation();"/>
-    <menuitem id="context_invertSelection"
-              label="&invertSelection.label;"
-              accesskey="&invertSelection.accesskey;"
-              multiselected="any"
-              oncommand="gBrowser.selectedTabs = gBrowser.otherTabsOf(gBrowser.selectedTabs);event.stopPropagation();"/>
   </menupopup>
 
   <menupopup id="alltabs-popup"
@@ -416,6 +401,16 @@
     <menuitem id="context_closeAllDuplicateTabs"
               label="&closeAllDuplicateTabs.label;"
               oncommand="gBrowser.closeAllDuplicateTabs();"/>
+    <menuseparator/>
+    <menuitem id="context_selectAllTabs"
+              label="&selectAllTabs.label;"
+              oncommand="gBrowser.selectedTabs = gBrowser.allTabs;"/>
+    <menuitem id="context_unselectAllTabs"
+              label="&unselectAllTabs.label;"
+              oncommand="gBrowser.selectedTabs = [];"/>
+    <menuitem id="context_invertSelection"
+              label="&invertSelection.label;"
+              oncommand="gBrowser.selectedTabs = gBrowser.otherTabsOf(gBrowser.selectedTabs);"/>
     <menuseparator/>
   </menupopup>
 
