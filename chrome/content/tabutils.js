@@ -2466,10 +2466,8 @@ tabutils._tabContextMenu = function() {
         item.setAttribute("disabled", gBrowser[aMethod](tabs).length == 0);
     });
 
-    var selectedTabs = gBrowser.selectedTabs;
-    $("context_stackTab").setAttribute("disabled", selectedTabs.length <= 1);
+    $("context_stackTab").setAttribute("disabled", gBrowser.selectedTabs.length <= 1);
     $("context_selectTab").setAttribute("checked", mselected);
-    $("context_unselectAllTabs").setAttribute("disabled", selectedTabs.length == 0);
 
     $("context_mergeWindow").setAttribute("disabled", Services.wm.getZOrderDOMWindowEnumerator("navigator:browser", false).getNext() == window);
     $("context_mergeGroup").setAttribute("disabled", !Array.some(gBrowser.mTabs, function(aTab) aTab.hidden));
@@ -2633,9 +2631,10 @@ tabutils._allTabsPopup = function() {
         item.setAttribute("disabled", tabs.every(function(aTab) !aTab.hasAttribute("faviconized")));
     }
 
+    $("context_restartAllTabs").setAttribute("disabled", $("context_lockAllTabs").getAttribute("checked") == "true");
     $("context_closeAllTabs").setAttribute("disabled", $("context_protectAllTabs").getAttribute("checked") == "true");
     $("context_closeAllDuplicateTabs").setAttribute("disabled", $("context_protectAllTabs").getAttribute("checked") == "true");
-    $("context_restartAllTabs").setAttribute("disabled", $("context_lockAllTabs").getAttribute("checked") == "true");
+    $("context_unselectAllTabs").setAttribute("disabled", gBrowser.selectedTabs.length == 0);
   }, true);
 
   function $() {return document.getElementById.apply(document, arguments);}
