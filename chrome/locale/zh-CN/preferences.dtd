@@ -95,8 +95,8 @@
 <!ENTITY clickCurrentTab.label "当前标签页:">
 <!ENTITY clickTab.label "标签页:">
 <!ENTITY clickTabBar.label "标签栏:">
-<!ENTITY clickNewTabButton.label1 "">
-<!ENTITY clickNewTabButton.label2 "按钮:">
+<!ENTITY clickNewTabButton.label1 "[">
+<!ENTITY clickNewTabButton.label2 "]按钮:">
 <!ENTITY leftClickTabDelay.label "延时">
 <!ENTITY time.label "毫秒">
 <!ENTITY doNothing.label "无动作">

@@ -448,7 +448,7 @@
                 <menulist id="c.clickTabBar" value="0" observes="b.clickTabBar"/>
               </row>
               <row align="center">
-                <label value="&clickNewTabButton.label1;&tabCmd.label;&clickNewTabButton.label2;" control="c.clickNewTabButton" observes="b.clickNewTabButton"/>
+                <label value="&clickNewTabButton.label1;+&clickNewTabButton.label2;" control="c.clickNewTabButton" observes="b.clickNewTabButton"/>
                 <menulist id="c.clickNewTabButton" value="0" observes="b.clickNewTabButton"/>
               </row>
               <row align="center">
