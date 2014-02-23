@@ -485,7 +485,7 @@
       <preference id="highlightCurrent" name="extensions.tabutils.highlightCurrent" type="bool" onchange="onHighlightEnabled('Current');" suggest="true"/>
       <preference id="highlightUnread" name="extensions.tabutils.highlightUnread" type="bool" onchange="onHighlightEnabled('Unread');" suggest="true"/>
       <preference id="highlightRead" name="extensions.tabutils.highlightRead" type="bool" onchange="onHighlightEnabled('Read');"/>
-      <preference id="highlightUnloaded" name="extensions.tabutils.highlightUnloaded" type="bool" onchange="onHighlightEnabled('Unloaded');"/>
+      <preference id="highlightUnloaded" name="extensions.tabutils.highlightUnloaded" type="bool" onchange="onHighlightEnabled('Unloaded');" suggest="true"/>
       <preference id="highlightSelected" name="extensions.tabutils.highlightSelected" type="bool" onchange="onHighlightEnabled('Selected');"/>
       <preference id="styleCurrent" name="extensions.tabutils.styles.current" type="string" onchange="onHighlightStyle('Current');"/>
       <preference id="styleUnread" name="extensions.tabutils.styles.unread" type="string" onchange="onHighlightStyle('Unread');"/>
