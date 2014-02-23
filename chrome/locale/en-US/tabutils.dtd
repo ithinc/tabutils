@@ -4,6 +4,8 @@
 <!ENTITY openSelectedLinksInTab.accesskey "T">
 <!ENTITY duplicateTab.label "Duplicate Tab">
 <!ENTITY duplicateTab.accesskey "D">
+<!ENTITY duplicateTabToWindow.label "Duplicate to New Window">
+<!ENTITY duplicateTabToWindow.accesskey "D">
 <!ENTITY moveToWindow.label "Move to Window">
 <!ENTITY moveToWindow.accesskey "M">
 <!ENTITY mergeWindow.label "Merge Window">

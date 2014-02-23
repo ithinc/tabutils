@@ -111,6 +111,7 @@ pref("extensions.tabutils.hideLoadInForeground", true);
 pref("extensions.tabutils.menu.menu_tuOptions", true);
 pref("extensions.tabutils.menu.context_newTab", false);
 pref("extensions.tabutils.menu.context_duplicateTab", false);
+pref("extensions.tabutils.menu.context_duplicateTabToWindow", false);
 pref("extensions.tabutils.menu.context_reloadEvery", false);
 pref("extensions.tabutils.menu.context_moveToWindow", false);
 pref("extensions.tabutils.menu.context_mergeWindow", false);

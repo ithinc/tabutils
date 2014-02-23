@@ -133,6 +133,11 @@
               insertbefore="context_reloadTab"
               key="key_duplicateTab"
               oncommand="gBrowser.duplicateTab(gBrowser.mContextTab);"/>
+    <menuitem id="context_duplicateTabToWindow"
+              label="&duplicateTabToWindow.label;"
+              accesskey="&duplicateTabToWindow.accesskey;"
+              insertbefore="context_reloadTab"
+              oncommand="gBrowser.replaceTabWithWindow(gBrowser.duplicateTab(gBrowser.mContextTab));"/>
     <menuseparator insertbefore="context_reloadTab"/>
     <menu id="context_reloadEvery"
           label="&reloadEvery.label;"
