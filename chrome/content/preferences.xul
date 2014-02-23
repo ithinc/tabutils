@@ -1287,20 +1287,17 @@
     }
 
     function onPaneLoad(aPane) { //Bug 687356
+      Array.forEach(aPane.getElementsByTagName('tabbox'), function(tabbox, index) {
+        tabbox.selectedIndex = aPane.getAttribute('lastSelected').split(",")[index];
+      });
       aPane._inited = true;
-
-      let tabbox = aPane.getElementsByTagName('tabbox')[0];
-      if (tabbox)
-        tabbox.selectedIndex = aPane.getAttribute('lastSelected');
     }
 
     function onPaneSelect(aPane) {
       if(!aPane._inited)
         return;
 
-      let tabbox = aPane.getElementsByTagName('tabbox')[0];
-      if (tabbox)
-        aPane.setAttribute('lastSelected', tabbox.selectedIndex);
+      aPane.setAttribute('lastSelected', [tabbox.selectedIndex for (tabbox of aPane.getElementsByTagName('tabbox'))].join());
     }
   ]]>
   </script>
