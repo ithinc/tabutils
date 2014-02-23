@@ -4,6 +4,8 @@
 <!ENTITY openSelectedLinksInTab.accesskey "T">
 <!ENTITY duplicateTab.label "复制标签页">
 <!ENTITY duplicateTab.accesskey "D">
+<!ENTITY duplicateTabToGroup.label "复制到新分组">
+<!ENTITY duplicateTabToGroup.accesskey "D">
 <!ENTITY duplicateTabToWindow.label "复制到新窗口">
 <!ENTITY duplicateTabToWindow.accesskey "D">
 <!ENTITY moveToWindow.label "移动到窗口">

@@ -520,6 +520,7 @@
       <preference id="menu_tuOptions" name="extensions.tabutils.menu.menu_tuOptions" type="bool" suggest="true"/>
       <preference id="context_newTab" name="extensions.tabutils.menu.context_newTab" type="bool" suggest="true"/>
       <preference id="context_duplicateTab" name="extensions.tabutils.menu.context_duplicateTab" type="bool" suggest="true"/>
+      <preference id="context_duplicateTabToGroup" name="extensions.tabutils.menu.context_duplicateTabToGroup" type="bool"/>
       <preference id="context_duplicateTabToWindow" name="extensions.tabutils.menu.context_duplicateTabToWindow" type="bool"/>
       <preference id="context_reloadEvery" name="extensions.tabutils.menu.context_reloadEvery" type="bool" suggest="true"/>
       <preference id="context_moveToWindow" name="extensions.tabutils.menu.context_moveToWindow" type="bool" suggest="true"/>
@@ -727,6 +728,7 @@
             <vbox height="300" style="overflow-y: auto;">
               <checkbox preference="context_newTab" label="&tabCmd.label;"/>
               <checkbox preference="context_duplicateTab" label="&duplicateTab.label;"/>
+              <checkbox preference="context_duplicateTabToGroup" label="&duplicateTabToGroup.label;"/>
               <checkbox preference="context_duplicateTabToWindow" label="&duplicateTabToWindow.label;"/>
               <separator class="groove"/>
               <checkbox preference="context_reloadEvery" label="&reloadEvery.label;"/>
