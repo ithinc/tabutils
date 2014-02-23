@@ -667,9 +667,8 @@ tabutils._tabOpeningOptions = function() {
       this.detachTab(tab, true);
       if (["_onDrop", "onxbldrop", "duplicateTabIn"].indexOf(arguments.callee.caller.name) == -1) {
         if (TU_getPref("extensions.tabutils.openDuplicateNext", true)) {
-          if (this.isStackedTab(aTab) ||
-              TU_getPref("extensions.tabutils.autoStack", false))
-            this.attachTabTo(tab, aTab, {move: true, expand: true});
+          if (this.isStackedTab(aTab))
+            aTab = this.lastSiblingTabOf(aTab);
           this.moveTabTo(tab, tab._tPos > aTab._tPos ? aTab._tPos + 1 : aTab._tPos);
         }
         if (!tabutils.gLoadAllInBackground && !TU_getPref("extensions.tabutils.loadDuplicateInBackground", false))
