@@ -2055,17 +2055,17 @@ tabutils._previewTab = function() {
 tabutils._tabClickingOptions = function() {
 
   //ÔØÈë¼ôÌù°åURL
-  gBrowser.loadURLFromClipboard = function loadURLFromClipboard(aTab) {
-    var url = readFromClipboard();
-    if (!url)
+  gBrowser.loadFromClipboard = function loadFromClipboard() {
+    let clipboard = readFromClipboard();
+    if (!clipboard)
       return;
 
-    if (aTab) {
-      aTab.linkedBrowser.stop();
-      aTab.linkedBrowser.loadURIWithFlags(url, Ci.nsIWebNavigation.LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP);
+    let urls = clipboard.split("\n");
+    if (urls.length > 1) {
+      this.loadTabs(urls, TU_getPref('extensions.tabutils.loadNewInBackground'), false);
     }
     else {
-      this.loadOneTab(url, null, null, null, TU_getPref('extensions.tabutils.loadNewInBackground', false), true);
+      this.loadOneTab(urls[0], null, null, null, TU_getPref('extensions.tabutils.loadNewInBackground'), true);
     }
   };
 
@@ -2194,7 +2194,7 @@ tabutils._tabClickingOptions = function() {
         undoCloseTab();
         break;
       case 6: //Load URL from Clipboard
-        gBrowser.loadURLFromClipboard(target.localName == "tab" ? gBrowser.mContextTab : null);
+        gBrowser.loadFromClipboard();
         break;
       case 7: //Switch to Last Selected Tab
         if (gBrowser.mContextTab.selected) {
