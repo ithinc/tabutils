@@ -20,6 +20,8 @@
 <!ENTITY pane3.tab5.title "Ctrl-click">
 <!ENTITY pane3.tab6.title "Alt-click">
 <!ENTITY pane3.tab7.title "Shift-click">
+<!ENTITY pane3.tab11.title "Hover">
+<!ENTITY pane3.tab12.title "Scroll">
 <!ENTITY pane4.tab1.title "Tab Bar">
 <!ENTITY pane4.tab2.title "Menus">
 <!ENTITY pane4.tab3.title "Buttons">

@@ -70,7 +70,7 @@ pref("extensions.tabutils.mouse.100.label", "");
 pref("extensions.tabutils.mouse.100.oncommand", "");
 
 pref("extensions.tabutils.dragAndGo", false);
-pref("extensions.tabutils.mouseReleaseSelect", false);
+pref("extensions.tabutils.mouseReleaseSelect", true);
 pref("extensions.tabutils.mouseHoverPreview", true);
 pref("extensions.tabutils.mouseHoverPreviewDelay", 250);
 pref("extensions.tabutils.mouseHoverSelect", false);

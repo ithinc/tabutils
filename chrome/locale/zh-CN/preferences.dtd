@@ -20,6 +20,8 @@
 <!ENTITY pane3.tab5.title "Ctrl+左键">
 <!ENTITY pane3.tab6.title "Alt+左键">
 <!ENTITY pane3.tab7.title "Shift+左键">
+<!ENTITY pane3.tab11.title "悬停">
+<!ENTITY pane3.tab12.title "滚动">
 <!ENTITY pane4.tab1.title "标签栏">
 <!ENTITY pane4.tab2.title "菜单">
 <!ENTITY pane4.tab3.title "按钮">

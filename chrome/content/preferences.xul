@@ -451,7 +451,7 @@
                 <label value="&clickNewTabButton.label1;+&clickNewTabButton.label2;" control="c.clickNewTabButton" observes="b.clickNewTabButton"/>
                 <menulist id="c.clickNewTabButton" value="0" observes="b.clickNewTabButton"/>
               </row>
-              <row align="center">
+              <row align="center" hidden="true">
                 <spacer/>
                 <hbox align="center">
                   <label value="&leftClickTabDelay.label;" observes="b.clickCurrentTab"/>
@@ -464,31 +464,43 @@
         </tabpanel>
       </tabpanels>
     </tabbox>
-    <spacer height="8"/>
+
+    <tabbox>
+      <tabs id="tabHoveringTabs">
+        <tab label="&pane3.tab11.title;"/>
+        <tab label="&pane3.tab12.title;"/>
+      </tabs>
+      <tabpanels>
+        <tabpanel orient="vertical">
+          <hbox align="center">
+            <checkbox preference="mouseHoverPreview" label="&mouseHoverPreview.label;"/>
+            <textbox preference="mouseHoverPreviewDelay" type="number" increment="50" size="4" maxlength="4"/>
+            <label value="&time.label;"/>
+          </hbox>
+          <hbox align="center" class="indent">
+            <checkbox preference="mouseHoverSelect" label="&mouseHoverSelect.label;"/>
+            <textbox preference="mouseHoverSelectDelay" type="number" increment="50" size="4" maxlength="4"/>
+            <label value="&time.label;"/>
+          </hbox>
+          <hbox align="center" class="indent">
+            <checkbox preference="mouseHoverLoad" label="&mouseHoverLoad.label;"/>
+            <textbox preference="mouseHoverLoadDelay" type="number" increment="50" size="4" maxlength="4"/>
+            <label value="&time.label;"/>
+          </hbox>
+        </tabpanel>
+        <tabpanel orient="vertical">
+          <checkbox preference="mouseScrollSelect" label="&mouseScrollSelect.label;"/>
+          <vbox class="indent">
+            <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;"/>
+            <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;"/>
+          </vbox>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
 
     <checkbox preference="dragAndGo" label="&dragAndGo.label;" tooltiptext="&dragAndGo.tooltip;" hidden="true"/>
     <checkbox id="multipleTabHandler" label="&multipleTabHandler.label;" oncommand="multipleTabHandler();"/>
     <checkbox preference="mouseReleaseSelect" label="&mouseReleaseSelect.label;"/>
-    <checkbox preference="mouseScrollSelect" label="&mouseScrollSelect.label;"/>
-    <vbox class="indent">
-      <checkbox preference="mouseScrollSelectDir" label="&mouseScrollSelectDir.label;" hidden="true"/>
-      <checkbox preference="mouseScrollSelectWrap" label="&mouseScrollSelectWrap.label;" hidden="true"/>
-    </vbox>
-    <hbox align="center">
-      <checkbox preference="mouseHoverPreview" label="&mouseHoverPreview.label;"/>
-      <textbox preference="mouseHoverPreviewDelay" type="number" increment="50" size="4" maxlength="4"/>
-      <label value="&time.label;"/>
-    </hbox>
-    <hbox align="center" class="indent">
-      <checkbox preference="mouseHoverSelect" label="&mouseHoverSelect.label;"/>
-      <textbox preference="mouseHoverSelectDelay" type="number" increment="50" size="4" maxlength="4"/>
-      <label value="&time.label;"/>
-    </hbox>
-    <hbox align="center" class="indent">
-      <checkbox preference="mouseHoverLoad" label="&mouseHoverLoad.label;"/>
-      <textbox preference="mouseHoverLoadDelay" type="number" increment="50" size="4" maxlength="4"/>
-      <label value="&time.label;"/>
-    </hbox>
   </prefpane>
 
   <prefpane id="pane4" label="&pane4.title;" helpTopic2="pane4" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
