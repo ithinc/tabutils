@@ -14,11 +14,20 @@ tabutils._stackTabs = function() {
     return;
   });
 
+  gBrowser.isSiblingTab = function isSiblingTab(aTab, bTab) {
+    return aTab.hasAttribute("group") &&
+           aTab.getAttribute("group") == bTab.getAttribute("group") &&
+           !aTab.hidden && !bTab.hidden;
+  };
+
   gBrowser.siblingTabsOf = function siblingTabsOf(aTab) {
     if (typeof aTab == "string") {
       let group = aTab;
       return Array.filter(this.visibleTabs, function(aTab) aTab.getAttribute("group") == group);
     }
+
+    if (aTab.hidden || aTab.closing)
+      return [];
 
     let group = aTab.getAttribute("group");
     let tabs = [aTab];
@@ -95,6 +104,12 @@ tabutils._stackTabs = function() {
     if (bTab.getAttribute("group-counter") == 1) {
       bTab.setAttribute("group-collapsed", !options.expand && TU_getPref("extensions.tabutils.autoCollapseNewStack", true));
       this.mTabContainer.mTabstrip.ensureElementIsVisible(bTab);
+
+      if (bTab.image)
+      Services.mozIColorAnalyzer.findRepresentativeColor(makeURI(bTab.image), function(success, color) {
+        if (success)
+          this.updateStack(bTab, {color: "#" + ("000000" + color.toString(16)).slice(-6)});
+      }.bind(this));
     }
 
     //must happen after "group" is set to avoid bypassing stack, and
@@ -381,8 +396,8 @@ tabutils._stackTabs = function() {
           this.selectedTabs = selectedTabs;
         }.bind(this), 0);
       }
-      else if (aTab.getAttribute("group") == previousTab.getAttribute("group") || nextTab &&
-               aTab.getAttribute("group") == nextTab.getAttribute("group")) { // within stack
+      else if (this.isSiblingTab(previousTab, aTab) || nextTab &&
+               this.isSiblingTab(nextTab, aTab)) { // within stack
         this.updateStack(aTab);
       }
       else { // off stack
@@ -391,9 +406,9 @@ tabutils._stackTabs = function() {
     }
 
     // Move into a stack
-    if (nextTab && nextTab.hasAttribute("group") &&
-        nextTab.getAttribute("group") != aTab.getAttribute("group") &&
-        nextTab.getAttribute("group") == previousTab.getAttribute("group")) {
+    if (nextTab &&
+        this.isSiblingTab(nextTab, previousTab) &&
+        !this.isSiblingTab(nextTab, aTab)) {
       if (nextTab.hasAttribute("group-collapsed")) { // Move into a collapsed stack
         setTimeout(function() { // bypass stack
           if (ltr)
@@ -414,7 +429,7 @@ tabutils._stackTabs = function() {
     if (this.isStackedTab(aTab)) {
       if (aTab.selected) {
         try {
-          this.selectedTab = this._tabsToSelect(this.siblingTabsOf(aTab)).next();
+          this.selectedTab = this._tabsToSelect(this.siblingTabsOf(aTab.getAttribute("group"))).next();
         }
         catch (e) {}
       }

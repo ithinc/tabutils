@@ -162,6 +162,7 @@ window.addEventListener("DOMContentLoaded", tabutils, false);
 [
   ["@mozilla.org/browser/sessionstore;1", "nsISessionStore", "_ss", tabutils], // Bug 898732 [Fx26]
   ["@mozilla.org/docshell/urifixup;1", "nsIURIFixup"], // Bug 802026 [Fx20]
+  ["@mozilla.org/places/colorAnalyzer;1", "mozIColorAnalyzer"],
   ["@mozilla.org/widget/clipboardhelper;1", "nsIClipboardHelper"],
   ["@mozilla.org/uuid-generator;1", "nsIUUIDGenerator"]
 ].forEach(function([aContract, aInterface, aName, aObject])
@@ -668,9 +669,8 @@ tabutils._tabOpeningOptions = function() {
       this.detachTab(tab, true);
       if (["_onDrop", "onxbldrop", "duplicateTabIn"].indexOf(arguments.callee.caller.name) == -1) {
         if (TU_getPref("extensions.tabutils.openDuplicateNext", true)) {
-          if (this.isStackedTab(aTab) ||
-              TU_getPref("extensions.tabutils.autoStack", false))
-            this.attachTabTo(tab, aTab, {move: true, expand: true});
+          if (this.isStackedTab(aTab))
+            aTab = this.lastSiblingTabOf(aTab);
           this.moveTabTo(tab, tab._tPos > aTab._tPos ? aTab._tPos + 1 : aTab._tPos);
         }
         if (!tabutils.gLoadAllInBackground && !TU_getPref("extensions.tabutils.loadDuplicateInBackground", false))
