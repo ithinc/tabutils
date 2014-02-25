@@ -175,3 +175,5 @@
 <!ENTITY autoProtect.label "Auto-protect pinned tabs from being closed">
 <!ENTITY autoLock.label "Auto-lock pinned tabs from being unloaded/redirected">
 <!ENTITY showPhantom.label "Show phantom tabs for closed pinnned tabs">
+<!ENTITY tabUnloading.caption "Tab Unloading">
+<!ENTITY restartAfter.label "Auto-unload tabs after inactivity of">

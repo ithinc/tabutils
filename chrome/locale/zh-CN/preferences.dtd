@@ -175,3 +175,5 @@
 <!ENTITY autoProtect.label "自动保护固定标签页以防被关闭">
 <!ENTITY autoLock.label "自动锁定标签页以防被卸载/重定向">
 <!ENTITY showPhantom.label "关闭固定标签页后显示幻影标签页">
+<!ENTITY tabUnloading.caption "卸载标签页">
+<!ENTITY restartAfter.label "自动卸载标签页, 间隔">

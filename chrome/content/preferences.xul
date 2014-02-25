@@ -88,6 +88,7 @@
       <preference id="autoProtect" name="extensions.tabutils.pinTab.autoProtect" type="bool"/>
       <preference id="autoLock" name="extensions.tabutils.pinTab.autoLock" type="bool" suggest="true"/>
       <preference id="showPhantom" name="extensions.tabutils.pinTab.showPhantom" type="bool" suggest="true"/>
+      <preference id="restartAfter" name="extensions.tabutils.restartAfter" type="int" suggest="120"/>
     </preferences>
 
     <tabbox>
@@ -275,6 +276,18 @@
             <checkbox preference="autoProtect" label="&autoProtect.label;"/>
             <checkbox preference="autoLock" label="&autoLock.label;"/>
             <checkbox preference="showPhantom" label="&showPhantom.label;"/>
+          </groupbox>
+
+          <groupbox>
+            <caption label="&tabUnloading.caption;"/>
+            <hbox align="center">
+              <checkbox preference="restartAfter" label="&restartAfter.label;"
+                        onsyncfrompreference="return $('restartAfter').value != 0;"
+                        onsynctopreference="return this.checked ? this.nextSibling.value : 0;"/>
+              <textbox preference="restartAfter" type="number" increment="10" size="4" maxlength="4"
+                       onsyncfrompreference="return $('restartAfter').value == 0 ? this.value : $('restartAfter').value;"/>
+              <label value="&minutes.label;"/>
+            </hbox>
           </groupbox>
         </tabpanel>
       </tabpanels>
