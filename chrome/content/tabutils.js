@@ -213,16 +213,9 @@ tabutils._tabEventListeners = {
         this.mTabBrowser.onLocationChange(this.mTab);
     });
 
-    TU_hookCode("gBrowser.updateCurrentBrowser", /(?=.*createEvent.*)/, (function() {
-      if (!oldTab.selected) {
-        oldTab.dispatchEvent(new CustomEvent("TabBlur", {bubbles: true, detail: this.mCurrentTab._tPos}));
-      }
-    }).toString().replace(/^.*{|}$/g, ""));
-
     gBrowser.onTabMove = function onTabMove(aTab, event) {};
     gBrowser.onTabClose = function onTabClose(aTab) {};
     gBrowser.onTabSelect = function onTabSelect(aTab) {};
-    gBrowser.onTabBlur = function onTabBlur(aTab, event) {};
     gBrowser.onTabPinning = function onTabPinning(aTab) {};
     gBrowser.onTabPinned = function onTabPinned(aTab) {};
     gBrowser.onTabHide = function onTabHide(aTab) {};
@@ -236,7 +229,7 @@ tabutils._tabEventListeners = {
     gBrowser.onTabClosing = function onTabClosing(aTab) {var ss = tabutils._ss;};
 
     [
-      "TabOpen", "TabMove", "TabClose", "TabSelect", "TabBlur",
+      "TabOpen", "TabMove", "TabClose", "TabSelect",
       "TabPinning", "TabPinned", "TabHide", "TabShow",
       "TabStacked", "TabUnstacked", "StackCollapsed", "StackExpanded",
       "SSTabRestoring", "SSTabRestored", "SSTabClosing"
@@ -251,7 +244,6 @@ tabutils._tabEventListeners = {
       case "TabMove": gBrowser.onTabMove(event.target, event);break;
       case "TabClose": gBrowser.onTabClose(event.target);break;
       case "TabSelect": gBrowser.onTabSelect(event.target);break;
-      case "TabBlur": gBrowser.onTabBlur(event.target, event);break;
       case "TabPinning": gBrowser.onTabPinning(event.target);break;
       case "TabPinned": gBrowser.onTabPinned(event.target);break;
       case "TabHide": gBrowser.onTabHide(event.target);break;
@@ -1345,10 +1337,10 @@ tabutils._restartTab = function() {
       clearTimeout(aTab._restartTimer);
       aTab._restartTimer = null;
     }
-  });
 
-  TU_hookCode("gBrowser.onTabBlur", "}", function() {
-    this.autoRestartTab(aTab);
+    let lastTab = this.getLastSelectedTab();
+    if (lastTab)
+      this.autoRestartTab(lastTab);
   });
 
   TU_hookCode("gBrowser.mTabProgressListener", /(?=var location)/, function() {

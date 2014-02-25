@@ -466,13 +466,12 @@ tabutils._stackTabs = function() {
         this.mTabContainer.mTabstrip.ensureElementIsVisible(this.mCurrentTab, false);
       }
     }
-  });
 
-  TU_hookCode("gBrowser.onTabBlur", "}", function() {
-    if (aTab.hasAttribute("group") &&
-        aTab.getAttribute("group") != this.mTabs[event.detail].getAttribute("group") &&
+    let lastTab = this.getLastSelectedTab();
+    if (lastTab && lastTab.hasAttribute("group") &&
+        lastTab.getAttribute("group") != aTab.getAttribute("group") &&
         TU_getPref("extensions.tabutils.autoCollapseStackOnBlur", false))
-      this.collapseStack(aTab);
+      this.collapseStack(lastTab);
   });
 
   TU_hookCode("gBrowser.onTabPinning", "}", function() {
