@@ -1620,7 +1620,7 @@ tabutils._multiTabHandler = function() {
 
   TU_hookCode("gBrowser.onStackCollapsed", "}", function() {
     let tabs = this.siblingTabsOf(aTab);
-    if (!tabs.every(function(aTab) aTab.hasAttribute("multiselected"))) {
+    if (tabs.some(function(aTab) aTab.hasAttribute("multiselected"))) {
       tabs.forEach(function(aTab) aTab.removeAttribute("multiselected"));
       this._selectedTabs = null;
     }
