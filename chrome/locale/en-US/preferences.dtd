@@ -171,3 +171,7 @@
 <!ENTITY autoCollapseStackOnBlur.label "Collapse a stack when leaving it">
 <!ENTITY autoExpandStackAndCollapseOthersOnSelect.label "Expand a stack when focusing it, and collapse others simultaneously">
 <!ENTITY autoExpandStackOnDragover.label "Expand a stack when dragging over it">
+<!ENTITY tabPinning.caption "Tab Pinning">
+<!ENTITY autoProtect.label "Auto-protect pinned tabs from being closed">
+<!ENTITY autoLock.label "Auto-lock pinned tabs from being unloaded/redirected">
+<!ENTITY showPhantom.label "Show phantom tabs for closed pinnned tabs">

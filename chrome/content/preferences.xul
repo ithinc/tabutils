@@ -84,11 +84,18 @@
       <preference id="autoExpandStackOnDragover" name="extensions.tabutils.autoExpandStackOnDragover" type="bool"/>
     </preferences>
 
+    <preferences>
+      <preference id="autoProtect" name="extensions.tabutils.pinTab.autoProtect" type="bool"/>
+      <preference id="autoLock" name="extensions.tabutils.pinTab.autoLock" type="bool" suggest="true"/>
+      <preference id="showPhantom" name="extensions.tabutils.pinTab.showPhantom" type="bool" suggest="true"/>
+    </preferences>
+
     <tabbox>
       <tabs>
         <tab label="&pane1.tab1.title;"/>
         <tab label="&pane1.tab2.title;"/>
         <tab label="&tabStacking.caption;"/>
+        <tab label="&tabPinning.caption;"/>
       </tabs>
       <tabpanels>
         <tabpanel orient="vertical">
@@ -259,6 +266,15 @@
             <checkbox preference="autoCollapseStackOnBlur" label="&autoCollapseStackOnBlur.label;"/>
             <checkbox preference="autoExpandStackAndCollapseOthersOnSelect" label="&autoExpandStackAndCollapseOthersOnSelect.label;"/>
             <checkbox preference="autoExpandStackOnDragover" label="&autoExpandStackOnDragover.label;"/>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel orient="vertical">
+          <groupbox>
+            <caption label="&tabPinning.caption;"/>
+            <checkbox preference="autoProtect" label="&autoProtect.label;"/>
+            <checkbox preference="autoLock" label="&autoLock.label;"/>
+            <checkbox preference="showPhantom" label="&showPhantom.label;"/>
           </groupbox>
         </tabpanel>
       </tabpanels>

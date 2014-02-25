@@ -171,3 +171,7 @@
 <!ENTITY autoCollapseStackOnBlur.label "切换到堆叠外时自动折叠堆叠">
 <!ENTITY autoExpandStackAndCollapseOthersOnSelect.label "切换到堆叠时自动展开堆叠, 同时折叠其它堆叠">
 <!ENTITY autoExpandStackOnDragover.label "拖放悬停时自动展开堆叠">
+<!ENTITY tabPinning.caption "固定标签页">
+<!ENTITY autoProtect.label "自动保护固定标签页以防被关闭">
+<!ENTITY autoLock.label "自动锁定标签页以防被卸载/重定向">
+<!ENTITY showPhantom.label "关闭固定标签页后显示幻影标签页">

@@ -233,7 +233,7 @@ pref("extensions.tabutils.pinTab.autoProtect", false);
 pref("extensions.tabutils.pinTab.autoLock", false);
 pref("extensions.tabutils.pinTab.autoFaviconize", true);
 pref("extensions.tabutils.pinTab.autoRevert", false);
-pref("extensions.tabutils.pinTab.showPhantom", true);
+pref("extensions.tabutils.pinTab.showPhantom", false);
 pref("extensions.tabutils.tabFitTitle", false);
 pref("extensions.tabutils.titleAsBookmark", false);
 pref("extensions.tabutils.bookmarkWithHistory", false);
