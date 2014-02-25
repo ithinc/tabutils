@@ -2856,7 +2856,7 @@ tabutils._undoCloseTabButton = function() {
       document.getElementById("History:UndoCloseTab").removeAttribute("disabled");
     gBrowser._lastClosedTabsCount = null;
   };
-  //tabutils.updateUndoCloseTabCommand();
+  document.getElementById("History:UndoCloseTab").setAttribute("disabled", true);
   TU_hookCode("gBrowser.onTabClose", "}", "tabutils.updateUndoCloseTabCommand();");
   TU_hookCode("gBrowser.onTabRestoring", "}", "tabutils.updateUndoCloseTabCommand();");
   TU_hookCode("gSessionHistoryObserver.observe", "}", "tabutils.updateUndoCloseTabCommand();");
