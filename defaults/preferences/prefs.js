@@ -71,11 +71,11 @@ pref("extensions.tabutils.mouse.100.oncommand", "");
 
 pref("extensions.tabutils.dragAndGo", false);
 pref("extensions.tabutils.mouseReleaseSelect", true);
-pref("extensions.tabutils.mouseHoverPreview", true);
+pref("extensions.tabutils.mouseHoverPreview", false);
 pref("extensions.tabutils.mouseHoverPreviewDelay", 250);
 pref("extensions.tabutils.mouseHoverSelect", false);
 pref("extensions.tabutils.mouseHoverSelectDelay", 0);
-pref("extensions.tabutils.mouseHoverLoad", true);
+pref("extensions.tabutils.mouseHoverLoad", false);
 pref("extensions.tabutils.mouseHoverLoadDelay", 1500);
 pref("extensions.tabutils.mouseScrollSelect", false);
 pref("extensions.tabutils.mouseScrollSelectDir", false);
@@ -233,7 +233,7 @@ pref("extensions.tabutils.pinTab.autoProtect", false);
 pref("extensions.tabutils.pinTab.autoLock", false);
 pref("extensions.tabutils.pinTab.autoFaviconize", true);
 pref("extensions.tabutils.pinTab.autoRevert", false);
-pref("extensions.tabutils.pinTab.showPhantom", false);
+pref("extensions.tabutils.pinTab.showPhantom", true);
 pref("extensions.tabutils.tabFitTitle", false);
 pref("extensions.tabutils.titleAsBookmark", false);
 pref("extensions.tabutils.bookmarkWithHistory", false);
@@ -242,14 +242,14 @@ pref("extensions.tabutils.reloadInterval", 300);
 pref("extensions.tabutils.restartAfter", 0);
 
 //Tab Stack
-pref("extensions.tabutils.autoStack", true);
-pref("extensions.tabutils.autoExpandStackOnDragover", false);
-pref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", false);
-pref("extensions.tabutils.autoCollapseStackOnBlur", false);
-pref("extensions.tabutils.autoCollapseNewStack", true);
-pref("extensions.tabutils.dragToStack", true);
+pref("extensions.tabutils.autoStack", false);
+pref("extensions.tabutils.dragToStack", false);
 pref("extensions.tabutils.mouseHoverPopup", true);
 pref("extensions.tabutils.mouseHoverPopupDelay", 750);
+pref("extensions.tabutils.autoCollapseNewStack", true);
+pref("extensions.tabutils.autoCollapseStackOnBlur", false);
+pref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", false);
+pref("extensions.tabutils.autoExpandStackOnDragover", false);
 
 pref("extensions.tabutils.colorStack", true);
 pref("extensions.tabutils.colorStack.0", "#50C2F8 20%");

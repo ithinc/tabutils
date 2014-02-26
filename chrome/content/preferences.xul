@@ -74,8 +74,8 @@
     <preferences>
       <preference id="autoStack" name="extensions.tabutils.autoStack" type="bool" suggest="true"/>
       <preference id="dragToStack" name="extensions.tabutils.dragToStack" type="bool" suggest="true"/>
-      <preference id="colorStack" name="extensions.tabutils.colorStack" type="bool" suggest="true"/>
-      <preference id="mouseHoverPopup" name="extensions.tabutils.mouseHoverPopup" type="bool" suggest="true"/>
+      <preference id="colorStack" name="extensions.tabutils.colorStack" type="bool"/>
+      <preference id="mouseHoverPopup" name="extensions.tabutils.mouseHoverPopup" type="bool"/>
       <preference id="mouseHoverPopupDelay" name="extensions.tabutils.mouseHoverPopupDelay" type="int"/>
 
       <preference id="autoCollapseNewStack" name="extensions.tabutils.autoCollapseNewStack" type="bool"/>
@@ -87,7 +87,7 @@
     <preferences>
       <preference id="autoProtect" name="extensions.tabutils.pinTab.autoProtect" type="bool"/>
       <preference id="autoLock" name="extensions.tabutils.pinTab.autoLock" type="bool" suggest="true"/>
-      <preference id="showPhantom" name="extensions.tabutils.pinTab.showPhantom" type="bool" suggest="true"/>
+      <preference id="showPhantom" name="extensions.tabutils.pinTab.showPhantom" type="bool"/>
       <preference id="restartAfter" name="extensions.tabutils.restartAfter" type="int" suggest="120"/>
     </preferences>
 
@@ -405,11 +405,11 @@
 
       <preference id="dragAndGo" name="extensions.tabutils.dragAndGo" type="bool" suggest="true"/>
       <preference id="mouseReleaseSelect" name="extensions.tabutils.mouseReleaseSelect" type="bool" suggest="true" onchange="mouseReleaseSelect();"/>
-      <preference id="mouseHoverPreview" name="extensions.tabutils.mouseHoverPreview" type="bool" onchange="mouseHoverPreview();"/>
+      <preference id="mouseHoverPreview" name="extensions.tabutils.mouseHoverPreview" type="bool" suggest="true" onchange="mouseHoverPreview();"/>
       <preference id="mouseHoverPreviewDelay" name="extensions.tabutils.mouseHoverPreviewDelay" type="int"/>
       <preference id="mouseHoverSelect" name="extensions.tabutils.mouseHoverSelect" type="bool" onchange="mouseHoverSelect();"/>
       <preference id="mouseHoverSelectDelay" name="extensions.tabutils.mouseHoverSelectDelay" type="int"/>
-      <preference id="mouseHoverLoad" name="extensions.tabutils.mouseHoverLoad" type="bool" onchange="mouseHoverLoad();"/>
+      <preference id="mouseHoverLoad" name="extensions.tabutils.mouseHoverLoad" type="bool" suggest="true" onchange="mouseHoverLoad();"/>
       <preference id="mouseHoverLoadDelay" name="extensions.tabutils.mouseHoverLoadDelay" type="int"/>
       <preference id="mouseScrollSelect" name="extensions.tabutils.mouseScrollSelect" type="bool" onchange="mouseScrollSelect();"/>
       <preference id="mouseScrollSelectDir" name="extensions.tabutils.mouseScrollSelectDir" type="bool"/>
@@ -615,8 +615,8 @@
       <preference id="context_closeOtherTabs" name="extensions.tabutils.menu.context_closeOtherTabs" type="bool"/>
       <preference id="context_closeDuplicateTabs" name="extensions.tabutils.menu.context_closeDuplicateTabs" type="bool"/>
       <preference id="context_closeSimilarTabs" name="extensions.tabutils.menu.context_closeSimilarTabs" type="bool"/>
-      <preference id="context_markTab" name="extensions.tabutils.menu.context_markTab" type="bool" suggest="true"/>
-      <preference id="context_markTabs" name="extensions.tabutils.menu.context_markTabs" type="bool" suggest="true"/>
+      <preference id="context_markTab" name="extensions.tabutils.menu.context_markTab" type="bool"/>
+      <preference id="context_markTabs" name="extensions.tabutils.menu.context_markTabs" type="bool"/>
       <preference id="context_selectTabs" name="extensions.tabutils.menu.context_selectTabs" type="bool"/>
       <preference id="context_selectSimilarTabs" name="extensions.tabutils.menu.context_selectSimilarTabs" type="bool"/>
       <preference id="context_showAllTabs" name="extensions.tabutils.menu.context_showAllTabs" type="bool"/>
