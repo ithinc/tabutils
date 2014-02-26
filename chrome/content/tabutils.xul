@@ -342,6 +342,7 @@
               type="checkbox"
               oncommand="TU_setPref('extensions.tabutils.showAllTabs', !TU_getPref('extensions.tabutils.showAllTabs'));"/>
     <menuseparator/>
+    <menuseparator id="sep_readAllTabs"/>
     <menuitem id="context_readAllTabs"
               label_read="&readAllTabs.label;"
               label_unread="&unreadAllTabs.label;"

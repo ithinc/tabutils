@@ -531,6 +531,8 @@
       <preference id="context_selectAllTabs" name="extensions.tabutils.menu.context_selectAllTabs" type="bool"/>
       <preference id="context_unselectAllTabs" name="extensions.tabutils.menu.context_unselectAllTabs" type="bool"/>
       <preference id="context_invertSelection" name="extensions.tabutils.menu.context_invertSelection" type="bool"/>
+      <preference id="context_bookmarkAllTabs" name="extensions.tabutils.menu.context_bookmarkAllTabs.insertbefore" type="string" suggest="sep_readAllTabs"/>
+      <preference id="context_reloadAllTabs" name="extensions.tabutils.menu.context_reloadAllTabs.insertbefore" type="string" suggest="sep_readAllTabs"/>
 
       <preference id="statusbarMode" name="extensions.tabutils.statusbarMode" type="int"/>
       <preference id="hideOpenInTab" name="extensions.tabutils.hideOpenInTab" type="bool"/>
@@ -726,10 +728,17 @@
               <checkbox preference="context_selectTabs" label="&selectTabs.label;"/>
             </vbox>
           </groupbox>
-          <vbox flex="1">
-            <groupbox>
-              <caption label="&listAllTabs.label;"/>
+          <groupbox flex="1">
+            <caption label="&listAllTabs.label;"/>
+            <vbox height="300" style="overflow-y: auto;">
               <checkbox preference="context_showAllTabs" label="&showAllTabs.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_bookmarkAllTabs" label="&bookmarkAllTabs.label;"
+                        onsyncfrompreference="return $('context_bookmarkAllTabs').value == 'sep_readAllTabs';"
+                        onsynctopreference="return this.checked ? 'sep_readAllTabs' : null;"/>
+              <checkbox preference="context_reloadAllTabs" label="&reloadAllTabs.label;"
+                        onsyncfrompreference="return $('context_reloadAllTabs').value == 'sep_readAllTabs';"
+                        onsynctopreference="return this.checked ? 'sep_readAllTabs' : '';"/>
               <separator class="groove"/>
               <checkbox preference="context_readAllTabs" label="&readAllTabs.label;"/>
               <checkbox preference="context_protectAllTabs" label="&protectAllTabs.label;"/>
@@ -743,8 +752,8 @@
               <checkbox preference="context_selectAllTabs" label="&selectAllTabs.label;"/>
               <checkbox preference="context_unselectAllTabs" label="&unselectAllTabs.label;"/>
               <checkbox preference="context_invertSelection" label="&invertSelection.label;"/>
-            </groupbox>
-          </vbox>
+            </vbox>
+          </groupbox>
         </tabpanel>
 
         <tabpanel orient="vertical">

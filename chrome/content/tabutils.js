@@ -2981,23 +2981,36 @@ tabutils._tabPrefObserver = {
   },
 
   setAttribute: function(aElt, aAttr, aVal) {
-    aVal == null ? aElt.removeAttribute(aAttr) : aElt.setAttribute(aAttr, aVal);
-    if (aAttr == "insertbefore" || aAttr == "insertafter" || aAttr == "parent") {
-      let parentNode = document.getElementById(aElt.getAttribute("parent")) || aElt.parentNode;
-      let refNode;
-      switch (true) {
-        case aElt.getAttribute("insertafter") != "":
-          refNode = parentNode.getElementsByAttribute("id", aElt.getAttribute("insertafter"))[0];
-          refNode = refNode && refNode.nextSibling;
-          break;
-        case aElt.getAttribute("insertbefore") != "":
-          refNode = parentNode.getElementsByAttribute("id", aElt.getAttribute("insertbefore"))[0];
-          break;
-      }
-      parentNode.insertBefore(aElt, refNode);
+    if (aVal == null) {
+      aElt.removeAttribute(aAttr);
+      return;
     }
-    else if (aAttr == "separatorbefore" || aAttr == "separatorafter") {
-      let refNode = aAttr == "separatorbefore" ? aElt : aElt.nextSibling;
+
+    aElt.setAttribute(aAttr, aVal);
+
+    if (aAttr == "insertbefore") {
+      let refNode = document.getElementById(aVal);
+      if (refNode)
+        refNode.parentNode.insertBefore(aElt, refNode);
+      return;
+    }
+
+    if (aAttr == "insertafter") {
+      let refNode = document.getElementById(aVal);
+      if (refNode)
+        refNode.parentNode.insertBefore(aElt, refNode.nextSibling);
+      return;
+    }
+
+    if (aAttr == "parent") {
+      let parentNode = document.getElementById(aVal);
+      if (parentNode)
+        parentNode.appendChild(aElt);
+      return;
+    }
+
+    if (aAttr == "separator") {
+      let refNode = aVal == "before" ? aElt : aElt.nextSibling;
       if (aElt.localName == "menuitem" || aElt.localName == "menu")
         aElt.parentNode.insertBefore(document.createElement("menuseparator"), refNode);
       else if (aElt.localName == "toolbarbutton" || aElt.localName == "toolbaritem")

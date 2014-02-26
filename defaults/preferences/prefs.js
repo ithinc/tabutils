@@ -137,6 +137,8 @@ pref("extensions.tabutils.menu.context_closeAllDuplicateTabs", false);
 pref("extensions.tabutils.menu.context_selectAllTabs", false);
 pref("extensions.tabutils.menu.context_unselectAllTabs", false);
 pref("extensions.tabutils.menu.context_invertSelection", false);
+pref("extensions.tabutils.menu.context_bookmarkAllTabs.insertbefore", "");
+pref("extensions.tabutils.menu.context_reloadAllTabs.insertbefore", "");
 
 pref("extensions.tabutils.menu.context_copyTabURL", false);
 pref("extensions.tabutils.menu.context_copyTabURL.label", "Copy Tab URL");
