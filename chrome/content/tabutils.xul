@@ -33,8 +33,9 @@
   <commandset id="tuCommandSet">
     <command id="cmd_tuOptions" oncommand="openDialog('chrome://tabutils/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=no').focus();"/>
     <command id="cmd_copyPageLocation" oncommand="Services.nsIClipboardHelper.copyString(gBrowser.currentURI.spec);"/>
+    <command id="cmd_copyAllPageUrls" oncommand="Services.nsIClipboardHelper.copyString([tab.linkedBrowser.currentURI.spec for (tab of gBrowser.allTabs)].join('\n'));"/>
     <command id="cmd_cutPageLocation" oncommand="document.getElementById('cmd_copyPageLocation').doCommand();document.getElementById('cmd_close').doCommand();"/>
-    <command id="cmd_pasteAndGo" oncommand="var url = readFromClipboard();if (url) if (gURLBar) {gURLBar.value = url;gURLBar.handleCommand();}"/>
+    <command id="cmd_pasteAndGo" oncommand="var clipboard = readFromClipboard();if (!clipboard) return;if (clipboard.indexOf('\n') != -1) {gBrowser.loadTabs(clipboard.split('\n'), TU_getPref('extensions.tabutils.loadUrlInBackground'), false);return;} if (gURLBar) {gURLBar.value = clipboard;gURLBar.handleCommand();}"/>
     <command id="cmd_pasteAndSearch" oncommand="var url = readFromClipboard(), searchbar = BrowserSearch.searchBar;if (url) if (searchbar) {searchbar.value = url;searchbar.handleSearchCommand();}"/>
     <command id="cmd_recentlyClosedTabs" oncommand="var popup = document.getElementById('undoCloseTabPopup');if (popup.state == 'open') popup.hidePopup(); else popup.openPopup(gBrowser.mPanelContainer, 'overlap');"/>
     <command id="cmd_newGroup" oncommand="TabView._initFrame(function() {var tab = BrowserOpenTab() || gBrowser.getLastOpenedTab();TabView.moveTabTo(tab);gBrowser.selectedTab = tab;});"/>
@@ -44,6 +45,7 @@
 
   <keyset id="tuClipboardKeyset">
     <key id="key_copyPageLocation" key="C" modifiers="accel" oncommand="goDoCommand('cmd_copy', 'cmd_copyPageLocation');"/>
+    <key id="key_copyAllPageUrls" key="C" modifiers="accel,shift" oncommand="goDoCommand('cmd_copy', 'cmd_copyAllPageUrls');"/>
     <key id="key_cutPageLocation" key="X" modifiers="accel" oncommand="goDoCommand('cmd_cut', 'cmd_cutPageLocation');"/>
     <key id="key_pasteAndGo" key="V" modifiers="accel" oncommand="goDoCommand('cmd_paste', 'cmd_pasteAndGo');"/>
     <key id="key_pasteAndSearch" key="V" modifiers="accel,shift" oncommand="goDoCommand('cmd_pasteAndSearch', 'cmd_pasteAndSearch');"/>

@@ -155,6 +155,7 @@ pref("extensions.tabutils.menu.context_template.oncommand", "");
 
 pref("extensions.tabutils.shortcut.tuClipboardKeyset.disabled", true);
 pref("extensions.tabutils.shortcut.key_copyPageLocation", true);
+pref("extensions.tabutils.shortcut.key_copyAllPageUrls", true);
 pref("extensions.tabutils.shortcut.key_cutPageLocation", true);
 pref("extensions.tabutils.shortcut.key_pasteAndGo", true);
 pref("extensions.tabutils.shortcut.key_pasteAndSearch", true);
