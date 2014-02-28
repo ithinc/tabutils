@@ -42,13 +42,16 @@
     <command id="cmd_nextGroup" oncommand="var evt = document.createEvent('KeyEvents');evt.initKeyEvent('keypress', true, true, null, true, false, false, false, 0, 96);document.documentElement.dispatchEvent(evt);"/>
   </commandset>
 
-  <keyset id="tuKeyset">
+  <keyset id="tuClipboardKeyset">
     <key id="key_copyPageLocation" key="C" modifiers="accel" oncommand="goDoCommand('cmd_copy', 'cmd_copyPageLocation');"/>
     <key id="key_cutPageLocation" key="X" modifiers="accel" oncommand="goDoCommand('cmd_cut', 'cmd_cutPageLocation');"/>
     <key id="key_pasteAndGo" key="V" modifiers="accel" oncommand="goDoCommand('cmd_paste', 'cmd_pasteAndGo');"/>
     <key id="key_pasteAndSearch" key="V" modifiers="accel,shift" oncommand="goDoCommand('cmd_pasteAndSearch', 'cmd_pasteAndSearch');"/>
     <key id="key_undoCloseTab2" key="Z" modifiers="accel" oncommand="goDoCommand('cmd_undo', 'History:UndoCloseTab');"/>
     <key id="key_recentlyClosedTabs" key="Z" modifiers="accel,shift" oncommand="goDoCommand('cmd_redo', 'cmd_recentlyClosedTabs');"/>
+  </keyset>
+
+  <keyset id="tuKeyset">
     <key id="key_duplicateTab" key="T" modifiers="accel,alt" oncommand="gBrowser.duplicateTab(gBrowser.mCurrentTab);"/>
     <key id="key_protectTab" key="K" modifiers="accel,alt" oncommand="gBrowser.protectTab(gBrowser.mCurrentTab);"/>
     <key id="key_lockTab" key="L" modifiers="accel,alt" oncommand="gBrowser.lockTab(gBrowser.mCurrentTab);"/>
