@@ -456,6 +456,18 @@ tabutils._tabClosingOptions = function() {
 
   //Ctrl+Tab切换到上次浏览的标签
   //Ctrl+左右方向键切换到前一个/后一个标签
+  tabutils.addEventListener(window, "keydown", function(event) {
+    if (!event.ctrlKey || event.altKey || event.metaKey)
+      return;
+
+    switch (true) {
+      case event.keyCode == event.DOM_VK_TAB:
+        if (TU_getPref("extensions.tabutils.handleCtrl"))
+          gBrowser._previewMode = true;
+        break;
+    }
+  }, true);
+
   tabutils.addEventListener(window, "keypress", function(event) {
     if (!event.ctrlKey || event.altKey || event.metaKey)
       return;
@@ -463,9 +475,6 @@ tabutils._tabClosingOptions = function() {
     switch (true) {
       case event.keyCode == event.DOM_VK_TAB:
         if (TU_getPref("extensions.tabutils.handleCtrlTab", true)) {
-          if (!gBrowser._previewMode && TU_getPref("extensions.tabutils.handleCtrl", true))
-            gBrowser._previewMode = true;
-
           gBrowser.selectedTab = gBrowser.getLastSelectedTab(event.shiftKey ? -1 : 1);
           event.preventDefault();
           event.stopPropagation();
@@ -487,8 +496,8 @@ tabutils._tabClosingOptions = function() {
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (gBrowser._previewMode) {
-      gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
       gBrowser._previewMode = false;
+      gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
     }
   });
 
