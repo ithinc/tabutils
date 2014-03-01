@@ -32,9 +32,8 @@
   <window id="main-window">
   <commandset id="tuCommandSet">
     <command id="cmd_tuOptions" oncommand="openDialog('chrome://tabutils/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=no').focus();"/>
-    <command id="cmd_copyPageLocation" oncommand="Services.nsIClipboardHelper.copyString(gBrowser.currentURI.spec);"/>
+    <command id="cmd_copyPageUrl" oncommand="Services.nsIClipboardHelper.copyString(gBrowser.currentURI.spec);"/>
     <command id="cmd_copyAllPageUrls" oncommand="Services.nsIClipboardHelper.copyString([tab.linkedBrowser.currentURI.spec for (tab of gBrowser.allTabs)].join('\n'));"/>
-    <command id="cmd_cutPageLocation" oncommand="document.getElementById('cmd_copyPageLocation').doCommand();document.getElementById('cmd_close').doCommand();"/>
     <command id="cmd_pasteAndGo" oncommand="var clipboard = readFromClipboard();if (!clipboard) return;if (clipboard.indexOf('\n') != -1) {gBrowser.loadTabs(clipboard.split('\n'), TU_getPref('extensions.tabutils.loadUrlInBackground'), false);return;} if (gURLBar) {gURLBar.value = clipboard;gURLBar.handleCommand();}"/>
     <command id="cmd_pasteAndSearch" oncommand="var url = readFromClipboard(), searchbar = BrowserSearch.searchBar;if (url) if (searchbar) {searchbar.value = url;searchbar.handleSearchCommand();}"/>
     <command id="cmd_recentlyClosedTabs" oncommand="var popup = document.getElementById('undoCloseTabPopup');if (popup.state == 'open') popup.hidePopup(); else popup.openPopup(gBrowser.mPanelContainer, 'overlap');"/>
@@ -44,12 +43,11 @@
   </commandset>
 
   <keyset id="tuClipboardKeyset">
-    <key id="key_copyPageLocation" key="C" modifiers="accel" oncommand="goDoCommand('cmd_copy', 'cmd_copyPageLocation');"/>
+    <key id="key_copyPageUrl" key="C" modifiers="accel" oncommand="goDoCommand('cmd_copy', 'cmd_copyPageUrl');"/>
     <key id="key_copyAllPageUrls" key="C" modifiers="accel,shift" oncommand="goDoCommand('cmd_copy', 'cmd_copyAllPageUrls');"/>
-    <key id="key_cutPageLocation" key="X" modifiers="accel" oncommand="goDoCommand('cmd_cut', 'cmd_cutPageLocation');"/>
     <key id="key_pasteAndGo" key="V" modifiers="accel" oncommand="goDoCommand('cmd_paste', 'cmd_pasteAndGo');"/>
-    <key id="key_pasteAndSearch" key="V" modifiers="accel,shift" oncommand="goDoCommand('cmd_pasteAndSearch', 'cmd_pasteAndSearch');"/>
-    <key id="key_undoCloseTab2" key="Z" modifiers="accel" oncommand="goDoCommand('cmd_undo', 'History:UndoCloseTab');"/>
+    <key id="key_pasteAndSearch" key="V" modifiers="accel,shift" oncommand="goDoCommand('cmd_pasteNoFormatting', 'cmd_pasteAndSearch');"/>
+    <key id="key_undoCloseTabZ" key="Z" modifiers="accel" oncommand="goDoCommand('cmd_undo', 'History:UndoCloseTab');"/>
     <key id="key_recentlyClosedTabs" key="Z" modifiers="accel,shift" oncommand="goDoCommand('cmd_redo', 'cmd_recentlyClosedTabs');"/>
   </keyset>
 
@@ -60,9 +58,6 @@
     <key id="key_freezeTab" key="F" modifiers="accel,alt" oncommand="gBrowser.freezeTab(gBrowser.mCurrentTab);"/>
     <key id="key_faviconizeTab" key="I" modifiers="accel,alt" oncommand="gBrowser.faviconizeTab(gBrowser.mCurrentTab);"/>
     <key id="key_pinTab" key="P" modifiers="accel,alt" oncommand="gBrowser.pinTab(gBrowser.mCurrentTab, !gBrowser.mCurrentTab.pinned);"/>
-    <key id="key_closeLeftTabs" oncommand="gBrowser.closeLeftTabs(gBrowser.mCurrentTab);" keycode="VK_F3" modifiers="accel,shift"/>
-    <key id="key_closeAllTabs" oncommand="gBrowser.closeAllTabs();" keycode="VK_F4" modifiers="accel,shift"/>
-    <key id="key_closeRightTabs" oncommand="gBrowser.closeRightTabs(gBrowser.mCurrentTab);" keycode="VK_F5" modifiers="accel,shift"/>
     <key id="key_moveTabBackward" oncommand="gBrowser.moveTabBackward();" keycode="VK_PAGE_UP" modifiers="accel,shift"/>
     <key id="key_moveTabForward" oncommand="gBrowser.moveTabForward();" keycode="VK_PAGE_DOWN" modifiers="accel,shift"/>
     <key id="key_moveTabToStart" oncommand="gBrowser.moveTabToStart();" keycode="VK_HOME" modifiers="accel,shift"/>
@@ -76,8 +71,6 @@
     <key id="key_selectPinnedTab7" oncommand="gBrowser.selectPinnedTabAtIndex(6, event);" key="7" modifiers="accel,alt"/>
     <key id="key_selectPinnedTab8" oncommand="gBrowser.selectPinnedTabAtIndex(7, event);" key="8" modifiers="accel,alt"/>
     <key id="key_selectLastPinnedTab" oncommand="gBrowser.selectPinnedTabAtIndex(-1, event);" key="9" modifiers="accel,alt"/>
-    <key id="key_prevGroup" command="cmd_prevGroup" keycode="VK_UP" modifiers="control"/>
-    <key id="key_nextGroup" command="cmd_nextGroup" keycode="VK_DOWN" modifiers="control"/>
     <key id="key_toggleTabsToolbar" oncommand="var tabsToolbar = document.getElementById('TabsToolbar'); setToolbarVisibility(tabsToolbar, tabsToolbar.collapsed);" key="\" modifiers="accel"/>
     <key id="key_togglePinnedTabsBar" oncommand="var pref = 'extensions.tabutils.pinTab.showPhantom'; TU_setPref(pref, !TU_getPref(pref));" key="\" modifiers="accel,alt"/>
     <key id="key_locateTabsToolbarPrev" oncommand="var pref = 'extensions.tabutils.tabBarPosition'; TU_setPref(pref, (TU_getPref(pref, 0) + 3) % 4);" key="[" modifiers="accel,alt"/>

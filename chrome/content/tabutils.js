@@ -2805,18 +2805,6 @@ tabutils._tabPrefObserver = {
     //Tab animations
     TU_hookCode("gBrowser.removeTab", 'window.getComputedStyle(aTab).maxWidth == "0.1px"', 'aTab.boxObject.width == 0');
 
-    //Shortcuts
-    tabutils.addEventListener(window, "keypress", function(event) {
-      if ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.charCode == 90 || event.charCode == 122)) {//Ctrl+Shift+Z
-        let popup = document.getElementById('undoCloseTabPopup');
-        if (popup.state == "open") {
-          popup.hidePopup();
-          event.preventDefault();
-          event.stopPropagation();
-        }
-      }
-    }, true);
-
     //Don't allow drag/dblclick on the tab bar to act on the window
     if ("_update" in TabsInTitlebar) // Compat. with Linux
     TU_hookCode("TabsInTitlebar._update", "!this._dragBindingAlive", "$& && TU_getPref('extensions.tabutils.dragBindingAlive', true)");
