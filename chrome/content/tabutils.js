@@ -214,16 +214,9 @@ tabutils._tabEventListeners = {
         this.mTabBrowser.onLocationChange(this.mTab);
     });
 
-    TU_hookCode("gBrowser.updateCurrentBrowser", /(?=.*createEvent.*)/, (function() {
-      if (!oldTab.selected) {
-        oldTab.dispatchEvent(new CustomEvent("TabBlur", {bubbles: true, detail: this.mCurrentTab._tPos}));
-      }
-    }).toString().replace(/^.*{|}$/g, ""));
-
     gBrowser.onTabMove = function onTabMove(aTab, event) {};
     gBrowser.onTabClose = function onTabClose(aTab) {};
     gBrowser.onTabSelect = function onTabSelect(aTab) {};
-    gBrowser.onTabBlur = function onTabBlur(aTab, event) {};
     gBrowser.onTabPinning = function onTabPinning(aTab) {};
     gBrowser.onTabPinned = function onTabPinned(aTab) {};
     gBrowser.onTabHide = function onTabHide(aTab) {};
@@ -237,7 +230,7 @@ tabutils._tabEventListeners = {
     gBrowser.onTabClosing = function onTabClosing(aTab) {var ss = tabutils._ss;};
 
     [
-      "TabOpen", "TabMove", "TabClose", "TabSelect", "TabBlur",
+      "TabOpen", "TabMove", "TabClose", "TabSelect",
       "TabPinning", "TabPinned", "TabHide", "TabShow",
       "TabStacked", "TabUnstacked", "StackCollapsed", "StackExpanded",
       "SSTabRestoring", "SSTabRestored", "SSTabClosing"
@@ -252,7 +245,6 @@ tabutils._tabEventListeners = {
       case "TabMove": gBrowser.onTabMove(event.target, event);break;
       case "TabClose": gBrowser.onTabClose(event.target);break;
       case "TabSelect": gBrowser.onTabSelect(event.target);break;
-      case "TabBlur": gBrowser.onTabBlur(event.target, event);break;
       case "TabPinning": gBrowser.onTabPinning(event.target);break;
       case "TabPinned": gBrowser.onTabPinned(event.target);break;
       case "TabHide": gBrowser.onTabHide(event.target);break;
@@ -836,6 +828,27 @@ tabutils._tabClosingOptions = function() {
 
   //Ctrl+Tab切换到上次浏览的标签
   //Ctrl+左右方向键切换到前一个/后一个标签
+  tabutils.addEventListener(window, "keydown", function(event) {
+    if (!event.ctrlKey || event.altKey || event.metaKey)
+      return;
+
+    switch (true) {
+      case event.keyCode == event.DOM_VK_LEFT && !event.shiftKey:
+      case event.keyCode == event.DOM_VK_RIGHT && !event.shiftKey:
+        if (!TU_getPref("extensions.tabutils.handleCtrlArrow"))
+          return;
+
+        event.stopPropagation(); // Compat. with some sites
+        // Fallback
+      case event.keyCode == event.DOM_VK_PAGE_UP && !event.shiftKey:
+      case event.keyCode == event.DOM_VK_PAGE_DOWN && !event.shiftKey:
+      case event.keyCode == event.DOM_VK_TAB:
+        if (TU_getPref("extensions.tabutils.handleCtrl"))
+          gBrowser._previewMode = true;
+        break;
+    }
+  }, true);
+
   tabutils.addEventListener(window, "keypress", function(event) {
     if (!event.ctrlKey || event.altKey || event.metaKey)
       return;
@@ -843,9 +856,6 @@ tabutils._tabClosingOptions = function() {
     switch (true) {
       case event.keyCode == event.DOM_VK_TAB:
         if (TU_getPref("extensions.tabutils.handleCtrlTab", true)) {
-          if (!gBrowser._previewMode && TU_getPref("extensions.tabutils.handleCtrl", true))
-            gBrowser._previewMode = true;
-
           gBrowser.selectedTab = gBrowser.getLastSelectedTab(event.shiftKey ? -1 : 1);
           event.preventDefault();
           event.stopPropagation();
@@ -854,19 +864,11 @@ tabutils._tabClosingOptions = function() {
       case event.keyCode == event.DOM_VK_LEFT && !event.shiftKey:
       case event.keyCode == event.DOM_VK_RIGHT && !event.shiftKey:
         if (TU_getPref("extensions.tabutils.handleCtrlArrow", true)) {
-          if (!gBrowser._previewMode && TU_getPref("extensions.tabutils.handleCtrl", true))
-            gBrowser._previewMode = true;
-
           let rtl = getComputedStyle(gBrowser.mTabContainer).direction == "rtl";
           gBrowser.mTabContainer.advanceSelectedTab(event.keyCode == event.DOM_VK_LEFT ^ rtl ? -1 : 1, true);
           event.preventDefault();
           event.stopPropagation();
         }
-        break;
-      case event.keyCode == event.DOM_VK_PAGE_UP && !event.shiftKey:
-      case event.keyCode == event.DOM_VK_PAGE_DOWN && !event.shiftKey:
-        if (!gBrowser._previewMode && TU_getPref("extensions.tabutils.handleCtrl", true))
-          gBrowser._previewMode = true;
         break;
     }
   }, true);
@@ -886,19 +888,10 @@ tabutils._tabClosingOptions = function() {
     }
   }, true);
 
-  tabutils.addEventListener(window, "keydown", function(event) {
-    switch (event.keyCode) {
-      case event.DOM_VK_LEFT:
-      case event.DOM_VK_RIGHT:
-        if (event.ctrlKey && TU_getPref("extensions.tabutils.handleCtrlArrow", true))
-          event.stopPropagation();
-    }
-  }, true);
-
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (gBrowser._previewMode) {
-      gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
       gBrowser._previewMode = false;
+      gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
     }
   });
 
@@ -1346,10 +1339,10 @@ tabutils._restartTab = function() {
       clearTimeout(aTab._restartTimer);
       aTab._restartTimer = null;
     }
-  });
 
-  TU_hookCode("gBrowser.onTabBlur", "}", function() {
-    this.autoRestartTab(aTab);
+    let lastTab = this.getLastSelectedTab();
+    if (lastTab)
+      this.autoRestartTab(lastTab);
   });
 
   TU_hookCode("gBrowser.mTabProgressListener", /(?=var location)/, function() {
@@ -3129,23 +3122,36 @@ tabutils._tabPrefObserver = {
   },
 
   setAttribute: function(aElt, aAttr, aVal) {
-    aVal == null ? aElt.removeAttribute(aAttr) : aElt.setAttribute(aAttr, aVal);
-    if (aAttr == "insertbefore" || aAttr == "insertafter" || aAttr == "parent") {
-      let parentNode = document.getElementById(aElt.getAttribute("parent")) || aElt.parentNode;
-      let refNode;
-      switch (true) {
-        case aElt.getAttribute("insertafter") != "":
-          refNode = parentNode.getElementsByAttribute("id", aElt.getAttribute("insertafter"))[0];
-          refNode = refNode && refNode.nextSibling;
-          break;
-        case aElt.getAttribute("insertbefore") != "":
-          refNode = parentNode.getElementsByAttribute("id", aElt.getAttribute("insertbefore"))[0];
-          break;
-      }
-      parentNode.insertBefore(aElt, refNode);
+    if (aVal == null) {
+      aElt.removeAttribute(aAttr);
+      return;
     }
-    else if (aAttr == "separatorbefore" || aAttr == "separatorafter") {
-      let refNode = aAttr == "separatorbefore" ? aElt : aElt.nextSibling;
+
+    aElt.setAttribute(aAttr, aVal);
+
+    if (aAttr == "insertbefore") {
+      let refNode = document.getElementById(aVal);
+      if (refNode)
+        refNode.parentNode.insertBefore(aElt, refNode);
+      return;
+    }
+
+    if (aAttr == "insertafter") {
+      let refNode = document.getElementById(aVal);
+      if (refNode)
+        refNode.parentNode.insertBefore(aElt, refNode.nextSibling);
+      return;
+    }
+
+    if (aAttr == "parent") {
+      let parentNode = document.getElementById(aVal);
+      if (parentNode)
+        parentNode.appendChild(aElt);
+      return;
+    }
+
+    if (aAttr == "separator") {
+      let refNode = aVal == "before" ? aElt : aElt.nextSibling;
       if (aElt.localName == "menuitem" || aElt.localName == "menu")
         aElt.parentNode.insertBefore(document.createElement("menuseparator"), refNode);
       else if (aElt.localName == "toolbarbutton" || aElt.localName == "toolbaritem")
@@ -3331,7 +3337,7 @@ tabutils._tabPrefObserver = {
     if (color && !(group in this._tabColoringRules)) {
       let selectorText;
       if (group[0] == "{")
-        selectorText = '#main-window .tabbrowser-tab[group="' + group + '"]:not([group-counter="1"])';
+        selectorText = '.tabbrowser-tabs[colorStack="true"] > .tabbrowser-tab[group="' + group + '"]:not([group-counter="1"])';
       else
         selectorText = '.tabbrowser-tabs[colorStack="true"] > .tabbrowser-tab[group^="{' + group + '"]:not([group-counter="1"])';
 
