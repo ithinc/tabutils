@@ -1977,8 +1977,8 @@ tabutils._previewTab = function() {
 
       this._mouseHoverPreviewTimer = setTimeout(function() {
         if (gBrowser._previewMode) {
-          gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
           gBrowser._previewMode = false;
+          gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
         }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
     }
@@ -2014,8 +2014,8 @@ tabutils._previewTab = function() {
 
       popup._mouseHoverPreviewTimer = setTimeout(function() {
         if (gBrowser._previewMode) {
-          gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
           gBrowser._previewMode = false;
+          gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
         }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
     }
@@ -2088,8 +2088,7 @@ tabutils._tabClickingOptions = function() {
 
   TU_hookCode("TabContextMenu.updateContextMenu", "aPopupMenu.triggerNode", "document.popupNode", "g");
   TU_hookCode("gBrowser.mTabContainer._selectNewTab", "{", function() {
-    if (["onxblmousedown"].indexOf(arguments.callee.caller.name) > -1 &&
-        !aNewTab.selected)
+    if (["onxblmousedown"].indexOf(arguments.callee.caller.name) > -1)
       aNewTab.setAttribute("firstclick", true);
   });
 
