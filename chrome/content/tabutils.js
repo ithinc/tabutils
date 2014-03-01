@@ -827,6 +827,27 @@ tabutils._tabClosingOptions = function() {
 
   //Ctrl+Tab切换到上次浏览的标签
   //Ctrl+左右方向键切换到前一个/后一个标签
+  tabutils.addEventListener(window, "keydown", function(event) {
+    if (!event.ctrlKey || event.altKey || event.metaKey)
+      return;
+
+    switch (true) {
+      case event.keyCode == event.DOM_VK_LEFT && !event.shiftKey:
+      case event.keyCode == event.DOM_VK_RIGHT && !event.shiftKey:
+        if (!TU_getPref("extensions.tabutils.handleCtrlArrow"))
+          return;
+
+        event.stopPropagation(); // Compat. with some sites
+        // Fallback
+      case event.keyCode == event.DOM_VK_PAGE_UP && !event.shiftKey:
+      case event.keyCode == event.DOM_VK_PAGE_DOWN && !event.shiftKey:
+      case event.keyCode == event.DOM_VK_TAB:
+        if (TU_getPref("extensions.tabutils.handleCtrl"))
+          gBrowser._previewMode = true;
+        break;
+    }
+  }, true);
+
   tabutils.addEventListener(window, "keypress", function(event) {
     if (!event.ctrlKey || event.altKey || event.metaKey)
       return;
@@ -834,9 +855,6 @@ tabutils._tabClosingOptions = function() {
     switch (true) {
       case event.keyCode == event.DOM_VK_TAB:
         if (TU_getPref("extensions.tabutils.handleCtrlTab", true)) {
-          if (!gBrowser._previewMode && TU_getPref("extensions.tabutils.handleCtrl", true))
-            gBrowser._previewMode = true;
-
           gBrowser.selectedTab = gBrowser.getLastSelectedTab(event.shiftKey ? -1 : 1);
           event.preventDefault();
           event.stopPropagation();
@@ -845,19 +863,11 @@ tabutils._tabClosingOptions = function() {
       case event.keyCode == event.DOM_VK_LEFT && !event.shiftKey:
       case event.keyCode == event.DOM_VK_RIGHT && !event.shiftKey:
         if (TU_getPref("extensions.tabutils.handleCtrlArrow", true)) {
-          if (!gBrowser._previewMode && TU_getPref("extensions.tabutils.handleCtrl", true))
-            gBrowser._previewMode = true;
-
           let rtl = getComputedStyle(gBrowser.mTabContainer).direction == "rtl";
           gBrowser.mTabContainer.advanceSelectedTab(event.keyCode == event.DOM_VK_LEFT ^ rtl ? -1 : 1, true);
           event.preventDefault();
           event.stopPropagation();
         }
-        break;
-      case event.keyCode == event.DOM_VK_PAGE_UP && !event.shiftKey:
-      case event.keyCode == event.DOM_VK_PAGE_DOWN && !event.shiftKey:
-        if (!gBrowser._previewMode && TU_getPref("extensions.tabutils.handleCtrl", true))
-          gBrowser._previewMode = true;
         break;
     }
   }, true);
@@ -877,19 +887,10 @@ tabutils._tabClosingOptions = function() {
     }
   }, true);
 
-  tabutils.addEventListener(window, "keydown", function(event) {
-    switch (event.keyCode) {
-      case event.DOM_VK_LEFT:
-      case event.DOM_VK_RIGHT:
-        if (event.ctrlKey && TU_getPref("extensions.tabutils.handleCtrlArrow", true))
-          event.stopPropagation();
-    }
-  }, true);
-
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (gBrowser._previewMode) {
-      gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
       gBrowser._previewMode = false;
+      gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
     }
   });
 
