@@ -61,7 +61,7 @@
 <!ENTITY maxTabsUndo.label "Max restorable tabs:">
 <!ENTITY handleCtrlTab.caption "Ctrl Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab to navigate tabs in most recently used order">
-<!ENTITY handleCtrlArrow.label "Ctrl+Left/Right Arrow to navigate tabs in sequential order">
+<!ENTITY handleCtrlArrow.label "Ctrl+Arrow to navigate tabs in sequential order">
 <!ENTITY openNewWindow.caption "Open links in:">
 <!ENTITY openNewWindow.label "Open new-window links in:">
 <!ENTITY openExternal.label "Open links from external applications in:">

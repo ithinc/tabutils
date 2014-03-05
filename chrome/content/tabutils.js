@@ -832,6 +832,8 @@ tabutils._tabClosingOptions = function() {
       return;
 
     switch (event.keyCode) {
+      case event.DOM_VK_UP:
+      case event.DOM_VK_DOWN:
       case event.DOM_VK_LEFT:
       case event.DOM_VK_RIGHT:
         if (!TU_getPref("extensions.tabutils.handleCtrlArrow"))
@@ -867,6 +869,14 @@ tabutils._tabClosingOptions = function() {
         if (!event.shiftKey && TU_getPref("extensions.tabutils.handleCtrlArrow")) {
           let rtl = getComputedStyle(gBrowser.mTabContainer).direction == "rtl";
           gBrowser.mTabContainer.advanceSelectedTab(event.keyCode == event.DOM_VK_LEFT ^ rtl ? -1 : 1, true);
+          event.stopPropagation();
+          event.preventDefault();
+        }
+        break;
+      case event.DOM_VK_UP:
+      case event.DOM_VK_DOWN:
+        if (!event.shiftKey && TU_getPref("extensions.tabutils.handleCtrlArrow")) {
+          gBrowser.selectedTab = gBrowser.nextSiblingTabOf(gBrowser.selectedTab, event.keyCode == event.DOM_VK_UP ? -1 : 1, true);
           event.stopPropagation();
           event.preventDefault();
         }

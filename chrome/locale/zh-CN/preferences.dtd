@@ -61,7 +61,7 @@
 <!ENTITY maxTabsUndo.label "最多可恢复的标签页:">
 <!ENTITY handleCtrlTab.caption "Ctrl Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab按最近访问的顺序切换标签页">
-<!ENTITY handleCtrlArrow.label "Ctrl+左/右方向键按自然顺序切换标签页">
+<!ENTITY handleCtrlArrow.label "Ctrl+方向键按自然顺序切换标签页">
 <!ENTITY openNewWindow.caption "链接打开位置">
 <!ENTITY openNewWindow.label "新窗口链接打开到:">
 <!ENTITY openExternal.label "外来链接打开到:">

@@ -42,6 +42,18 @@ tabutils._stackTabs = function() {
     return tabs;
   };
 
+  gBrowser.previousSiblingTabOf = function previousSiblingTabOf(aTab) this.nextSiblingTabOf(aTab, -1);
+  gBrowser.nextSiblingTabOf = function nextSiblingTabOf(aTab, aDir, aWrap) {
+    let group = aTab.getAttribute("group");
+    let next = aDir < 0 ? "previousSibling" : "nextSibling";
+    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
+        return tab;
+    }
+    if (aWrap)
+      return this.lastSiblingTabOf(aTab, -aDir);
+  };
+
   gBrowser.firstSiblingTabOf = function firstSiblingTabOf(aTab) this.lastSiblingTabOf(aTab, -1);
   gBrowser.lastSiblingTabOf = function lastSiblingTabOf(aTab, aDir) {
     let group = aTab.getAttribute("group");
