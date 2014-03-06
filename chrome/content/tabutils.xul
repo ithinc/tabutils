@@ -61,6 +61,7 @@
     <key id="key_unstackTab" key="U" modifiers="accel,alt" oncommand="gBrowser.unstackTabs([gBrowser.mCurrentTab]);"/>
     <key id="key_expandStack" key="+" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.isCollapsedStack(gBrowser.mCurrentTab) ? gBrowser.mCurrentTab : gBrowser.allTabs, false);"/>
     <key id="key_collapseStack" key="-" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.isExpandedStack(gBrowser.mCurrentTab) ? gBrowser.mCurrentTab : gBrowser.allTabs, true);"/>
+    <key id="key_collapseAllStacks" key="0" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.allTabs);"/>
     <key id="key_moveTabBackward" oncommand="gBrowser.moveTabBackward();" keycode="VK_PAGE_UP" modifiers="accel,shift"/>
     <key id="key_moveTabForward" oncommand="gBrowser.moveTabForward();" keycode="VK_PAGE_DOWN" modifiers="accel,shift"/>
     <key id="key_moveTabToStart" oncommand="gBrowser.moveTabToStart();" keycode="VK_HOME" modifiers="accel,shift"/>
@@ -316,6 +317,15 @@
                   key_collapse="key_collapseStack"
                   key_expand="key_expandStack"
                   oncommand="gBrowser.collapseStack(gBrowser.mContextTab);"/>
+        <menuitem id="context_collapseAllStacks"
+                  label_collapse="&collapseAllStacks.label;"
+                  label_expand="&expandAllStacks.label;"
+                  accesskey_collapse="&collapseStack.accesskey;"
+                  accesskey_expand="&expandStack.accesskey;"
+                  key_collapse="key_collapseAllStacks"
+                  key_expand="key_collapseAllStacks"
+                  oncommand="gBrowser.collapseStack(gBrowser.allTabs, !gBrowser.mContextTab.hasAttribute('group-collapsed'));"/>
+        <menuseparator/>
         <menuitem id="context_colorStack"
                   label="&colorStack.label;"
                   accesskey="&colorStack.accesskey;"
@@ -324,7 +334,6 @@
                   label="&bookmarkStack.label;"
                   accesskey="&bookmarkStack.accesskey;"
                   oncommand="gBrowser.bookmarkTab(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
-        <menuseparator/>
         <menuitem id="context_dismissStack"
                   label="&dismissStack.label;"
                   accesskey="&dismissStack.accesskey;"

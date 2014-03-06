@@ -2577,11 +2577,16 @@ tabutils._tabContextMenu = function() {
 
     var item = $("context_tabStackMenu");
     if (item && !item.hidden && !item.collapsed) {
-      let item = $("context_collapseStack");
       let collapsed = tab.hasAttribute("group-collapsed");
-      item.setAttribute("label", collapsed ? item.getAttribute("label_expand") : item.getAttribute("label_collapse"));
-      item.setAttribute("accesskey", collapsed ? item.getAttribute("accesskey_expand") : item.getAttribute("accesskey_collapse"));
-      item.setAttribute("key", collapsed ? item.getAttribute("key_expand") : item.getAttribute("key_collapse"));
+      [
+        "context_collapseStack",
+        "context_collapseAllStacks"
+      ].forEach(function(aId) {
+        let item = $(aId);
+        item.setAttribute("label", collapsed ? item.getAttribute("label_expand") : item.getAttribute("label_collapse"));
+        item.setAttribute("accesskey", collapsed ? item.getAttribute("accesskey_expand") : item.getAttribute("accesskey_collapse"));
+        item.setAttribute("key", collapsed ? item.getAttribute("key_expand") : item.getAttribute("key_collapse"));
+      });
     }
 
     var item = $("context_readTab");

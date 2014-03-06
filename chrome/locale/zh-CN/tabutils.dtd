@@ -111,6 +111,8 @@
 <!ENTITY collapseStack.accesskey "C">
 <!ENTITY expandStack.label "展开堆叠">
 <!ENTITY expandStack.accesskey "E">
+<!ENTITY collapseAllStacks.label "折叠所有堆叠">
+<!ENTITY expandAllStacks.label "展开所有堆叠">
 <!ENTITY colorStack.label "重新着色堆叠...">
 <!ENTITY colorStack.accesskey "R">
 <!ENTITY bookmarkStack.label "将此堆叠加入书签...">

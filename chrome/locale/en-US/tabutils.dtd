@@ -111,6 +111,8 @@
 <!ENTITY collapseStack.accesskey "C">
 <!ENTITY expandStack.label "Expand Stack">
 <!ENTITY expandStack.accesskey "E">
+<!ENTITY collapseAllStacks.label "Collapse All Stacks">
+<!ENTITY expandAllStacks.label "Expand All Stacks">
 <!ENTITY colorStack.label "Recolor Stack...">
 <!ENTITY colorStack.accesskey "R">
 <!ENTITY bookmarkStack.label "Bookmark Stack...">
