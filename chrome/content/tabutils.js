@@ -797,25 +797,44 @@ tabutils._tabClosingOptions = function() {
   gBrowser.mTabContainer._tabHistory = Array.slice(gBrowser.mTabs);
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    if (aTab.hasAttribute("opener")) {
-      let index = tabHistory.indexOf(this.mCurrentTab) + 1;
-      while (index < tabHistory.length && tabHistory[index].getAttribute("opener") == aTab.getAttribute("opener"))
-        index++;
-      tabHistory.splice(index, 0, aTab);
-    }
-    else
-      tabHistory.push(aTab);
+    tabHistory.splice(1, 0, aTab);
+    aTab.lastAccessed = Date.now();
+    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab.lastAccessed);
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    tabHistory.splice(tabHistory.indexOf(aTab), 1);
+    var lastTab = tabHistory[0];
+    lastTab.lastAccessed = Date.now();
+    tabutils._ss.setTabValue(lastTab, "lastAccessed", lastTab.lastAccessed);
+
+    var index = tabHistory.indexOf(aTab);
+    if (index > -1)
+      tabHistory.splice(index, 1);
     tabHistory.unshift(aTab);
+    aTab.lastAccessed = Infinity;
+    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab.lastAccessed);
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    tabHistory.splice(tabHistory.indexOf(aTab), 1);
+    var index = tabHistory.indexOf(aTab);
+    if (index > -1)
+      tabHistory.splice(index, 1);
+  });
+
+  TU_hookCode("gBrowser.onTabRestoring", "}", function() { // Bug 445461 [Fx30]
+    var tabHistory = this.mTabContainer._tabHistory;
+    var index = tabHistory.indexOf(aTab);
+    if (index > -1)
+      tabHistory.splice(index, 1);
+
+    aTab.lastAccessed = tabutils._ss.getTabValue(aTab, "lastAccessed");
+    for (index = 0; index < tabHistory.length; index++) {
+      if (tabHistory[index].lastAccessed < aTab.lastAccessed)
+        break;
+    }
+    tabHistory.splice(index, 0, aTab);
   });
 
   gBrowser.getLastSelectedTab = function getLastSelectedTab(aDir) {
