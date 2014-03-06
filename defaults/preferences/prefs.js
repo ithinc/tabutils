@@ -161,6 +161,7 @@ pref("extensions.tabutils.shortcut.key_lockTab", true);
 pref("extensions.tabutils.shortcut.key_freezeTab", true);
 pref("extensions.tabutils.shortcut.key_faviconizeTab", true);
 pref("extensions.tabutils.shortcut.key_pinTab", true);
+pref("extensions.tabutils.shortcut.key_unstackTab", true);
 pref("extensions.tabutils.shortcut.key_moveTabBackward", true);
 pref("extensions.tabutils.shortcut.key_moveTabForward", true);
 pref("extensions.tabutils.shortcut.key_moveTabToStart", true);

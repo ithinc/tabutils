@@ -89,10 +89,6 @@ tabutils._stackTabs = function() {
 
   gBrowser.unstackTabs = function unstackTabs(aTabs, aMove) {
     aMove = aMove != false;
-    for (let i = 0; i < aTabs.length; i++) {
-      if (aTabs[i].hasAttribute("group-first"))
-        this.detachTab(aTabs[i]);
-    }
     for (let i = aTabs.length - 1; i >= 0; i--)
       this.detachTab(aTabs[i], aMove);
   };
@@ -156,7 +152,7 @@ tabutils._stackTabs = function() {
     if (!aTab.hasAttribute("group"))
       return;
 
-    if (aMove && !aTab.hasAttribute("group-first") && !aTab.hasAttribute("group-last")) {
+    if (aMove && !aTab.hasAttribute("group-last")) {
       aTab._suppressTabMove = true;
       this.moveTabAfter(aTab, this.lastSiblingTabOf(aTab));
       this.mTabContainer._notifyBackgroundTab(aTab);

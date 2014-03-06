@@ -58,6 +58,7 @@
     <key id="key_freezeTab" key="F" modifiers="accel,alt" oncommand="gBrowser.freezeTab(gBrowser.mCurrentTab);"/>
     <key id="key_faviconizeTab" key="I" modifiers="accel,alt" oncommand="gBrowser.faviconizeTab(gBrowser.mCurrentTab);"/>
     <key id="key_pinTab" key="P" modifiers="accel,alt" oncommand="gBrowser.pinTab(gBrowser.mCurrentTab, !gBrowser.mCurrentTab.pinned);"/>
+    <key id="key_unstackTab" key="U" modifiers="accel,alt" oncommand="gBrowser.unstackTabs([gBrowser.mCurrentTab]);"/>
     <key id="key_moveTabBackward" oncommand="gBrowser.moveTabBackward();" keycode="VK_PAGE_UP" modifiers="accel,shift"/>
     <key id="key_moveTabForward" oncommand="gBrowser.moveTabForward();" keycode="VK_PAGE_DOWN" modifiers="accel,shift"/>
     <key id="key_moveTabToStart" oncommand="gBrowser.moveTabToStart();" keycode="VK_HOME" modifiers="accel,shift"/>
@@ -262,6 +263,7 @@
     <menuitem id="context_unstackTab"
               label="&unstackTab.label;"
               accesskey="&unstackTab.accesskey;"
+              key="key_unstackTab"
               insertbefore="context_closeTab"
               multiselected="any"
               grouponly="true"
