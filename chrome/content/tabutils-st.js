@@ -67,6 +67,7 @@ tabutils._stackTabs = function() {
 
   gBrowser.isStackedTab = function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1;
   gBrowser.isCollapsedStack = function(aTab) aTab.hasAttribute("group-collapsed") && aTab.getAttribute("group-counter") > 1;
+  gBrowser.isExpandedStack = function(aTab) this.isStackedTab(aTab) && !aTab.hasAttribute("group-collapsed");
 
   gBrowser.stackTabs = function stackTabs(aTabs, aTab, aExpand) {
     aTabs = aTabs.filter(function(aTab) !aTab.pinned)
@@ -174,7 +175,19 @@ tabutils._stackTabs = function() {
   };
 
   gBrowser.collapseStack = function collapseStack(aTab, aForce) {
-    if (!aTab.hasAttribute("group"))
+    if ("length" in arguments[0]) {
+      let aTabs = Array.filter(arguments[0], function(aTab) aTab.hasAttribute("group-selected"));
+      if (aForce == null)
+        aForce = !aTabs.every(function(aTab) aTab.hasAttribute("group-collapsed"));
+
+      let func = arguments.callee;
+      aTabs.forEach(function(aTab) {
+        func.call(this, aTab, aForce);
+      }, this);
+      return;
+    }
+
+    if (!this.isStackedTab(aTab))
       return;
 
     if (aForce == aTab.hasAttribute("group-collapsed"))

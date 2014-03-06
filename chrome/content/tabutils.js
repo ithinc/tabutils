@@ -2449,6 +2449,7 @@ tabutils._tabContextMenu = function() {
       let collapsed = tab.hasAttribute("group-collapsed");
       item.setAttribute("label", collapsed ? item.getAttribute("label_expand") : item.getAttribute("label_collapse"));
       item.setAttribute("accesskey", collapsed ? item.getAttribute("accesskey_expand") : item.getAttribute("accesskey_collapse"));
+      item.setAttribute("key", collapsed ? item.getAttribute("key_expand") : item.getAttribute("key_collapse"));
     }
 
     var item = $("context_readTab");
