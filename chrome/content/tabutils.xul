@@ -275,13 +275,11 @@
           grouponly="true">
       <menupopup>
         <menuitem id="context_collapseStack"
-                  label="&collapseStack.label;"
-                  accesskey="&collapseStack.accesskey;"
+                  label_collapse="&collapseStack.label;"
+                  label_expand="&expandStack.label;"
+                  accesskey_collapse="&collapseStack.accesskey;"
+                  accesskey_expand="&expandStack.accesskey;"
                   oncommand="gBrowser.collapseStack(gBrowser.mContextTab);"/>
-        <menuitem id="context_expandStack"
-                  label="&expandStack.label;"
-                  accesskey="&expandStack.accesskey;"
-                  oncommand="gBrowser.expandStack(gBrowser.mContextTab);"/>
         <menuitem id="context_colorStack"
                   label="&colorStack.label;"
                   accesskey="&colorStack.accesskey;"

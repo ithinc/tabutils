@@ -2190,10 +2190,7 @@ tabutils._tabClickingOptions = function() {
         $("context_closeAllTabs").doCommand();
         break;
       case 51: //Collapse/Expand Stack
-        if (gBrowser.mContextTab.hasAttribute("group-collapsed"))
-          $("context_expandStack").doCommand();
-        else
-          $("context_collapseStack").doCommand();
+        $("context_collapseStack").doCommand();
         break;
       case 52: //Recolor Stack
         $("context_colorStack").doCommand();
@@ -2448,8 +2445,10 @@ tabutils._tabContextMenu = function() {
 
     var item = $("context_tabStackMenu");
     if (item && !item.hidden && !item.collapsed) {
-      $("context_collapseStack").setAttribute("disabled", tab.hasAttribute("group-collapsed"));
-      $("context_expandStack").setAttribute("disabled", !tab.hasAttribute("group-collapsed"));
+      let item = $("context_collapseStack");
+      let collapsed = tab.hasAttribute("group-collapsed");
+      item.setAttribute("label", collapsed ? item.getAttribute("label_expand") : item.getAttribute("label_collapse"));
+      item.setAttribute("accesskey", collapsed ? item.getAttribute("accesskey_expand") : item.getAttribute("accesskey_collapse"));
     }
 
     var item = $("context_readTab");
