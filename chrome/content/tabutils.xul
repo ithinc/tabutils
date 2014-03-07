@@ -478,12 +478,13 @@
 
   <vbox id="browser-panel">
     <hbox id="fullscr-toggler" collapsed="true" insertbefore="browser"/>
-    <hbox id="browser">
-      <vbox id="fullscr-toggler-left" collapsed="true" insertbefore="appcontent"/>
-      <vbox id="fullscr-toggler-right" collapsed="true" insertafter="appcontent"/>
-    </hbox>
     <hbox id="fullscr-toggler-bottom" collapsed="true" insertafter="browser"/>
   </vbox>
+
+  <hbox id="browser">
+    <vbox id="fullscr-toggler-left" collapsed="true" insertbefore="appcontent"/>
+    <vbox id="fullscr-toggler-right" collapsed="true" insertafter="appcontent"/>
+  </hbox>
 
   <statusbar id="status-bar">
     <statusbarpanel id="statusbar-openintab"
