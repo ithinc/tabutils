@@ -153,20 +153,12 @@ pref("extensions.tabutils.menu.context_invertSelection", false);
 pref("extensions.tabutils.menu.context_bookmarkAllTabs.insertbefore", "");
 pref("extensions.tabutils.menu.context_reloadAllTabs.insertbefore", "");
 
-pref("extensions.tabutils.menu.context_template", false);
-pref("extensions.tabutils.menu.context_template.label", "");
-pref("extensions.tabutils.menu.context_template.accesskey", "");
-pref("extensions.tabutils.menu.context_template.insertbefore", "");
-pref("extensions.tabutils.menu.context_template.multiselected", "");
-pref("extensions.tabutils.menu.context_template.oncommand", "");
-
 pref("extensions.tabutils.shortcut.tuClipboardKeyset.disabled", true);
-pref("extensions.tabutils.shortcut.key_copyPageLocation", true);
+pref("extensions.tabutils.shortcut.key_copyPageUrl", true);
 pref("extensions.tabutils.shortcut.key_copyAllPageUrls", true);
-pref("extensions.tabutils.shortcut.key_cutPageLocation", true);
 pref("extensions.tabutils.shortcut.key_pasteAndGo", true);
 pref("extensions.tabutils.shortcut.key_pasteAndSearch", true);
-pref("extensions.tabutils.shortcut.key_undoCloseTab2", true);
+pref("extensions.tabutils.shortcut.key_undoCloseTabZ", true);
 pref("extensions.tabutils.shortcut.key_recentlyClosedTabs", true);
 
 pref("extensions.tabutils.shortcut.tuKeyset.disabled", false);
@@ -176,45 +168,18 @@ pref("extensions.tabutils.shortcut.key_lockTab", true);
 pref("extensions.tabutils.shortcut.key_freezeTab", true);
 pref("extensions.tabutils.shortcut.key_faviconizeTab", true);
 pref("extensions.tabutils.shortcut.key_pinTab", true);
-pref("extensions.tabutils.shortcut.key_closeLeftTabs", false);
-pref("extensions.tabutils.shortcut.key_closeAllTabs", false);
-pref("extensions.tabutils.shortcut.key_closeRightTabs", false);
+pref("extensions.tabutils.shortcut.key_unstackTab", true);
+pref("extensions.tabutils.shortcut.key_expandStack", true);
+pref("extensions.tabutils.shortcut.key_collapseStack", true);
 pref("extensions.tabutils.shortcut.key_moveTabBackward", true);
 pref("extensions.tabutils.shortcut.key_moveTabForward", true);
 pref("extensions.tabutils.shortcut.key_moveTabToStart", true);
 pref("extensions.tabutils.shortcut.key_moveTabToEnd", true);
-pref("extensions.tabutils.shortcut.key_prevGroup", false);
-pref("extensions.tabutils.shortcut.key_nextGroup", false);
-
-pref("extensions.tabutils.shortcut.key_selectTab1.oncommand", "gBrowser.selectUnpinnedTabAtIndex(0, event);");
-pref("extensions.tabutils.shortcut.key_selectTab2.oncommand", "gBrowser.selectUnpinnedTabAtIndex(1, event);");
-pref("extensions.tabutils.shortcut.key_selectTab3.oncommand", "gBrowser.selectUnpinnedTabAtIndex(2, event);");
-pref("extensions.tabutils.shortcut.key_selectTab4.oncommand", "gBrowser.selectUnpinnedTabAtIndex(3, event);");
-pref("extensions.tabutils.shortcut.key_selectTab5.oncommand", "gBrowser.selectUnpinnedTabAtIndex(4, event);");
-pref("extensions.tabutils.shortcut.key_selectTab6.oncommand", "gBrowser.selectUnpinnedTabAtIndex(5, event);");
-pref("extensions.tabutils.shortcut.key_selectTab7.oncommand", "gBrowser.selectUnpinnedTabAtIndex(6, event);");
-pref("extensions.tabutils.shortcut.key_selectTab8.oncommand", "gBrowser.selectUnpinnedTabAtIndex(7, event);");
-pref("extensions.tabutils.shortcut.key_selectLastTab.oncommand", "gBrowser.selectUnpinnedTabAtIndex(-1, event);");
-
-pref("extensions.tabutils.shortcut.key_template", false);
-pref("extensions.tabutils.shortcut.key_template.key", "");
-pref("extensions.tabutils.shortcut.key_template.keycode", "");
-pref("extensions.tabutils.shortcut.key_template.modifiers", "");
-pref("extensions.tabutils.shortcut.key_template.oncommand", "");
 
 pref("extensions.tabutils.button.newtab-button.onclick", "gBrowser.onTabClick(event);");
 pref("extensions.tabutils.button.alltabs-button.onclick", "");
 pref("extensions.tabutils.button.tabs-closebutton.onclick", "");
 pref("extensions.tabutils.button.undoclosetab-button.onclick", "");
-
-pref("extensions.tabutils.button.button_template", false);
-pref("extensions.tabutils.button.button_template.label", "");
-pref("extensions.tabutils.button.button_template.image", "");
-pref("extensions.tabutils.button.button_template.parent", "");
-pref("extensions.tabutils.button.button_template.insertafter", "");
-pref("extensions.tabutils.button.button_template.onclick", "");
-pref("extensions.tabutils.button.button_template.oncommand", "");
-pref("extensions.tabutils.button.button_template.tooltiptext", "");
 
 pref("extensions.tabutils.css.example", "");
 pref("extensions.tabutils.js.example", "");

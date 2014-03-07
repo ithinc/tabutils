@@ -798,25 +798,44 @@ tabutils._tabClosingOptions = function() {
   gBrowser.mTabContainer._tabHistory = Array.slice(gBrowser.mTabs);
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    if (aTab.hasAttribute("opener")) {
-      let index = tabHistory.indexOf(this.mCurrentTab) + 1;
-      while (index < tabHistory.length && tabHistory[index].getAttribute("opener") == aTab.getAttribute("opener"))
-        index++;
-      tabHistory.splice(index, 0, aTab);
-    }
-    else
-      tabHistory.push(aTab);
+    tabHistory.splice(1, 0, aTab);
+    aTab.lastAccessed = Date.now();
+    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab.lastAccessed);
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    tabHistory.splice(tabHistory.indexOf(aTab), 1);
+    var lastTab = tabHistory[0];
+    lastTab.lastAccessed = Date.now();
+    tabutils._ss.setTabValue(lastTab, "lastAccessed", lastTab.lastAccessed);
+
+    var index = tabHistory.indexOf(aTab);
+    if (index > -1)
+      tabHistory.splice(index, 1);
     tabHistory.unshift(aTab);
+    aTab.lastAccessed = Infinity;
+    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab.lastAccessed);
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    tabHistory.splice(tabHistory.indexOf(aTab), 1);
+    var index = tabHistory.indexOf(aTab);
+    if (index > -1)
+      tabHistory.splice(index, 1);
+  });
+
+  TU_hookCode("gBrowser.onTabRestoring", "}", function() { // Bug 445461 [Fx30]
+    var tabHistory = this.mTabContainer._tabHistory;
+    var index = tabHistory.indexOf(aTab);
+    if (index > -1)
+      tabHistory.splice(index, 1);
+
+    aTab.lastAccessed = tabutils._ss.getTabValue(aTab, "lastAccessed");
+    for (index = 0; index < tabHistory.length; index++) {
+      if (tabHistory[index].lastAccessed < aTab.lastAccessed)
+        break;
+    }
+    tabHistory.splice(index, 0, aTab);
   });
 
   gBrowser.getLastSelectedTab = function getLastSelectedTab(aDir) {
@@ -832,17 +851,21 @@ tabutils._tabClosingOptions = function() {
     if (!event.ctrlKey || event.altKey || event.metaKey)
       return;
 
-    switch (true) {
-      case event.keyCode == event.DOM_VK_LEFT && !event.shiftKey:
-      case event.keyCode == event.DOM_VK_RIGHT && !event.shiftKey:
+    switch (event.keyCode) {
+      case event.DOM_VK_UP:
+      case event.DOM_VK_DOWN:
+      case event.DOM_VK_LEFT:
+      case event.DOM_VK_RIGHT:
         if (!TU_getPref("extensions.tabutils.handleCtrlArrow"))
           return;
-
+        // Fallback
+      case event.DOM_VK_PAGE_UP:
+      case event.DOM_VK_PAGE_DOWN:
+        if (event.shiftKey)
+          return;
         event.stopPropagation(); // Compat. with some sites
         // Fallback
-      case event.keyCode == event.DOM_VK_PAGE_UP && !event.shiftKey:
-      case event.keyCode == event.DOM_VK_PAGE_DOWN && !event.shiftKey:
-      case event.keyCode == event.DOM_VK_TAB:
+      case event.DOM_VK_TAB:
         if (TU_getPref("extensions.tabutils.handleCtrl"))
           gBrowser._previewMode = true;
         break;
@@ -853,22 +876,41 @@ tabutils._tabClosingOptions = function() {
     if (!event.ctrlKey || event.altKey || event.metaKey)
       return;
 
-    switch (true) {
-      case event.keyCode == event.DOM_VK_TAB:
-        if (TU_getPref("extensions.tabutils.handleCtrlTab", true)) {
+    switch (event.keyCode) {
+      case event.DOM_VK_TAB:
+        if (TU_getPref("extensions.tabutils.handleCtrlTab")) {
           gBrowser.selectedTab = gBrowser.getLastSelectedTab(event.shiftKey ? -1 : 1);
-          event.preventDefault();
           event.stopPropagation();
+          event.preventDefault();
         }
         break;
-      case event.keyCode == event.DOM_VK_LEFT && !event.shiftKey:
-      case event.keyCode == event.DOM_VK_RIGHT && !event.shiftKey:
-        if (TU_getPref("extensions.tabutils.handleCtrlArrow", true)) {
+      case event.DOM_VK_LEFT:
+      case event.DOM_VK_RIGHT:
+        if (!event.shiftKey && TU_getPref("extensions.tabutils.handleCtrlArrow")) {
           let rtl = getComputedStyle(gBrowser.mTabContainer).direction == "rtl";
           gBrowser.mTabContainer.advanceSelectedTab(event.keyCode == event.DOM_VK_LEFT ^ rtl ? -1 : 1, true);
-          event.preventDefault();
           event.stopPropagation();
+          event.preventDefault();
         }
+        break;
+      case event.DOM_VK_UP:
+      case event.DOM_VK_DOWN:
+        if (!event.shiftKey && TU_getPref("extensions.tabutils.handleCtrlArrow")) {
+          gBrowser.selectedTab = gBrowser.nextSiblingTabOf(gBrowser.selectedTab, event.keyCode == event.DOM_VK_UP ? -1 : 1, true);
+          event.stopPropagation();
+          event.preventDefault();
+        }
+        break;
+    }
+  }, true);
+
+  tabutils.addEventListener(window, "keyup", function(event) {
+    switch (event.keyCode) {
+      case event.DOM_VK_LEFT:
+      case event.DOM_VK_RIGHT:
+        if (event.ctrlKey && !event.altKey && !event.shiftKey && !event.metaKey &&
+            TU_getPref("extensions.tabutils.handleCtrlArrow"))
+          event.stopPropagation(); // Compat. with some sites
         break;
     }
   }, true);
@@ -881,12 +923,8 @@ tabutils._tabClosingOptions = function() {
           gBrowser.updateCurrentBrowser(true);
         }
         break;
-      case event.DOM_VK_LEFT:
-      case event.DOM_VK_RIGHT:
-        if (event.ctrlKey && TU_getPref("extensions.tabutils.handleCtrlArrow", true))
-          event.stopPropagation();
     }
-  }, true);
+  }, false);
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (gBrowser._previewMode) {
@@ -2286,10 +2324,7 @@ tabutils._tabClickingOptions = function() {
         $("context_closeAllTabs").doCommand();
         break;
       case 51: //Collapse/Expand Stack
-        if (gBrowser.mContextTab.hasAttribute("group-collapsed"))
-          $("context_expandStack").doCommand();
-        else
-          $("context_collapseStack").doCommand();
+        $("context_collapseStack").doCommand();
         break;
       case 52: //Recolor Stack
         $("context_colorStack").doCommand();
@@ -2542,8 +2577,11 @@ tabutils._tabContextMenu = function() {
 
     var item = $("context_tabStackMenu");
     if (item && !item.hidden && !item.collapsed) {
-      $("context_collapseStack").setAttribute("disabled", tab.hasAttribute("group-collapsed"));
-      $("context_expandStack").setAttribute("disabled", !tab.hasAttribute("group-collapsed"));
+      let item = $("context_collapseStack");
+      let collapsed = tab.hasAttribute("group-collapsed");
+      item.setAttribute("label", collapsed ? item.getAttribute("label_expand") : item.getAttribute("label_collapse"));
+      item.setAttribute("accesskey", collapsed ? item.getAttribute("accesskey_expand") : item.getAttribute("accesskey_collapse"));
+      item.setAttribute("key", collapsed ? item.getAttribute("key_expand") : item.getAttribute("key_collapse"));
     }
 
     var item = $("context_readTab");
@@ -2899,18 +2937,6 @@ tabutils._tabPrefObserver = {
 
     //Tab animations
     TU_hookCode("gBrowser.removeTab", 'window.getComputedStyle(aTab).maxWidth == "0.1px"', 'aTab.boxObject.width == 0');
-
-    //Shortcuts
-    tabutils.addEventListener(window, "keypress", function(event) {
-      if ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.charCode == 90 || event.charCode == 122)) {//Ctrl+Shift+Z
-        let popup = document.getElementById('undoCloseTabPopup');
-        if (popup.state == "open") {
-          popup.hidePopup();
-          event.preventDefault();
-          event.stopPropagation();
-        }
-      }
-    }, true);
 
     //Don't allow drag/dblclick on the tab bar to act on the window
     if ("_update" in TabsInTitlebar) // Compat. with Linux
