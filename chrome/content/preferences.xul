@@ -349,13 +349,13 @@
 
     <tabbox>
       <tabs id="tabClickingTabs" onselect="onTabClickingTabSelect();">
-        <tab label="&pane3.tab1.title;"/>
-        <tab label="&pane3.tab2.title;"/>
-        <tab label="&pane3.tab3.title;"/>
-        <tab label="&pane3.tab4.title;"/>
-        <tab label="&pane3.tab5.title;"/>
-        <tab label="&pane3.tab6.title;"/>
-        <tab label="&pane3.tab7.title;"/>
+        <tab label="&pane3.tab1.title;" value="left"/>
+        <tab label="&pane3.tab2.title;" value="middle"/>
+        <tab label="&pane3.tab3.title;" value="right"/>
+        <tab label="&pane3.tab4.title;" value="dbl"/>
+        <tab label="&pane3.tab5.title;" value="ctrl"/>
+        <tab label="&pane3.tab6.title;" value="alt"/>
+        <tab label="&pane3.tab7.title;" value="shift"/>
       </tabs>
       <tabpanels>
         <tabpanel orient="vertical">
@@ -1169,14 +1169,13 @@
 
     function onTabClickingTabSelect() {
       var target = $("tabClickingTabs");
-      var tabs = ["left", "middle", "right", "dbl", "ctrl", "alt", "shift"];
 
       $("c.clickBookmarks").selectedIndex = target.selectedIndex;
       $("c.clickLinks").selectedIndex = target.selectedIndex;
       $("l.clickTab").selectedIndex = target.selectedIndex ? 1 : 0;
 
       ["c.clickTab", "c.clickTabBar", "c.clickNewTabButton"].forEach(function(aId) {
-        var prefName = tabs[target.selectedIndex] + aId.split(".")[1].replace(/./, function(s) s.toUpperCase());
+        var prefName = target.selectedItem.value + aId.split(".")[1].replace(/./, function(s) s.toUpperCase());
         var preference = $(prefName);
         var element = $(aId);
         if (preference) {
@@ -1190,8 +1189,8 @@
         setDisabled(aId.replace("c", "b"), !element.hasAttribute("preference"));
       });
 
-      setDisabled("b.clickBookmarks", ["middle", "right", "ctrl", "shift"].indexOf(tabs[target.selectedIndex]) == -1);
-      setDisabled("b.clickLinks", ["middle", "right", "ctrl", "shift"].indexOf(tabs[target.selectedIndex]) == -1);
+      setDisabled("b.clickBookmarks", ["middle", "right", "ctrl", "shift"].indexOf(target.selectedItem.value) == -1);
+      setDisabled("b.clickLinks", ["middle", "right", "ctrl", "shift"].indexOf(target.selectedItem.value) == -1);
       setDisabled("b.clickCurrentTab", target.selectedIndex > 0);
     }
 
