@@ -255,50 +255,50 @@
                 <tab label="&highlight.tab3.label;" value="Read" observes="b.highlightRead"/>
               </tabs>
               <tabpanels>
-                <tabpanel orient="vertical">
+                <tabpanel orient="vertical" oncommand="doHighlightStyle();"
+                                            oninput="doHighlightStyle();"
+                                            onchange="doHighlightStyle();">
                   <checkbox id="c.highlightEnabled" label="&highlightEnabled.label;"/>
                   <separator class="groove"/>
                   <hbox>
-                    <checkbox id="c.highlightBold" label="&highlightBold.label;" style="font-weight: bold;" observes="b.highlightEnabled"
-                              oncommand="doHighlightStyle();"/>
-                    <checkbox id="c.highlightItalic" label="&highlightItalic.label;" style="font-style: italic;" observes="b.highlightEnabled"
-                              oncommand="doHighlightStyle();"/>
+                    <checkbox id="c.highlightBold" label="&highlightBold.label;" style="font-weight: bold;" observes="b.highlightEnabled"/>
+                    <checkbox id="c.highlightItalic" label="&highlightItalic.label;" style="font-style: italic;" observes="b.highlightEnabled"/>
                     <checkbox id="c.highlightUnderline" label="&highlightUnderline.label;" style="text-decoration: underline;" observes="b.highlightEnabled"
-                              oncommand="if (this.checked) this.nextSibling.checked = false;doHighlightStyle();"/>
+                              oncommand="if (this.checked) this.nextSibling.checked = false;"/>
                     <checkbox id="c.highlightStrikethrough" label="&highlightStrikethrough.label;" style="text-decoration: line-through;" observes="b.highlightEnabled"
-                              oncommand="if (this.checked) this.previousSibling.checked = false;doHighlightStyle();"/>
+                              oncommand="if (this.checked) this.previousSibling.checked = false;"/>
                   </hbox>
                   <grid>
                     <rows>
                       <row align="center">
-                        <checkbox id="c.highlightColor" label="&highlightColor.label;" oncommand="doHighlightStyle();">
+                        <checkbox id="c.highlightColor" label="&highlightColor.label;">
                           <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightColor();"/>
                         </checkbox>
-                        <textbox id="c.highlightColorCode" observes="b.highlightColor" oninput="doHighlightStyle();"/>
+                        <textbox id="c.highlightColorCode" observes="b.highlightColor"/>
                         <colorpicker id="c.highlightColorPicker" type="button"
-                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onchange="this.previousSibling.value = this.color;"
                                      onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
                           <observes element="b.highlightColor" attribute="disabled"/>
                         </colorpicker>
                       </row>
                       <row align="center">
-                        <checkbox id="c.highlightBgColor" label="&highlightBgColor.label;" oncommand="doHighlightStyle();">
+                        <checkbox id="c.highlightBgColor" label="&highlightBgColor.label;">
                           <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightBgColor();"/>
                         </checkbox>
-                        <textbox id="c.highlightBgColorCode" observes="b.highlightBgColor" oninput="doHighlightStyle();"/>
+                        <textbox id="c.highlightBgColorCode" observes="b.highlightBgColor"/>
                         <colorpicker id="c.highlightBgColorPicker" type="button"
-                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onchange="this.previousSibling.value = this.color;"
                                      onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
                           <observes element="b.highlightBgColor" attribute="disabled"/>
                         </colorpicker>
                       </row>
                       <row align="center">
-                        <checkbox id="c.highlightOutline" label="&highlightOutline.label;" oncommand="doHighlightStyle();">
+                        <checkbox id="c.highlightOutline" label="&highlightOutline.label;">
                           <observes element="b.highlightEnabled" attribute="disabled" onbroadcast="onHighlightOutline();"/>
                         </checkbox>
-                        <textbox id="c.highlightOutlineColorCode" observes="b.highlightOutline" oninput="doHighlightStyle();"/>
+                        <textbox id="c.highlightOutlineColorCode" observes="b.highlightOutline"/>
                         <colorpicker id="c.highlightOutlineColorPicker" type="button"
-                                     onchange="this.previousSibling.value = this.color;doHighlightStyle();"
+                                     onchange="this.previousSibling.value = this.color;"
                                      onbroadcast="this.style.opacity = this.disabled ? 0.3 : 1;">
                           <observes element="b.highlightOutline" attribute="disabled"/>
                         </colorpicker>
@@ -497,6 +497,11 @@
         outline: $("c.highlightOutline").checked,
         outlineColorCode: $("c.highlightOutlineColorCode").value
       };
+
+      for (let prop in style) {
+        if (style[prop] === false || style[prop] === "undefined" || style[prop] === 1)
+          delete style[prop];
+      }
 
       $("style" + $("highlight").selectedItem.value).value = JSON.stringify(style);
     }
