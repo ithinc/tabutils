@@ -176,7 +176,7 @@ tabutils._stackTabs = function() {
 
   gBrowser.collapseStack = function collapseStack(aTab, aForce) {
     if ("length" in arguments[0]) {
-      let aTabs = Array.filter(arguments[0], function(aTab) aTab.hasAttribute("group-selected"));
+      let aTabs = Array.filter(arguments[0], function(aTab) aTab.getAttribute("group-counter") > 1);
       if (aForce == null)
         aForce = !aTabs.every(function(aTab) aTab.hasAttribute("group-collapsed"));
 

@@ -61,6 +61,7 @@
     <key id="key_unstackTab" key="U" modifiers="accel,alt" oncommand="gBrowser.unstackTabs([gBrowser.mCurrentTab]);"/>
     <key id="key_expandStack" key="+" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.isCollapsedStack(gBrowser.mCurrentTab) ? gBrowser.mCurrentTab : gBrowser.allTabs, false);"/>
     <key id="key_collapseStack" key="-" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.isExpandedStack(gBrowser.mCurrentTab) ? gBrowser.mCurrentTab : gBrowser.allTabs, true);"/>
+    <key id="key_collapseAllStacks" key="0" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.allTabs);"/>
     <key id="key_moveTabBackward" oncommand="gBrowser.moveTabBackward();" keycode="VK_PAGE_UP" modifiers="accel,shift"/>
     <key id="key_moveTabForward" oncommand="gBrowser.moveTabForward();" keycode="VK_PAGE_DOWN" modifiers="accel,shift"/>
     <key id="key_moveTabToStart" oncommand="gBrowser.moveTabToStart();" keycode="VK_HOME" modifiers="accel,shift"/>
