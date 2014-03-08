@@ -250,9 +250,9 @@
             <caption label="&highlight.caption;"/>
             <tabbox>
               <tabs id="highlight" onselect="onHighlightTabSelect();">
-                <tab label="&highlight.tab1.label;" observes="b.highlightCurrent"/>
-                <tab label="&highlight.tab2.label;" observes="b.highlightUnread"/>
-                <tab label="&highlight.tab3.label;" observes="b.highlightRead"/>
+                <tab label="&highlight.tab1.label;" value="Current" observes="b.highlightCurrent"/>
+                <tab label="&highlight.tab2.label;" value="Unread" observes="b.highlightUnread"/>
+                <tab label="&highlight.tab3.label;" value="Read" observes="b.highlightRead"/>
               </tabs>
               <tabpanels>
                 <tabpanel orient="vertical">
@@ -428,18 +428,16 @@
     }
 
     function onHighlightTabSelect() {
-      var target = $("highlight");
-      var tabs = ["Current", "Unread", "Read"];
+      var prefName = $("highlight").selectedItem.value;
 
-      $("c.highlightEnabled").setAttribute("preference", "highlight" + tabs[target.selectedIndex]);
-      $("c.highlightEnabled").checked = $("highlight" + tabs[target.selectedIndex]).value;
+      $("c.highlightEnabled").setAttribute("preference", "highlight" + prefName);
+      $("c.highlightEnabled").checked = $("highlight" + prefName).value;
 
-      onHighlightEnabled(tabs[target.selectedIndex]);
+      onHighlightEnabled(prefName);
     }
 
     function onHighlightEnabled(item) {
-      var tabs = ["Current", "Unread", "Read"];
-      if (item == tabs[$("highlight").selectedIndex]) {
+      if (item == $("highlight").selectedItem.value) {
         setDisabled("b.highlightEnabled", !$("highlight" + item).value);
       }
 
@@ -465,8 +463,7 @@
                                     : ""
       );
 
-      var tabs = ["Current", "Unread", "Read"];
-      if (item == tabs[$("highlight").selectedIndex]) {
+      if (item == $("highlight").selectedItem.value) {
         $("c.highlightBold").checked = style.bold;
         $("c.highlightItalic").checked = style.italic;
         $("c.highlightUnderline").checked = style.underline;
@@ -501,8 +498,7 @@
         outlineColorCode: $("c.highlightOutlineColorCode").value
       };
 
-      var tabs = ["Current", "Unread", "Read"];
-      $("style" + tabs[$("highlight").selectedIndex]).value = JSON.stringify(style);
+      $("style" + $("highlight").selectedItem.value).value = JSON.stringify(style);
     }
 
     function onHighlightColor() {
