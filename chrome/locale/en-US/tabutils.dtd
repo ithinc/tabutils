@@ -107,19 +107,19 @@
 <!ENTITY unstackTab.accesskey "U">
 <!ENTITY tabStackMenu.label "Tab Stack">
 <!ENTITY tabStackMenu.accesskey "S">
-<!ENTITY collapseStack.label "Collapse Stack">
+<!ENTITY collapseStack.label "Collapse">
 <!ENTITY collapseStack.accesskey "C">
-<!ENTITY expandStack.label "Expand Stack">
+<!ENTITY expandStack.label "Expand">
 <!ENTITY expandStack.accesskey "E">
-<!ENTITY collapseAllStacks.label "Collapse All Stacks">
-<!ENTITY expandAllStacks.label "Expand All Stacks">
-<!ENTITY colorStack.label "Recolor Stack...">
+<!ENTITY collapseAllStacks.label "Collapse All">
+<!ENTITY expandAllStacks.label "Expand All">
+<!ENTITY colorStack.label "Recolor...">
 <!ENTITY colorStack.accesskey "R">
-<!ENTITY bookmarkStack.label "Bookmark Stack...">
+<!ENTITY bookmarkStack.label "Bookmark...">
 <!ENTITY bookmarkStack.accesskey "B">
-<!ENTITY splitStack.label "Split Stack">
+<!ENTITY splitStack.label "Split">
 <!ENTITY splitStack.accesskey "S">
-<!ENTITY dismissStack.label "Dismiss Stack">
+<!ENTITY dismissStack.label "Dismiss">
 <!ENTITY dismissStack.accesskey "D">
-<!ENTITY closeStack.label "Close Stack">
+<!ENTITY closeStack.label "Close">
 <!ENTITY closeStack.accesskey "C">
