@@ -519,8 +519,8 @@ tabutils._tabClosingOptions = function() {
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (gBrowser._previewMode) {
-      gBrowser._previewMode = false;
       gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
+      gBrowser._previewMode = false;
     }
   });
 
