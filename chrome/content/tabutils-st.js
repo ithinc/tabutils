@@ -228,14 +228,8 @@ tabutils._stackTabs = function() {
     if (tabs.length == 0)
       return;
 
-    if (typeof aTab == "string" || !aTab.selected && !aTab.hasAttribute("group-selected")) {
+    if (typeof aTab == "string") {
       aTab = tabs[0];
-      for (let tab of tabs) {
-        if (tab.hasAttribute("group-selected")) {
-          aTab = tab;
-          break;
-        }
-      }
     }
 
     let group = options.id ? Services.nsIUUIDGenerator.generateUUID().toString()
@@ -251,11 +245,11 @@ tabutils._stackTabs = function() {
       tab.removeAttribute("group-first");
       tab.removeAttribute("group-last");
       tab.collapsed = collapsed;
+
+      if (tab._lastAccessed > aTab._lastAccessed)
+        aTab = tab;
     }
     tabutils._tabPrefObserver.updateStackColor(group, color);
-
-    if (!aTab.selected && tabs.indexOf(this.mCurrentTab) > -1)
-      aTab = this.mCurrentTab;
 
     aTab.collapsed = false;
     tabutils.setAttribute(aTab, "group-selected", true);
@@ -263,9 +257,11 @@ tabutils._stackTabs = function() {
     tabs[0].setAttribute("group-first", true);
     tabs[tabs.length - 1].setAttribute("group-last", true);
 
-    let tabcontent = document.getAnonymousElementByAttribute(aTab, "class", "tab-content");
-    if (tabcontent)
-      tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
+    if (collapsed) {
+      let tabcontent = document.getAnonymousElementByAttribute(aTab, "class", "tab-content");
+      if (tabcontent)
+        tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
+    }
   };
 
   tabutils.addEventListener(gBrowser.mTabContainer, "dragover", function(event) {
@@ -490,19 +486,6 @@ tabutils._stackTabs = function() {
 
   TU_hookCode("gBrowser.onTabPinning", "}", function() {
     this.detachTab(aTab);
-  });
-
-  TU_hookCode("gBrowser.showOnlyTheseTabs", "{", function() { // Ensure selected tab keeps when switching group
-    Array.reduceRight(this.mTabs, function(self, aTab) {
-      if (aTabs.indexOf(aTab) == -1)
-        this.hideTab(aTab);
-    }.bind(this), this);
-    Array.reduce(this.mTabs, function(self, aTab) {
-      if (aTabs.indexOf(aTab) > -1)
-        this.showTab(aTab);
-    }.bind(this), this);
-    this.tabContainer.mTabstrip.ensureElementIsVisible(this.selectedTab, false);
-    return;
   });
 
   TU_hookCode("gBrowser.onTabHide", "}", function() {
