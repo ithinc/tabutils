@@ -147,13 +147,6 @@ pref("extensions.tabutils.menu.context_copyTabURL.multiselected", "any");
 pref("extensions.tabutils.menu.context_copyTabURL.oncommand", "Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString([tab.linkedBrowser.currentURI.spec for (tab of gBrowser.mContextTabs)].join('\\n'));");
 
 pref("extensions.tabutils.shortcut.tuClipboardKeyset.disabled", true);
-pref("extensions.tabutils.shortcut.key_copyPageUrl", true);
-pref("extensions.tabutils.shortcut.key_copyAllPageUrls", true);
-pref("extensions.tabutils.shortcut.key_pasteAndGo", true);
-pref("extensions.tabutils.shortcut.key_pasteAndSearch", true);
-pref("extensions.tabutils.shortcut.key_undoCloseTabZ", true);
-pref("extensions.tabutils.shortcut.key_recentlyClosedTabs", true);
-
 pref("extensions.tabutils.shortcut.tuKeyset.disabled", false);
 pref("extensions.tabutils.shortcut.key_duplicateTab", true);
 pref("extensions.tabutils.shortcut.key_protectTab", true);
