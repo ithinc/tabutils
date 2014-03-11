@@ -26,6 +26,15 @@
 <!ENTITY pane4.tab2.title "Menus">
 <!ENTITY pane4.tab3.title "Buttons">
 <!ENTITY openTabFor.caption "Open new tabs for:">
+<!ENTITY links.label "Links">
+<!ENTITY linksToExternal.label "External links">
+<!ENTITY linksToExternal.tooltip "Links to external sites">
+<!ENTITY linksWithTarget.label "New-window links">
+<!ENTITY linksWithTarget.tooltip "Links targeting new windows">
+<!ENTITY linksFromForeign.label "Foreign links">
+<!ENTITY linksFromForeign.tooltip "Links from foreign applications">
+<!ENTITY openLinkWithHistory.label "Retain session history for new tabs from links">
+<!ENTITY removeUnintentionalBlank.label "Auto-close unintentional blank tabs">
 <!ENTITY openTabNext.label "Open new tabs next to current tab which are from:">
 <!ENTITY none.label "None">
 <!ENTITY all.label "All">
@@ -43,9 +52,6 @@
 <!ENTITY userDefinedURL.label "Location:">
 <!ENTITY markNewAsBlank.label "Don't locate cursor to the address bar for non-blank pages">
 <!ENTITY loadInBackground.caption "Focus new tabs from:">
-<!ENTITY loadInBackground.label "Links">
-<!ENTITY loadDivertedInBackground.label "Diverted windows">
-<!ENTITY loadForeignInBackground.label "Foreign links">
 <!ENTITY loadUrlInBackground.label "Address bar">
 <!ENTITY loadSearchInBackground.label "Search bar">
 <!ENTITY loadNewInBackground.label "New Tab">
@@ -60,8 +66,6 @@
 <!ENTITY firstTab.label "First tab">
 <!ENTITY lastTab.label "Last tab">
 <!ENTITY lastSelectedTab.label "Last visited tab">
-<!ENTITY closeOtherTab.caption "Close Other Tab">
-<!ENTITY removeUnintentionalBlank.label "Auto-close unintentional blank tabs">
 <!ENTITY maxTabsUndo.label "Max restorable tabs:">
 <!ENTITY handleCtrlTab.caption "Ctrl Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab to navigate tabs in most recently used order">
@@ -78,10 +82,6 @@
 <!ENTITY openNewWindowRestriction.1.label "All">
 <!ENTITY openNewWindowRestriction.2.label "Resized popups">
 <!ENTITY singleWindowMode.label "Enable single window mode">
-<!ENTITY openExternalInTab.label "Force all external links to open in New Tab">
-<!ENTITY openLinkWithHistory.caption "Retain session history">
-<!ENTITY openLinkWithHistory.label "Retain session history for new tabs from links">
-<!ENTITY openHistoryWithHistory.label "Retain session history for new tabs from session history items">
 <!ENTITY clickBookmarks.label "On bookmarks:">
 <!ENTITY clickLinks.label "On links:">
 <!ENTITY doDefault.label "Default">

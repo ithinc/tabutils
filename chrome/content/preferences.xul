@@ -41,6 +41,10 @@
       <preference id="openBookmarksInTab" name="extensions.tabutils.openBookmarksInTab" type="bool"/>
       <preference id="openHomepageInTab" name="extensions.tabutils.openHomepageInTab" type="bool"/>
       <preference id="openUrlInTab" name="extensions.tabutils.openUrlInTab" type="bool"/>
+      <preference id="openLinkInTab" name="extensions.tabutils.openLinkInTab" type="bool"/>
+      <preference id="openExternalInTab" name="extensions.tabutils.openExternalInTab" type="bool"/>
+      <preference id="openLinkWithHistory" name="extensions.tabutils.openLinkWithHistory" type="bool"/>
+      <preference id="removeUnintentionalBlank" name="extensions.tabutils.removeUnintentionalBlank" type="bool" suggest="true"/>
 
       <preference id="openTabNext" name="extensions.tabutils.openTabNext" type="int" suggest="1" onchange="openTabNext();"/>
       <preference id="keepOrder" name="extensions.tabutils.openTabNext.keepOrder" type="bool"/>
@@ -60,13 +64,14 @@
       <preference id="loadAllInForeground" name="extensions.tabutils.loadAllInForeground" type="bool" onchange="loadAllInForeground();"/>
 
       <preference id="selectOnClose" name="extensions.tabutils.selectOnClose" type="int"/>
-      <preference id="removeUnintentionalBlank" name="extensions.tabutils.removeUnintentionalBlank" type="bool" suggest="true"/>
       <preference id="closeLastWindowWithLastTab" name="extensions.tabutils.closeLastWindowWithLastTab" type="bool" inverted="true"/>
       <preference id="handleCtrlTab" name="extensions.tabutils.handleCtrlTab" type="bool" suggest="true"/>
       <preference id="handleCtrlArrow" name="extensions.tabutils.handleCtrlArrow" type="bool"/>
       <preference id="handleCtrl" name="extensions.tabutils.handleCtrl" type="bool"/>
 
       <preference id="openSearchInTab" name="browser.search.openintab" type="bool" suggest="true"/>
+      <preference id="openNewWindow" name="browser.link.open_newwindow" type="int" onchange="openNewWindow();if (this.nextSibling.value == this.value) this.nextSibling.value = -1;"/>
+      <preference id="openExternal" name="browser.link.open_newwindow.override.external" type="int" onchange="if (this.value == this.previousSibling.value) this.value = -1;"/>
       <preference id="loadBookmarksInBackground" name="browser.tabs.loadBookmarksInBackground" type="bool" inverted="true"/>
       <preference id="loadDivertedInBackground" name="browser.tabs.loadDivertedInBackground" type="bool" inverted="true"/>
       <preference id="loadInBackground" name="browser.tabs.loadInBackground" type="bool" inverted="true"/>
@@ -111,6 +116,20 @@
               <checkbox preference="openUrlInTab" label="&loadUrlInBackground.label;"/>
               <checkbox preference="openSearchInTab" label="&loadSearchInBackground.label;"/>
             </hbox>
+            <hbox>
+              <checkbox preference="openLinkInTab" label="&links.label;" tooltiptext="&openLinkInTab.label;"
+                        onsyncfrompreference="this.nextSibling.disabled = $('openLinkInTab').value;"/>
+              <checkbox preference="openExternalInTab" label="&linksToExternal.label;" tooltiptext="&linksToExternal.tooltip;"/>
+              <checkbox preference="openNewWindow" label="&linksWithTarget.label;" tooltiptext="&linksWithTarget.tooltip;"
+                        onsyncfrompreference="var checked = $('openNewWindow').value == 3; if ($('openExternal').value == -1) this.nextSibling.checked = checked; return checked;"
+                        onsynctopreference="return this.checked ? 3 : 1;"/>
+              <checkbox preference="openExternal" label="&linksFromForeign.label;" tooltiptext="&linksFromForeign.tooltip;"
+                        onsyncfrompreference="return $('openExternal').value == -1 ? $('openNewWindow').value == 3 : $('openExternal').value == 3;"
+                        onsynctopreference="return this.checked ? 3 : 1;"/>
+            </hbox>
+            <separator class="groove"/>
+            <checkbox preference="openLinkWithHistory" label="&openLinkWithHistory.label;"/>
+            <checkbox preference="removeUnintentionalBlank" label="&removeUnintentionalBlank.label;"/>
           </groupbox>
 
           <groupbox>
@@ -173,13 +192,13 @@
                   <checkbox preference="loadSearchInBackground" label="&loadSearchInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
                 </row>
                 <row>
-                  <checkbox preference="loadDivertedInBackground" label="&loadDivertedInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
-                  <checkbox preference="loadInBackground" label="&loadInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadDivertedInBackground" label="&linksWithTarget.label;" tooltiptext="&linksWithTarget.tooltip;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadInBackground" label="&links.label;" observes="b.loadAllInBackgroundOrForeground"/>
                   <checkbox preference="loadNewInBackground" label="&loadNewInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
                   <checkbox preference="loadDuplicateInBackground" label="&loadDuplicateInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
                 </row>
                 <row>
-                  <checkbox preference="loadForeignInBackground" label="&loadForeignInBackground.label;" observes="b.loadAllInBackgroundOrForeground"/>
+                  <checkbox preference="loadForeignInBackground" label="&linksFromForeign.label;" tooltiptext="&linksFromForeign.tooltip;" observes="b.loadAllInBackgroundOrForeground"/>
                   <spacer/>
                   <checkbox preference="loadAllInForeground" label="&all.label;" tooltiptext="&loadAllInForeground.tooltip;"/>
                   <checkbox preference="loadAllInBackground" label="&none.label;" tooltiptext="&loadAllInBackground.tooltip;"/>
@@ -236,10 +255,7 @@
               </rows>
             </grid>
           </groupbox>
-          <groupbox hidden="true">
-            <caption label="&closeOtherTab.caption;"/>
-            <checkbox preference="removeUnintentionalBlank" label="&removeUnintentionalBlank.label;"/>
-          </groupbox>
+
           <groupbox hidden="true">
             <caption label="&undoCloseTab.label;"/>
             <hbox align="center">
@@ -300,12 +316,6 @@
   <prefpane id="pane2" label="&pane2.title;" helpTopic2="pane2" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
     <preferences>
       <preference id="singleWindowMode" name="extensions.tabutils.singleWindowMode" type="bool" onchange="singleWindowMode();"/>
-      <preference id="openLinkInTab" name="extensions.tabutils.openLinkInTab" type="bool"/>
-      <preference id="openExternalInTab" name="extensions.tabutils.openExternalInTab" type="bool"/>
-      <preference id="openLinkWithHistory" name="extensions.tabutils.openLinkWithHistory" type="bool"/>
-
-      <preference id="openExternal" name="browser.link.open_newwindow.override.external" type="int"/>
-      <preference id="openNewWindow" name="browser.link.open_newwindow" type="int" onchange="openNewWindow();"/>
       <preference id="openNewWindowRestriction" name="browser.link.open_newwindow.restriction" type="int" onchange="openNewWindowRestriction();"/>
     </preferences>
 
@@ -358,14 +368,6 @@
         </rows>
       </grid>
       <checkbox preference="singleWindowMode" label="&singleWindowMode.label;"/>
-      <separator class="groove"/>
-      <checkbox preference="openLinkInTab" label="&openLinkInTab.label;"/>
-      <checkbox preference="openExternalInTab" label="&openExternalInTab.label;"/>
-    </groupbox>
-
-    <groupbox>
-      <caption label="&openLinkWithHistory.caption;"/>
-      <checkbox preference="openLinkWithHistory" label="&openLinkWithHistory.label;"/>
     </groupbox>
   </prefpane>
 

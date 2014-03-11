@@ -26,6 +26,15 @@
 <!ENTITY pane4.tab2.title "菜单">
 <!ENTITY pane4.tab3.title "按钮">
 <!ENTITY openTabFor.caption "新建标签页打开以下项目:">
+<!ENTITY links.label "链接">
+<!ENTITY linksToExternal.label "外部链接">
+<!ENTITY linksToExternal.tooltip "指向外部站点的链接">
+<!ENTITY linksWithTarget.label "新窗口链接">
+<!ENTITY linksWithTarget.tooltip "打开新窗口的链接">
+<!ENTITY linksFromForeign.label "外来链接">
+<!ENTITY linksFromForeign.tooltip "来自外部应用程序的链接">
+<!ENTITY openLinkWithHistory.label "新标签页打开链接时保留会话历史">
+<!ENTITY removeUnintentionalBlank.label "自动关闭非主动打开的空白标签页">
 <!ENTITY openTabNext.label "紧邻当前标签页打开来自以下项目的新标签页:">
 <!ENTITY none.label "无">
 <!ENTITY all.label "所有">
@@ -43,9 +52,6 @@
 <!ENTITY userDefinedURL.label "地址:">
 <!ENTITY markNewAsBlank.label "打开非空白页面时光标不要定位到地址栏">
 <!ENTITY loadInBackground.caption "激活来自以下项目的新标签页:">
-<!ENTITY loadInBackground.label "一般链接">
-<!ENTITY loadDivertedInBackground.label "新窗口链接">
-<!ENTITY loadForeignInBackground.label "外来链接">
 <!ENTITY loadUrlInBackground.label "地址栏">
 <!ENTITY loadSearchInBackground.label "搜索栏">
 <!ENTITY loadNewInBackground.label "新建标签页">
@@ -60,8 +66,6 @@
 <!ENTITY firstTab.label "第一个标签页">
 <!ENTITY lastTab.label "最后一个标签页">
 <!ENTITY lastSelectedTab.label "上次访问的标签页">
-<!ENTITY closeOtherTab.caption "关闭其他标签页">
-<!ENTITY removeUnintentionalBlank.label "自动关闭非主动打开的空白标签页">
 <!ENTITY maxTabsUndo.label "最多可恢复的标签页:">
 <!ENTITY handleCtrlTab.caption "Ctrl Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab按最近访问的顺序切换标签页">
@@ -78,10 +82,6 @@
 <!ENTITY openNewWindowRestriction.1.label "所有">
 <!ENTITY openNewWindowRestriction.2.label "指定大小的弹出窗口">
 <!ENTITY singleWindowMode.label "启用单窗口模式">
-<!ENTITY openExternalInTab.label "强制在新标签页打开所有站外链接">
-<!ENTITY openLinkWithHistory.caption "保留会话历史">
-<!ENTITY openLinkWithHistory.label "新标签页打开链接时保留会话历史">
-<!ENTITY openHistoryWithHistory.label "新标签页打开会话历史时保留会话历史">
 <!ENTITY clickBookmarks.label "书签:">
 <!ENTITY clickLinks.label "链接:">
 <!ENTITY doDefault.label "默认动作">
