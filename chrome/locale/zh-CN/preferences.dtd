@@ -12,7 +12,7 @@
 <!ENTITY pane3.title "鼠标">
 <!ENTITY pane4.title "外观">
 <!ENTITY pane1.tab1.title "打开标签页">
-<!ENTITY pane1.tab2.title "关闭标签页">
+<!ENTITY pane1.tab2.title "切换标签页">
 <!ENTITY pane3.tab1.title "左键">
 <!ENTITY pane3.tab2.title "中键">
 <!ENTITY pane3.tab3.title "右键">
@@ -36,6 +36,12 @@
 <!ENTITY reuseBlank.current.label "当前空白标签页">
 <!ENTITY reuseBlank.last.label "尾部空白标签页">
 <!ENTITY reuseBlank.all.label "所有空白标签页">
+<!ENTITY loadInNewTab.label "在新标签页加载:">
+<!ENTITY loadInNewTab.0.label "空白页">
+<!ENTITY loadInNewTab.1.label "主页">
+<!ENTITY loadInNewTab.2.label "指定地址">
+<!ENTITY userDefinedURL.label "地址:">
+<!ENTITY markNewAsBlank.label "打开非空白页面时光标不要定位到地址栏">
 <!ENTITY loadInBackground.caption "激活来自以下项目的新标签页:">
 <!ENTITY loadInBackground.label "一般链接">
 <!ENTITY loadDivertedInBackground.label "新窗口链接">
@@ -44,12 +50,6 @@
 <!ENTITY loadSearchInBackground.label "搜索栏">
 <!ENTITY loadNewInBackground.label "新建标签页">
 <!ENTITY loadDuplicateInBackground.label "复制标签页">
-<!ENTITY loadInNewTab.label "在新标签页加载:">
-<!ENTITY loadInNewTab.0.label "空白页">
-<!ENTITY loadInNewTab.1.label "主页">
-<!ENTITY loadInNewTab.2.label "指定地址">
-<!ENTITY userDefinedURL.label "地址:">
-<!ENTITY markNewAsBlank.label "打开非空白页面时光标不要定位到地址栏">
 <!ENTITY selectOnClose.label "关闭当前标签页后按以下顺序激活标签页:">
 <!ENTITY unreadTabs.label "未读标签页">
 <!ENTITY relatedTabs.label "亲属标签页">

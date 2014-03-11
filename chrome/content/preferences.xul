@@ -41,6 +41,15 @@
       <preference id="openBookmarksInTab" name="extensions.tabutils.openBookmarksInTab" type="bool"/>
       <preference id="openHomepageInTab" name="extensions.tabutils.openHomepageInTab" type="bool"/>
       <preference id="openUrlInTab" name="extensions.tabutils.openUrlInTab" type="bool"/>
+
+      <preference id="openTabNext" name="extensions.tabutils.openTabNext" type="int" suggest="1" onchange="openTabNext();"/>
+      <preference id="keepOrder" name="extensions.tabutils.openTabNext.keepOrder" type="bool"/>
+      <preference id="openDuplicateNext" name="extensions.tabutils.openDuplicateNext" type="bool"/>
+      <preference id="restoreOriginalPosition" name="extensions.tabutils.restoreOriginalPosition" type="bool"/>
+      <preference id="reuseBlank" name="extensions.tabutils.reuseBlank" type="int"/>
+      <preference id="loadInNewTab" name="extensions.tabutils.loadInNewTab" type="int" onchange="loadInNewTab();"/>
+      <preference id="markNewAsBlank" name="extensions.tabutils.markNewAsBlank" type="bool" inverted="true"/>
+
       <preference id="loadHomepageInBackground" name="extensions.tabutils.loadHomepageInBackground" type="bool" inverted="true"/>
       <preference id="loadUrlInBackground" name="extensions.tabutils.loadUrlInBackground" type="bool" inverted="true"/>
       <preference id="loadSearchInBackground" name="extensions.tabutils.loadSearchInBackground" type="bool" inverted="true"/>
@@ -49,13 +58,7 @@
       <preference id="loadForeignInBackground" name="extensions.tabutils.loadForeignInBackground" type="bool" inverted="true"/>
       <preference id="loadAllInBackground" name="extensions.tabutils.loadAllInBackground" type="bool" onchange="loadAllInBackground();"/>
       <preference id="loadAllInForeground" name="extensions.tabutils.loadAllInForeground" type="bool" onchange="loadAllInForeground();"/>
-      <preference id="openTabNext" name="extensions.tabutils.openTabNext" type="int" suggest="1" onchange="openTabNext();"/>
-      <preference id="keepOrder" name="extensions.tabutils.openTabNext.keepOrder" type="bool"/>
-      <preference id="openDuplicateNext" name="extensions.tabutils.openDuplicateNext" type="bool"/>
-      <preference id="restoreOriginalPosition" name="extensions.tabutils.restoreOriginalPosition" type="bool"/>
-      <preference id="reuseBlank" name="extensions.tabutils.reuseBlank" type="int"/>
-      <preference id="loadInNewTab" name="extensions.tabutils.loadInNewTab" type="int" onchange="loadInNewTab();"/>
-      <preference id="markNewAsBlank" name="extensions.tabutils.markNewAsBlank" type="bool" inverted="true"/>
+
       <preference id="selectOnClose" name="extensions.tabutils.selectOnClose" type="int"/>
       <preference id="removeUnintentionalBlank" name="extensions.tabutils.removeUnintentionalBlank" type="bool" suggest="true"/>
       <preference id="closeLastWindowWithLastTab" name="extensions.tabutils.closeLastWindowWithLastTab" type="bool" inverted="true"/>
@@ -137,6 +140,29 @@
           </groupbox>
 
           <groupbox>
+            <hbox align="center">
+              <label value="&loadInNewTab.label;" control="c.loadInNewTab"/>
+              <menulist id="c.loadInNewTab" value="0" preference="loadInNewTab">
+                <menupopup>
+                  <menuitem value="0" label="&loadInNewTab.0.label;"/>
+                  <menuitem value="1" label="&loadInNewTab.1.label;"/>
+                  <menuitem value="2" label="&loadInNewTab.2.label;"/>
+                </menupopup>
+              </menulist>
+            </hbox>
+            <hbox class="indent" align="center">
+              <label value="&userDefinedURL.label;" control="c.userDefinedURL" observes="b.loadInNewTab"/>
+              <textbox id="c.userDefinedURL" preference="userDefinedURL" class="padded uri-element" flex="1" type="autocomplete" autocompletesearch="history"
+                       onbroadcast="if (!this.disabled) this.focus();" onfocus="this.select();">
+                <observes element="b.loadInNewTab" attribute="disabled"/>
+              </textbox>
+            </hbox>
+            <checkbox preference="markNewAsBlank" label="&markNewAsBlank.label;"/>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel orient="vertical">
+          <groupbox>
             <caption label="&loadInBackground.caption;"/>
             <grid>
               <rows>
@@ -162,29 +188,6 @@
             </grid>
           </groupbox>
 
-          <groupbox>
-            <hbox align="center">
-              <label value="&loadInNewTab.label;" control="c.loadInNewTab"/>
-              <menulist id="c.loadInNewTab" value="0" preference="loadInNewTab">
-                <menupopup>
-                  <menuitem value="0" label="&loadInNewTab.0.label;"/>
-                  <menuitem value="1" label="&loadInNewTab.1.label;"/>
-                  <menuitem value="2" label="&loadInNewTab.2.label;"/>
-                </menupopup>
-              </menulist>
-            </hbox>
-            <hbox class="indent" align="center">
-              <label value="&userDefinedURL.label;" control="c.userDefinedURL" observes="b.loadInNewTab"/>
-              <textbox id="c.userDefinedURL" preference="userDefinedURL" class="padded uri-element" flex="1" type="autocomplete" autocompletesearch="history"
-                       onbroadcast="if (!this.disabled) this.focus();" onfocus="this.select();">
-                <observes element="b.loadInNewTab" attribute="disabled"/>
-              </textbox>
-            </hbox>
-            <checkbox preference="markNewAsBlank" label="&markNewAsBlank.label;"/>
-          </groupbox>
-        </tabpanel>
-
-        <tabpanel orient="vertical">
           <groupbox>
             <caption label="&selectOnClose.label;"/>
             <grid>
@@ -233,11 +236,11 @@
               </rows>
             </grid>
           </groupbox>
-          <groupbox>
+          <groupbox hidden="true">
             <caption label="&closeOtherTab.caption;"/>
             <checkbox preference="removeUnintentionalBlank" label="&removeUnintentionalBlank.label;"/>
           </groupbox>
-          <groupbox>
+          <groupbox hidden="true">
             <caption label="&undoCloseTab.label;"/>
             <hbox align="center">
               <label value="&maxTabsUndo.label;" control="c.maxTabsUndo"/>

@@ -12,7 +12,7 @@
 <!ENTITY pane3.title "Mouse">
 <!ENTITY pane4.title "Appearance">
 <!ENTITY pane1.tab1.title "Tab Opening">
-<!ENTITY pane1.tab2.title "Tab Closing">
+<!ENTITY pane1.tab2.title "Tab Focusing">
 <!ENTITY pane3.tab1.title "L-click">
 <!ENTITY pane3.tab2.title "M-click">
 <!ENTITY pane3.tab3.title "R-click">
@@ -36,6 +36,12 @@
 <!ENTITY reuseBlank.current.label "Current">
 <!ENTITY reuseBlank.last.label "Last">
 <!ENTITY reuseBlank.all.label "All">
+<!ENTITY loadInNewTab.label "Load in new tab:">
+<!ENTITY loadInNewTab.0.label "Blank Page">
+<!ENTITY loadInNewTab.1.label "Home Page">
+<!ENTITY loadInNewTab.2.label "User Defined">
+<!ENTITY userDefinedURL.label "Location:">
+<!ENTITY markNewAsBlank.label "Don't locate cursor to the address bar for non-blank pages">
 <!ENTITY loadInBackground.caption "Focus new tabs from:">
 <!ENTITY loadInBackground.label "Links">
 <!ENTITY loadDivertedInBackground.label "Diverted windows">
@@ -44,12 +50,6 @@
 <!ENTITY loadSearchInBackground.label "Search bar">
 <!ENTITY loadNewInBackground.label "New Tab">
 <!ENTITY loadDuplicateInBackground.label "Duplicate Tab">
-<!ENTITY loadInNewTab.label "Load in new tab:">
-<!ENTITY loadInNewTab.0.label "Blank Page">
-<!ENTITY loadInNewTab.1.label "Home Page">
-<!ENTITY loadInNewTab.2.label "User Defined">
-<!ENTITY userDefinedURL.label "Location:">
-<!ENTITY markNewAsBlank.label "Don't locate cursor to the address bar for non-blank pages">
 <!ENTITY selectOnClose.label "Focus a tab in the following order when closing current tab:">
 <!ENTITY unreadTabs.label "Unread tabs">
 <!ENTITY relatedTabs.label "Related tabs">
