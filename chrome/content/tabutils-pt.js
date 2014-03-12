@@ -349,19 +349,9 @@ tabutils._phantomTabs = function() {
     }
   }, false);
 
-  gBrowser.selectUnpinnedTabAtIndex = function selectUnpinnedTabAtIndex(aIndex, aEvent) {
-    var tabs = Array.filter(this.allTabs, function(aTab) !aTab.collapsed);
-    if (aIndex < 0)
-      aIndex += tabs.length;
+  TU_hookCode("gBrowser.selectTabAtIndex", "this.visibleTabs", "this.visibleTabs.filter(function(aTab) !aTab.collapsed)");
 
-    if (aIndex >= 0 && aIndex < tabs.length)
-      this.selectedTab = tabs[aIndex];
-
-    if (aEvent) {
-      aEvent.preventDefault();
-      aEvent.stopPropagation();
-    }
-  };
+  gBrowser.selectUnpinnedTabAtIndex = TU_hookFunc(gBrowser.selectTabAtIndex, "visibleTabs", "allTabs");
 
   gBrowser.selectPinnedTabAtIndex = function selectPinnedTabAtIndex(aIndex, aEvent) {
     var tabs = this.mTabContainer.mTabstrip._pinnedbox.childNodes;

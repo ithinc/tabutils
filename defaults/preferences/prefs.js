@@ -154,13 +154,6 @@ pref("extensions.tabutils.menu.context_bookmarkAllTabs.insertbefore", "");
 pref("extensions.tabutils.menu.context_reloadAllTabs.insertbefore", "");
 
 pref("extensions.tabutils.shortcut.tuClipboardKeyset.disabled", true);
-pref("extensions.tabutils.shortcut.key_copyPageUrl", true);
-pref("extensions.tabutils.shortcut.key_copyAllPageUrls", true);
-pref("extensions.tabutils.shortcut.key_pasteAndGo", true);
-pref("extensions.tabutils.shortcut.key_pasteAndSearch", true);
-pref("extensions.tabutils.shortcut.key_undoCloseTabZ", true);
-pref("extensions.tabutils.shortcut.key_recentlyClosedTabs", true);
-
 pref("extensions.tabutils.shortcut.tuKeyset.disabled", false);
 pref("extensions.tabutils.shortcut.key_duplicateTab", true);
 pref("extensions.tabutils.shortcut.key_protectTab", true);

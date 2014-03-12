@@ -799,22 +799,22 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
     tabHistory.splice(1, 0, aTab);
-    aTab.lastAccessed = Date.now();
-    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab.lastAccessed);
+    aTab._lastAccessed = Date.now();
+    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
     var lastTab = tabHistory[0];
-    lastTab.lastAccessed = Date.now();
-    tabutils._ss.setTabValue(lastTab, "lastAccessed", lastTab.lastAccessed);
+    lastTab._lastAccessed = Date.now();
+    tabutils._ss.setTabValue(lastTab, "lastAccessed", lastTab._lastAccessed);
 
     var index = tabHistory.indexOf(aTab);
     if (index > -1)
       tabHistory.splice(index, 1);
     tabHistory.unshift(aTab);
-    aTab.lastAccessed = Infinity;
-    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab.lastAccessed);
+    aTab._lastAccessed = Infinity;
+    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
@@ -830,9 +830,13 @@ tabutils._tabClosingOptions = function() {
     if (index > -1)
       tabHistory.splice(index, 1);
 
-    aTab.lastAccessed = tabutils._ss.getTabValue(aTab, "lastAccessed");
+    if (aTab._lastAccessed == Infinity)
+      tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
+    else
+      aTab._lastAccessed = tabutils._ss.getTabValue(aTab, "lastAccessed");
+
     for (index = 0; index < tabHistory.length; index++) {
-      if (tabHistory[index].lastAccessed < aTab.lastAccessed)
+      if (tabHistory[index]._lastAccessed < aTab._lastAccessed)
         break;
     }
     tabHistory.splice(index, 0, aTab);
@@ -928,8 +932,8 @@ tabutils._tabClosingOptions = function() {
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (gBrowser._previewMode) {
-      gBrowser._previewMode = false;
       gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
+      gBrowser._previewMode = false;
     }
   });
 
@@ -2008,8 +2012,8 @@ tabutils._previewTab = function() {
 
       this._mouseHoverPreviewTimer = setTimeout(function() {
         if (gBrowser._previewMode) {
-          gBrowser._previewMode = false;
           gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
+          gBrowser._previewMode = false;
         }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
     }
@@ -2045,8 +2049,8 @@ tabutils._previewTab = function() {
 
       popup._mouseHoverPreviewTimer = setTimeout(function() {
         if (gBrowser._previewMode) {
-          gBrowser._previewMode = false;
           gBrowser.selectedTab = gBrowser.mTabContainer._tabHistory[0];
+          gBrowser._previewMode = false;
         }
       }, TU_getPref("extensions.tabutils.mouseHoverPreviewDelay", 250));
     }
