@@ -35,6 +35,7 @@
 <!ENTITY linksFromForeign.tooltip "Links from foreign applications">
 <!ENTITY openLinkWithHistory.label "Retain session history for new tabs from links">
 <!ENTITY removeUnintentionalBlank.label "Auto-close unintentional blank tabs">
+<!ENTITY singleWindowMode.label "Enable single window mode">
 <!ENTITY openTabNext.label "Open new tabs next to current tab which are from:">
 <!ENTITY none.label "None">
 <!ENTITY all.label "All">
@@ -70,18 +71,6 @@
 <!ENTITY handleCtrlTab.caption "Ctrl Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab to navigate tabs in most recently used order">
 <!ENTITY handleCtrlArrow.label "Ctrl+Arrow to navigate tabs in sequential order">
-<!ENTITY openNewWindow.caption "Open links in:">
-<!ENTITY openNewWindow.label "Open new-window links in:">
-<!ENTITY openExternal.label "Open links from foreign applications in:">
-<!ENTITY openNewWindow.0.label "Default">
-<!ENTITY openNewWindow.1.label "Current Tab">
-<!ENTITY openNewWindow.2.label "New Window">
-<!ENTITY openNewWindow.3.label "New Tab">
-<!ENTITY openNewWindowRestriction.label "Except:">
-<!ENTITY openNewWindowRestriction.0.label "None">
-<!ENTITY openNewWindowRestriction.1.label "All">
-<!ENTITY openNewWindowRestriction.2.label "Resized popups">
-<!ENTITY singleWindowMode.label "Enable single window mode">
 <!ENTITY clickBookmarks.label "On bookmarks:">
 <!ENTITY clickLinks.label "On links:">
 <!ENTITY doDefault.label "Default">

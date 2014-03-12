@@ -1,12 +1,46 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE overlay [
+<!ENTITY % tabsDTD SYSTEM "chrome://browser/locale/preferences/tabs.dtd">
+%tabsDTD;
 <!ENTITY % tabutilsDTD SYSTEM "chrome://tabutils/locale/tabutils.dtd">
 %tabutilsDTD;
+<!ENTITY % preferencesDTD SYSTEM "chrome://tabutils/locale/preferences.dtd">
+%preferencesDTD;
 ]>
 
 <overlay id="tabutils-TabsPaneOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <prefpane id="paneTabs">
+    <preferences>
+      <preference id="openNewWindow" name="browser.link.open_newwindow" type="int" onchange="if (this.nextSibling.value == this.value) this.nextSibling.value = -1;"/>
+      <preference id="openExternal" name="browser.link.open_newwindow.override.external" type="int" onchange="if (this.value == this.previousSibling.value) this.value = -1;"/>
+      <preference id="singleWindowMode" name="extensions.tabutils.singleWindowMode" type="bool"/>
+    </preferences>
+
+    <groupbox insertbefore="tabPrefsBox">
+      <caption label="&newWindowsAsTabs.label;"/>
+      <hbox>
+        <checkbox preference="openNewWindow" label="&linksWithTarget.label;" tooltiptext="&linksWithTarget.tooltip;"
+                  onsyncfrompreference="var checked = $('openNewWindow').value != 2; if ($('openExternal').value == -1) this.nextSibling.checked = checked; return checked;"
+                  onsynctopreference="return this.checked ? 3 : 2;"/>
+        <checkbox preference="openExternal" label="&linksFromForeign.label;" tooltiptext="&linksFromForeign.tooltip;"
+                  onsyncfrompreference="return $('openExternal').value == -1 ? $('openNewWindow').value != 2 : $('openExternal').value != 2;"
+                  onsynctopreference="return this.checked ? 3 : 2;"/>
+      </hbox>
+      <separator class="groove"/>
+      <checkbox preference="singleWindowMode" label="&singleWindowMode.label;"
+                onsyncfrompreference="$('openNewWindow').disabled = $('openExternal').disabled = $('singleWindowMode').value;"/>
+    </groupbox>
+
+    <script type="application/javascript">
+    <![CDATA[
+      function $() document.getElementById.apply(document, arguments);
+    ]]>
+    </script>
+  </prefpane>
+
   <vbox id="tabPrefsBox">
+    <checkbox id="linkTargeting" hidden="true"/>
     <spacer height="8"/>
     <button id="button_tuOptions"
             label="&tuOptions.label;"

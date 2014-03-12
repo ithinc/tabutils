@@ -45,6 +45,7 @@
       <preference id="openExternalInTab" name="extensions.tabutils.openExternalInTab" type="bool"/>
       <preference id="openLinkWithHistory" name="extensions.tabutils.openLinkWithHistory" type="bool"/>
       <preference id="removeUnintentionalBlank" name="extensions.tabutils.removeUnintentionalBlank" type="bool" suggest="true"/>
+      <preference id="singleWindowMode" name="extensions.tabutils.singleWindowMode" type="bool"/>
 
       <preference id="openTabNext" name="extensions.tabutils.openTabNext" type="int" suggest="1" onchange="openTabNext();"/>
       <preference id="keepOrder" name="extensions.tabutils.openTabNext.keepOrder" type="bool"/>
@@ -70,8 +71,9 @@
       <preference id="handleCtrl" name="extensions.tabutils.handleCtrl" type="bool"/>
 
       <preference id="openSearchInTab" name="browser.search.openintab" type="bool" suggest="true"/>
-      <preference id="openNewWindow" name="browser.link.open_newwindow" type="int" onchange="openNewWindow();if (this.nextSibling.value == this.value) this.nextSibling.value = -1;"/>
+      <preference id="openNewWindow" name="browser.link.open_newwindow" type="int" onchange="if (this.nextSibling.value == this.value) this.nextSibling.value = -1;"/>
       <preference id="openExternal" name="browser.link.open_newwindow.override.external" type="int" onchange="if (this.value == this.previousSibling.value) this.value = -1;"/>
+      <preference id="openNewWindowRestriction" name="browser.link.open_newwindow.restriction" type="int"/>
       <preference id="loadBookmarksInBackground" name="browser.tabs.loadBookmarksInBackground" type="bool" inverted="true"/>
       <preference id="loadDivertedInBackground" name="browser.tabs.loadDivertedInBackground" type="bool" inverted="true"/>
       <preference id="loadInBackground" name="browser.tabs.loadInBackground" type="bool" inverted="true"/>
@@ -315,60 +317,7 @@
 
   <prefpane id="pane2" label="&pane2.title;" helpTopic2="pane2" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
     <preferences>
-      <preference id="singleWindowMode" name="extensions.tabutils.singleWindowMode" type="bool" onchange="singleWindowMode();"/>
-      <preference id="openNewWindowRestriction" name="browser.link.open_newwindow.restriction" type="int" onchange="openNewWindowRestriction();"/>
     </preferences>
-
-    <groupbox>
-      <caption label="&openNewWindow.caption;"/>
-      <grid>
-        <rows>
-          <row align="center">
-            <label value="&openExternal.label;" control="c.openExternal"/>
-            <menulist id="c.openExternal" value="-1" preference="openExternal">
-              <menupopup>
-                <menuitem value="-1" label="&openNewWindow.0.label;"/>
-                <menuitem value="2" label="&openNewWindow.2.label;" observes="b.singleWindowMode"/>
-                <menuitem value="3" label="&openNewWindow.3.label;"/>
-                <menuitem value="1" label="&openNewWindow.1.label;"/>
-              </menupopup>
-            </menulist>
-          </row>
-          <row align="center">
-            <label value="&openNewWindow.label;" control="c.openNewWindow"/>
-            <menulist id="c.openNewWindow" value="3" preference="openNewWindow">
-              <menupopup>
-                <menuitem value="2" label="&openNewWindow.2.label;" observes="b.singleWindowMode"/>
-                <menuitem value="3" label="&openNewWindow.3.label;"/>
-                <menuitem value="1" label="&openNewWindow.1.label;"/>
-              </menupopup>
-            </menulist>
-          </row>
-          <row align="center">
-            <checkbox preference="openNewWindowRestriction" label="&openNewWindowRestriction.label;" class="indent"
-                      onsyncfrompreference="return $('openNewWindowRestriction').value != 0;"
-                      onsynctopreference="return this.checked ? this.nextSibling.value : 0;"
-                      onbroadcast="this.disabled = $('b.openNewWindow').hasAttribute('disabled') || $('b.singleWindowMode').hasAttribute('disabled');">
-              <observes element="b.openNewWindow" attribute="disabled"/>
-              <observes element="b.singleWindowMode" attribute="disabled"/>
-            </checkbox>
-            <menulist preference="openNewWindowRestriction" value="2"
-                      onsyncfrompreference="return $('openNewWindowRestriction').value == 0 ? this.value : $('openNewWindowRestriction').value;"
-                      onbroadcast="this.disabled = $('b.openNewWindow').hasAttribute('disabled') || $('b.openNewWindowRestriction').hasAttribute('disabled') || $('b.singleWindowMode').hasAttribute('disabled');">
-              <menupopup>
-                <menuitem value="0" label="&openNewWindowRestriction.0.label;" hidden="true"/>
-                <menuitem value="1" label="&openNewWindowRestriction.1.label;" disabled="true"/>
-                <menuitem value="2" label="&openNewWindowRestriction.2.label;"/>
-              </menupopup>
-              <observes element="b.openNewWindow" attribute="disabled"/>
-              <observes element="b.openNewWindowRestriction" attribute="disabled"/>
-              <observes element="b.singleWindowMode" attribute="disabled"/>
-            </menulist>
-          </row>
-        </rows>
-      </grid>
-      <checkbox preference="singleWindowMode" label="&singleWindowMode.label;"/>
-    </groupbox>
   </prefpane>
 
   <prefpane id="pane3" label="&pane3.title;" helpTopic2="pane3" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
@@ -902,9 +851,6 @@
   <broadcasterset>
     <broadcaster id="b.loadAllInBackgroundOrForeground"/>
     <broadcaster id="b.loadInNewTab"/>
-    <broadcaster id="b.openNewWindow"/>
-    <broadcaster id="b.openNewWindowRestriction"/>
-    <broadcaster id="b.singleWindowMode"/>
     <broadcaster id="b.clickBookmarks"/>
     <broadcaster id="b.clickLinks"/>
     <broadcaster id="b.clickCurrentTab"/>
@@ -1040,9 +986,6 @@
       loadAllInForeground();
       openTabNext();
       loadInNewTab();
-      openNewWindow();
-      openNewWindowRestriction();
-      singleWindowMode();
       mouseReleaseSelect();
       mouseHoverPreview();
       mouseHoverSelect();
@@ -1229,23 +1172,6 @@
 
     function loadInNewTab() {
       setDisabled("b.loadInNewTab", $("loadInNewTab").value != 2);
-    }
-
-    function openNewWindow() {
-      setDisabled("b.openNewWindow", $("openNewWindow").value == 2);
-    }
-
-    function openNewWindowRestriction() {
-      setDisabled("b.openNewWindowRestriction", $("openNewWindowRestriction").value == 0);
-    }
-
-    function singleWindowMode() {
-      var singleWindowMode = $("singleWindowMode").value;
-      $("openExternal").value = singleWindowMode && $("openExternal").valueFromPreferences == 2 ? 3 : $("openExternal").valueFromPreferences;
-      $("openNewWindow").value = singleWindowMode && $("openNewWindow").valueFromPreferences == 2 ? 3 : $("openNewWindow").valueFromPreferences;
-      $("openNewWindowRestriction").value = singleWindowMode ? 0 : $("openNewWindowRestriction").valueFromPreferences;
-
-      setDisabled("b.singleWindowMode", singleWindowMode);
     }
 
     function mouseReleaseSelect() {
