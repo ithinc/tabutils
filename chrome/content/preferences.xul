@@ -315,9 +315,121 @@
     </tabbox>
   </prefpane>
 
-  <prefpane id="pane2" label="&pane2.title;" helpTopic2="pane2" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
+  <prefpane id="pane2" label="&pane4.tab2.title;" helpTopic2="pane2" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
     <preferences>
+      <preference id="menu_tuOptions" name="extensions.tabutils.menu.menu_tuOptions" type="bool" suggest="true"/>
+      <preference id="context_newTab" name="extensions.tabutils.menu.context_newTab" type="bool" suggest="true"/>
+      <preference id="context_duplicateTab" name="extensions.tabutils.menu.context_duplicateTab" type="bool" suggest="true"/>
+      <preference id="context_duplicateTabToGroup" name="extensions.tabutils.menu.context_duplicateTabToGroup" type="bool"/>
+      <preference id="context_duplicateTabToWindow" name="extensions.tabutils.menu.context_duplicateTabToWindow" type="bool"/>
+      <preference id="context_reloadEvery" name="extensions.tabutils.menu.context_reloadEvery" type="bool" suggest="true"/>
+      <preference id="context_moveToWindow" name="extensions.tabutils.menu.context_moveToWindow" type="bool" suggest="true"/>
+      <preference id="context_mergeWindow" name="extensions.tabutils.menu.context_mergeWindow" type="bool"/>
+      <preference id="context_mergeGroup" name="extensions.tabutils.menu.context_mergeGroup" type="bool"/>
+      <preference id="context_bookmarkTab" name="extensions.tabutils.menu.context_bookmarkTab" type="bool"/>
+      <preference id="context_recentlyClosedTabs" name="extensions.tabutils.menu.context_recentlyClosedTabs" type="bool" suggest="true"/>
+      <preference id="context_readTab" name="extensions.tabutils.menu.context_readTab" type="bool"/>
+      <preference id="context_protectTab" name="extensions.tabutils.menu.context_protectTab" type="bool" suggest="true"/>
+      <preference id="context_lockTab" name="extensions.tabutils.menu.context_lockTab" type="bool" suggest="true"/>
+      <preference id="context_faviconizeTab" name="extensions.tabutils.menu.context_faviconizeTab" type="bool"/>
+      <preference id="context_renameTab" name="extensions.tabutils.menu.context_renameTab" type="bool"/>
+      <preference id="context_restartTab" name="extensions.tabutils.menu.context_restartTab" type="bool" suggest="true"/>
+      <preference id="context_copyTabURL" name="extensions.tabutils.menu.context_copyTabURL" type="bool"/>
+      <preference id="context_copyTitleAndURL" name="extensions.tabutils.menu.context_copyTitleAndURL" type="bool" suggest="true"/>
+      <preference id="context_closeLeftTabs" name="extensions.tabutils.menu.context_closeLeftTabs" type="bool"/>
+      <preference id="context_closeRightTabs" name="extensions.tabutils.menu.context_closeRightTabs" type="bool" suggest="false"/>
+      <preference id="context_closeOtherTabs" name="extensions.tabutils.menu.context_closeOtherTabs" type="bool"/>
+      <preference id="context_closeDuplicateTabs" name="extensions.tabutils.menu.context_closeDuplicateTabs" type="bool"/>
+      <preference id="context_closeSimilarTabs" name="extensions.tabutils.menu.context_closeSimilarTabs" type="bool"/>
+      <preference id="context_markTab" name="extensions.tabutils.menu.context_markTab" type="bool"/>
+      <preference id="context_markTabs" name="extensions.tabutils.menu.context_markTabs" type="bool"/>
+      <preference id="context_selectTabs" name="extensions.tabutils.menu.context_selectTabs" type="bool"/>
+      <preference id="context_selectSimilarTabs" name="extensions.tabutils.menu.context_selectSimilarTabs" type="bool"/>
+
+      <preference id="context_showAllTabs" name="extensions.tabutils.menu.context_showAllTabs" type="bool"/>
+      <preference id="context_readAllTabs" name="extensions.tabutils.menu.context_readAllTabs" type="bool"/>
+      <preference id="context_protectAllTabs" name="extensions.tabutils.menu.context_protectAllTabs" type="bool" suggest="true"/>
+      <preference id="context_lockAllTabs" name="extensions.tabutils.menu.context_lockAllTabs" type="bool" suggest="true"/>
+      <preference id="context_faviconizeAllTabs" name="extensions.tabutils.menu.context_faviconizeAllTabs" type="bool"/>
+      <preference id="context_restartAllTabs" name="extensions.tabutils.menu.context_restartAllTabs" type="bool" suggest="true"/>
+      <preference id="context_closeAllTabs" name="extensions.tabutils.menu.context_closeAllTabs" type="bool" suggest="true"/>
+      <preference id="context_closeAllDuplicateTabs" name="extensions.tabutils.menu.context_closeAllDuplicateTabs" type="bool" suggest="true"/>
+      <preference id="context_selectAllTabs" name="extensions.tabutils.menu.context_selectAllTabs" type="bool"/>
+      <preference id="context_unselectAllTabs" name="extensions.tabutils.menu.context_unselectAllTabs" type="bool"/>
+      <preference id="context_invertSelection" name="extensions.tabutils.menu.context_invertSelection" type="bool"/>
+      <preference id="context_bookmarkAllTabs" name="extensions.tabutils.menu.context_bookmarkAllTabs.insertbefore" type="string" suggest="sep_readAllTabs"/>
+      <preference id="context_reloadAllTabs" name="extensions.tabutils.menu.context_reloadAllTabs.insertbefore" type="string" suggest="sep_readAllTabs"/>
     </preferences>
+
+    <tabbox>
+      <tabpanels>
+        <tabpanel>
+          <groupbox flex="1">
+            <caption label="&tabContextMenu.label;"/>
+            <vbox height="300" style="overflow-y: auto;">
+              <checkbox preference="context_newTab" label="&tabCmd.label;"/>
+              <checkbox preference="context_duplicateTab" label="&duplicateTab.label;"/>
+              <checkbox preference="context_duplicateTabToGroup" label="&duplicateTabToGroup.label;"/>
+              <checkbox preference="context_duplicateTabToWindow" label="&duplicateTabToWindow.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_reloadEvery" label="&reloadEvery.label;"/>
+              <checkbox preference="context_moveToWindow" label="&moveToWindow.label;"/>
+              <checkbox preference="context_mergeWindow" label="&mergeWindow.label;"/>
+              <checkbox preference="context_mergeGroup" label="&mergeGroup.label;"/>
+              <checkbox preference="context_bookmarkTab" label="&bookmarkTab.label;"/>
+              <checkbox preference="context_recentlyClosedTabs" label="&historyUndoMenu.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_readTab" label="&readTab.label;"/>
+              <checkbox preference="context_protectTab" label="&protectTab.label;" tooltiptext="&protectTab.tooltip;"/>
+              <checkbox preference="context_lockTab" label="&lockTab.label;" tooltiptext="&lockTab.tooltip;"/>
+              <checkbox preference="context_faviconizeTab" label="&faviconizeTab.label;" tooltiptext="&faviconizeTab.tooltip;"/>
+              <checkbox preference="context_renameTab" label="&renameTab.label;"/>
+              <checkbox preference="context_restartTab" label="&restartTab.label;"/>
+              <checkbox preference="context_copyTabURL" label="&copyTabURL.label;"/>
+              <checkbox preference="context_copyTitleAndURL" label="&copyTitleAndURL.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_closeLeftTabs" label="&closeLeftTabs.label;"/>
+              <checkbox preference="context_closeRightTabs" label="&closeRightTabs.label;"/>
+              <checkbox preference="context_closeOtherTabs" label="&closeOtherTabs.label;"/>
+              <checkbox preference="context_closeDuplicateTabs" label="&closeDuplicateTabs.label;" hidden="true"/>
+              <checkbox preference="context_closeSimilarTabs" label="&closeSimilarTabs.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_markTab" label="&markTab.label;"/>
+              <checkbox preference="context_markTabs" label="&markTabs.label;"/>
+              <checkbox preference="context_selectTabs" label="&selectTabs.label;"/>
+              <checkbox preference="context_selectSimilarTabs" label="&selectSimilarTabs.label;"/>
+            </vbox>
+          </groupbox>
+
+          <groupbox flex="1">
+            <caption label="&listAllTabs.label;"/>
+            <vbox height="300" style="overflow-y: auto;">
+              <checkbox preference="context_showAllTabs" label="&showAllTabs.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_bookmarkAllTabs" label="&bookmarkAllTabs.label;"
+                        onsyncfrompreference="return $('context_bookmarkAllTabs').value == 'sep_readAllTabs';"
+                        onsynctopreference="return this.checked ? 'sep_readAllTabs' : '';"/>
+              <checkbox preference="context_reloadAllTabs" label="&reloadAllTabs.label;"
+                        onsyncfrompreference="return $('context_reloadAllTabs').value == 'sep_readAllTabs';"
+                        onsynctopreference="return this.checked ? 'sep_readAllTabs' : '';"/>
+              <separator class="groove"/>
+              <checkbox preference="context_readAllTabs" label="&readAllTabs.label;"/>
+              <checkbox preference="context_protectAllTabs" label="&protectAllTabs.label;"/>
+              <checkbox preference="context_lockAllTabs" label="&lockAllTabs.label;"/>
+              <checkbox preference="context_faviconizeAllTabs" label="&faviconizeAllTabs.label;"/>
+              <checkbox preference="context_restartAllTabs" label="&restartAllTabs.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_closeAllTabs" label="&closeAllTabs.label;"/>
+              <checkbox preference="context_closeAllDuplicateTabs" label="&closeAllDuplicateTabs.label;"/>
+              <separator class="groove"/>
+              <checkbox preference="context_selectAllTabs" label="&selectAllTabs.label;"/>
+              <checkbox preference="context_unselectAllTabs" label="&unselectAllTabs.label;"/>
+              <checkbox preference="context_invertSelection" label="&invertSelection.label;"/>
+            </vbox>
+          </groupbox>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
   </prefpane>
 
   <prefpane id="pane3" label="&pane3.title;" helpTopic2="pane3" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
@@ -545,48 +657,6 @@
       <preference id="tabMinWidth" name="browser.tabs.tabMinWidth" type="int"/>
       <preference id="tabMinHeight" name="browser.tabs.tabMinHeight" type="int"/>
 
-      <preference id="menu_tuOptions" name="extensions.tabutils.menu.menu_tuOptions" type="bool" suggest="true"/>
-      <preference id="context_newTab" name="extensions.tabutils.menu.context_newTab" type="bool" suggest="true"/>
-      <preference id="context_duplicateTab" name="extensions.tabutils.menu.context_duplicateTab" type="bool" suggest="true"/>
-      <preference id="context_duplicateTabToGroup" name="extensions.tabutils.menu.context_duplicateTabToGroup" type="bool"/>
-      <preference id="context_duplicateTabToWindow" name="extensions.tabutils.menu.context_duplicateTabToWindow" type="bool"/>
-      <preference id="context_reloadEvery" name="extensions.tabutils.menu.context_reloadEvery" type="bool" suggest="true"/>
-      <preference id="context_moveToWindow" name="extensions.tabutils.menu.context_moveToWindow" type="bool" suggest="true"/>
-      <preference id="context_mergeWindow" name="extensions.tabutils.menu.context_mergeWindow" type="bool"/>
-      <preference id="context_mergeGroup" name="extensions.tabutils.menu.context_mergeGroup" type="bool"/>
-      <preference id="context_bookmarkTab" name="extensions.tabutils.menu.context_bookmarkTab" type="bool"/>
-      <preference id="context_recentlyClosedTabs" name="extensions.tabutils.menu.context_recentlyClosedTabs" type="bool" suggest="true"/>
-      <preference id="context_readTab" name="extensions.tabutils.menu.context_readTab" type="bool"/>
-      <preference id="context_protectTab" name="extensions.tabutils.menu.context_protectTab" type="bool" suggest="true"/>
-      <preference id="context_lockTab" name="extensions.tabutils.menu.context_lockTab" type="bool" suggest="true"/>
-      <preference id="context_faviconizeTab" name="extensions.tabutils.menu.context_faviconizeTab" type="bool"/>
-      <preference id="context_renameTab" name="extensions.tabutils.menu.context_renameTab" type="bool"/>
-      <preference id="context_restartTab" name="extensions.tabutils.menu.context_restartTab" type="bool" suggest="true"/>
-      <preference id="context_copyTabURL" name="extensions.tabutils.menu.context_copyTabURL" type="bool"/>
-      <preference id="context_copyTitleAndURL" name="extensions.tabutils.menu.context_copyTitleAndURL" type="bool" suggest="true"/>
-      <preference id="context_closeLeftTabs" name="extensions.tabutils.menu.context_closeLeftTabs" type="bool"/>
-      <preference id="context_closeRightTabs" name="extensions.tabutils.menu.context_closeRightTabs" type="bool" suggest="false"/>
-      <preference id="context_closeOtherTabs" name="extensions.tabutils.menu.context_closeOtherTabs" type="bool"/>
-      <preference id="context_closeDuplicateTabs" name="extensions.tabutils.menu.context_closeDuplicateTabs" type="bool"/>
-      <preference id="context_closeSimilarTabs" name="extensions.tabutils.menu.context_closeSimilarTabs" type="bool"/>
-      <preference id="context_markTab" name="extensions.tabutils.menu.context_markTab" type="bool"/>
-      <preference id="context_markTabs" name="extensions.tabutils.menu.context_markTabs" type="bool"/>
-      <preference id="context_selectTabs" name="extensions.tabutils.menu.context_selectTabs" type="bool"/>
-      <preference id="context_selectSimilarTabs" name="extensions.tabutils.menu.context_selectSimilarTabs" type="bool"/>
-      <preference id="context_showAllTabs" name="extensions.tabutils.menu.context_showAllTabs" type="bool"/>
-      <preference id="context_readAllTabs" name="extensions.tabutils.menu.context_readAllTabs" type="bool"/>
-      <preference id="context_protectAllTabs" name="extensions.tabutils.menu.context_protectAllTabs" type="bool" suggest="true"/>
-      <preference id="context_lockAllTabs" name="extensions.tabutils.menu.context_lockAllTabs" type="bool" suggest="true"/>
-      <preference id="context_faviconizeAllTabs" name="extensions.tabutils.menu.context_faviconizeAllTabs" type="bool"/>
-      <preference id="context_restartAllTabs" name="extensions.tabutils.menu.context_restartAllTabs" type="bool" suggest="true"/>
-      <preference id="context_closeAllTabs" name="extensions.tabutils.menu.context_closeAllTabs" type="bool" suggest="true"/>
-      <preference id="context_closeAllDuplicateTabs" name="extensions.tabutils.menu.context_closeAllDuplicateTabs" type="bool" suggest="true"/>
-      <preference id="context_selectAllTabs" name="extensions.tabutils.menu.context_selectAllTabs" type="bool"/>
-      <preference id="context_unselectAllTabs" name="extensions.tabutils.menu.context_unselectAllTabs" type="bool"/>
-      <preference id="context_invertSelection" name="extensions.tabutils.menu.context_invertSelection" type="bool"/>
-      <preference id="context_bookmarkAllTabs" name="extensions.tabutils.menu.context_bookmarkAllTabs.insertbefore" type="string" suggest="sep_readAllTabs"/>
-      <preference id="context_reloadAllTabs" name="extensions.tabutils.menu.context_reloadAllTabs.insertbefore" type="string" suggest="sep_readAllTabs"/>
-
       <preference id="statusbarMode" name="extensions.tabutils.statusbarMode" type="int"/>
       <preference id="hideOpenInTab" name="extensions.tabutils.hideOpenInTab" type="bool"/>
       <preference id="hideLoadInBackground" name="extensions.tabutils.hideLoadInBackground" type="bool" onchange="hideLoadInBackground();"/>
@@ -597,7 +667,6 @@
       <tabs>
         <tab label="&pane4.tab1.title;"/>
         <tab label="&pane1.title;"/>
-        <tab label="&pane4.tab2.title;"/>
         <tab label="&pane4.tab3.title;"/>
       </tabs>
       <tabpanels>
@@ -749,71 +818,6 @@
                 </row>
               </rows>
             </grid>
-          </groupbox>
-        </tabpanel>
-
-        <tabpanel>
-          <groupbox flex="1">
-            <caption label="&tabContextMenu.label;"/>
-            <vbox height="300" style="overflow-y: auto;">
-              <checkbox preference="context_newTab" label="&tabCmd.label;"/>
-              <checkbox preference="context_duplicateTab" label="&duplicateTab.label;"/>
-              <checkbox preference="context_duplicateTabToGroup" label="&duplicateTabToGroup.label;"/>
-              <checkbox preference="context_duplicateTabToWindow" label="&duplicateTabToWindow.label;"/>
-              <separator class="groove"/>
-              <checkbox preference="context_reloadEvery" label="&reloadEvery.label;"/>
-              <checkbox preference="context_moveToWindow" label="&moveToWindow.label;"/>
-              <checkbox preference="context_mergeWindow" label="&mergeWindow.label;"/>
-              <checkbox preference="context_mergeGroup" label="&mergeGroup.label;"/>
-              <checkbox preference="context_bookmarkTab" label="&bookmarkTab.label;"/>
-              <checkbox preference="context_recentlyClosedTabs" label="&historyUndoMenu.label;"/>
-              <separator class="groove"/>
-              <checkbox preference="context_readTab" label="&readTab.label;"/>
-              <checkbox preference="context_protectTab" label="&protectTab.label;" tooltiptext="&protectTab.tooltip;"/>
-              <checkbox preference="context_lockTab" label="&lockTab.label;" tooltiptext="&lockTab.tooltip;"/>
-              <checkbox preference="context_faviconizeTab" label="&faviconizeTab.label;" tooltiptext="&faviconizeTab.tooltip;"/>
-              <checkbox preference="context_renameTab" label="&renameTab.label;"/>
-              <checkbox preference="context_restartTab" label="&restartTab.label;"/>
-              <checkbox preference="context_copyTabURL" label="&copyTabURL.label;"/>
-              <checkbox preference="context_copyTitleAndURL" label="&copyTitleAndURL.label;"/>
-              <separator class="groove"/>
-              <checkbox preference="context_closeLeftTabs" label="&closeLeftTabs.label;"/>
-              <checkbox preference="context_closeRightTabs" label="&closeRightTabs.label;"/>
-              <checkbox preference="context_closeOtherTabs" label="&closeOtherTabs.label;"/>
-              <checkbox preference="context_closeDuplicateTabs" label="&closeDuplicateTabs.label;" hidden="true"/>
-              <checkbox preference="context_closeSimilarTabs" label="&closeSimilarTabs.label;"/>
-              <separator class="groove"/>
-              <checkbox preference="context_markTab" label="&markTab.label;"/>
-              <checkbox preference="context_markTabs" label="&markTabs.label;"/>
-              <checkbox preference="context_selectTabs" label="&selectTabs.label;"/>
-              <checkbox preference="context_selectSimilarTabs" label="&selectSimilarTabs.label;"/>
-            </vbox>
-          </groupbox>
-          <groupbox flex="1">
-            <caption label="&listAllTabs.label;"/>
-            <vbox height="300" style="overflow-y: auto;">
-              <checkbox preference="context_showAllTabs" label="&showAllTabs.label;"/>
-              <separator class="groove"/>
-              <checkbox preference="context_bookmarkAllTabs" label="&bookmarkAllTabs.label;"
-                        onsyncfrompreference="return $('context_bookmarkAllTabs').value == 'sep_readAllTabs';"
-                        onsynctopreference="return this.checked ? 'sep_readAllTabs' : null;"/>
-              <checkbox preference="context_reloadAllTabs" label="&reloadAllTabs.label;"
-                        onsyncfrompreference="return $('context_reloadAllTabs').value == 'sep_readAllTabs';"
-                        onsynctopreference="return this.checked ? 'sep_readAllTabs' : '';"/>
-              <separator class="groove"/>
-              <checkbox preference="context_readAllTabs" label="&readAllTabs.label;"/>
-              <checkbox preference="context_protectAllTabs" label="&protectAllTabs.label;"/>
-              <checkbox preference="context_lockAllTabs" label="&lockAllTabs.label;"/>
-              <checkbox preference="context_faviconizeAllTabs" label="&faviconizeAllTabs.label;"/>
-              <checkbox preference="context_restartAllTabs" label="&restartAllTabs.label;"/>
-              <separator class="groove"/>
-              <checkbox preference="context_closeAllTabs" label="&closeAllTabs.label;"/>
-              <checkbox preference="context_closeAllDuplicateTabs" label="&closeAllDuplicateTabs.label;"/>
-              <separator class="groove"/>
-              <checkbox preference="context_selectAllTabs" label="&selectAllTabs.label;"/>
-              <checkbox preference="context_unselectAllTabs" label="&unselectAllTabs.label;"/>
-              <checkbox preference="context_invertSelection" label="&invertSelection.label;"/>
-            </vbox>
           </groupbox>
         </tabpanel>
 
