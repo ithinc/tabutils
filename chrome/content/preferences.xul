@@ -230,7 +230,7 @@
       <preference id="shiftClickBookmarks" name="extensions.tabutils.shiftClickBookmarks" type="int"/>
 
       <preference id="middleClickLinks" name="extensions.tabutils.middleClickLinks" type="int"/>
-      <preference id="ctrlClickLinks" name="extensions.tabutils.ctrlClickLinks" type="int" suggest="1"/>
+      <preference id="ctrlClickLinks" name="extensions.tabutils.ctrlClickLinks" type="int" suggest="2"/>
       <preference id="shiftClickLinks" name="extensions.tabutils.shiftClickLinks" type="int" suggest="1"/>
 
       <preference id="dblClickTab" name="extensions.tabutils.dblClickTab" type="int" suggest="4"/>
