@@ -1471,13 +1471,21 @@ tabutils._reloadEvery = function() {
   });
 
   gBrowser.updateAutoReloadPopup = function updateAutoReloadPopup(aPopup) {
+    var sepCustom = aPopup.getElementsByAttribute("anonid", "sep_custom")[0];
+    while (sepCustom.previousSibling.localName == "menuitem")
+      aPopup.removeChild(sepCustom.previousSibling);
+
+    aPopup.parentNode.getAttribute("list").split(",").forEach(function(value) {
+      if (value > 0) {
+        let item = aPopup.insertBefore(document.createElement("menuitem"), sepCustom);
+        item.value = value;
+        item.label = Label(value);
+        item.setAttribute("type", "radio");
+      }
+    });
+
     aPopup.value = gBrowser.mContextTab._reloadInterval || TU_getPref("extensions.tabutils.reloadInterval", 10);
-    aPopup.label = (function() {
-      var m = parseInt(aPopup.value / 60), s = aPopup.value % 60;
-      return (m > 1 ? m + " " + aPopup.getAttribute("minutes") : m > 0 ? m + " " + aPopup.getAttribute("minute") : "")
-           + (m > 0 && s > 0 ? " " : "")
-           + (s > 1 ? s + " " + aPopup.getAttribute("seconds") : s > 0 ? s + " " + aPopup.getAttribute("second") : "");
-    })();
+    aPopup.label = Label(aPopup.value);
 
     var itemEnable = aPopup.getElementsByAttribute("anonid", "enable")[0];
     itemEnable.setAttribute("checked", gBrowser.mContextTabs.every(function(aTab) aTab.hasAttribute("autoReload")));
@@ -1490,14 +1498,27 @@ tabutils._reloadEvery = function() {
     }
     else {
       itemCustom.setAttribute("checked", true);
-      itemCustom.setAttribute("value", aPopup.value);
     }
 
     if (itemCustom.hasAttribute("checked")) {
+      itemCustom.setAttribute("value", aPopup.value);
       itemCustom.setAttribute("label", itemCustom.getAttribute("text") + ": " + aPopup.label);
     }
     else {
       itemCustom.setAttribute("label", itemCustom.getAttribute("text") + PlacesUIUtils.ellipsis);
+    }
+
+    function Label(value) {
+      let m = parseInt(value / 60), s = value % 60, result = [];
+      if (m > 0) {
+        result.push(m);
+        result.push(aPopup.getAttribute(m > 1 ? "minutes" : "minute"));
+      }
+      if (s > 0 || m == 0) {
+        result.push(s);
+        result.push(aPopup.getAttribute(s > 1 ? "seconds" : "second"));
+      }
+      return result.join(" ");
     }
   };
 };
