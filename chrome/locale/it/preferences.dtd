@@ -2,6 +2,7 @@
 <!ENTITY prefwindow.apply "Applica">
 <!ENTITY prefwindow.reset "Annulla">
 <!ENTITY prefwindow.close "Chiudi">
+<!ENTITY prefwindow.donate "Donare">
 <!ENTITY prefwindow.settings "Funzioni">
 <!ENTITY settings.default "Impostazioni predefinite">
 <!ENTITY settings.suggest "Impostazioni consigliate">

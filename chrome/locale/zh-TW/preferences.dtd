@@ -2,6 +2,7 @@
 <!ENTITY prefwindow.apply "套用">
 <!ENTITY prefwindow.reset "重設">
 <!ENTITY prefwindow.close "關閉">
+<!ENTITY prefwindow.donate "捐助">
 <!ENTITY prefwindow.settings "設定">
 <!ENTITY settings.default "預設設定">
 <!ENTITY settings.suggest "建議設定">

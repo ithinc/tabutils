@@ -2,6 +2,7 @@
 <!ENTITY prefwindow.apply "適用">
 <!ENTITY prefwindow.reset "リセット">
 <!ENTITY prefwindow.close "閉じる">
+<!ENTITY prefwindow.donate "寄付">
 <!ENTITY prefwindow.settings "設定">
 <!ENTITY settings.default "初期設定">
 <!ENTITY settings.suggest "推奨設定">

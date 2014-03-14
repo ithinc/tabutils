@@ -22,10 +22,12 @@
 <prefwindow id="tabutils-preferences"
             title="&prefwindow.title;"
             helpURI="http://addons.mozilla.org/addon/59961"
+            donateURI="https://addons.mozilla.org/addon/59961/developers"
             buttons="accept,cancel,extra1,extra2"
             buttonlabelcancel="&prefwindow.close;"
-            buttonlabelextra1="&prefwindow.apply;"
+            buttonlabelextra1="&prefwindow.donate;"
             buttonlabelextra2="&prefwindow.settings;"
+            buttonlabelapply="&prefwindow.apply;"
             buttonlabelreset="&prefwindow.reset;"
             buttonlabelclose="&prefwindow.close;"
             onload="onLoad();"
@@ -33,7 +35,7 @@
             ondialogextra1="onApply();"
             ondialogextra2="onDefault();"
             ondialogcancel="return onCancel();"
-            ondialoghelp="openHelp();"
+            ondialoghelp="openURI(this.getAttribute('helpURI'));"
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <prefpane id="pane1" label="&pane1.title;" helpTopic2="pane1" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
@@ -883,11 +885,7 @@
     );
 
     function onLoad() {
-      if (document.documentElement.getButton("accept").hidden) {
-        document.documentElement.getButton("extra1").hidden = true;
-      }
-      else {
-        document.documentElement.getButton("extra1").disabled = true;
+      if (!document.documentElement.getButton("accept").hidden) {
         window.addEventListener("change", onChange, false);
       }
 
@@ -975,20 +973,27 @@
         preferencesToApply.push(preference);
       }
 
-      document.documentElement.getButton("extra1").disabled = preferencesToApply.length == 0;
+      document.documentElement.getButton("extra1").label = preferencesToApply.length == 0 ?
+                                                           document.documentElement.getAttribute("buttonlabelextra1") :
+                                                           document.documentElement.getAttribute("buttonlabelapply");
       document.documentElement.getButton("cancel").label = preferencesToApply.length == 0 ?
                                                            document.documentElement.getAttribute("buttonlabelclose") :
                                                            document.documentElement.getAttribute("buttonlabelreset");
     }
 
     function onApply() {
+      if (preferencesToApply.length == 0) {
+        openURI(document.documentElement.getAttribute("donateURI"));
+        return;
+      }
+
       var preferences = document.getElementsByTagName("preference");
       for (let preference of preferences) {
         preference.valueFromPreferences = preference.value;
       }
 
       preferencesToApply = [];
-      document.documentElement.getButton("extra1").disabled = true;
+      document.documentElement.getButton("extra1").label = document.documentElement.getAttribute("buttonlabelextra1");
       document.documentElement.getButton("cancel").label = document.documentElement.getAttribute("buttonlabelclose");
     }
 
@@ -1092,9 +1097,9 @@
       preference.value = aValue;
     }
 
-    function openHelp() {
+    function openURI(aURI) {
       var win = Services.nsIBrowserGlue.getMostRecentBrowserWindow();
-      win.gBrowser.loadOneTab(document.documentElement.getAttribute("helpURI"), null, null, null, false, false);
+      win.gBrowser.loadOneTab(aURI, null, null, null, false, false);
       win.focus();
     }
 

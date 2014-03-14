@@ -2,6 +2,7 @@
 <!ENTITY prefwindow.apply "Применить">
 <!ENTITY prefwindow.reset "Восстановить">
 <!ENTITY prefwindow.close "Закрыть">
+<!ENTITY prefwindow.donate "Жертвовать">
 <!ENTITY prefwindow.settings "Настройки">
 <!ENTITY settings.default "По умолчанию">
 <!ENTITY settings.suggest "Рекомендуемые">
