@@ -583,7 +583,7 @@ tabutils._tabOpeningOptions = function() {
       let win = aWebProgress.DOMWindow;
       win._closeTimer = win.setTimeout(function() {
         this.mTabBrowser.isBlankTab(this.mTab) && this.mTabBrowser.removeTab(this.mTab);
-      }.bind(this), 250);
+      }.bind(this), 750);
     }
   });
 
@@ -2850,6 +2850,11 @@ tabutils._hideTabBar = function() {
     let tabsToolbar = document.getElementById("TabsToolbar");
     if (toolbarNodes.indexOf(tabsToolbar) == -1)
       toolbarNodes.push(tabsToolbar);
+  });
+
+  if ("getTogglableToolbars" in window) // Bug 940669 [Fx29]
+  TU_hookCode("getTogglableToolbars", /(?=.*return.*)/, function() {
+    toolbarNodes = [...new Set(toolbarNodes)];
   });
 
   TU_hookCode("setToolbarVisibility", /.*setAttribute.*/, 'if (toolbar.id == "TabsToolbar") gBrowser.mTabContainer.visible = isVisible; else $&');

@@ -1,13 +1,62 @@
 <?xml version="1.0"?>
 <overlay id="tabutils-unknownContentType" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/javascript" src="tulib.js"/>
   <script type="application/javascript">
   <![CDATA[
     var win = window.opener;
     if (win && win._closeTimer) {
       win.clearTimeout(win._closeTimer);
-      window.addEventListener("unload", function() {
-        win && win.setTimeout(function() {this.close();}, 250);
-      }, false);
+
+      function isUsableDirectory(aDirectory)
+      {
+        return aDirectory.exists() && aDirectory.isDirectory() &&
+               aDirectory.isWritable();
+      }
+
+      const PREF_BD_USEDOWNLOADDIR = "browser.download.useDownloadDir";
+      const nsITimer = Components.interfaces.nsITimer;
+
+      try {
+        var downloadModule = {};
+        Components.utils.import("resource://gre/modules/DownloadLastDir.jsm", downloadModule); // Bug 722995 [Fx19]
+        Components.utils.import("resource://gre/modules/DownloadLastDir.jsm");
+        Components.utils.import("resource://gre/modules/Downloads.jsm");
+        Components.utils.import("resource://gre/modules/FileUtils.jsm");
+        Components.utils.import("resource://gre/modules/Services.jsm");
+        Components.utils.import("resource://gre/modules/Task.jsm");
+      } catch (e) {}
+
+      if ("promptForSaveToFileAsync" in dialog) // Bug 854299 [Fx23]
+      TU_hookCode("dialog.promptForSaveToFileAsync", /.*saveDestinationAvailable.*/g, function(s) (function() {
+        {
+          $0;
+          aContext.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                  .getInterface(Components.interfaces.nsIDOMWindow)
+                  .close();
+        }
+      }).toString().replace(/^.*{|}$/g, "").replace("$0", s));
+
+      TU_hookCode("dialog.promptForSaveToFile", /(return;|return null;|return result;)/g, function(s) (function() {
+        {
+          aContext.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                  .getInterface(Components.interfaces.nsIDOMWindow)
+                  .close();
+          $0;
+        }
+      }).toString().replace(/^.*{|}$/g, "").replace("$0", s));
+
+      TU_hookCode("dialog.onOK", /(?=return true;)/, function() {
+        if (!this._saveToDiskTimer)
+        this.mContext.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                     .getInterface(Components.interfaces.nsIDOMWindow)
+                     .close();
+      });
+
+      TU_hookCode("dialog.onCancel", /(?=return true;)/, function() {
+        this.mContext.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                     .getInterface(Components.interfaces.nsIDOMWindow)
+                     .close();
+      });
     }
   ]]>
   </script>
