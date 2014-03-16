@@ -1,41 +1,75 @@
-//±êÇ©Ò³·Ö×é
-tabutils._groupTabs = function() {
-  gBrowser.siblingTabsOf = function siblingTabsOf(aTab, aFull) {
-    if (aFull)
-      return Array.filter(this.mTabs, function(bTab) aTab.getAttribute("group") == bTab.getAttribute("group") && this.isNormalTab(bTab), this);
+// Tab Stack
+tabutils._stackTabs = function() {
 
+  if ("TabView" in window)
+  TU_hookCode("TabView.moveTabTo", "{", function() { // Ensure hidden tabs won't break tab stacks
+    this._initFrame(function() {
+      tab._suppressTabMove=true;
+      let groupItem = this._window.GroupItems.groupItem(groupItemId);
+      let tabItem = groupItem && groupItem.getChild(-1);
+      this._window.GroupItems.moveTabToGroupItem(tab, groupItemId);
+      gBrowser.moveTabAfter(tab, tabItem && tabItem.tab);
+      delete tab._suppressTabMove;
+    }.bind(this));
+    return;
+  });
+
+  gBrowser.isSiblingTab = function isSiblingTab(aTab, bTab) {
+    return aTab.hasAttribute("group") &&
+           aTab.getAttribute("group") == bTab.getAttribute("group") &&
+           !aTab.hidden && !bTab.hidden;
+  };
+
+  gBrowser.siblingTabsOf = function siblingTabsOf(aTab) {
+    if (typeof aTab == "string") {
+      let group = aTab;
+      return Array.filter(this.visibleTabs, function(aTab) aTab.getAttribute("group") == group);
+    }
+
+    if (aTab.hidden || aTab.closing)
+      return [];
+
+    let group = aTab.getAttribute("group");
     let tabs = [aTab];
-    for (let tab = aTab; (tab = tab.nextSibling) && tab.getAttribute("group") == aTab.getAttribute("group");) {
-      if (this.isNormalTab(tab))
+    for (let tab = aTab; (tab = tab.nextSibling) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
         tabs.push(tab);
     }
-    for (let tab = aTab; (tab = tab.previousSibling) && tab.getAttribute("group") == aTab.getAttribute("group");) {
-      if (this.isNormalTab(tab))
+    for (let tab = aTab; (tab = tab.previousSibling) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
         tabs.unshift(tab);
     }
     return tabs;
   };
 
   gBrowser.previousSiblingTabOf = function previousSiblingTabOf(aTab) this.nextSiblingTabOf(aTab, -1);
-  gBrowser.nextSiblingTabOf = function nextSiblingTabOf(aTab, aDir) {
+  gBrowser.nextSiblingTabOf = function nextSiblingTabOf(aTab, aDir, aWrap) {
+    let group = aTab.getAttribute("group");
     let next = aDir < 0 ? "previousSibling" : "nextSibling";
-    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == aTab.getAttribute("group");) {
-      if (this.isNormalTab(tab))
+    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
         return tab;
     }
+    if (aWrap)
+      return this.lastSiblingTabOf(aTab, -aDir);
   };
 
   gBrowser.firstSiblingTabOf = function firstSiblingTabOf(aTab) this.lastSiblingTabOf(aTab, -1);
   gBrowser.lastSiblingTabOf = function lastSiblingTabOf(aTab, aDir) {
+    let group = aTab.getAttribute("group");
     let next = aDir < 0 ? "previousSibling" : "nextSibling";
-    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == aTab.getAttribute("group");) {
-      if (this.isNormalTab(tab))
+    for (let tab = aTab; (tab = tab[next]) && tab.getAttribute("group") == group && !tab.hidden;) {
+      if (!tab.closing)
         aTab = tab;
     }
     return aTab;
   };
 
-  gBrowser.groupTabs = function groupTabs(aTabs, aTab, aExpand) {
+  gBrowser.isStackedTab = function(aTab) aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1;
+  gBrowser.isCollapsedStack = function(aTab) aTab.hasAttribute("group-collapsed") && aTab.getAttribute("group-counter") > 1;
+  gBrowser.isExpandedStack = function(aTab) this.isStackedTab(aTab) && !aTab.hasAttribute("group-collapsed");
+
+  gBrowser.stackTabs = function stackTabs(aTabs, aTab, aExpand) {
     aTabs = aTabs.filter(function(aTab) !aTab.pinned)
                  .sort(function(aTab, bTab) aTab._tPos - bTab._tPos);
     if (aTabs.length < 2)
@@ -45,21 +79,17 @@ tabutils._groupTabs = function() {
       aTab = aTabs[0];
 
     this.selectedTabs = [];
-    this.ungroupTabs(aTabs, aTab.hasAttribute("group") && !aTab.hasAttribute("group-first") && !aTab.hasAttribute("group-last"));
+    this.unstackTabs(aTabs, aTab.hasAttribute("group") && !aTab.hasAttribute("group-first") && !aTab.hasAttribute("group-last"));
     this.gatherTabs(aTabs, aTab, true);
 
     for (let tab of aTabs) {
       this.attachTabTo(tab, aTab, {expand: aExpand, suppressUpdate: true});
     }
-    this.updateGroup(aTab);
+    this.updateStack(aTab);
   };
 
-  gBrowser.ungroupTabs = function ungroupTabs(aTabs, aMove) {
+  gBrowser.unstackTabs = function unstackTabs(aTabs, aMove) {
     aMove = aMove != false;
-    for (let i = 0; i < aTabs.length; i++) {
-      if (aTabs[i].hasAttribute("group-first"))
-        this.detachTab(aTabs[i]);
-    }
     for (let i = aTabs.length - 1; i >= 0; i--)
       this.detachTab(aTabs[i], aMove);
   };
@@ -76,16 +106,23 @@ tabutils._groupTabs = function() {
 
     if (!bTab.hasAttribute("group")) {
       bTab.setAttribute("group", Services.nsIUUIDGenerator.generateUUID());
+      bTab.setAttribute("group-selected", true);
       bTab.setAttribute("group-counter", 1);
     }
 
     if (bTab.getAttribute("group-counter") == 1) {
       bTab.setAttribute("group-collapsed", !options.expand && TU_getPref("extensions.tabutils.autoCollapseNewStack", true));
       this.mTabContainer.mTabstrip.ensureElementIsVisible(bTab);
+
+      if (bTab.image)
+      Services.mozIColorAnalyzer.findRepresentativeColor(makeURI(bTab.image), function(success, color) {
+        if (success)
+          this.updateStack(bTab, {color: "#" + ("000000" + color.toString(16)).slice(-6)});
+      }.bind(this));
     }
 
-    //must happen after "group" is set to avoid bypassing group, and
-    //before "group-counter" is set to avoid moving group, if TabMove event is not suppressed
+    //must happen after "group" is set to avoid bypassing stack, and
+    //before "group-selected" is set to avoid moving stack, if TabMove event is not suppressed
     if (options.move) {
       aTab._suppressTabMove = true;
       switch (options.move) {
@@ -106,104 +143,93 @@ tabutils._groupTabs = function() {
     }
 
     aTab.setAttribute("group", bTab.getAttribute("group"));
-    if (aTab.getAttribute("opener") != bTab.linkedPanel)
-      aTab.setAttribute("opener", bTab.getAttribute("opener") || bTab.linkedPanel);
 
     if (!options.suppressUpdate)
-      this.updateGroup(bTab);
-    tabutils.dispatchEvent(aTab, "TabStacked");
+      this.updateStack(bTab);
+    aTab.dispatchEvent(new CustomEvent("TabStacked", {bubbles: true}));
   };
 
   gBrowser.detachTab = function detachTab(aTab, aMove) {
     if (!aTab.hasAttribute("group"))
       return;
 
-    if (aMove && !aTab.hasAttribute("group-first") && !aTab.hasAttribute("group-last")) {
+    if (aMove && !aTab.hasAttribute("group-last")) {
       aTab._suppressTabMove = true;
       this.moveTabAfter(aTab, this.lastSiblingTabOf(aTab));
       this.mTabContainer._notifyBackgroundTab(aTab);
       delete aTab._suppressTabMove;
     }
-    this.updateGroup(aTab, {excludeSelf: true});
-    tabutils.dispatchEvent(aTab, "TabUnstacked");
 
+    let group = aTab.getAttribute("group");
     tabutils.removeAttribute(aTab, "group");
     tabutils.removeAttribute(aTab, "group-color");
     tabutils.removeAttribute(aTab, "group-collapsed");
-    tabutils.removeAttribute(aTab, "group-counter");
+    tabutils.removeAttribute(aTab, "group-selected");
+    aTab.removeAttribute("group-counter");
     aTab.removeAttribute("group-first");
     aTab.removeAttribute("group-last");
+    aTab.collapsed = false;
 
-    aTab.removeAttribute("opener");
-    if (aTab.selected)
-      this.updateCurrentBrowser(true);
+    this.updateStack(group);
+    aTab.dispatchEvent(new CustomEvent("TabUnstacked", {bubbles: true}));
   };
 
-  gBrowser.collapseGroup = function collapseGroup(aTab) {
-    if (!aTab.hasAttribute("group"))
+  gBrowser.collapseStack = function collapseStack(aTab, aForce) {
+    if ("length" in arguments[0]) {
+      let aTabs = Array.filter(arguments[0], function(aTab) aTab.getAttribute("group-counter") > 1);
+      if (aForce == null)
+        aForce = !aTabs.every(function(aTab) aTab.hasAttribute("group-collapsed"));
+
+      let func = arguments.callee;
+      aTabs.forEach(function(aTab) {
+        func.call(this, aTab, aForce);
+      }, this);
+      return;
+    }
+
+    if (!this.isStackedTab(aTab))
       return;
 
-    if (aTab.getAttribute("group-collapsed") == "true")
+    if (aForce == aTab.hasAttribute("group-collapsed"))
       return;
+
+    if (aForce == null)
+      aForce = !aTab.hasAttribute("group-collapsed");
 
     let tabs = this.siblingTabsOf(aTab);
     for (let tab of tabs) {
-      tabutils.setAttribute(tab, "group-collapsed", true);
-      if (tab.hasAttribute("group-counter"))
+      tab.collapsed = aForce;
+      tabutils.setAttribute(tab, "group-collapsed", aForce);
+      if (tab.hasAttribute("group-selected"))
         aTab = tab;
     }
+    aTab.collapsed = false;
 
-    let tabcontent = document.getAnonymousElementByAttribute(aTab, "class", "tab-content");
-    if (tabcontent)
-      tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
+    if (aForce) {
+      let tabcontent = document.getAnonymousElementByAttribute(aTab, "class", "tab-content");
+      if (tabcontent)
+        tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
+    }
 
-    tabutils.dispatchEvent(aTab, "StackCollapsed");
+    aTab.dispatchEvent(new CustomEvent(aForce ? "StackCollapsed" : "StackExpanded", {bubbles: true}));
     this.mTabContainer.adjustTabstrip();
+
+    if (!aForce) {
+      this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[tabs.length - 1], false);
+      this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[0], false);
+    }
+    this.mTabContainer.mTabstrip.ensureElementIsVisible(aTab, false);
   };
 
-  gBrowser.expandGroup = function expandGroup(aTab) {
-    if (!aTab.hasAttribute("group"))
-      return;
+  gBrowser.expandStack = function expandStack(aTab) this.collapseStack(aTab, false);
 
-    if (aTab.getAttribute("group-collapsed") != "true")
-      return;
-
+  gBrowser.updateStack = function updateStack(aTab, options = {}) {
     let tabs = this.siblingTabsOf(aTab);
-    for (let tab of tabs) {
-      tabutils.removeAttribute(tab, "group-collapsed");
-      if (tab.hasAttribute("group-counter"))
-        aTab = tab;
-    }
-    tabutils.dispatchEvent(aTab, "StackExpanded");
-    this.mTabContainer.adjustTabstrip();
-    this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[tabs.length - 1], false);
-    this.mTabContainer.mTabstrip.ensureElementIsVisible(tabs[0], false);
-  };
-
-  gBrowser.updateGroup = function updateGroup(aTab, options) {
-    if (!aTab.hasAttribute("group"))
-      return;
-
-    if (!options)
-      options = {};
-
-    let tabs = this.siblingTabsOf(aTab, true);
-    if (options.excludeSelf) {
-      let index = tabs.indexOf(aTab);
-      if (index > -1)
-        tabs.splice(index, 1);
-    }
     if (tabs.length == 0)
       return;
 
-    if (!aTab.selected && !aTab.hasAttribute("group-counter") || tabs.indexOf(aTab) == -1) {
+    if (typeof aTab == "string") {
       aTab = tabs[0];
-      for (let i = 1; i < tabs.length; i++) {
-        if (tabs[i].hasAttribute("group-counter")) {
-          aTab = tabs[i];
-          break;
-        }
-      }
     }
 
     let group = options.id ? Services.nsIUUIDGenerator.generateUUID().toString()
@@ -214,33 +240,38 @@ tabutils._groupTabs = function() {
       tabutils.setAttribute(tab, "group", group);
       tabutils.setAttribute(tab, "group-color", color);
       tabutils.setAttribute(tab, "group-collapsed", collapsed);
-      tabutils.removeAttribute(tab, "group-counter");
+      tabutils.removeAttribute(tab, "group-selected");
+      tab.removeAttribute("group-counter");
       tab.removeAttribute("group-first");
       tab.removeAttribute("group-last");
+      tab.collapsed = collapsed;
+
+      if (tab._lastAccessed > aTab._lastAccessed)
+        aTab = tab;
     }
-    tabutils._tabPrefObserver.updateGroupColor(group, color);
+    tabutils._tabPrefObserver.updateStackColor(group, color);
 
-    if (!aTab.selected && tabs.indexOf(this.mCurrentTab) > -1)
-      aTab = this.mCurrentTab;
-
-    tabutils.setAttribute(aTab, "group-counter", tabs.length);
+    aTab.collapsed = false;
+    tabutils.setAttribute(aTab, "group-selected", true);
+    aTab.setAttribute("group-counter", tabs.length);
     tabs[0].setAttribute("group-first", true);
     tabs[tabs.length - 1].setAttribute("group-last", true);
 
-    let tabcontent = document.getAnonymousElementByAttribute(aTab, "class", "tab-content");
-    if (tabcontent)
-      tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
+    if (collapsed) {
+      let tabcontent = document.getAnonymousElementByAttribute(aTab, "class", "tab-content");
+      if (tabcontent)
+        tabcontent.setAttribute("group-counter", "(" + tabs.length + ")");
+    }
   };
 
   tabutils.addEventListener(gBrowser.mTabContainer, "dragover", function(event) {
     let tab = event.target.localName == "tab" ? event.target : null;
-    if (tab && tab.getAttribute("group-collapsed") == "true" &&
-        tab.getAttribute("group-counter") != 1 &&
+    if (tab && gBrowser.isCollapsedStack(tab) &&
         TU_getPref("extensions.tabutils.autoExpandStackOnDragover", true)) {
       if (!this._dragTime)
         this._dragTime = Date.now();
       if (Date.now() >= this._dragTime + 750)
-        gBrowser.expandGroup(tab);
+        gBrowser.expandStack(tab);
     }
   }, true);
 
@@ -288,21 +319,27 @@ tabutils._groupTabs = function() {
     switch (tab.getAttribute("dragover")) {
       case "left":
       case "top":
-        if (!tab.hasAttribute("group-first") || tab.getAttribute("group-collapsed") == "true")
-          return;
-        move = "before";
-        break;
+        if (tab.hasAttribute("group-first") &&
+            !tab.hasAttribute("group-last") &&
+            !tab.hasAttribute("group-collapsed")) {
+          move = "before";
+          break;
+        }
+        return;
       case "right":
       case "bottom":
-        if (!tab.hasAttribute("group-last") || tab.getAttribute("group-collapsed") == "true")
-          return;
-        move = "after";
-        break;
+        if (tab.hasAttribute("group-last") &&
+            !tab.hasAttribute("group-first") &&
+            !tab.hasAttribute("group-collapsed")) {
+          move = "after";
+          break;
+        }
+        return;
       default:
-        if (tab.getAttribute("group-collapsed") == "true" && tab.getAttribute("group-counter") > 1)
+        if (gBrowser.isCollapsedStack(tab))
           move = "end";
         else
-          move = "group";
+          move = "stack";
         break;
     }
 
@@ -321,18 +358,18 @@ tabutils._groupTabs = function() {
         draggedTabs.push(tab);
     }
 
-    if (move == "group") {
-      gBrowser.groupTabs(draggedTabs.concat(tab), tab);
+    if (move == "stack") {
+      gBrowser.stackTabs(draggedTabs.concat(tab), tab);
       return;
     }
 
     gBrowser.selectedTabs = [];
-    gBrowser.ungroupTabs(draggedTabs, false);
+    gBrowser.unstackTabs(draggedTabs, false);
     gBrowser.attachTabTo(draggedTabs[0], tab, {move: move, expand: true, suppressUpdate: true});
     for (let i = 1; i < draggedTabs.length; i++) {
       gBrowser.attachTabTo(draggedTabs[i], draggedTabs[i - 1], {move: true, suppressUpdate: true});
     }
-    gBrowser.updateGroup(tab);
+    gBrowser.updateStack(tab);
   }, true);
 
   tabutils.addEventListener(gBrowser.mTabContainer, "dragleave", function(event) {
@@ -342,7 +379,7 @@ tabutils._groupTabs = function() {
   }, true);
 
   tabutils.addEventListener(gBrowser.mTabContainer, "dragend", function(event) { //Bug 460801
-    Array.forEach(this.childNodes, function(aTab) aTab.removeAttribute("dragover"));
+    Array.forEach(this.tabbrowser.visibleTabs, function(aTab) aTab.removeAttribute("dragover"));
   }, true);
 
   TU_hookCode("gBrowser.onTabMove", "}", function() {
@@ -350,9 +387,10 @@ tabutils._groupTabs = function() {
     let previousTab = ltr ? aTab.previousSibling : aTab.nextSibling;
     let nextTab = ltr ? aTab.nextSibling : aTab.previousSibling;
 
-    if (aTab.hasAttribute("group") && aTab.getAttribute("group-counter") != 1 && !aTab.hidden) {
-      if (aTab.getAttribute("group-collapsed") == "true" && aTab.hasAttribute("group-counter")) {
-        let tabs = this.siblingTabsOf(aTab, true);
+    // Move a stacked tab
+    if (aTab.hasAttribute("group") && !aTab.hidden) {
+      if (this.isCollapsedStack(aTab)) {
+        let tabs = this.siblingTabsOf(aTab.getAttribute("group"));
         tabs.splice(tabs.indexOf(aTab), 1);
 
         let index = 0;
@@ -361,108 +399,105 @@ tabutils._groupTabs = function() {
           index++;
         tabs.splice(index, 0, aTab);
 
-        setTimeout(function(self) { //gather group
-          let selectedTabs = self.selectedTabs;
-          self.selectedTabs = [];
-          self.gatherTabs(tabs, aTab);
-          self.selectedTabs = selectedTabs;
-        }, 0, this);
+        setTimeout(function() { // gather stack
+          let selectedTabs = this.selectedTabs;
+          this.selectedTabs = [];
+          this.gatherTabs(tabs, aTab);
+          this.selectedTabs = selectedTabs;
+        }.bind(this), 0);
       }
-      else if (aTab.getAttribute("group") == previousTab.getAttribute("group") || nextTab &&
-               aTab.getAttribute("group") == nextTab.getAttribute("group"))
-        this.updateGroup(aTab);
-      else
+      else if (this.isSiblingTab(previousTab, aTab) || nextTab &&
+               this.isSiblingTab(nextTab, aTab)) { // within stack
+        this.updateStack(aTab);
+      }
+      else { // off stack
         this.detachTab(aTab);
+      }
     }
 
-    if (nextTab && nextTab.hasAttribute("group") &&
-        nextTab.getAttribute("group") != aTab.getAttribute("group") &&
-        nextTab.getAttribute("group") == previousTab.getAttribute("group")) {
-      if (nextTab.getAttribute("group-collapsed") == "true")
-        setTimeout(function(self) { //bypass group
+    // Move into a stack
+    if (nextTab &&
+        this.isSiblingTab(nextTab, previousTab) &&
+        !this.isSiblingTab(nextTab, aTab)) {
+      if (nextTab.hasAttribute("group-collapsed")) { // Move into a collapsed stack
+        setTimeout(function() { // bypass stack
           if (ltr)
-            self.moveTabAfter(aTab, self.lastSiblingTabOf(nextTab));
+            this.moveTabAfter(aTab, this.lastSiblingTabOf(nextTab));
           else
-            self.moveTabBefore(aTab, self.firstSiblingTabOf(nextTab));
-        }, 0, this);
+            this.moveTabBefore(aTab, this.firstSiblingTabOf(nextTab));
+        }.bind(this), 0);
+      }
       else {
-        if (aTab.getAttribute("group-collapsed") == "true" && aTab.getAttribute("group-counter") > 1)
-          this.ungroupTabs(this.siblingTabsOf(aTab, true), false);
+        if (this.isCollapsedStack(aTab)) // Move a collapsed stack
+          this.unstackTabs(this.siblingTabsOf(aTab.getAttribute("group")), false); // to be gathered
         this.attachTabTo(aTab, nextTab);
       }
     }
   });
 
-  TU_hookCode("gBrowser.onTabClosing", "}", function() {
-    tabutils._ss.deleteTabValue(aTab, "group-collapsed");
-  });
-
   TU_hookCode("gBrowser.onTabClose", "}", function() {
-    if (aTab.selected && aTab.hasAttribute("group") && !aTab.hasAttribute("opener"))
-      this.selectedTab = this.nextSiblingTabOf(aTab) || this.previousSiblingTabOf(aTab);
+    if (this.isStackedTab(aTab)) {
+      if (aTab.selected) {
+        try {
+          this.selectedTab = this._tabsToSelect(this.siblingTabsOf(aTab.getAttribute("group"))).next();
+        }
+        catch (e) {}
+      }
 
-    if (aTab.getAttribute("group-collapsed") == "true" &&
-        aTab.getAttribute("group-counter") > 1) {
-      aTab.removeAttribute("group-counter");
+      this.updateStack(aTab.getAttribute("group"));
+      if (this.isCollapsedStack(aTab))
+        aTab.collapsed = true;
     }
-    this.updateGroup(aTab, {excludeSelf: true});
   });
 
   TU_hookCode("gBrowser.onTabRestoring", "}", function() {
     tabutils.restoreAttribute(aTab, "group");
     tabutils.restoreAttribute(aTab, "group-color");
     tabutils.restoreAttribute(aTab, "group-collapsed");
-    tabutils.restoreAttribute(aTab, "group-counter");
-    this.updateGroup(aTab);
-
-    if (aTab.getAttribute("group-collapsed") == "true")
-      this.mTabContainer.adjustTabstrip();
+    tabutils.restoreAttribute(aTab, "group-selected");
+    if (aTab.hasAttribute("group")) {
+      this.updateStack(aTab);
+      if (aTab.collapsed)
+        this.mTabContainer.adjustTabstrip();
+    }
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
-    if (aTab.hasAttribute("group") && !aTab.hasAttribute("group-counter"))
-      this.updateGroup(aTab);
+    if (this.isStackedTab(aTab)) {
+      this.updateStack(aTab);
 
-    if (aTab.getAttribute("group-collapsed") == "true" &&
-        aTab.getAttribute("group-counter") != 1 &&
-        TU_getPref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", true)) {
-      Array.forEach(this.mTabs, function(aTab) {
-        if (aTab.getAttribute("group-counter") > 1 && !aTab.hidden && !aTab.selected)
-          this.collapseGroup(aTab);
-      }, this);
-      this.expandGroup(aTab);
-      this.mTabContainer.mTabstrip.ensureElementIsVisible(this.mCurrentTab, false);
+      if (aTab.hasAttribute("group-collapsed") &&
+          TU_getPref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", true)) {
+        Array.forEach(this.visibleTabs, function(aTab) {
+          if (aTab.hasAttribute("group-selected") && !aTab.selected)
+            this.collapseStack(aTab, true);
+        }, this);
+        this.expandStack(aTab);
+        this.mTabContainer.mTabstrip.ensureElementIsVisible(this.mCurrentTab, false);
+      }
     }
 
     let lastTab = this.getLastSelectedTab();
     if (lastTab && lastTab.hasAttribute("group") &&
         lastTab.getAttribute("group") != aTab.getAttribute("group") &&
         TU_getPref("extensions.tabutils.autoCollapseStackOnBlur", false))
-      this.collapseGroup(lastTab);
+      this.collapseStack(lastTab, true);
   });
 
   TU_hookCode("gBrowser.onTabPinning", "}", function() {
     this.detachTab(aTab);
   });
 
-  gBrowser.showOnlyTheseTabs = function showOnlyTheseTabs(aTabs) {
-    Array.reduceRight(this.mTabs, function(self, aTab) {
-      if (aTabs.indexOf(aTab) == -1)
-        this.hideTab(aTab);
-    }.bind(this), this);
-    Array.reduce(this.mTabs, function(self, aTab) {
-      if (aTabs.indexOf(aTab) > -1)
-        this.showTab(aTab);
-    }.bind(this), this);
-    this.tabContainer.mTabstrip.ensureElementIsVisible(this.selectedTab, false);
-  };
-
   TU_hookCode("gBrowser.onTabHide", "}", function() {
-    this.updateGroup(aTab, {excludeSelf: true});
+    if (aTab.hasAttribute("group")) {
+      this.updateStack(aTab.getAttribute("group"));
+    }
   });
 
   TU_hookCode("gBrowser.onTabShow", "}", function() {
-    this.updateGroup(aTab);
+    if (aTab.hasAttribute("group")) {
+      this.updateStack(aTab);
+    }
   });
 
   TU_hookCode("gBrowser.loadTabs",
@@ -470,54 +505,54 @@ tabutils._groupTabs = function() {
     [/(?=.*aReplace.*\n.*moveTabTo.*)/, "tabs.push(tab);"],
     [/(?=.*!aLoadInBackground.*)/, function() {
       if (tabs.length > 1 && TU_getPref("extensions.tabutils.autoStack", false))
-        this.groupTabs(tabs);
+        this.stackTabs(tabs);
     }]
   );
 
-  TU_hookCode("gBrowser.mTabContainer._selectNewTab", "aNewTab.disabled",
-    "$& || aNewTab.getAttribute('group-collapsed') == 'true' && !aNewTab.hasAttribute('group-counter')"
-  );
+  TU_hookCode("gBrowser.mTabContainer._selectNewTab", "aNewTab.hidden", "$& || aNewTab.collapsed");
 
   TU_hookCode("gBrowser.createTooltip", /(tab|tn).getAttribute\("label"\)/, function(s, s1) (function() {
-    $1.mOverTwisty ? $1.getAttribute("group-collapsed") == "true" ?
-                     document.getElementById("context_expandGroup").getAttribute("label") :
-                     document.getElementById("context_collapseGroup").getAttribute("label")
-                   : $1.getAttribute("group-collapsed") == "true" && $1.getAttribute("group-counter") != 1 ?
+    $1.mOverTwisty ? $1.hasAttribute("group-collapsed") ?
+                     document.getElementById("context_collapseStack").getAttribute("label_expand") :
+                     document.getElementById("context_collapseStack").getAttribute("label_collapse")
+                   : this.isCollapsedStack($1) ?
                      TU_getPref("extensions.tabutils.mouseHoverPopup", true) ?
                      event.preventDefault() :
-                     this.siblingTabsOf($1).map(function($1) ($1.hasAttribute("group-counter") ? "> " : "# ") + $0).join("\n") :
+                     this.siblingTabsOf($1).map(function($1) ($1.hasAttribute("group-selected") ? "> " : "# ") + $0).join("\n") :
                      $0
   }).toString().replace(/^.*{|}$/g, "").replace("$0", s, "g").replace("$1", s1, "g"));
 
-  if (gBrowser.mTabContainer.mAllTabsPopup)
-  TU_hookCode("gBrowser.mTabContainer.mAllTabsPopup._setMenuitemAttributes",
-    ["aTab.selected", '$& || aTab.hasAttribute("group-counter") && arguments.callee.caller == gBrowser.updateTabStackPopup']
-  );
+  gBrowser._setMenuitemAttributes = function _setMenuitemAttributes(aItem, aTab) {
+    ["label", "crop", "image"].forEach(function(aProp) {
+      aItem[aProp] = aTab[aProp];
+    });
+
+    ["busy", "pending", "unread"].forEach(function(aAttr) {
+      if (aTab.hasAttribute(aAttr))
+        aItem.setAttribute(aAttr, "true");
+      else
+        aItem.removeAttribute(aAttr);
+    });
+
+    if (aTab.hasAttribute("busy"))
+      aItem.removeAttribute("image");
+
+    if (aTab.hasAttribute("group-selected"))
+      aItem.setAttribute("selected", "true");
+    else
+      aItem.removeAttribute("selected");
+  };
 
   gBrowser.updateTabStackPopup = function updateTabStackPopup(aPopup) {
     while (aPopup.hasChildNodes())
       aPopup.removeChild(aPopup.lastChild);
 
-    let tabs = this.siblingTabsOf(this.mTabs[aPopup.value]);
-    for (let tab of tabs) {
-      let item = document.createElement("menuitem");
+    for (let tab of this.siblingTabsOf(this.mTabs[aPopup.value])) {
+      let item = aPopup.appendChild(document.createElement("menuitem"));
       item.setAttribute("class", "menuitem-iconic alltabs-item menuitem-with-favicon");
-      item.setAttribute("label", tab.label);
-      item.setAttribute("crop", tab.crop);
-
-      if (tab.hasAttribute("busy"))
-        item.setAttribute("busy", "true");
-      else
-        item.setAttribute("image", tab.image);
-
-      if (tab.hasAttribute("group-counter"))
-        item.setAttribute("selected", "true");
-
-      if (gBrowser.mTabContainer.mAllTabsPopup)
-        gBrowser.mTabContainer.mAllTabsPopup._setMenuitemAttributes(item, tab);
-
       item.value = tab._tPos;
-      aPopup.appendChild(item);
+
+      gBrowser._setMenuitemAttributes(item, tab);
     }
   };
 
@@ -529,7 +564,7 @@ tabutils._groupTabs = function() {
     let tab = event.target;
     for (let item of popup.childNodes) {
       if (item.value == tab._tPos) {
-        gBrowser.mTabContainer.mAllTabsPopup._setMenuitemAttributes(item, tab);
+        gBrowser._setMenuitemAttributes(item, tab);
         break;
       }
     }
@@ -537,8 +572,7 @@ tabutils._groupTabs = function() {
 
   tabutils.addEventListener(gBrowser.mTabContainer, "mouseover", function(event) {
     if (event.target.localName == "tab" &&
-        event.target.getAttribute("group-collapsed") == "true" &&
-        event.target.getAttribute("group-counter") != 1 &&
+        gBrowser.isCollapsedStack(event.target) &&
         TU_getPref("extensions.tabutils.mouseHoverPopup", true)) {
       let tab = event.target;
       let target = event.relatedTarget;
@@ -551,10 +585,10 @@ tabutils._groupTabs = function() {
       clearTimeout(popup._mouseHoverTimer);
 
       popup.hidePopup();
-      popup._mouseHoverTimer = setTimeout(function(self) {
+      popup._mouseHoverTimer = setTimeout(function() {
         popup.value = tab._tPos;
-        popup.openPopup(tab, self.orient == "horizontal" ? "after_start" : "end_before");
-      }, TU_getPref("extensions.tabutils.mouseHoverPopupDelay", 250), this);
+        popup.openPopup(tab, this.orient == "horizontal" ? "after_start" : "end_before");
+      }.bind(this), TU_getPref("extensions.tabutils.mouseHoverPopupDelay", 250));
     }
   }, false);
 
@@ -569,9 +603,9 @@ tabutils._groupTabs = function() {
 
       let popup = document.getElementById("tabStackPopup");
       clearTimeout(popup._mouseHoverTimer);
-      popup._mouseHoverTimer = setTimeout(function(self) {
+      popup._mouseHoverTimer = setTimeout(function() {
         popup.hidePopup();
-      }, 250, this);
+      }, 250);
     }
   }, false);
 
@@ -589,8 +623,8 @@ tabutils._groupTabs = function() {
   }, false);
 
   tabutils.addEventListener(tabStackPopup, "mouseout", function(event) {
-    this._mouseHoverTimer = setTimeout(function(self) {
-      self.hidePopup();
-    }, 250, this);
+    this._mouseHoverTimer = setTimeout(function() {
+      this.hidePopup();
+    }.bind(this), 250);
   }, false);
 };

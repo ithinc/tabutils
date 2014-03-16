@@ -47,31 +47,47 @@ menuseparator:last-child {
   -moz-box-flex: 0 !important;
 }
 
-.tabbrowser-tabs[tabfittitle="true"][closeButtonOnPointedTab="true"][closebuttons="activetab"] > .tabbrowser-tab:not([selected="true"]):not(:hover) .tab-close-button,
+.tabbrowser-tabs[tabfittitle="true"][closeButtonOnPointedTab="true"][closebuttons="activetab"] > .tabbrowser-tab:not([selected]):not(:hover) .tab-close-button,
 .tabbrowser-tabs[tabfittitle="true"][closeButtonOnPointedTab="true"]:not([closebuttons="activetab"]):not([closebuttons="alltabs"]) > .tabbrowser-tab:not(:hover) .tab-close-button {
   display: -moz-box;
   visibility: hidden;
 }
 
 /* Tab Highlighting */
-.tabbrowser-tabs:not([highlightProtected]) > .tabbrowser-tab[protected] .tab-close-button {
-  display: -moz-box !important;
-  visibility: visible !important;
-  list-style-image: url(chrome://browser/skin/Secure.png);
-  -moz-image-region: rect(1px, 15px, 15px, 1px);
-}
-
+.tabbrowser-tab[locked] .tab-throbber:not([busy]),
+.tabbrowser-tab[locked] .tab-throbber:not([busy]) + .tab-icon-image,
+.tabbrowser-tab[protected] .tab-close-button,
 .tabbrowser-tab[autoReload] .tab-close-button {
   display: -moz-box !important;
 }
 
+.tabbrowser-tab[protected] .tab-close-button,
 .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
   visibility: visible !important;
+}
+
+.tabbrowser-tab[locked] .tab-throbber:not([busy]) {
+  -moz-margin-end: -8px;
+}
+
+.tabbrowser-tab[locked] .tab-throbber:not([busy]) + .tab-icon-image {
+  -moz-margin-start: -8px;
+  position: relative;
+  z-index: -1;
+}
+
+.tabbrowser-tab[locked] .tab-throbber:not([busy]),
+.tabbrowser-tab[protected] .tab-close-button {
+  list-style-image: url(chrome://browser/skin/Secure.png);
+  -moz-image-region: rect(1px, 15px, 15px, 1px);
+}
+
+.tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
   list-style-image: url("jar:resource://app/chrome/classic.jar!/skin/classic/browser/Toolbar-small.png") !important;
   -moz-image-region: rect(1px, 111px, 15px, 97px) !important;
 }
 
-.tabbrowser-tabs[closeButtonOnPointedTab="false"][closebuttons="activetab"] > .tabbrowser-tab[autoReload]:not([selected="true"]):hover .tab-close-button,
+.tabbrowser-tabs[closeButtonOnPointedTab="false"][closebuttons="activetab"] > .tabbrowser-tab[autoReload]:not([selected]):hover .tab-close-button,
 .tabbrowser-tabs[closeButtonOnPointedTab="false"]:not([closebuttons="activetab"]):not([closebuttons="alltabs"]) > .tabbrowser-tab[autoReload]:hover .tab-close-button {
   visibility: hidden;
 }
@@ -90,13 +106,11 @@ menuseparator:last-child {
 }
 
 [orient="horizontal"] > .tabbrowser-tab[faviconized] .tab-text:not(.tab-badge),
-.tabbrowser-tab[protected]:not([autoReload]) .tab-close-button,
-.tabbrowser-tab[faviconized]:not([autoReload]) .tab-close-button,
-.tabbrowser-tab[pinned]:not([autoReload]) .tab-close-button {
+.tabbrowser-tab[faviconized]:not([protected]):not([autoReload]) .tab-close-button,
+.tabbrowser-tab[pinned]:not([protected]):not([autoReload]) .tab-close-button {
   display: none !important;
 }
 
-.tabbrowser-tab[protected][autoReload]:hover .tab-close-button,
 .tabbrowser-tab[faviconized][autoReload]:hover .tab-close-button,
 .tabbrowser-tab[pinned][autoReload]:hover .tab-close-button {
   visibility: hidden;

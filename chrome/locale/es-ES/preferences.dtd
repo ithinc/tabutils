@@ -2,6 +2,7 @@
 <!ENTITY prefwindow.apply "Aplicar">
 <!ENTITY prefwindow.reset "Reiniciar">
 <!ENTITY prefwindow.close "Cerrar">
+<!ENTITY prefwindow.donate "Donar">
 <!ENTITY prefwindow.settings "Perfiles">
 <!ENTITY settings.default "Perfil predeterminado">
 <!ENTITY settings.suggest "Perfil recomendado">

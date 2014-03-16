@@ -3,7 +3,6 @@
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx4.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx6.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx14.css" type="text/css"?>
-<?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx21.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx29.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_mac.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_linux.css" type="text/css"?>
@@ -33,9 +32,9 @@
   <window id="main-window">
   <commandset id="tuCommandSet">
     <command id="cmd_tuOptions" oncommand="openDialog('chrome://tabutils/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=no').focus();"/>
-    <command id="cmd_copyPageLocation" oncommand="Services.nsIClipboardHelper.copyString(gBrowser.currentURI.spec);"/>
-    <command id="cmd_cutPageLocation" oncommand="document.getElementById('cmd_copyPageLocation').doCommand();document.getElementById('cmd_close').doCommand();"/>
-    <command id="cmd_pasteAndGo" oncommand="var url = readFromClipboard();if (url) if (gURLBar) {gURLBar.value = url;gURLBar.handleCommand();}"/>
+    <command id="cmd_copyPageUrl" oncommand="Services.nsIClipboardHelper.copyString(gBrowser.currentURI.spec);"/>
+    <command id="cmd_copyAllPageUrls" oncommand="Services.nsIClipboardHelper.copyString([tab.linkedBrowser.currentURI.spec for (tab of gBrowser.allTabs)].join('\n'));"/>
+    <command id="cmd_pasteAndGo" oncommand="var clipboard = readFromClipboard();if (!clipboard) return;if (clipboard.indexOf('\n') != -1) {gBrowser.loadTabs(clipboard.split('\n'), TU_getPref('extensions.tabutils.loadUrlInBackground'), false);return;} if (gURLBar) {gURLBar.value = clipboard;gURLBar.handleCommand();}"/>
     <command id="cmd_pasteAndSearch" oncommand="var url = readFromClipboard(), searchbar = BrowserSearch.searchBar;if (url) if (searchbar) {searchbar.value = url;searchbar.handleSearchCommand();}"/>
     <command id="cmd_recentlyClosedTabs" oncommand="var popup = document.getElementById('undoCloseTabPopup');if (popup.state == 'open') popup.hidePopup(); else popup.openPopup(gBrowser.mPanelContainer, 'overlap');"/>
     <command id="cmd_newGroup" oncommand="TabView._initFrame(function() {var tab = BrowserOpenTab() || gBrowser.getLastOpenedTab();TabView.moveTabTo(tab);gBrowser.selectedTab = tab;});"/>
@@ -43,22 +42,26 @@
     <command id="cmd_nextGroup" oncommand="var evt = document.createEvent('KeyEvents');evt.initKeyEvent('keypress', true, true, null, true, false, false, false, 0, 96);document.documentElement.dispatchEvent(evt);"/>
   </commandset>
 
-  <keyset id="tuKeyset">
-    <key id="key_copyPageLocation" key="C" modifiers="accel" oncommand="goDoCommand('cmd_copy', 'cmd_copyPageLocation');"/>
-    <key id="key_cutPageLocation" key="X" modifiers="accel" oncommand="goDoCommand('cmd_cut', 'cmd_cutPageLocation');"/>
+  <keyset id="tuClipboardKeyset">
+    <key id="key_copyPageUrl" key="C" modifiers="accel" oncommand="goDoCommand('cmd_copy', 'cmd_copyPageUrl');"/>
+    <key id="key_copyAllPageUrls" key="C" modifiers="accel,shift" oncommand="goDoCommand('cmd_copy', 'cmd_copyAllPageUrls');"/>
     <key id="key_pasteAndGo" key="V" modifiers="accel" oncommand="goDoCommand('cmd_paste', 'cmd_pasteAndGo');"/>
-    <key id="key_pasteAndSearch" key="V" modifiers="accel,shift" oncommand="goDoCommand('cmd_pasteAndSearch', 'cmd_pasteAndSearch');"/>
-    <key id="key_undoCloseTab2" key="Z" modifiers="accel" oncommand="goDoCommand('cmd_undo', 'History:UndoCloseTab');"/>
+    <key id="key_pasteAndSearch" key="V" modifiers="accel,shift" oncommand="goDoCommand('cmd_pasteNoFormatting', 'cmd_pasteAndSearch');"/>
+    <key id="key_undoCloseTabZ" key="Z" modifiers="accel" oncommand="goDoCommand('cmd_undo', 'History:UndoCloseTab');"/>
     <key id="key_recentlyClosedTabs" key="Z" modifiers="accel,shift" oncommand="goDoCommand('cmd_redo', 'cmd_recentlyClosedTabs');"/>
+  </keyset>
+
+  <keyset id="tuKeyset">
     <key id="key_duplicateTab" key="T" modifiers="accel,alt" oncommand="gBrowser.duplicateTab(gBrowser.mCurrentTab);"/>
     <key id="key_protectTab" key="K" modifiers="accel,alt" oncommand="gBrowser.protectTab(gBrowser.mCurrentTab);"/>
     <key id="key_lockTab" key="L" modifiers="accel,alt" oncommand="gBrowser.lockTab(gBrowser.mCurrentTab);"/>
     <key id="key_freezeTab" key="F" modifiers="accel,alt" oncommand="gBrowser.freezeTab(gBrowser.mCurrentTab);"/>
     <key id="key_faviconizeTab" key="I" modifiers="accel,alt" oncommand="gBrowser.faviconizeTab(gBrowser.mCurrentTab);"/>
     <key id="key_pinTab" key="P" modifiers="accel,alt" oncommand="gBrowser.pinTab(gBrowser.mCurrentTab, !gBrowser.mCurrentTab.pinned);"/>
-    <key id="key_closeLeftTabs" oncommand="gBrowser.closeLeftTabs(gBrowser.mCurrentTab);" keycode="VK_F3" modifiers="accel,shift"/>
-    <key id="key_closeAllTabs" oncommand="gBrowser.closeAllTabs();" keycode="VK_F4" modifiers="accel,shift"/>
-    <key id="key_closeRightTabs" oncommand="gBrowser.closeRightTabs(gBrowser.mCurrentTab);" keycode="VK_F5" modifiers="accel,shift"/>
+    <key id="key_unstackTab" key="U" modifiers="accel,alt" oncommand="gBrowser.unstackTabs([gBrowser.mCurrentTab]);"/>
+    <key id="key_expandStack" key="+" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.isCollapsedStack(gBrowser.mCurrentTab) ? gBrowser.mCurrentTab : gBrowser.allTabs, false);"/>
+    <key id="key_collapseStack" key="-" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.isExpandedStack(gBrowser.mCurrentTab) ? gBrowser.mCurrentTab : gBrowser.allTabs, true);"/>
+    <key id="key_collapseAllStacks" key="0" modifiers="accel,alt" oncommand="gBrowser.collapseStack(gBrowser.allTabs);"/>
     <key id="key_moveTabBackward" oncommand="gBrowser.moveTabBackward();" keycode="VK_PAGE_UP" modifiers="accel,shift"/>
     <key id="key_moveTabForward" oncommand="gBrowser.moveTabForward();" keycode="VK_PAGE_DOWN" modifiers="accel,shift"/>
     <key id="key_moveTabToStart" oncommand="gBrowser.moveTabToStart();" keycode="VK_HOME" modifiers="accel,shift"/>
@@ -72,8 +75,6 @@
     <key id="key_selectPinnedTab7" oncommand="gBrowser.selectPinnedTabAtIndex(6, event);" key="7" modifiers="accel,alt"/>
     <key id="key_selectPinnedTab8" oncommand="gBrowser.selectPinnedTabAtIndex(7, event);" key="8" modifiers="accel,alt"/>
     <key id="key_selectLastPinnedTab" oncommand="gBrowser.selectPinnedTabAtIndex(-1, event);" key="9" modifiers="accel,alt"/>
-    <key id="key_prevGroup" command="cmd_prevGroup" keycode="VK_UP" modifiers="control"/>
-    <key id="key_nextGroup" command="cmd_nextGroup" keycode="VK_DOWN" modifiers="control"/>
     <key id="key_toggleTabsToolbar" oncommand="var tabsToolbar = document.getElementById('TabsToolbar'); setToolbarVisibility(tabsToolbar, tabsToolbar.collapsed);" key="\" modifiers="accel"/>
     <key id="key_togglePinnedTabsBar" oncommand="var pref = 'extensions.tabutils.pinTab.showPhantom'; TU_setPref(pref, !TU_getPref(pref));" key="\" modifiers="accel,alt"/>
     <key id="key_locateTabsToolbarPrev" oncommand="var pref = 'extensions.tabutils.tabBarPosition'; TU_setPref(pref, (TU_getPref(pref, 0) + 3) % 4);" key="[" modifiers="accel,alt"/>
@@ -121,7 +122,7 @@
               insertbefore="context-sep-open"/>
   </menupopup>
 
-  <menupopup id="tabContextMenu">
+  <menupopup id="tabContextMenu" oncommand="gBrowser.selectedTabs = [];">
     <menuitem id="context_newTab"
               label="&tabCmd.label;"
               accesskey="&tabCmd.accesskey;"
@@ -145,21 +146,13 @@
         <menuitem anonid="enable" text="&reloadEvery.enable;" type="checkbox"
                   oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs);event.stopPropagation();"/>
         <menuseparator/>
-        <menuitem label="5 &seconds.label;" value="5" type="radio"/>
-        <menuitem label="10 &seconds.label;" value="10" type="radio"/>
-        <menuitem label="30 &seconds.label;" value="30" type="radio"/>
-        <menuitem label="1 &minute.label;" value="60" type="radio"/>
-        <menuitem label="2 &minutes.label;" value="120" type="radio"/>
-        <menuitem label="5 &minutes.label;" value="300" type="radio"/>
-        <menuitem label="10 &minutes.label;" value="600" type="radio"/>
-        <menuitem label="30 &minutes.label;" value="1800" type="radio"/>
-        <menuseparator/>
+        <menuseparator anonid="sep_custom"/>
         <menuitem anonid="custom" text="&reloadEvery.custom;" type="radio"
                   oncommand="var reloadInterval = {value: this.value};if (Services.prompt.prompt(null, '&reloadEvery.label;', '&reloadEvery.reloadInterval;', reloadInterval, null, {})) this.value = reloadInterval.value; else event.stopPropagation();"/>
         <menuseparator/>
-        <menuitem anonid="enableAllTabs" label="&reloadEvery.enableAllTabs;"
+        <menuitem label="&reloadEvery.enableAllTabs;"
                   oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, true, null, this.parentNode.value);event.stopPropagation();"/>
-        <menuitem anonid="disableAllTabs" label="&reloadEvery.disableAllTabs;"
+        <menuitem label="&reloadEvery.disableAllTabs;"
                   oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, false);event.stopPropagation();"/>
       </menupopup>
     </menu>
@@ -256,60 +249,50 @@
               multiselected="any"
               oncommand="gBrowser.mContextTabs.forEach(gBrowser.restartTab, gBrowser);"/>
     <menuseparator insertbefore="context_closeTab"/>
-    <menuitem id="context_groupTab"
-              label="&groupTab.label;"
-              accesskey="&groupTab.accesskey;"
+    <menuitem id="context_stackTab"
+              label="&stackTab.label;"
+              accesskey="&stackTab.accesskey;"
               insertbefore="context_closeTab"
               multiselected="true"
-              oncommand="gBrowser.groupTabs(gBrowser.mContextTabs);"/>
-    <menuitem id="context_ungroupTab"
-              label="&ungroupTab.label;"
-              accesskey="&ungroupTab.accesskey;"
+              oncommand="gBrowser.stackTabs(gBrowser.mContextTabs);"/>
+    <menuitem id="context_unstackTab"
+              label="&unstackTab.label;"
+              accesskey="&unstackTab.accesskey;"
+              key="key_unstackTab"
               insertbefore="context_closeTab"
               multiselected="any"
               grouponly="true"
-              oncommand="gBrowser.ungroupTabs(gBrowser.mContextTabs);"/>
+              oncommand="gBrowser.unstackTabs(gBrowser.mContextTabs);"/>
     <menu id="context_tabStackMenu"
           label="&tabStackMenu.label;"
           accesskey="&tabStackMenu.accesskey;"
           insertbefore="context_closeTab"
           grouponly="true">
       <menupopup>
-        <menuitem id="context_collapseGroup"
-                  label="&collapseGroup.label;"
-                  accesskey="&collapseGroup.accesskey;"
-                  grouponly="true"
-                  oncommand="gBrowser.collapseGroup(gBrowser.mContextTab);"/>
-        <menuitem id="context_expandGroup"
-                  label="&expandGroup.label;"
-                  accesskey="&expandGroup.accesskey;"
-                  grouponly="true"
-                  oncommand="gBrowser.expandGroup(gBrowser.mContextTab);"/>
-        <menuitem id="context_colorGroup"
-                  label="&colorGroup.label;"
-                  accesskey="&colorGroup.accesskey;"
-                  grouponly="true"
-                  oncommand="var tab = gBrowser.mContextTab; if (!tab.hasAttribute('group') || tab.getAttribute('group-counter') == 1) return; var color = {value: tab.getAttribute('group-color')};if (Services.prompt.prompt(null, '&colorGroup.label;', '', color, null, {})) gBrowser.updateGroup(tab, {id: !color.value, color: color.value});"/>
-        <menuitem id="context_bookmarkGroup"
-                  label="&bookmarkGroup.label;"
-                  accesskey="&bookmarkGroup.accesskey;"
-                  grouponly="true"
+        <menuitem id="context_collapseStack"
+                  label_collapse="&collapseStack.label;"
+                  label_expand="&expandStack.label;"
+                  accesskey_collapse="&collapseStack.accesskey;"
+                  accesskey_expand="&expandStack.accesskey;"
+                  key_collapse="key_collapseStack"
+                  key_expand="key_expandStack"
+                  oncommand="gBrowser.collapseStack(gBrowser.mContextTab);"/>
+        <menuitem id="context_colorStack"
+                  label="&colorStack.label;"
+                  accesskey="&colorStack.accesskey;"
+                  oncommand="var tab = gBrowser.mContextTab; if (!gBrowser.isStackedTab(tab)) return; var color = {value: tab.getAttribute('group-color')};if (Services.prompt.prompt(null, '&colorStack.label;', '', color, null, {})) gBrowser.updateStack(tab, {id: !color.value, color: color.value});"/>
+        <menuitem id="context_bookmarkStack"
+                  label="&bookmarkStack.label;"
+                  accesskey="&bookmarkStack.accesskey;"
                   oncommand="gBrowser.bookmarkTab(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
         <menuseparator/>
-        <menuitem id="context_splitGroup"
-                  label="&splitGroup.label;"
-                  accesskey="&splitGroup.accesskey;"
-                  grouponly="true"
-                  oncommand="gBrowser.groupTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab).filter(function(aTab) aTab._tPos >= gBrowser.mContextTab._tPos), null, true);"/>
-        <menuitem id="context_ungroupGroup"
-                  label="&ungroupGroup.label;"
-                  accesskey="&ungroupGroup.accesskey;"
-                  grouponly="true"
-                  oncommand="gBrowser.ungroupTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
-        <menuitem id="context_closeGroup"
-                  label="&closeGroup.label;"
-                  accesskey="&closeGroup.accesskey;"
-                  grouponly="true"
+        <menuitem id="context_dismissStack"
+                  label="&dismissStack.label;"
+                  accesskey="&dismissStack.accesskey;"
+                  oncommand="gBrowser.unstackTabs(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
+        <menuitem id="context_closeStack"
+                  label="&closeStack.label;"
+                  accesskey="&closeStack.accesskey;"
                   oncommand="gBrowser.removeTabsBut(gBrowser.siblingTabsOf(gBrowser.mContextTab));"/>
       </menupopup>
     </menu>
@@ -344,21 +327,6 @@
               accesskey="&selectTabs.accesskey;"
               multiselected="any"
               oncommand="gBrowser.selectTabs(gBrowser.mContextTab);event.stopPropagation();"/>
-    <menuitem id="context_selectAllTabs"
-              label="&selectAllTabs.label;"
-              accesskey="&selectAllTabs.accesskey;"
-              multiselected="any"
-              oncommand="gBrowser.selectAllTabs();event.stopPropagation();"/>
-    <menuitem id="context_unselectAllTabs"
-              label="&unselectAllTabs.label;"
-              accesskey="&unselectAllTabs.accesskey;"
-              multiselected="any"
-              oncommand="gBrowser.selectedTabs = [];"/>
-    <menuitem id="context_invertSelection"
-              label="&invertSelection.label;"
-              accesskey="&invertSelection.accesskey;"
-              multiselected="any"
-              oncommand="gBrowser.selectedTabs = gBrowser.otherTabsOf(gBrowser.selectedTabs);event.stopPropagation();"/>
   </menupopup>
 
   <menupopup id="alltabs-popup"
@@ -369,6 +337,7 @@
               type="checkbox"
               oncommand="TU_setPref('extensions.tabutils.showAllTabs', !TU_getPref('extensions.tabutils.showAllTabs'));"/>
     <menuseparator/>
+    <menuseparator id="sep_readAllTabs"/>
     <menuitem id="context_readAllTabs"
               label_read="&readAllTabs.label;"
               label_unread="&unreadAllTabs.label;"
@@ -395,6 +364,16 @@
     <menuitem id="context_closeAllDuplicateTabs"
               label="&closeAllDuplicateTabs.label;"
               oncommand="gBrowser.closeAllDuplicateTabs();"/>
+    <menuseparator/>
+    <menuitem id="context_selectAllTabs"
+              label="&selectAllTabs.label;"
+              oncommand="gBrowser.selectedTabs = gBrowser.allTabs;"/>
+    <menuitem id="context_unselectAllTabs"
+              label="&unselectAllTabs.label;"
+              oncommand="gBrowser.selectedTabs = [];"/>
+    <menuitem id="context_invertSelection"
+              label="&invertSelection.label;"
+              oncommand="gBrowser.selectedTabs = gBrowser.otherTabsOf(gBrowser.selectedTabs);"/>
     <menuseparator/>
   </menupopup>
 

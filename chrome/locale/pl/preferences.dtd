@@ -2,6 +2,7 @@
 <!ENTITY prefwindow.apply "Zastosuj">
 <!ENTITY prefwindow.reset "Resetuj">
 <!ENTITY prefwindow.close "Zamknij">
+<!ENTITY prefwindow.donate "Darować">
 <!ENTITY prefwindow.settings "Ustawienia">
 <!ENTITY settings.default "Domyślne">
 <!ENTITY settings.suggest "Polecane">

@@ -30,9 +30,9 @@ tabutils._multirowTabs = function() {
   }, false);
 
   tabutils.addEventListener(gBrowser.mTabContainer, "TabClose", function(event) {
-    setTimeout(function(self) {
-      self.exitBlockMode();
-    }, 250, this);
+    setTimeout(function() {
+      this.exitBlockMode();
+    }.bind(this), 250);
   }, false);
 
   tabutils.addEventListener(window, "resize", function(event) {

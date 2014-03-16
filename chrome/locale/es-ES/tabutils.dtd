@@ -90,23 +90,23 @@
 <!ENTITY hide.label "Ocultar">
 <!ENTITY tabsToolbarCmd.label "Barra de herramientas de pestañas">
 <!ENTITY tabsToolbarCmd.accesskey "e">
-<!ENTITY groupTab.label "Apilar pestañas">
-<!ENTITY groupTab.accesskey "A">
-<!ENTITY ungroupTab.label "Remover pestaña de la pila">
-<!ENTITY ungroupTab.accesskey "R">
+<!ENTITY stackTab.label "Apilar pestañas">
+<!ENTITY stackTab.accesskey "A">
+<!ENTITY unstackTab.label "Remover pestaña de la pila">
+<!ENTITY unstackTab.accesskey "R">
 <!ENTITY tabStackMenu.label "Pila de pestañas">
 <!ENTITY tabStackMenu.accesskey "P">
-<!ENTITY collapseGroup.label "Contraer pila">
-<!ENTITY collapseGroup.accesskey "C">
-<!ENTITY expandGroup.label "Expandir pila">
-<!ENTITY expandGroup.accesskey "E">
-<!ENTITY colorGroup.label "Cambiar color de la pila...">
-<!ENTITY colorGroup.accesskey "b">
-<!ENTITY bookmarkGroup.label "Añadir pila a marcadores...">
-<!ENTITY bookmarkGroup.accesskey "A">
-<!ENTITY splitGroup.label "Separar en dos pilas">
-<!ENTITY splitGroup.accesskey "S">
-<!ENTITY ungroupGroup.label "Desapilar">
-<!ENTITY ungroupGroup.accesskey "D">
-<!ENTITY closeGroup.label "Cerrar pila">
-<!ENTITY closeGroup.accesskey "C">
+<!ENTITY collapseStack.label "Contraer pila">
+<!ENTITY collapseStack.accesskey "C">
+<!ENTITY expandStack.label "Expandir pila">
+<!ENTITY expandStack.accesskey "E">
+<!ENTITY colorStack.label "Cambiar color de la pila...">
+<!ENTITY colorStack.accesskey "b">
+<!ENTITY bookmarkStack.label "Añadir pila a marcadores...">
+<!ENTITY bookmarkStack.accesskey "A">
+<!ENTITY splitStack.label "Separar en dos pilas">
+<!ENTITY splitStack.accesskey "S">
+<!ENTITY dismissStack.label "Desapilar">
+<!ENTITY dismissStack.accesskey "D">
+<!ENTITY closeStack.label "Cerrar pila">
+<!ENTITY closeStack.accesskey "C">

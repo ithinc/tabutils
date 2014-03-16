@@ -32,7 +32,7 @@ tabutils._phantomTabs = function() {
         tabutils._ss.deleteTabValue(aTab, "pinned");
         tabutils._ss.deleteTabValue(aTab, "bookmarkId");
       }
-      tabutils.dispatchEvent(aTab, "TabUnpinning");
+      aTab.dispatchEvent(new CustomEvent("TabUnpinning", {bubbles: true}));
 
       this.mTabContainer.positionPinnedTab(aTab);
       this.mTabContainer.positionPinnedTabs();
@@ -41,7 +41,7 @@ tabutils._phantomTabs = function() {
       aTab.linkedBrowser.docShell.isAppTab = false;
       if (aTab.selected)
         this._setCloseKeyState(true);
-      tabutils.dispatchEvent(aTab, "TabUnpinned");
+      aTab.dispatchEvent(new CustomEvent("TabUnpinned", {bubbles: true}));
     }
     else {
       aTab.setAttribute("pinned", true);
@@ -60,7 +60,7 @@ tabutils._phantomTabs = function() {
         tabutils._ss.setTabValue(aTab, "pinned", true);
         tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
       }
-      tabutils.dispatchEvent(aTab, "TabPinning");
+      aTab.dispatchEvent(new CustomEvent("TabPinning", {bubbles: true}));
 
       this.mTabContainer.positionPinnedTab(aTab);
       this.mTabContainer.positionPinnedTabs();
@@ -70,7 +70,7 @@ tabutils._phantomTabs = function() {
       aTab.linkedBrowser.docShell.isAppTab = true;
       if (aTab.selected)
         this._setCloseKeyState(false);
-      tabutils.dispatchEvent(aTab, "TabPinned");
+      aTab.dispatchEvent(new CustomEvent("TabPinned", {bubbles: true}));
     }
   };
 
@@ -105,7 +105,7 @@ tabutils._phantomTabs = function() {
     if (!aTab.pinned &&
         aTags.indexOf("pinned") > -1 &&
         TU_getPref("extensions.tabutils.autoPin", true) &&
-        !Array.some(this.mTabs, function(bTab) bTab.pinned && bTab.linkedBrowser.currentURI.spec == aURI.spec)) {
+        !Array.some(this.visibleTabs.slice(0, this._numPinnedTabs), function(bTab) bTab.linkedBrowser.currentURI.spec == aURI.spec)) {
       this.pinTab(aTab, true, false, PlacesUtils.getItemIdForTaggedURI(aURI, "pinned"));
 
       if (aTab.mCorrespondingButton &&
@@ -275,8 +275,8 @@ tabutils._phantomTabs = function() {
                           '.tabbrowser-tabs[orient="vertical"] #PinnedTabsBar[style*="border"]:empty {}'),
       tabutils.insertRule('.tabbrowser-tabs[multirow] > .tabbrowser-tab[pinned],' +
                           '#main-window .tabbrowser-tabs[orient="vertical"] > .tabbrowser-tab[pinned] {}'),
-      tabutils.insertRule('#main-window .tabbrowser-tab[pinned]:not([selected="true"]) {}'),
-      tabutils.insertRule('#main-window .tabbrowser-tab[pinned][selected="true"] {}'),
+      tabutils.insertRule('#main-window .tabbrowser-tab[pinned]:not([selected]) {}'),
+      tabutils.insertRule('#main-window .tabbrowser-tab[pinned][selected] {}'),
       tabutils.insertRule('#main-window .tabbrowser-tab[pinned] > * {}')
     ];
   });
@@ -349,24 +349,14 @@ tabutils._phantomTabs = function() {
     }
   }, false);
 
-  gBrowser.selectUnpinnedTabAtIndex = function selectUnpinnedTabAtIndex(aIndex, aEvent) {
-    var tabs = Array.filter(this.mTabs, function(aTab) !aTab.pinned && aTab.boxObject.width > 0);
-    if (aIndex < 0)
-      aIndex += tabs.length;
+  TU_hookCode("gBrowser.selectTabAtIndex", "this.visibleTabs", "this.visibleTabs.filter(function(aTab) !aTab.collapsed)");
 
-    if (aIndex >= 0 && aIndex < tabs.length)
-      this.selectedTab = tabs[aIndex];
-
-    if (aEvent) {
-      aEvent.preventDefault();
-      aEvent.stopPropagation();
-    }
-  };
+  gBrowser.selectUnpinnedTabAtIndex = TU_hookFunc(gBrowser.selectTabAtIndex, "visibleTabs", "allTabs");
 
   gBrowser.selectPinnedTabAtIndex = function selectPinnedTabAtIndex(aIndex, aEvent) {
     var tabs = this.mTabContainer.mTabstrip._pinnedbox.childNodes;
     if (tabs.length == 0)
-      tabs = Array.filter(this.mTabs, function(aTab) aTab.pinned);
+      tabs = Array.slice(this.visibleTabs, 0, this._numPinnedTabs);
 
     if (aIndex < 0)
       aIndex += tabs.length;
