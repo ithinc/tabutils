@@ -2663,6 +2663,11 @@ tabutils._hideTabBar = function() {
       toolbarNodes.push(tabsToolbar);
   });
 
+  if ("getTogglableToolbars" in window) // Bug 940669 [Fx29]
+  TU_hookCode("getTogglableToolbars", /(?=.*return.*)/, function() {
+    toolbarNodes = [...new Set(toolbarNodes)];
+  });
+
   TU_hookCode("setToolbarVisibility", /.*setAttribute.*/, 'if (toolbar.id == "TabsToolbar") gBrowser.mTabContainer.visible = isVisible; else $&');
   TU_hookCode("gBrowser.mTabContainer.updateVisibility", "{", 'if (!TU_getPref("browser.tabs.autoHide")) return;');
 };
