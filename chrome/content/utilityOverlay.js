@@ -87,11 +87,11 @@
     [/"window"/, 'shift && TU_getPref("extensions.tabutils.shiftClick" + prefName, 0) ? "current" : $&'],
     [/(?=if \((ctrl|meta))/, function(s, s1) (function() {
       if (openInTab &&
-          ($1 && TU_getPref("extensions.tabutils.ctrlClick" + prefName, 1) ||
+          ($1 && TU_getPref("extensions.tabutils.ctrlClick" + prefName) & 0x01 ||
           middle && middleUsesTabs && TU_getPref("extensions.tabutils.middleClick" + prefName, 0) & 1))
         return "current";
     }).toString().replace(/^.*{|}$/g, "").replace("$1", s1)],
-    [/if \(shift|shift \?/, function(s) s.replace('shift', '$& ^ (middle && TU_getPref("extensions.tabutils.middleClick" + prefName, 0) & 2) > 0')]
+    [/shift(?= \?)/, '$& ^ (TU_getPref("extensions.tabutils." + (middle ? "middleClick" : "ctrlClick") + prefName) & 0x02) > 0']
   );
 
   TU_hookCode("openLinkIn",

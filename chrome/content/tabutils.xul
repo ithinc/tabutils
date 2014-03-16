@@ -156,21 +156,13 @@
         <menuitem anonid="enable" text="&reloadEvery.enable;" type="checkbox"
                   oncommand="gBrowser.autoReloadTab(gBrowser.mContextTabs);event.stopPropagation();"/>
         <menuseparator/>
-        <menuitem label="5 &seconds.label;" value="5" type="radio"/>
-        <menuitem label="10 &seconds.label;" value="10" type="radio"/>
-        <menuitem label="30 &seconds.label;" value="30" type="radio"/>
-        <menuitem label="1 &minute.label;" value="60" type="radio"/>
-        <menuitem label="2 &minutes.label;" value="120" type="radio"/>
-        <menuitem label="5 &minutes.label;" value="300" type="radio"/>
-        <menuitem label="10 &minutes.label;" value="600" type="radio"/>
-        <menuitem label="30 &minutes.label;" value="1800" type="radio"/>
-        <menuseparator/>
+        <menuseparator anonid="sep_custom"/>
         <menuitem anonid="custom" text="&reloadEvery.custom;" type="radio"
                   oncommand="var reloadInterval = {value: this.value};if (Services.prompt.prompt(null, '&reloadEvery.label;', '&reloadEvery.reloadInterval;', reloadInterval, null, {})) this.value = reloadInterval.value; else event.stopPropagation();"/>
         <menuseparator/>
-        <menuitem anonid="enableAllTabs" label="&reloadEvery.enableAllTabs;"
+        <menuitem label="&reloadEvery.enableAllTabs;"
                   oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, true, null, this.parentNode.value);event.stopPropagation();"/>
-        <menuitem anonid="disableAllTabs" label="&reloadEvery.disableAllTabs;"
+        <menuitem label="&reloadEvery.disableAllTabs;"
                   oncommand="gBrowser.autoReloadTab(gBrowser.allTabs, false);event.stopPropagation();"/>
       </menupopup>
     </menu>

@@ -114,6 +114,7 @@ pref("extensions.tabutils.menu.context_duplicateTab", false);
 pref("extensions.tabutils.menu.context_duplicateTabToGroup", false);
 pref("extensions.tabutils.menu.context_duplicateTabToWindow", false);
 pref("extensions.tabutils.menu.context_reloadEvery", false);
+pref("extensions.tabutils.menu.context_reloadEvery.list", "10,30,60,120,300,600,1800");
 pref("extensions.tabutils.menu.context_moveToWindow", false);
 pref("extensions.tabutils.menu.context_mergeWindow", false);
 pref("extensions.tabutils.menu.context_mergeGroup", false);
