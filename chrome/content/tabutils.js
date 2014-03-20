@@ -587,6 +587,34 @@ tabutils._tabOpeningOptions = function() {
     }
   });
 
+  let tmp = {};
+  Cu.import("resource://gre/modules/DownloadLastDir.jsm", tmp);
+
+  if (tmp.DownloadLastDir && // Bug 722995 [Fx19]
+      tmp.DownloadLastDir.prototype.getFileAsync && // Bug 854299 [Fx23]
+      tmp.DownloadLastDir.prototype.getFileAsync.name != "TU_getFileAsync")
+  tmp.DownloadLastDir.prototype.getFileAsync = (function() {
+    let getFileAsync = tmp.DownloadLastDir.prototype.getFileAsync;
+    return function TU_getFileAsync(aURI, aCallback) {
+      let win = this.window;
+      if (win._closeTimer) {
+        win.clearTimeout(win._closeTimer);
+        win._closeTimer = null;
+
+        aCallback = (function() {
+          let lastDirCallback = aCallback;
+          return function TU_LastDirCallback(lastDir) {
+            lastDirCallback(lastDir);
+            if (!win.closed) {
+              win.setTimeout(win.close, 250);
+            }
+          };
+        })();
+      }
+      getFileAsync.apply(this, arguments);
+    };
+  })();
+
   //在当前标签页的右侧打开新标签页
   //连续打开后台标签时保持原有顺序
   TU_hookCode("gBrowser.addTab",
