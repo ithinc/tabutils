@@ -582,9 +582,37 @@ tabutils._tabOpeningOptions = function() {
       let win = aWebProgress.DOMWindow;
       win._closeTimer = win.setTimeout(function() {
         this.mTabBrowser.isBlankTab(this.mTab) && this.mTabBrowser.removeTab(this.mTab);
-      }.bind(this), 250);
+      }.bind(this), 750);
     }
   });
+
+  let tmp = {};
+  Cu.import("resource://gre/modules/DownloadLastDir.jsm", tmp);
+
+  if (tmp.DownloadLastDir && // Bug 722995 [Fx19]
+      tmp.DownloadLastDir.prototype.getFileAsync && // Bug 854299 [Fx23]
+      tmp.DownloadLastDir.prototype.getFileAsync.name != "TU_getFileAsync")
+  tmp.DownloadLastDir.prototype.getFileAsync = (function() {
+    let getFileAsync = tmp.DownloadLastDir.prototype.getFileAsync;
+    return function TU_getFileAsync(aURI, aCallback) {
+      let win = this.window;
+      if (win._closeTimer) {
+        win.clearTimeout(win._closeTimer);
+        win._closeTimer = null;
+
+        aCallback = (function() {
+          let lastDirCallback = aCallback;
+          return function TU_LastDirCallback(lastDir) {
+            lastDirCallback(lastDir);
+            if (!win.closed) {
+              win.setTimeout(win.close, 250);
+            }
+          };
+        })();
+      }
+      getFileAsync.apply(this, arguments);
+    };
+  })();
 
   //在当前标签页的右侧打开新标签页
   //连续打开后台标签时保持原有顺序
@@ -602,7 +630,7 @@ tabutils._tabOpeningOptions = function() {
 
         if (TU_getPref("extensions.tabutils.openTabNext.keepOrder", true)) {
           let tab = lastRelatedTab.nextSibling;
-          let panelId = this.mCurrentTab.linkedPanel;
+          let panelId = this.mCurrentTab.linkedPanel + "#";
           for (; tab && tab.pinned; tab = tab.nextSibling);
           for (; tab && tab.getAttribute("opener") == panelId && tab != t && (!willStack || shouldStack(tab)); tab = tab.nextSibling)
             lastRelatedTab = tab;
@@ -624,7 +652,7 @@ tabutils._tabOpeningOptions = function() {
         default: return false; //None
       }
     })()) {
-      aTab.setAttribute("opener", this.mCurrentTab.linkedPanel);
+      aTab.setAttribute("opener", this.mCurrentTab.linkedPanel + "#");
     }
   });
 
@@ -766,7 +794,7 @@ tabutils._tabClosingOptions = function() {
 
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
-    var panelId = aTab.linkedPanel;
+    var panelId = aTab.linkedPanel + "#";
     Array.forEach(this.visibleTabs, function(aTab) {
       if (aTab.getAttribute("opener").startsWith(panelId))
         aTab.setAttribute("opener", panelId + (+aTab.getAttribute("opener").slice(panelId.length) + 1));
@@ -776,7 +804,7 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.onTabClose", "}", function() {
     if (aTab.hasAttribute("opener")) {
       let opener = aTab.getAttribute("opener");
-      let panelId = aTab.linkedPanel;
+      let panelId = aTab.linkedPanel + "#";
       Array.forEach(this.visibleTabs, function(aTab) {
         if (aTab.getAttribute("opener").startsWith(panelId))
           aTab.setAttribute("opener", opener);
@@ -794,8 +822,8 @@ tabutils._tabClosingOptions = function() {
       bTab = this.mCurrentTab;
 
     return aTab.hasAttribute("opener") && aTab.getAttribute("opener") == bTab.getAttribute("opener")
-        || aTab.getAttribute("opener").startsWith(bTab.linkedPanel)
-        || bTab.getAttribute("opener").startsWith(aTab.linkedPanel);
+        || aTab.getAttribute("opener").startsWith(bTab.linkedPanel + "#")
+        || bTab.getAttribute("opener").startsWith(aTab.linkedPanel + "#");
   };
 
   //关闭标签页时选择上次浏览的标签
@@ -2360,17 +2388,11 @@ tabutils._miscFeatures = function() {
     switch (sheet.href) {
       case "chrome://browser/skin/browser.css":
         for (let cssRule of Array.slice(sheet.cssRules)) {
-          if (/> .tabbrowser-tab/.test(cssRule.selectorText)) {
-            tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, ".tabbrowser-tab"));
-            continue;
-          }
-
-          if (/> .tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox/.test(cssRule.selectorText)) {
-            tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, "#PinnedTabsBarItems"));
-            continue;
-          }
-
           switch (cssRule.selectorText) {
+            case "#tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned]:before": // Bug 877368 [Fx29]
+            case "#tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned]::before":
+              tabutils.insertRule(cssRule.cssText.replace("#tabbrowser-tabs[positionpinnedtabs] >", ""));
+              break;
             case ".tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox":
               tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, ".tabbrowser-tabs[orient='horizontal']:not([overflow]):not([multirow]) $&"))
                       .style.MozMarginStart = "-" + cssRule.style.MozPaddingStart;
@@ -2382,6 +2404,16 @@ tabutils._miscFeatures = function() {
             case ".tab-throbber[pinned], .tab-icon-image[pinned], .tabs-newtab-button > .toolbarbutton-icon":
               tabutils.insertRule(cssRule.cssText.replace(cssRule.selectorText, '.tabbrowser-tabs[orient="horizontal"] > .tabbrowser-tab[faviconized] :-moz-any(.tab-throbber, .tab-icon-image)'));
               break;
+            default:
+              if (/> .tabbrowser-tab/.test(cssRule.selectorText)) {
+                tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, ".tabbrowser-tab"));
+                continue;
+              }
+
+              if (/> .tabbrowser-arrowscrollbox > .arrowscrollbox-scrollbox/.test(cssRule.selectorText)) {
+                tabutils.insertRule(cssRule.cssText.replace(RegExp.lastMatch, "#PinnedTabsBarItems"));
+                continue;
+              }
           }
         }
         break;
@@ -2714,6 +2746,11 @@ tabutils._hideTabBar = function() {
       toolbarNodes.push(tabsToolbar);
   });
 
+  if ("getTogglableToolbars" in window) // Bug 940669 [Fx29]
+  TU_hookCode("getTogglableToolbars", /(?=.*return.*)/, function() {
+    toolbarNodes = [...new Set(toolbarNodes)];
+  });
+
   TU_hookCode("setToolbarVisibility", /.*setAttribute.*/, 'if (toolbar.id == "TabsToolbar") gBrowser.mTabContainer.visible = isVisible; else $&');
   TU_hookCode("gBrowser.mTabContainer.updateVisibility", "{", 'if (!TU_getPref("browser.tabs.autoHide")) return;');
 };
@@ -2785,7 +2822,7 @@ tabutils._undoCloseTabButton = function() {
       document.getElementById("History:UndoCloseTab").removeAttribute("disabled");
     gBrowser._lastClosedTabsCount = null;
   };
-  //tabutils.updateUndoCloseTabCommand();
+  document.getElementById("History:UndoCloseTab").setAttribute("disabled", true);
   TU_hookCode("gBrowser.onTabClose", "}", "tabutils.updateUndoCloseTabCommand();");
   TU_hookCode("gBrowser.onTabRestoring", "}", "tabutils.updateUndoCloseTabCommand();");
   TU_hookCode("gSessionHistoryObserver.observe", "}", "tabutils.updateUndoCloseTabCommand();");

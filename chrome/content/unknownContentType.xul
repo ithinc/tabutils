@@ -6,7 +6,8 @@
     if (win && win._closeTimer) {
       win.clearTimeout(win._closeTimer);
       window.addEventListener("unload", function() {
-        win && win.setTimeout(function() {this.close();}, 250);
+        if (win._closeTimer && !win.closed)
+          win._closeTimer = win.setTimeout(win.close, 250);
       }, false);
     }
   ]]>
