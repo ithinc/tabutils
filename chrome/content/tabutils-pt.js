@@ -57,8 +57,8 @@ tabutils._phantomTabs = function() {
       }
 
       if (!aRestoring) {
-        tabutils._ss.setTabValue(aTab, "pinned", true);
-        tabutils._ss.setTabValue(aTab, "bookmarkId", aTab.bookmarkId);
+        tabutils._ss.setTabValue(aTab, "pinned", "true");
+        tabutils._ss.setTabValue(aTab, "bookmarkId", String(aTab.bookmarkId || "")); // Bug 961646
       }
       tabutils.dispatchEvent(aTab, "TabPinning");
 
