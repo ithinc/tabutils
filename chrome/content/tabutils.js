@@ -586,9 +586,9 @@ tabutils._tabOpeningOptions = function() {
         && aStatus == 0
         && TU_getPref("extensions.tabutils.removeUnintentionalBlank", true)) {
       let win = aWebProgress.DOMWindow;
-      win._closeTimer = win.setTimeout(function() {
-        this.mTabBrowser.isBlankTab(this.mTab) && this.mTabBrowser.removeTab(this.mTab);
-      }.bind(this), 750);
+      win._closeTimer = win.setTimeout(function(self) {
+        self.mTabBrowser.isBlankTab(self.mTab) && self.mTabBrowser.removeTab(self.mTab);
+      }, 250, this);
     }
   });
 
