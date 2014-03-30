@@ -44,6 +44,15 @@ var tabutils = {
       });
     }
 
+    let os = Services.appinfo.OS; //WINNT, Linux or Darwin
+    let version = parseFloat(Services.appinfo.version);
+    document.documentElement.setAttribute("OS", os);
+    document.documentElement.setAttribute("v4", true);
+    document.documentElement.setAttribute("v6", true);
+    document.documentElement.setAttribute("v14", true);
+    document.documentElement.setAttribute("v17", true);
+    document.documentElement.setAttribute("v29", version >= 29.0);
+
 //    Function.prototype.__defineGetter__("stack", function() {
 //      var stack = [];
 //      for (let caller = this; caller && stack.length < 15; caller = caller.caller) {
@@ -2375,15 +2384,6 @@ tabutils._miscFeatures = function() {
   });
 
   //Compatibility with themes
-  let os = Services.appinfo.OS; //WINNT, Linux or Darwin
-  let version = parseFloat(Services.appinfo.version);
-  document.documentElement.setAttribute("OS", os);
-  document.documentElement.setAttribute("v4", version >= 4.0);
-  document.documentElement.setAttribute("v6", version >= 6.0);
-  document.documentElement.setAttribute("v14", version >= 14.0);
-  document.documentElement.setAttribute("v17", version >= 17.0);
-  document.documentElement.setAttribute("v29", version >= 29.0);
-
   for (let sheet of Array.slice(document.styleSheets)) {
     switch (sheet.href) {
       case "chrome://browser/skin/browser.css":
