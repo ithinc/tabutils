@@ -1702,6 +1702,11 @@ tabutils._multiTabHandler = function() {
       this.selectedTabs = [];
   });
 
+  TU_hookCode("gBrowser.onTabMove", "{", function() {
+    if (aTab.hasAttribute("multiselected"))
+      this._selectedTabs = null;
+  });
+
   TU_hookCode("gBrowser.onTabHide", "}", function() {
     if (aTab.hasAttribute("multiselected")) {
       aTab.removeAttribute("multiselected");
@@ -1858,7 +1863,7 @@ tabutils._multiTabHandler = function() {
   tabutils.addEventListener(gBrowser.mTabContainer, "dragstart", function(event) {
     if (event.target.localName == "tab") {
       let draggedTab = event.target;
-      let draggedTabs = gBrowser.contextTabsOf(draggedTab);
+      let draggedTabs = gBrowser.contextTabsOf(draggedTab).slice();
       draggedTabs.splice(draggedTabs.indexOf(draggedTab), 1);
       draggedTabs.unshift(draggedTab);
 
