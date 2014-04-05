@@ -3305,7 +3305,7 @@ tabutils._tabPrefObserver = {
     if (color && !(group in this._tabColoringRules)) {
       let selectorText;
       if (group[0] == "{")
-        selectorText = '.tabbrowser-tabs[colorStack="true"] > .tabbrowser-tab[group="' + group + '"]:not([group-counter="1"])';
+        selectorText = '#main-window .tabbrowser-tab[group="' + group + '"]:not([group-counter="1"])';
       else
         selectorText = '.tabbrowser-tabs[colorStack="true"] > .tabbrowser-tab[group^="{' + group + '"]:not([group-counter="1"])';
 
