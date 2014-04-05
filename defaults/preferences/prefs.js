@@ -85,7 +85,7 @@ pref("extensions.tabutils.showAllTabs", false);
 pref("extensions.tabutils.highlightCurrent", false);
 pref("extensions.tabutils.highlightUnread", false);
 pref("extensions.tabutils.highlightRead", false);
-pref("extensions.tabutils.highlightUnloaded", false);
+pref("extensions.tabutils.highlightUnloaded", true);
 pref("extensions.tabutils.highlightSelected", true);
 pref("extensions.tabutils.styles.current", '{"bold":true,"color":true,"colorCode":"blue"}');
 pref("extensions.tabutils.styles.unread", '{"italic":true,"color":true,"colorCode":"red"}');
