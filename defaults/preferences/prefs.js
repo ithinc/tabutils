@@ -104,7 +104,7 @@ pref("extensions.tabutils.hideLoadInBackground", false);
 pref("extensions.tabutils.hideLoadInForeground", true);
 
 pref("extensions.tabutils.menu.menu_tuOptions", true);
-pref("extensions.tabutils.menu.context_newTab", false);
+pref("extensions.tabutils.menu.context_newTab", true);
 pref("extensions.tabutils.menu.context_duplicateTab", false);
 pref("extensions.tabutils.menu.context_reloadEvery", false);
 pref("extensions.tabutils.menu.context_reloadEvery.list", "10,30,60,120,300,600,1800");
