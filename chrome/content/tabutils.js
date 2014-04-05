@@ -45,6 +45,15 @@ var tabutils = {
       });
     }
 
+    let os = Services.appinfo.OS; //WINNT, Linux or Darwin
+    let version = parseFloat(Services.appinfo.version);
+    document.documentElement.setAttribute("OS", os);
+    document.documentElement.setAttribute("v4", true);
+    document.documentElement.setAttribute("v6", true);
+    document.documentElement.setAttribute("v14", true);
+    document.documentElement.setAttribute("v17", true);
+    document.documentElement.setAttribute("v29", version >= 29.0);
+
 //    Function.prototype.__defineGetter__("stack", function() {
 //      var stack = [];
 //      for (let caller = this; caller && stack.length < 15; caller = caller.caller) {
@@ -162,7 +171,6 @@ window.addEventListener("DOMContentLoaded", tabutils, false);
 [
   ["@mozilla.org/browser/sessionstore;1", "nsISessionStore", "_ss", tabutils], // Bug 898732 [Fx26]
   ["@mozilla.org/docshell/urifixup;1", "nsIURIFixup"], // Bug 802026 [Fx20]
-  ["@mozilla.org/places/colorAnalyzer;1", "mozIColorAnalyzer"],
   ["@mozilla.org/widget/clipboardhelper;1", "nsIClipboardHelper"],
   ["@mozilla.org/uuid-generator;1", "nsIUUIDGenerator"]
 ].forEach(function([aContract, aInterface, aName, aObject])
@@ -1700,6 +1708,11 @@ tabutils._multiTabHandler = function() {
       this.selectedTabs = [];
   });
 
+  TU_hookCode("gBrowser.onTabMove", "{", function() {
+    if (aTab.hasAttribute("multiselected"))
+      this._selectedTabs = null;
+  });
+
   TU_hookCode("gBrowser.onTabHide", "}", function() {
     if (aTab.hasAttribute("multiselected")) {
       aTab.removeAttribute("multiselected");
@@ -1856,7 +1869,7 @@ tabutils._multiTabHandler = function() {
   tabutils.addEventListener(gBrowser.mTabContainer, "dragstart", function(event) {
     if (event.target.localName == "tab") {
       let draggedTab = event.target;
-      let draggedTabs = gBrowser.contextTabsOf(draggedTab);
+      let draggedTabs = gBrowser.contextTabsOf(draggedTab).slice();
       draggedTabs.splice(draggedTabs.indexOf(draggedTab), 1);
       draggedTabs.unshift(draggedTab);
 
@@ -2503,15 +2516,6 @@ tabutils._miscFeatures = function() {
   });
 
   //Compatibility with themes
-  let os = Services.appinfo.OS; //WINNT, Linux or Darwin
-  let version = parseFloat(Services.appinfo.version);
-  document.documentElement.setAttribute("OS", os);
-  document.documentElement.setAttribute("v4", version >= 4.0);
-  document.documentElement.setAttribute("v6", version >= 6.0);
-  document.documentElement.setAttribute("v14", version >= 14.0);
-  document.documentElement.setAttribute("v17", version >= 17.0);
-  document.documentElement.setAttribute("v29", version >= 29.0);
-
   for (let sheet of Array.slice(document.styleSheets)) {
     switch (sheet.href) {
       case "chrome://browser/skin/browser.css":
@@ -3442,7 +3446,7 @@ tabutils._tabPrefObserver = {
     if (color && !(group in this._tabColoringRules)) {
       let selectorText;
       if (group[0] == "{")
-        selectorText = '.tabbrowser-tabs[colorStack="true"] > .tabbrowser-tab[group="' + group + '"]:not([group-counter="1"])';
+        selectorText = '#main-window .tabbrowser-tab[group="' + group + '"]:not([group-counter="1"])';
       else
         selectorText = '.tabbrowser-tabs[colorStack="true"] > .tabbrowser-tab[group^="{' + group + '"]:not([group-counter="1"])';
 
