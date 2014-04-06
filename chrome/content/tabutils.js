@@ -256,7 +256,7 @@ tabutils._tabOpeningOptions = function() {
           }
         }
         this.moveTabTo(t, t._tPos > lastRelatedTab._tPos ? lastRelatedTab._tPos + 1 : lastRelatedTab._tPos);
-        t.setAttribute("opener", this.mCurrentTab.linkedPanel);
+        t.setAttribute("opener", this.mCurrentTab.linkedPanel + "#");
       }
     }]
   );
