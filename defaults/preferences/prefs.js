@@ -24,6 +24,7 @@ pref("extensions.tabutils.removeUnintentionalBlank", false);
 pref("extensions.tabutils.closeLastWindowWithLastTab", false);
 pref("extensions.tabutils.handleCtrlTab", false);
 pref("extensions.tabutils.handleCtrlArrow", false);
+pref("extensions.tabutils.handleCtrlArrowUpDown", false);
 pref("extensions.tabutils.handleCtrl", true);
 
 pref("extensions.tabutils.singleWindowMode", false);

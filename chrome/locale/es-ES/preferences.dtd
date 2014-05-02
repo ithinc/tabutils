@@ -63,6 +63,7 @@
 <!ENTITY handleCtrlTab.caption "Tecla Ctrl">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab recorre las pestañas en orden por uso más reciente">
 <!ENTITY handleCtrlArrow.label "Usar Ctrl+izquierda/derecha para recorrer las pestañas secuencialmente">
+<!ENTITY handleCtrlArrowUpDown.label "Usar Ctrl+arriba/abajo para recorrer las pestañas secuencialmente">
 <!ENTITY openNewWindow.caption "Apertura de enlaces">
 <!ENTITY openNewWindow.label "Abrir enlaces a una ventana nueva en:">
 <!ENTITY openExternal.label "Abrir enlaces de aplicaciones externas en:">

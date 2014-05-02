@@ -62,6 +62,7 @@
       <preference id="closeLastWindowWithLastTab" name="extensions.tabutils.closeLastWindowWithLastTab" type="bool" inverted="true"/>
       <preference id="handleCtrlTab" name="extensions.tabutils.handleCtrlTab" type="bool" suggest="true"/>
       <preference id="handleCtrlArrow" name="extensions.tabutils.handleCtrlArrow" type="bool"/>
+      <preference id="handleCtrlArrowUpDown" name="extensions.tabutils.handleCtrlArrowUpDown" type="bool"/>
       <preference id="handleCtrl" name="extensions.tabutils.handleCtrl" type="bool"/>
 
       <preference id="openSearchInTab" name="browser.search.openintab" type="bool" suggest="true"/>
@@ -226,6 +227,7 @@
             <caption label="&handleCtrlTab.caption;"/>
             <checkbox preference="handleCtrlTab" label="&handleCtrlTab.label;"/>
             <checkbox preference="handleCtrlArrow" label="&handleCtrlArrow.label;"/>
+            <checkbox preference="handleCtrlArrowUpDown" label="&handleCtrlArrowUpDown.label;"/>
           </groupbox>
         </tabpanel>
       </tabpanels>

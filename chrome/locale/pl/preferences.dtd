@@ -63,6 +63,7 @@
 <!ENTITY handleCtrlTab.caption "Skrót klawiszowy [Ctrl+Tab]">
 <!ENTITY handleCtrlTab.label "Skrót klawiszowy [Ctrl+Tab] przełącza w kolejności najczęściej oglądanych kart">
 <!ENTITY handleCtrlArrow.label "Skrót klawiszowy [Ctrl+lewa/prawa strzałka] przełącza w kolejności sekwencyjnej">
+<!ENTITY handleCtrlArrowUpDown.label "Skrót klawiszowy [Ctrl+góry/dole strzałka] przełącza w kolejności sekwencyjnej">
 <!ENTITY openNewWindow.caption "Otwieranie odnośników">
 <!ENTITY openNewWindow.label "Otwieraj odnośniki w">
 <!ENTITY openExternal.label "Otwieraj zewnętrzne odnośniki w">

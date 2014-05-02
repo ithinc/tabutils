@@ -63,6 +63,7 @@
 <!ENTITY handleCtrlTab.caption "Ctrl Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tabで最近使った順にタブを移動する">
 <!ENTITY handleCtrlArrow.label "Ctrl+Left/Rightで順番にタブを移動する">
+<!ENTITY handleCtrlArrowUpDown.label "Ctrl+Up/Downで順番にタブを移動する">
 <!ENTITY openNewWindow.caption "リンクを開く動作:">
 <!ENTITY openNewWindow.label "新しいウィンドウに開くリンクを:">
 <!ENTITY openExternal.label "外部から読み込まれたリンクを:">

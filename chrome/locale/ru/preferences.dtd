@@ -63,6 +63,7 @@
 <!ENTITY handleCtrlTab.caption "Ctrl-Tab">
 <!ENTITY handleCtrlTab.label "Ctrl-Tab переключает вкладки в порядке использования">
 <!ENTITY handleCtrlArrow.label "Ctrl-Left/Right переключают вкладки последовательно">
+<!ENTITY handleCtrlArrowUpDown.label "Ctrl-Up/Down переключают вкладки последовательно">
 <!ENTITY openNewWindow.caption "Открытие ссылок:">
 <!ENTITY openNewWindow.label "Открывать новые окна в:">
 <!ENTITY openExternal.label "Открывать ссылки из внешних приложений в:">
