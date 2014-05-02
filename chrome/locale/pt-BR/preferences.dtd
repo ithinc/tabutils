@@ -63,6 +63,7 @@
 <!ENTITY handleCtrlTab.caption "Ctrl Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab para navegar as abas na ordem usada mais recentemente">
 <!ENTITY handleCtrlArrow.label "Ctrl+Seta da Esquerda/Direita para navegar pelas abas seqüencialmente">
+<!ENTITY handleCtrlArrowUpDown.label "Ctrl+Seta da Cima/Baixo para navegar pelas abas seqüencialmente">
 <!ENTITY openNewWindow.caption "Abrir ligação em:">
 <!ENTITY openNewWindow.label "Abrir ligações de novas janelas em:">
 <!ENTITY openExternal.label "Abrir ligações de aplicativos externos em:">

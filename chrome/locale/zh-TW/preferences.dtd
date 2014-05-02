@@ -63,6 +63,7 @@
 <!ENTITY handleCtrlTab.caption "Ctrl+Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab 依最近瀏覽的順序切換">
 <!ENTITY handleCtrlArrow.label "Ctrl+←／→ 依分頁順序切換">
+<!ENTITY handleCtrlArrowUpDown.label "Ctrl+↑／↓ 依分頁順序切換">
 <!ENTITY openNewWindow.caption "開啟鏈結於:">
 <!ENTITY openNewWindow.label "開啟新視窗鏈結於:">
 <!ENTITY openExternal.label "開啟外部程式的鏈結於:">

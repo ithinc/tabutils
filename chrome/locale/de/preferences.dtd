@@ -63,6 +63,7 @@
 <!ENTITY handleCtrlTab.caption "Tab-Navigation mit Strg-Taste">
 <!ENTITY handleCtrlTab.label "Mit Strg+Tabulator in der Reihenfolge der letzten Benutzung durch Tabs navigieren">
 <!ENTITY handleCtrlArrow.label "Mit Strg+linke/rechte Pfeiltaste der Reihe nach durch Tabs navigieren">
+<!ENTITY handleCtrlArrowUpDown.label "Mit Strg+obere/untere Pfeiltaste der Reihe nach durch Tabs navigieren">
 <!ENTITY openNewWindow.caption "Verhalten beim Öffnen">
 <!ENTITY openNewWindow.label "Links, die ein neues Fenster erzwingen, öffnen in">
 <!ENTITY openExternal.label "Links aus externen Anwendungen öffnen in">

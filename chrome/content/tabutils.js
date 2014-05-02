@@ -898,6 +898,15 @@ tabutils._tabClosingOptions = function() {
     switch (event.keyCode) {
       case event.DOM_VK_UP:
       case event.DOM_VK_DOWN:
+        if (!TU_getPref("extensions.tabutils.handleCtrlArrowUpDown"))
+          return;
+        if (event.shiftKey)
+          return;
+        event.stopPropagation(); // Compat. with some sites
+        if (TU_getPref("extensions.tabutils.handleCtrl"))
+          gBrowser._previewMode = true;
+        break;
+
       case event.DOM_VK_LEFT:
       case event.DOM_VK_RIGHT:
         if (!TU_getPref("extensions.tabutils.handleCtrlArrow"))
@@ -939,7 +948,7 @@ tabutils._tabClosingOptions = function() {
         break;
       case event.DOM_VK_UP:
       case event.DOM_VK_DOWN:
-        if (!event.shiftKey && TU_getPref("extensions.tabutils.handleCtrlArrow")) {
+        if (!event.shiftKey && TU_getPref("extensions.tabutils.handleCtrlArrowUpDown")) {
           gBrowser.selectedTab = gBrowser.nextSiblingTabOf(gBrowser.selectedTab, event.keyCode == event.DOM_VK_UP ? -1 : 1, true);
           event.stopPropagation();
           event.preventDefault();
@@ -954,6 +963,12 @@ tabutils._tabClosingOptions = function() {
       case event.DOM_VK_RIGHT:
         if (event.ctrlKey && !event.altKey && !event.shiftKey && !event.metaKey &&
             TU_getPref("extensions.tabutils.handleCtrlArrow"))
+          event.stopPropagation(); // Compat. with some sites
+        break;
+      case event.DOM_VK_UP:
+      case event.DOM_VK_DOWN:
+        if (event.ctrlKey && !event.altKey && !event.shiftKey && !event.metaKey &&
+            TU_getPref("extensions.tabutils.handleCtrlArrowUpDown"))
           event.stopPropagation(); // Compat. with some sites
         break;
     }

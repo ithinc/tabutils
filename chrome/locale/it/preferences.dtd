@@ -63,6 +63,7 @@
 <!ENTITY handleCtrlTab.caption "Utilizzo Ctrl e Tabulatore">
 <!ENTITY handleCtrlTab.label "Ctrl + Tab per navigare tra le schede nell'ordine di ultima visualizzazione">
 <!ENTITY handleCtrlArrow.label "Ctrl + Freccia sinistra/destra per navigare tra le schede">
+<!ENTITY handleCtrlArrowUpDown.label "Ctrl + Freccia alto/basso per navigare tra le schede">
 <!ENTITY openNewWindow.caption "Apri i Link in:">
 <!ENTITY openNewWindow.label "Apri in nuove finestre di Link in :">
 <!ENTITY openExternal.label "Apri i Link di altri programmi :">
