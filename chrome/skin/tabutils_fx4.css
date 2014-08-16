@@ -25,8 +25,7 @@ window[v4="true"] browser {
 }
 
 .tabbrowser-arrowscrollbox[orient="vertical"] > .scrollbutton-up,
-.tabbrowser-arrowscrollbox[orient="vertical"] > .scrollbutton-down,
-.tabbrowser-tabs[orient="vertical"] > hbox > .tab-drop-indicator {
+.tabbrowser-arrowscrollbox[orient="vertical"] > .scrollbutton-down {
   display: none;
 }
 

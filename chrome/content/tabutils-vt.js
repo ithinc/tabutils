@@ -25,6 +25,19 @@ tabutils._verticalTabs = function() {
   TU_hookCode("gBrowser.addTab", '!Services.prefs.getBoolPref("browser.tabs.animate")', 'this.mTabContainer.orient == "vertical" || $&');
   TU_hookCode("gBrowser.removeTab", '!Services.prefs.getBoolPref("browser.tabs.animate")', 'this.mTabContainer.orient == "vertical" || $&');
 
+  tabutils.addEventListener(gBrowser.mTabContainer, "dragover", function(event) {
+    var ind = this._tabDropIndicator.parentNode;
+    ind.style.position = "fixed";
+    ind.style.zIndex = 100;
+    var newIndex = this._getDropIndex(event);
+    var tab = this.childNodes[newIndex < this.childNodes.length ? newIndex : newIndex - 1];
+    var pos = tab.getBoundingClientRect().y;
+    if (newIndex == this.childNodes.length) {
+      pos += tab.getBoundingClientRect().height;
+    }
+    ind.style.top = pos + "px";
+  }, true);
+
   // Hide tabs toolbar in Full Screen mode
   TU_hookCode("FullScreen.mouseoverToggle", /(?=.*gNavToolbox.*)/, function() {
     if (document.getElementById("TabsToolbar").parentNode != gNavToolbox)
