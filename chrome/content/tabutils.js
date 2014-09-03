@@ -91,7 +91,7 @@ var tabutils = {
       return this.removeAttribute(aTab, aAttr);
 
     aTab.setAttribute(aAttr, aVal);
-    this._ss.setTabValue(aTab, aAttr, aVal);
+    this._ss.setTabValue(aTab, aAttr, String(aVal));
   },
 
   removeAttribute: function(aTab, aAttr) {
@@ -310,7 +310,7 @@ tabutils._openUILinkInTab = function() {
   //µØÖ·À¸»Ø³µ¼ü
   TU_hookCode("gURLBar.handleCommand",
     [/((aTriggeringEvent)\s*&&\s*(aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = TU_getPref('extensions.tabutils.openUrlInTab', true)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref && TU_getPref('extensions.tabutils.invertAlt', true))"],
-    [/(?=.*openUILinkIn.*)/, function() {
+    [/(?=.*openUILinkIn\(url\, where\, params.*)/, function() {
       params.inBackground = TU_getPref('extensions.tabutils.loadUrlInBackground', false);
       params.disallowInheritPrincipal = !mayInheritPrincipal;
       params.event = aTriggeringEvent || {};
@@ -840,21 +840,21 @@ tabutils._tabClosingOptions = function() {
     var tabHistory = this.mTabContainer._tabHistory;
     tabHistory.splice(1, 0, aTab);
     aTab._lastAccessed = Date.now();
-    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
+    tabutils._ss.setTabValue(aTab, "lastAccessed", String(aTab._lastAccessed));
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
     var lastTab = tabHistory[0];
     lastTab._lastAccessed = Date.now();
-    tabutils._ss.setTabValue(lastTab, "lastAccessed", lastTab._lastAccessed);
+    tabutils._ss.setTabValue(lastTab, "lastAccessed", String(lastTab._lastAccessed));
 
     var index = tabHistory.indexOf(aTab);
     if (index > -1)
       tabHistory.splice(index, 1);
     tabHistory.unshift(aTab);
     aTab._lastAccessed = Infinity;
-    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
+    tabutils._ss.setTabValue(aTab, "lastAccessed", String(aTab._lastAccessed));
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
@@ -871,7 +871,7 @@ tabutils._tabClosingOptions = function() {
       tabHistory.splice(index, 1);
 
     if (aTab._lastAccessed == Infinity)
-      tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
+      tabutils._ss.setTabValue(aTab, "lastAccessed", String(aTab._lastAccessed));
     else
       aTab._lastAccessed = tabutils._ss.getTabValue(aTab, "lastAccessed");
 
@@ -1168,7 +1168,7 @@ tabutils._protectAndLockTab = function() {
     else {
       aTab.setAttribute("protected", true);
       if (!aRestoring)
-        tabutils._ss.setTabValue(aTab, "protected", true);
+        tabutils._ss.setTabValue(aTab, "protected", String(true));
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoProtect", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["protected"]);
       }
@@ -1194,7 +1194,7 @@ tabutils._protectAndLockTab = function() {
     else {
       aTab.setAttribute("locked", true);
       if (!aRestoring)
-        tabutils._ss.setTabValue(aTab, "locked", true);
+        tabutils._ss.setTabValue(aTab, "locked", String(true));
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoLock", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["locked"]);
       }
@@ -1293,7 +1293,7 @@ tabutils._faviconizeTab = function() {
     else {
       aTab.setAttribute("faviconized", true);
       if (!aRestoring)
-        tabutils._ss.setTabValue(aTab, "faviconized", true);
+        tabutils._ss.setTabValue(aTab, "faviconized", String(true));
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
       }
@@ -1463,8 +1463,8 @@ tabutils._reloadEvery = function() {
       aTab._reloadInterval = aInterval || aTab._reloadInterval || TU_getPref("extensions.tabutils.reloadInterval", 10);
       TU_setPref("extensions.tabutils.reloadInterval", aTab._reloadInterval);
       if (!aRestoring) {
-        tabutils._ss.setTabValue(aTab, "autoReload", true);
-        tabutils._ss.setTabValue(aTab, "reloadInterval", aTab._reloadInterval);
+        tabutils._ss.setTabValue(aTab, "autoReload", String(true));
+        tabutils._ss.setTabValue(aTab, "reloadInterval", String(aTab._reloadInterval));
       }
 
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoEnableAutoReload", true)) {
