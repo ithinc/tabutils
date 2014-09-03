@@ -310,7 +310,7 @@ tabutils._openUILinkInTab = function() {
   //µØÖ·À¸»Ø³µ¼ü
   TU_hookCode("gURLBar.handleCommand",
     [/((aTriggeringEvent)\s*&&\s*(aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = TU_getPref('extensions.tabutils.openUrlInTab', true)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref && TU_getPref('extensions.tabutils.invertAlt', true))"],
-    [/(?=.*openUILinkIn.*)/, function() {
+    [/(?=.*openUILinkIn\(url\, where\, params.*)/, function() {
       params.inBackground = TU_getPref('extensions.tabutils.loadUrlInBackground', false);
       params.disallowInheritPrincipal = !mayInheritPrincipal;
       params.event = aTriggeringEvent || {};
