@@ -845,7 +845,7 @@ tabutils._tabClosingOptions = function() {
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
-    var lastTab = tabHistory[0];
+    lastTab = tabHistory[0];
     lastTab._lastAccessed = Date.now();
     tabutils._ss.setTabValue(lastTab, "lastAccessed", String(lastTab._lastAccessed));
 
@@ -1422,7 +1422,7 @@ tabutils._restartTab = function() {
       aTab._restartTimer = null;
     }
 
-    let lastTab = this.getLastSelectedTab();
+    lastTab = this.getLastSelectedTab();
     if (lastTab)
       this.autoRestartTab(lastTab);
   });
@@ -1901,7 +1901,7 @@ tabutils._multiTabHandler = function() {
   });
 
   TU_hookCode("gBrowser.moveTabTo", // Bug 822068 [Fx20]
-    ["this.mCurrentTab._selected = false;", "let wasFocused = (document.activeElement == this.mCurrentTab);$&"],
+    ["this.mCurrentTab._selected = false;", "wasFocused = (document.activeElement == this.mCurrentTab);$&"],
     ["this.mCurrentTab._selected = true;", "$&;if (wasFocused) this.mCurrentTab.focus();"]
   );
 
