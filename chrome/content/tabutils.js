@@ -2812,6 +2812,7 @@ tabutils._undoCloseTabButton = function() {
 
   tabutils._undoCloseMiddleClick = HistoryMenu.prototype._undoCloseMiddleClick;
   tabutils.populateUndoSubmenu = HistoryMenu.prototype.populateUndoSubmenu;
+  tabutils._getClosedTabCount = HistoryMenu.prototype._getClosedTabCount; // Bug 1064217 [Fx35]
   TU_hookCode("tabutils.populateUndoSubmenu",
     [/var undoPopup.*/, "var undoPopup = arguments[0];"],
     [/.*undoMenu.*/g, ""],
