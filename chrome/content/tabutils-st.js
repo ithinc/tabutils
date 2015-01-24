@@ -471,7 +471,7 @@ tabutils._stackTabs = function() {
       }
     }
 
-    let lastTab = this.getLastSelectedTab();
+    lastTab = this.getLastSelectedTab();
     if (lastTab && lastTab.hasAttribute("group") &&
         lastTab.getAttribute("group") != aTab.getAttribute("group") &&
         TU_getPref("extensions.tabutils.autoCollapseStackOnBlur", false))
