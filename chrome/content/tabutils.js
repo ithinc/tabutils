@@ -514,7 +514,7 @@ tabutils._singleWindowMode = function() {
   });
 
   TU_hookCode("gBrowser.replaceTabWithWindow", "{", function() {
-    if (["_onDragEnd", "onxbldragend"].indexOf(arguments.callee.caller.name) > -1 && TU_getPref("extensions.tabutils.singleWindowMode", false))
+    if (TMP_console.isCallerInList(["_onDragEnd", "onxbldragend"]) && TU_getPref("extensions.tabutils.singleWindowMode", false))
       return null;
   });
 
@@ -699,7 +699,7 @@ tabutils._tabOpeningOptions = function() {
     [/return/g, "var tab ="],
     ["}", function() {
       this.detachTab(tab, true);
-      if (["_onDrop", "onxbldrop", "duplicateTabIn"].indexOf(arguments.callee.caller.name) == -1) {
+      if (TMP_console.isCallerInList(["_onDrop", "onxbldrop", "duplicateTabIn"])) {
         if (TU_getPref("extensions.tabutils.openDuplicateNext", true)) {
           if (this.isStackedTab(aTab))
             aTab = this.lastSiblingTabOf(aTab);
@@ -713,8 +713,8 @@ tabutils._tabOpeningOptions = function() {
   );
 
   //³·Ïú¹Ø±Õ±êÇ©Ò³
-  TU_hookCode("gBrowser.moveTabTo", "{", function() {
-    if (arguments.callee.caller.name == "ssi_undoCloseTab"
+  TU_hookCode("gBrowser.moveTabTo", "}", function() {
+    if (TMP_console.callerName() == "ssi_undoCloseTab"
         && !TU_getPref("extensions.tabutils.restoreOriginalPosition", true))
       return;
   });
@@ -1980,7 +1980,7 @@ tabutils._multiTabHandler = function() {
 
   TU_hookCode("gBrowser.swapBrowsersAndCloseOther", /(?=.*_beginRemoveTab.*)/, function() {
     if ([gBrowserInit.onLoad, gBrowserInit._delayedStartup].indexOf(arguments.callee.caller) > -1 ||  // Bug 756313 [Fx19]
-        ["onxbldrop", "_handleTabDrop"].indexOf(arguments.callee.caller.name) > -1) {
+        TMP_console.isCallerInList(["onxbldrop", "_handleTabDrop"])) {
       let selectedTabs = aOtherTab._selectedTabs || remoteBrowser.contextTabsOf(aOtherTab);
       if (selectedTabs.length > 1) {
         this.swapBrowsersAndCloseOther(aOurTab, selectedTabs.shift());
@@ -2057,7 +2057,7 @@ tabutils._tabClickingOptions = function() {
 
   TU_hookCode("TabContextMenu.updateContextMenu", "aPopupMenu.triggerNode", "document.popupNode", "g");
   TU_hookCode("gBrowser.mTabContainer._selectNewTab", "{", function() {
-    if (["onxblmousedown"].indexOf(arguments.callee.caller.name) > -1 &&
+    if (TMP_console.isCallerInList(["onxblmousedown"]) &&
         !aNewTab.selected)
       aNewTab.setAttribute("firstclick", true);
   });
@@ -2285,7 +2285,7 @@ tabutils._tabClickingOptions = function() {
 
   //Mouse release to select
   TU_hookCode("gBrowser.mTabContainer._selectNewTab", "{", function() {
-    if (["onxblmousedown"].indexOf(arguments.callee.caller.name) > -1 &&
+    if (TMP_console.isCallerInList(["onxblmousedown"]) &&
         TU_getPref("extensions.tabutils.mouseReleaseSelect", true))
       return;
   });

@@ -4,7 +4,7 @@
 
   TU_hookCode("whereToOpenLink", "{", function() {
     var target;
-    switch (arguments.callee.caller.name) {
+    switch (TMP_console.callerName()) {
       case "PUIU_openNodeWithEvent":  //Fx 4.0
       case "PUIU__openTabset":
         target = "bookmarks";break;
