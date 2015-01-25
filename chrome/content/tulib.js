@@ -1,3 +1,9 @@
+let {classes: Cc, interfaces: Ci, utils: Cu} = Components;
+
+XPCOMUtils.defineLazyModuleGetter(this, "TabmixSvc",
+  "resource://tabmixplus/Services.jsm");
+let TMP_console = TabmixSvc.console;
+
 function TU_hookCode(aStr) {
   try {
     var namespaces = aStr.split(".");

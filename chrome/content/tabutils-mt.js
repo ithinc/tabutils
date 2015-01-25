@@ -95,7 +95,7 @@ tabutils._multirowTabs = function() {
   }, true);
 
   TU_hookCode("gBrowser.moveTabTo", "{", function() {
-    if (["onxbldrop", "ondrop"].indexOf(arguments.callee.caller.name) > -1) {
+    if (TMP_console.isCallerInList(["onxbldrop", "ondrop"])) {
       if (aTab.pinned) {
         if (aIndex >= this._numPinnedTabs)
           this.pinTab(aTab, false);
