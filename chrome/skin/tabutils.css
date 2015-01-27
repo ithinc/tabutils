@@ -200,12 +200,10 @@ menuseparator:last-child {
 }
 
 #undoclosetab-button {
-  list-style-image: url("chrome://tabutils/skin/toolbar.png");
-  -moz-image-region: rect(0px, 16px, 16px, 0px);
+  list-style-image: url("chrome://tabutils/skin/toolbar_Fx4.png");
 }
 
 #undoclosetab-button[disabled="true"] {
-  -moz-image-region: rect(16px, 16px, 32px, 0px);
 }
 
 #button_tuOptions .toolbarbutton-icon {
