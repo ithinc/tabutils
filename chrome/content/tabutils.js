@@ -52,6 +52,7 @@ var tabutils = {
     document.documentElement.setAttribute("v14", true);
     document.documentElement.setAttribute("v17", true);
     document.documentElement.setAttribute("v29", version >= 29.0);
+    document.documentElement.setAttribute("v31", version >= 31.0);
 
 //    Function.prototype.__defineGetter__("stack", function() {
 //      var stack = [];
