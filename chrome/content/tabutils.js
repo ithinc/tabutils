@@ -2869,7 +2869,7 @@ tabutils._tabPrefObserver = {
     );
 
     //Tab counter
-    TU_hookCode("gBrowser.mTabContainer.adjustTabstrip", "}", function() {
+    TU_hookCode("gBrowser.mTabContainer.adjustTabstrip", "{", function() {
       if (this.mAllTabsPopup) {
         let n = gBrowser.mTabs.length - gBrowser._removingTabs.length;
         let m = gBrowser.allTabs.length;
