@@ -2861,10 +2861,10 @@ tabutils._tabPrefObserver = {
         });
       }],
       ["this.mCloseButtons", "($& & 0x0f)"],
-      ["this.mCloseButtons != 3", "(this.mCloseButtons & 0x0f) != 3 && !(this.mCloseButtons & 0x20)"],
-      ["this._closeWindowWithLastTab", "false", "g"],
+      ["this.mCloseButtons != 3", "(this.mCloseButtons & 0x0f) != 3 && !(this.mCloseButtons & 0x20)"], // Fail on Fx31+
+      ["this._closeWindowWithLastTab", "false", "g"], // Fail on Fx31+
       ["}", function() {
-        this.setAttribute("closeButtonOnPointedTab", (this.mCloseButtons & 0x0f) == 1 || !!(this.mCloseButtons & 0x10));
+        this.setAttribute("closeButtonOnPointedTab", (this.mCloseButtons & 0x0f) == 1 || !!(this.mCloseButtons & 0x10)); // Fail on Fx31+
       }]
     );
 
