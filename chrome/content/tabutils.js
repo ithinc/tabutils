@@ -320,7 +320,7 @@ tabutils._openUILinkInTab = function() {
     ["aTriggeringEvent.preventDefault();", ""],
     ["aTriggeringEvent.stopPropagation();", ""]
   );
-  TU_hookCode("openLinkIn", /(?=let uriObj)/, "w.gURLBar.handleRevert();");
+  // TU_hookCode("openLinkIn", /(?=let uriObj)/, "w.gURLBar.handleRevert();");
 
   //ËÑË÷À¸»Ø³µ¼ü
   if (BrowserSearch.searchBar)
