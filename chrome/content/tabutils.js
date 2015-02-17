@@ -981,7 +981,9 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.updateCurrentBrowser", /.*dispatchEvent[\s\S]*_tabAttrModified.*/, "$&};if (window.windowState != window.STATE_MINIMIZED) {");
 
   //Don't close the last primary window with the las tab
-  TU_hookCode("gBrowser._beginRemoveTab", "_closeWindowWithLastTab", "$& && " + (function() { //Bug 607893
+  TU_hookCode("gBrowser._beginRemoveTab", 
+      /_closeWindowWithLastTab|Services\.prefs\.getBoolPref\("browser\.tabs\.closeWindowWithLastTab"\)/, // Bug 997681 [Fx31]
+      "$& && " + (function() { //Implement to Bug 607893
     (TU_getPref("extensions.tabutils.closeLastWindowWithLastTab", false) || function() {
       var winEnum = Services.wm.getEnumerator("navigator:browser");
       while (winEnum.hasMoreElements()) {
