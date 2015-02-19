@@ -1,4 +1,4 @@
-pref("extensions.tabutils@ithinc.cn.description", "chrome://tabutils/locale/tabutils.properties");
+pref("extensions.tabutilsfixed@addon.cn.description", "chrome://tabutils/locale/tabutils.properties");
 
 pref("extensions.tabutils.openBookmarksInTab", true);
 pref("extensions.tabutils.openHomepageInTab", true);
