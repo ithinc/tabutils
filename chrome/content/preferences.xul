@@ -21,8 +21,8 @@
 
 <prefwindow id="tabutils-preferences"
             title="&prefwindow.title;"
-            helpURI="http://addons.mozilla.org/addon/59961"
-            donateURI="https://addons.mozilla.org/addon/59961/developers"
+            helpURI="https://addons.mozilla.org/firefox/addon/tab-utilities-fixed/"
+            donateURI="https://addons.mozilla.org/firefox/addon/tab-utilities-fixed/developers"
             buttons="accept,cancel,extra1,extra2"
             buttonlabelcancel="&prefwindow.close;"
             buttonlabelextra1="&prefwindow.donate;"

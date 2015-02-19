@@ -4,7 +4,7 @@
     <em:id>tabutilsfixed@addon.cn</em:id>
     <em:type>2</em:type>
     <em:name>Tab Utilities Fixed</em:name>
-    <em:version>1.5.2015.02.18</em:version>
+    <em:version>1.5.2015.02.19</em:version>
     <em:creator>YFdyh000</em:creator>
     <em:contributor>ithinc (Former author)</em:contributor>
     <em:contributor>Leszek(teo)Życzkowski</em:contributor>
@@ -19,7 +19,7 @@
     <em:translator>matsumoto (ja-JP)</em:translator>
     <em:translator>Klezzon (it)</em:translator>
     <em:description>Open Bookmarks/History/URL/Search in new tabs, and more utilities for tabbed browsing.</em:description>
-    <em:homepageURL></em:homepageURL>
+    <em:homepageURL>https://addons.mozilla.org/firefox/addon/tab-utilities-fixed/</em:homepageURL>
     <em:iconURL>chrome://tabutils/skin/tabutils.png</em:iconURL>
     <em:optionsURL>chrome://tabutils/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
