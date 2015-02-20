@@ -132,7 +132,7 @@ menuseparator:last-child {
 }
 
 #PinnedTabsBar:empty > *,
-#PinnedTabsBarItems:empty > * {
+#PinnedTabsBarItems:empty {
   display: none;
 }
 
