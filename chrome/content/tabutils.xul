@@ -419,13 +419,13 @@
            key="key_toggleTabsToolbar"/>
 
   <vbox id="browser-panel">
-    <hbox id="fullscr-toggler" collapsed="true" insertbefore="browser"/>
-    <hbox id="fullscr-toggler-bottom" collapsed="true" insertafter="browser"/>
+    <hbox id="fullscr-toggler" collapsed="true" hidden="true" insertbefore="browser"/>
+    <hbox id="fullscr-toggler-bottom" collapsed="true" hidden="true" insertafter="browser"/>
   </vbox>
 
   <hbox id="browser">
-    <vbox id="fullscr-toggler-left" collapsed="true" insertbefore="appcontent"/>
-    <vbox id="fullscr-toggler-right" collapsed="true" insertafter="appcontent"/>
+    <vbox id="fullscr-toggler-left" collapsed="true" hidden="true" insertbefore="appcontent"/>
+    <vbox id="fullscr-toggler-right" collapsed="true" hidden="true" insertafter="appcontent"/>
   </hbox>
 
   <statusbar id="status-bar">
