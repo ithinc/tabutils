@@ -6,6 +6,8 @@ tabutils._verticalTabs = function() {
       var [start, end, size] = vertical ? ["top", "bottom", "height"]
                                         : ["left", "right", "width"];
     }],
+    ["left:", "[start]", "g"], // Bug 971630 [Fx29]
+    ["right:", "[end]", "g"],
     [".left", "[start]", "g"],
     [".right", "[end]", "g"],
     [".width", "[size]", "g"]
