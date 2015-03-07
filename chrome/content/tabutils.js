@@ -3191,6 +3191,7 @@ tabutils._tabPrefObserver = {
   },
 
   closeButtons: function() {
+    // Fail on Fx29+, Dut to https://hg.mozilla.org/mozilla-central/rev/1f5f1fe135b9, needs a patching.
     gBrowser.mTabContainer.mCloseButtons = TU_getPref("extensions.tabutils.closeButtons");
     gBrowser.mTabContainer.adjustTabstrip();
   },
