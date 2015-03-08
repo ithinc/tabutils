@@ -310,7 +310,11 @@ tabutils._openUILinkInTab = function() {
 
   //µØÖ·À¸»Ø³µ¼ü
   TU_hookCode("gURLBar.handleCommand",
-    [/((aTriggeringEvent)\s*&&\s*(aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = TU_getPref('extensions.tabutils.openUrlInTab', true)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref && TU_getPref('extensions.tabutils.invertAlt', true))"],
+    [/(let altEnter\s*=.+)((aTriggeringEvent)\s*&&\s*(aTriggeringEvent\.altKey)).*;/, function() {
+      let newTabPref = TU_getPref('extensions.tabutils.openUrlInTab', true);
+      let TU_altEnter = ($2 || newTabPref) && !(($3 ? $4 : false) && newTabPref && TU_getPref('extensions.tabutils.invertAlt', true));
+      $1TU_altEnter;
+    }],
     [/(?=.*openUILinkIn\(url\, where\, params.*)/, function() {
       params.inBackground = TU_getPref('extensions.tabutils.loadUrlInBackground', false);
       params.disallowInheritPrincipal = !mayInheritPrincipal;
@@ -629,7 +633,7 @@ tabutils._tabOpeningOptions = function() {
     [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
       if (t.hasAttribute("opener")) {
-        function shouldStack(tab) let (args = tab.arguments) (args.aReferrerURI || args.aRelatedToCurrent && args.aURI != "about:blank");
+        function shouldStack(tab) { let args = tab.arguments; args.aReferrerURI || args.aRelatedToCurrent && args.aURI != "about:blank"; }
 
         let lastRelatedTab = this.mCurrentTab;
         let isStack = this.isStackedTab(lastRelatedTab);
