@@ -221,7 +221,7 @@
     <handlers>
       <handler event="dragover" group="system">
       <![CDATA[
-        if (!this.droppedLinkHandler || event.getPreventDefault())
+        if (!this.droppedLinkHandler || event.defaultPrevented)
           return;
 
         // For drags that appear to be internal text (for example, tab drags),
