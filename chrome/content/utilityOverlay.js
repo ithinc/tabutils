@@ -147,7 +147,7 @@
   );
 
   //Open internal links in current tab
-  TU_hookCode("TU__openNodeIn", /.*inBackground.*/, "$&, event: aEvent");
+  TU_hookCode("TU__openNodeIn", /(.*inBackground.*?\))(,?)/, "$1, event: aEvent$2");
 
   TU_hookCode("openUILinkIn",
     ["{", "var lastArg = Object(arguments[arguments.length - 1]);"],
@@ -176,7 +176,7 @@
   });
 
   //Open bookmarks with title/history
-  TU_hookCode("TU__openNodeIn", /.*inBackground.*/, "$&, title: aNode.title, itemId: aNode.itemId == -1 ? null : aNode.itemId");
+  TU_hookCode("TU__openNodeIn", /(.*inBackground.*aEvent)(,?)/, "$1, title: aNode.title, itemId: aNode.itemId == -1 ? null : aNode.itemId$2");
 
   TU_hookCode("openUILinkIn",
     ["{", "var lastArg = Object(arguments[arguments.length - 1]);"],
