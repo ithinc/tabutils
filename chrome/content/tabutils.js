@@ -633,7 +633,7 @@ tabutils._tabOpeningOptions = function() {
     [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
       if (t.hasAttribute("opener")) {
-        function shouldStack(tab) { let args = tab.arguments; args.aReferrerURI || args.aRelatedToCurrent && args.aURI != "about:blank"; }
+        function shouldStack(tab) { let args = tab.arguments; return args.aReferrerURI || args.aRelatedToCurrent && args.aURI != "about:blank"; }
 
         let lastRelatedTab = this.mCurrentTab;
         let isStack = this.isStackedTab(lastRelatedTab);
