@@ -599,6 +599,10 @@ tabutils._tabOpeningOptions = function() {
     }
   });
 
+  // Not understand the purpose of the module, 
+  // and it has been broken since Firefox 38.
+  // https://hg.mozilla.org/releases/mozilla-aurora/diff/120b108aa176/toolkit/mozapps/downloads/DownloadLastDir.jsm [Bug 1115248]
+  /*
   let tmp = {};
   Cu.import("resource://gre/modules/DownloadLastDir.jsm", tmp);
 
@@ -626,6 +630,7 @@ tabutils._tabOpeningOptions = function() {
       getFileAsync.apply(this, arguments);
     };
   })();
+  */
 
   //在当前标签页的右侧打开新标签页
   //连续打开后台标签时保持原有顺序
