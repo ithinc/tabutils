@@ -2870,9 +2870,9 @@ tabutils._tabPrefObserver = {
 
     //Close buttons
     TU_hookCode("gBrowser.mTabContainer.adjustTabstrip",
-    ["this._originalAdjustTabstripFunc();", "if (this.mCloseButtons == 10) {$&}"],
+    ["this._originalAdjustTabstripFunc();", "if (this.TU_mCloseButtons == 10) {this.mCloseButtons = this.legacy_mCloseButtons; $&}"],
 		["}", function() {
-        if (this.mCloseButtons != 10) {
+        if (this.TU_mCloseButtons != 10) {
           var def = "alltabs";
           var map = {
              0: "activetab",
@@ -2881,7 +2881,7 @@ tabutils._tabPrefObserver = {
             16: "activepointedtab",
             18: "pointedtab"
           };
-          var value = map[this.mCloseButtons] || def;
+          var value = map[this.TU_mCloseButtons] || def;
           if (value == "alltabs") {
             let tab = this.tabbrowser.visibleTabs[this.tabbrowser._numPinnedTabs];
             if (tab && tab.getBoundingClientRect().width <= this.mTabClipWidth) {
@@ -3214,8 +3214,8 @@ tabutils._tabPrefObserver = {
   },
 
   closeButtons: function() {
-    // Fail on Fx29+, Dut to https://hg.mozilla.org/mozilla-central/rev/1f5f1fe135b9, needs a patching.
-    gBrowser.mTabContainer.mCloseButtons = TU_getPref("extensions.tabutils.closeButtons");
+    gBrowser.mTabContainer.legacy_mCloseButtons = TU_getPref("browser.tabs.closeButtons");
+    gBrowser.mTabContainer.TU_mCloseButtons = TU_getPref("extensions.tabutils.closeButtons");
     gBrowser.mTabContainer.adjustTabstrip();
   },
 

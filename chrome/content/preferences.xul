@@ -578,7 +578,7 @@
                   <menulist id="c.closeButtons" preference="closeButtons" value="10"
                             onsyncfrompreference="return $('closeButtons').value == 2 ? this.value : $('closeButtons').value;">
                     <menupopup>
-                      <menuitem value="10" label="(&closeButtons.10.label;)"/>
+                      <menuitem value="10" label="&closeButtons.10.label;"/>
                       <menuitem value="0" label="&closeButtons.0.label;"/>
                       <menuitem value="1" label="&closeButtons.1.label;"/>
                       <menuitem value="18" label="&closeButtons.18.label;"/>

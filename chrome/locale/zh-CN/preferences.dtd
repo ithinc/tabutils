@@ -124,6 +124,7 @@
 <!ENTITY closeButtons.1.label "在所有标签页宽度超过">
 <!ENTITY closeButtons.2.label "不显示">
 <!ENTITY closeButtons.3.label "在标签栏">
+<!ENTITY closeButtons.10.label "(浏览器默认效果)">
 <!ENTITY closeButtons.16.label "在当前和悬停标签页">
 <!ENTITY closeButtons.18.label "在悬停标签页">
 <!ENTITY closeButtons.33.label "在标签栏和所有标签页">

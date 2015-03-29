@@ -123,9 +123,11 @@
 <!ENTITY closeButtons.0.label "Только на активной вкладке">
 <!ENTITY closeButtons.1.label "На вкладках шире, чем">
 <!ENTITY closeButtons.2.label "Не показывать кнопки закрытия">
-<!ENTITY closeButtons.10.label "По умолчанию">
+<!ENTITY closeButtons.10.label "(По умолчанию)">
 <!ENTITY closeButtons.16.label "На активной вкладке и при наведении">
 <!ENTITY closeButtons.18.label "При наведении мыши">
+<!ENTITY closeButtons.33.label "На всех вкладках и на панели">
+<!ENTITY closeButtons.50.label "На панели и при наведении">
 <!ENTITY showTabCounter.label "Счетчик вкладок">
 <!ENTITY showLeftSpace.label "Поле слева">
 <!ENTITY showRightSpace.label "Поле справа">
