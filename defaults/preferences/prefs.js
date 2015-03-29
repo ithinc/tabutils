@@ -77,7 +77,7 @@ pref("extensions.tabutils.mouseScrollSelectDir", false);
 pref("extensions.tabutils.mouseScrollSelectWrap", false);
 
 pref("extensions.tabutils.tabBarPosition", 0);
-pref("extensions.tabutils.closeButtons", 1);
+pref("extensions.tabutils.closeButtons", 10);
 pref("extensions.tabutils.showTabCounter", false);
 pref("extensions.tabutils.showLeftSpace", false);
 pref("extensions.tabutils.showRightSpace", false);

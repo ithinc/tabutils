@@ -1,9 +1,3 @@
-/* Close Tab buttons */
-window[OS="Darwin"][v4="true"] .tabbrowser-tabs[closeButtonOnPointedTab="true"][closebuttons="activetab"] > .tabbrowser-tab:not([selected]):not(:hover) .tab-close-button,
-window[OS="Darwin"][v4="true"] .tabbrowser-tabs[closeButtonOnPointedTab="true"]:not([closebuttons="activetab"]):not([closebuttons="alltabs"]) > .tabbrowser-tab:not(:hover) .tab-close-button {
-  display: -moz-box;
-  visibility: hidden;
-}
 
 /* Tab Stacking */
 window[OS="Darwin"][v4="true"] .tabbrowser-tab[group-selected]:not([group-counter="1"])[group-collapsed] .tab-twisty {

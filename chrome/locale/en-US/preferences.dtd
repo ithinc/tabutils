@@ -123,11 +123,9 @@
 <!ENTITY closeButtons.0.label "On active tab only">
 <!ENTITY closeButtons.1.label "On all tabs wider than">
 <!ENTITY closeButtons.2.label "No close buttons">
-<!ENTITY closeButtons.3.label "On tab bar only">
+<!ENTITY closeButtons.10.label "Browser default">
 <!ENTITY closeButtons.16.label "On active/pointed tab">
 <!ENTITY closeButtons.18.label "On pointed tab only">
-<!ENTITY closeButtons.33.label "On tab bar/all tabs">
-<!ENTITY closeButtons.50.label "On tab bar/pointed tab">
 <!ENTITY showTabCounter.label "Tab counter">
 <!ENTITY showLeftSpace.label "Left extra space">
 <!ENTITY showRightSpace.label "Right extra space">
