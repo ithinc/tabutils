@@ -575,7 +575,7 @@
                   <checkbox preference="closeButtons" label="&button.label1;&closeTab.label;&button.label2;"
                             onsyncfrompreference="return $('closeButtons').value != 2;"
                             onsynctopreference="return this.checked ? this.nextSibling.value : 2;"/>
-                  <menulist preference="closeButtons" value="10"
+                  <menulist id="c.closeButtons" preference="closeButtons" value="10"
                             onsyncfrompreference="return $('closeButtons').value == 2 ? this.value : $('closeButtons').value;">
                     <menupopup>
                       <menuitem value="10" label="(&closeButtons.10.label;)"/>
@@ -1155,6 +1155,7 @@
     function closeButtons() {
       var value = $("closeButtons").value;
       $("tabClipWidth").disabled = (value != 1) && (value != 10);
+      $("c.closeButtons").disabled = value == 2;
     }
 
     function hideLoadInBackground() {
