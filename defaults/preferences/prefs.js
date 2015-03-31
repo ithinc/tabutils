@@ -209,6 +209,7 @@ pref("extensions.tabutils.dragToStack", false);
 pref("extensions.tabutils.mouseHoverPopup", true);
 pref("extensions.tabutils.mouseHoverPopupDelay", 750);
 
+pref("extensions.tabutils.colorStackFromFavicon", false);
 pref("extensions.tabutils.colorStack", true);
 pref("extensions.tabutils.colorStack.0", "#50C2F8 20%");
 pref("extensions.tabutils.colorStack.1", "#60FDC8 20%");

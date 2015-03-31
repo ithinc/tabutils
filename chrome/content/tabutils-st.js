@@ -113,6 +113,11 @@ tabutils._stackTabs = function() {
     if (bTab.getAttribute("group-counter") == 1) {
       bTab.setAttribute("group-collapsed", !options.expand && TU_getPref("extensions.tabutils.autoCollapseNewStack", true));
       this.mTabContainer.mTabstrip.ensureElementIsVisible(bTab);
+      if (bTab.image && TU_getPref('extensions.tabutils.colorStackFromFavicon', false))
+      Services.mozIColorAnalyzer.findRepresentativeColor(makeURI(bTab.image), function(success, color) {
+        if (success)
+          this.updateStack(bTab, {color: "#" + ("000000" + color.toString(16)).slice(-6)});
+      }.bind(this));
     }
 
     //must happen after "group" is set to avoid bypassing stack, and
