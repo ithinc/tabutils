@@ -563,7 +563,7 @@ tabutils._tabOpeningOptions = function() {
         }
       }
     }).toString().replace(/^.*{|}$/g, "")],
-    [/(?=return t;)/, gBrowser.addTab.toString().match(/var (uriIsBlankPage|uriIsNotAboutBlank|uriIsAboutBlank).*|let docShellsSwapped[\s\S]*(?=\n.*docShellsSwapped.*)|if \((uriIsNotAboutBlank|.*uriIsAboutBlank)\) {([^{}]|{[^{}]*})*}/g).join("\n")] // Bug 716108 [Fx16]
+    [/(?=return t;)/, gBrowser.addTab.toString().match(/var (uriIsBlankPage|uriIsNotAboutBlank|uriIsAboutBlank).*|let (docShellsSwapped|usingPreloadedContent)[\s\S]*(?=\n.*(docShellsSwapped|usingPreloadedContent).*)|if \((uriIsNotAboutBlank|.*uriIsAboutBlank)\) {([^{}]|{[^{}]*})*}/g).join("\n")] // Bug 716108 [Fx16], Bug 1077652 [Fx37]
   );
 
   gBrowser.getBlankTab = function getBlankTab() {
