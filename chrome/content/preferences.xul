@@ -1050,9 +1050,9 @@
       var preferences = document.getElementsByTagName("preference");
       for (let preference of preferences) {
         str += 'pref(';
-        str += preference.name.quote();
+        str += JSON.stringify(preference.name);
         str += ', ';
-        str += preference.type == typeof preference.value ? preference.value.quote() :
+        str += preference.type == typeof preference.value ? JSON.stringify(preference.value) :
                preference.inverted ? !preference.value : preference.value;
         str += ');\n';
       }
