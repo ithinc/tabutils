@@ -153,7 +153,7 @@ var tabutils = {
 
   _eventListeners: [],
   addEventListener: function() {
-    document.addEventListener.apply(arguments[0], Array.slice(arguments, 1));
+    arguments[0].addEventListener.apply(arguments[0], Array.slice(arguments, 1));
     this._eventListeners.push(arguments);
   },
 
