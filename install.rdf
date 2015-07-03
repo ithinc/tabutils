@@ -4,7 +4,7 @@
     <em:id>tabutilsfixed@addon.cn</em:id>
     <em:type>2</em:type>
     <em:name>Tab Utilities Fixed</em:name>
-    <em:version>1.5.2015.04.05</em:version>
+    <em:version>1.5.2015.07.03</em:version>
     <em:creator>YFdyh000</em:creator>
     <em:contributor>ithinc (Former author)</em:contributor>
     <em:contributor>Phil Tsarik</em:contributor>
@@ -28,7 +28,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- Firefox -->
         <em:minVersion>17.0</em:minVersion>
-        <em:maxVersion>37.*</em:maxVersion>
+        <em:maxVersion>39.*</em:maxVersion>
       </Description>
     </em:targetApplication>
     <em:strictCompatibility>false</em:strictCompatibility>
