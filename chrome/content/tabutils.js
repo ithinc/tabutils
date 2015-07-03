@@ -1601,6 +1601,7 @@ tabutils._bookmarkTabs = function() {
       PlacesCommandHook.bookmarkPage(aTabs[0].linkedBrowser, PlacesUtils.bookmarksMenuFolderId, true);
   };
 
+  if (parseFloat(Services.appinfo.version) < 40) { // https://hg.mozilla.org/mozilla-central/diff/d84b62b367b4/browser/base/content/browser-places.js
   TU_hookCode("PlacesCommandHook.bookmarkPage",
     [/(?=.*(createItem|PlacesCreateBookmarkTransaction).*)/, function() {
       var annos = [descAnno];
@@ -1612,6 +1613,7 @@ tabutils._bookmarkTabs = function() {
     }],
     [/.*(createItem|PlacesCreateBookmarkTransaction).*/, function(s) s.replace("[descAnno]", "annos")]  // Bug 575955 [Fx13]
   );
+  }
 
   TU_hookCode("PlacesCommandHook.bookmarkCurrentPages",
     ["this.uniqueCurrentPages", (function() {
