@@ -33,7 +33,7 @@ tabutils._verticalTabs = function() {
       gBrowser.mTabContainer.visible = aShow;
   });
 
-  if (parseFloat(Services.appinfo.version) >= 35.0) { // Bug 1071821 [Fx35]
+  if (tabutils.fxVersion >= 35.0) { // Bug 1071821 [Fx35]
       // I did not find a compatible approach
       TU_hookCode("FullScreen.toggle", /.*if.*\(\!this\._fullScrToggler\).*\n.*\n.*\n.*\n.*\}/, function() {
         if (!this._eventLoaded) { // the equivalent to "if (!this._fullScrToggler)"

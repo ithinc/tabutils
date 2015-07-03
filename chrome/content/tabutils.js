@@ -44,15 +44,15 @@ var tabutils = {
       });
     }
 
-    let os = Services.appinfo.OS; //WINNT, Linux or Darwin
-    let version = parseFloat(Services.appinfo.version);
-    document.documentElement.setAttribute("OS", os);
+    this.fxOnOS = Services.appinfo.OS; //WINNT, Linux or Darwin
+    this.fxVersion = parseFloat(Services.appinfo.version);
+    document.documentElement.setAttribute("OS", this.FxOnOS);
     document.documentElement.setAttribute("v4", true);
     document.documentElement.setAttribute("v6", true);
     document.documentElement.setAttribute("v14", true);
     document.documentElement.setAttribute("v17", true);
-    document.documentElement.setAttribute("v29", version >= 29.0);
-    document.documentElement.setAttribute("v31", version >= 31.0);
+    document.documentElement.setAttribute("v29", this.fxVersion >= 29.0);
+    document.documentElement.setAttribute("v31", this.fxVersion >= 31.0);
     
     gBrowser.mTabContainer._originalAdjustTabstripFunc = gBrowser.mTabContainer.adjustTabstrip;
     gBrowser.mTabContainer.adjustTabstrip = function adjustTabstrip() {
@@ -1601,7 +1601,7 @@ tabutils._bookmarkTabs = function() {
       PlacesCommandHook.bookmarkPage(aTabs[0].linkedBrowser, PlacesUtils.bookmarksMenuFolderId, true);
   };
 
-  if (parseFloat(Services.appinfo.version) < 40) { // https://hg.mozilla.org/mozilla-central/diff/d84b62b367b4/browser/base/content/browser-places.js
+  if (tabutils.fxVersion < 40) { // https://hg.mozilla.org/mozilla-central/diff/d84b62b367b4/browser/base/content/browser-places.js
   TU_hookCode("PlacesCommandHook.bookmarkPage",
     [/(?=.*(createItem|PlacesCreateBookmarkTransaction).*)/, function() {
       var annos = [descAnno];
