@@ -129,9 +129,9 @@ menuseparator:last-child {
   position: relative;
 }
 
-#PinnedTabsBar:empty > *,
-#PinnedTabsBarItems:empty {
-  display: none;
+#PinnedTabsBar:empty {
+  -moz-padding-end: 0;
+  -moz-padding-start: 0;
 }
 
 .tabbrowser-tabs[multirow]:not([showPhantom="true"]) #PinnedTabsBar,
