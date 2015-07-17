@@ -9,3 +9,14 @@ window[v29="true"]:not([OS="Linux"]) #nav-bar #closetab-button .toolbarbutton-ic
   width: 32px;
   height: 24px;
 }
+
+/* Statusbar buttons */
+window[v29="true"] #statusbar-openintab {
+  -moz-image-region: rect(0px, 360px, 18px, 342px);
+}
+window[v29="true"] #statusbar-loadinbackground {
+  -moz-image-region: rect(0px, 54px, 18px, 36px);
+}
+window[v29="true"] #statusbar-loadinforeground {
+  -moz-image-region: rect(0px, 72px, 18px, 54px);
+}
