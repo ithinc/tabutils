@@ -81,12 +81,12 @@ menuseparator:last-child {
 
 .tabbrowser-tab[locked] .tab-throbber:not([busy]),
 .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url(chrome://browser/skin/Secure.png);
+  list-style-image: url(resource:///chrome/browser/skin/classic/browser/Secure.png);
   -moz-image-region: rect(1px, 15px, 15px, 1px);
 }
 
 .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
-  list-style-image: url("chrome://browser/skin/classic/browser/Toolbar-small.png") !important;
+  list-style-image: url("resource:///chrome/browser/skin/classic/browser/classic/browser/Toolbar-small.png") !important;
   -moz-image-region: rect(1px, 111px, 15px, 97px) !important;
 }
 
@@ -241,7 +241,7 @@ toolbar[iconsize="small"] #undoclosetab-button .toolbarbutton-icon {
 #statusbar-openintab,
 #statusbar-loadinbackground,
 #statusbar-loadinforeground {
-  list-style-image: url("chrome://browser/skin/classic/browser/Toolbar-small.png");
+  list-style-image: url("resource:///chrome/browser/skin/classic/browser/classic/browser/Toolbar-small.png");
   font-weight: bold;
   color: green;
 }
