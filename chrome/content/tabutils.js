@@ -53,12 +53,12 @@ var tabutils = {
     document.documentElement.setAttribute("v17", true);
     document.documentElement.setAttribute("v29", this.fxVersion >= 29.0);
     document.documentElement.setAttribute("v31", this.fxVersion >= 31.0);
-    
+
     gBrowser.mTabContainer._originalAdjustTabstripFunc = gBrowser.mTabContainer.adjustTabstrip;
     gBrowser.mTabContainer.adjustTabstrip = function adjustTabstrip() {
       this._originalAdjustTabstripFunc();
     }
-    
+
 //    Function.prototype.__defineGetter__("stack", function() {
 //      var stack = [];
 //      for (let caller = this; caller && stack.length < 15; caller = caller.caller) {
@@ -605,7 +605,7 @@ tabutils._tabOpeningOptions = function() {
     }
   });
 
-  // Not understand the purpose of the module, 
+  // Not understand the purpose of the module,
   // and it has been broken since Firefox 38.
   // https://hg.mozilla.org/releases/mozilla-aurora/diff/120b108aa176/toolkit/mozapps/downloads/DownloadLastDir.jsm [Bug 1115248]
   /*
@@ -996,7 +996,7 @@ tabutils._tabClosingOptions = function() {
   TU_hookCode("gBrowser.updateCurrentBrowser", /.*dispatchEvent[\s\S]*_tabAttrModified.*/, "$&};if (window.windowState != window.STATE_MINIMIZED) {");
 
   //Don't close the last primary window with the las tab
-  TU_hookCode("gBrowser._beginRemoveTab", 
+  TU_hookCode("gBrowser._beginRemoveTab",
       /_closeWindowWithLastTab|Services\.prefs\.getBoolPref\("browser\.tabs\.closeWindowWithLastTab"\)/, // Bug 997681 [Fx31]
       "$& && " + (function() { //Implement to Bug 607893
     (TU_getPref("extensions.tabutils.closeLastWindowWithLastTab", false) || function() {
@@ -3251,40 +3251,64 @@ tabutils._tabPrefObserver = {
 
   hideOpenInTab: function() {
     var hideOpenInTab = TU_getPref("extensions.tabutils.hideOpenInTab");
-    document.getElementById("statusbar-openintab").collapsed = hideOpenInTab;
+    var toolbarItem = document.getElementById("statusbar-openintab");
+    //Check if toolbar item is not removed by user
+    if (toolbarItem) {
+      toolbarItem.collapsed = hideOpenInTab;
+    }
   },
 
   hideLoadInBackground: function() {
     var hideLoadInBackground = TU_getPref("extensions.tabutils.hideLoadInBackground");
     if (hideLoadInBackground)
       TU_setPref("extensions.tabutils.loadAllInBackground", false);
-    document.getElementById("statusbar-loadinbackground").collapsed = hideLoadInBackground;
+    var toolbarItem = document.getElementById("statusbar-loadinbackground");
+    //Check if toolbar item is not removed by user
+    if (toolbarItem) {
+      toolbarItem.collapsed = hideLoadInBackground;
+    }
   },
 
   hideLoadInForeground: function() {
     var hideLoadInForeground = TU_getPref("extensions.tabutils.hideLoadInForeground");
     if (hideLoadInForeground)
       TU_setPref("extensions.tabutils.loadAllInForeground", false);
-    document.getElementById("statusbar-loadinforeground").collapsed = hideLoadInForeground;
+    var toolbarItem = document.getElementById("statusbar-loadinforeground");
+    //Check if toolbar item is not removed by user
+    if (toolbarItem) {
+      toolbarItem.collapsed = hideLoadInForeground;
+    }
   },
 
   openLinkInTab: function() {
     tabutils.gOpenLinkInTab = TU_getPref("extensions.tabutils.openLinkInTab");
-    document.getElementById("statusbar-openintab").setAttribute("checked", tabutils.gOpenLinkInTab);
+    var toolbarItem = document.getElementById("statusbar-openintab");
+    //Check if toolbar item is not removed by user
+    if (toolbarItem) {
+      toolbarItem.setAttribute("checked", tabutils.gOpenLinkInTab);
+    }
   },
 
   loadAllInBackground: function() {
     tabutils.gLoadAllInBackground = TU_getPref("extensions.tabutils.loadAllInBackground");
     if (tabutils.gLoadAllInBackground)
       TU_setPref("extensions.tabutils.loadAllInForeground", false);
-    document.getElementById("statusbar-loadinbackground").setAttribute("checked", tabutils.gLoadAllInBackground);
+    var toolbarItem = document.getElementById("statusbar-loadinbackground");
+    //Check if toolbar item is not removed by user
+    if (toolbarItem) {
+      toolbarItem.setAttribute("checked", tabutils.gLoadAllInBackground);
+    }
   },
 
   loadAllInForeground: function() {
     tabutils.gLoadAllInForeground = TU_getPref("extensions.tabutils.loadAllInForeground");
     if (tabutils.gLoadAllInForeground)
       TU_setPref("extensions.tabutils.loadAllInBackground", false);
-    document.getElementById("statusbar-loadinforeground").setAttribute("checked", tabutils.gLoadAllInForeground);
+    var toolbarItem = document.getElementById("statusbar-loadinforeground");
+    //Check if toolbar item is not removed by user
+    if (toolbarItem) {
+      toolbarItem.setAttribute("checked", tabutils.gLoadAllInForeground);
+    }
   },
 
   loadInNewTab: function() {
