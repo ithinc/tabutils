@@ -5,8 +5,6 @@
 <!DOCTYPE prefwindow [
 <!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
 %browserDTD;
-<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
-%tabBrowserDTD;
 <!ENTITY % tabsDTD SYSTEM "chrome://browser/locale/preferences/tabs.dtd">
 %tabsDTD;
 <!ENTITY % contentDTD SYSTEM "chrome://browser/locale/preferences/content.dtd">
