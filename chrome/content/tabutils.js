@@ -2469,7 +2469,7 @@ tabutils._mainContextMenu = function() {
 
     this.linkURLs = [];
     for (let link of links) {
-      if (selection.containsNode(link, true) && this.linkURLs.indexOf(link.href) == -1)
+      if (selection.containsNode(link, true) && (link.offsetHeight > 0) && this.linkURLs.indexOf(link.href) == -1)
         this.linkURLs.push(link.href);
     }
 
