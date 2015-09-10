@@ -53,8 +53,6 @@ var tabutils = {
     document.documentElement.setAttribute("v17", true);
     document.documentElement.setAttribute("v29", this.fxVersion >= 29.0);
     document.documentElement.setAttribute("v31", this.fxVersion >= 31.0);
-    document.documentElement.setAttribute("v40", this.fxVersion >= 40.0);
-    document.documentElement.setAttribute("v41", this.fxVersion >= 41.0);
 
     gBrowser.mTabContainer._originalAdjustTabstripFunc = gBrowser.mTabContainer.adjustTabstrip;
     gBrowser.mTabContainer.adjustTabstrip = function adjustTabstrip() {

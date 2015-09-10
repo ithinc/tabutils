@@ -7,16 +7,6 @@ window[v6="true"] .tabbrowser-tab[group-first]:not([group-last]):not([group-coll
   list-style-image: url("chrome://global/skin/tree/twisty-open.png");
 }
 
-/* Tab Highlighting */
-window[v6="true"] .tabbrowser-tab[locked] .tab-throbber:not([busy]),
-window[v6="true"] .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url("resource:///chrome/browser/skin/classic/browser/Secure24.png");
-}
-
-window[v6="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
-  list-style-image: url("resource:///chrome/browser/skin/classic/browser/Toolbar.png") !important;
-}
-
 /* Toolbar buttons */
 window[v6="true"] #closetab-button {
   list-style-image: url("chrome://global/skin/icons/close.png");

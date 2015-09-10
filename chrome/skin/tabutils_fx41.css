@@ -1,5 +1,0 @@
-/* Tab Highlighting */
-window[v41="true"] .tabbrowser-tab[locked] .tab-throbber:not([busy]),
-window[v41="true"] .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url("chrome://tabutils/skin/Secure24.png") !important;
-}
