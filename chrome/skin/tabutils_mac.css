@@ -23,8 +23,17 @@ window[OS="Darwin"][v17="true"] .tabbrowser-tab[protected] .tab-close-button {
   list-style-image: url("resource:///chrome/browser/skin/classic/browser/Secure-Glyph.png");
 }
 
+window[OS="Darwin"][v41="true"] .tabbrowser-tab[locked] .tab-throbber:not([busy]),
+window[OS="Darwin"][v41="true"] .tabbrowser-tab[protected] .tab-close-button {
+  list-style-image: url("chrome://tabutils/skin/Secure-Glyph.png") !important;
+}
+
 window[OS="Darwin"][v4="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
   -moz-image-region: rect(2px, 158px, 18px, 142px) !important;
+}
+window[OS="Darwin"][v40="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
+  list-style-image: url("chrome://tabutils/skin/autoreload.png") !important;
+  -moz-image-region: auto !important;
 }
 
 window[OS="Darwin"][v29="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {

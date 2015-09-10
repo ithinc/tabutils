@@ -1,0 +1,5 @@
+/* Tab Highlighting */
+window[v40="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
+  list-style-image: url("chrome://tabutils/skin/autoreload.png") !important;
+  -moz-image-region: auto !important;
+}
