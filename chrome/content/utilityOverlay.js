@@ -131,7 +131,7 @@
   //≤‡±ﬂ¿∏ È«©
   TU_hookCode("TU_openNodeWithEvent", /_openNodeIn\((.*)\)/, function(s, s1) s.replace(s1, (s1 = s1.split(","), s1.push("aEvent || {}"), s1.join())));
   TU_hookCode("TU__openNodeIn",
-    ["{", "var aEvent = arguments[arguments.callee.length];"],
+    ["{", "var aEvent = arguments[arguments.length - 1];"],
     ['aWhere == "current"', '(aEvent ? !aEvent.button && !aEvent.ctrlKey && !aEvent.altKey && !aEvent.shiftKey && !aEvent.metaKey : $&)']
   );
 
