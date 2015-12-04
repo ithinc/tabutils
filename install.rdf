@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <Description about="urn:mozilla:install-manifest">
     <em:id>tabutilsfixed@addon.cn</em:id>
     <em:type>2</em:type>
     <em:name>Tab Utilities Fixed</em:name>
-    <em:version>1.5.2015.09.12</em:version>
+    <em:version>1.5.2015.09.12.1-let-fixed</em:version>
     <em:creator>YFdyh000</em:creator>
     <em:contributor>ithinc (Former author)</em:contributor>
     <em:contributor>Phil Tsarik</em:contributor>
