@@ -2393,7 +2393,7 @@ tabutils._miscFeatures = function() {
   TU_hookCode("openGMarkLabelInTabs",
     [/.*openUILinkIn.*/, ""],
     [/(?=.*(labelArray)(?![\s\S]*\1))/, function() {
-      var urls = [label.url for (label of labelArray)];
+      var urls = [for (label of labelArray) label.url];
       var loadInBackground = TU_getPref("browser.tabs.loadBookmarksInBackground");
       gBrowser.loadTabs(urls, loadInBackground, false);
     }]
