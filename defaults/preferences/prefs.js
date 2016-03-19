@@ -172,7 +172,7 @@ pref("extensions.tabutils.button.undoclosetab-button.onclick", "");
 pref("extensions.tabutils.css.example", "");
 pref("extensions.tabutils.js.example", "");
 
-pref("extensions.tabutils.disableTabMoveAnimation", true);
+pref("extensions.tabutils.disableTabMoveAnimation", false);
 pref("extensions.tabutils.css.disableTabMoveAnimation", ".tabbrowser-tab[pinned] {-moz-transform: none !important;}");
 pref("extensions.tabutils.css.fixTabViewButton", "window[OS='WINNT']:not([v29='true']) #tabview-button > toolbarbutton > .toolbarbutton-icon:not(:-moz-lwtheme) {list-style-image: url('chrome://browser/skin/tabview/tabview-inverted.png') !important;} /* Bug 748894 [Fx23] */");
 
