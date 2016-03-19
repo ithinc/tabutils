@@ -42,8 +42,8 @@ tabutils._multirowTabs = function() {
   }, false);
 
   TU_hookCode("gBrowser.mTabContainer._getDropIndex",
-    [/event.screenX.*width \/ 2/g, function(s) s + " && " + s.replace("screenX", "screenY", "g").replace("width / 2", "height")
-                                                 + " || " + s.replace("screenX", "screenY", "g").replace("width / 2", "height * 0")]
+    [/event.screenX.*width \/ 2/g, function(s) s + " && " + s.replace(new RegExp("screenX", "g"), "screenY").replace("width / 2", "height")
+                                                 + " || " + s.replace(new RegExp("screenX", "g"), "screenY").replace("width / 2", "height * 0")]
   );
 
   tabutils.addEventListener(gBrowser.mTabContainer, "dragover", function(event) {

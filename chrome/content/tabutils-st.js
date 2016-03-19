@@ -519,7 +519,7 @@ tabutils._stackTabs = function() {
                      event.preventDefault() :
                      this.siblingTabsOf($1).map(function($1) ($1.hasAttribute("group-selected") ? "> " : "# ") + $0).join("\n") :
                      $0
-  }).toString().replace(/^.*{|}$/g, "").replace("$0", s, "g").replace("$1", s1, "g"));
+  }).toString().replace(/^.*{|}$/g, "").replace(new RegExp("$0", "g"), s).replace(new RegExp("$1", "g"), s1));
 
   gBrowser._setMenuitemAttributes = function _setMenuitemAttributes(aItem, aTab) {
     ["label", "crop", "image"].forEach(function(aProp) {
