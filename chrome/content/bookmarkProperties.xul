@@ -3,9 +3,9 @@
   <script type="application/javascript" src="tulib.js"/>
   <script type="application/javascript">
   <![CDATA[
-    TU_hookCode("BookmarkPropertiesPanel._determineItemInfo",
+    /*TU_hookCode("BookmarkPropertiesPanel._determineItemInfo",
       ['this._strings.getString("bookmarkAllTabsDefault")', "dialogInfo.URIList[0] instanceof Ci.nsIURI ? $& : new Date().toLocaleString()"]
-    );
+    );*/
     TU_hookCode("BookmarkPropertiesPanel._getTransactionsForURIList",
       [/(?=.*_getURITitleFromHistory.*)/, "var annos; if (!(uri instanceof Ci.nsIURI)) [uri, annos] = uri;"],
       [/title(?=\))/, "$&, null, annos"]
