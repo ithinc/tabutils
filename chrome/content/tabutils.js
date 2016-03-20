@@ -1403,7 +1403,7 @@ tabutils._renameTab = function() {
       $0
       if (aTitles && aTitles[$2])
         $1.setAttribute("title", aTitles[$2]);
-    }).toString().replace(/^.*{|}$/g, "").replace("$0", s).replace(new RegExp("$1", "g"), s1).replace(new RegExp("$2", "g"), s2)]
+    }).toString().replace(/^.*{|}$/g, "").replace("$0", s).replace(/$1/g, s1).replace(/$2/g, s2)]
   );
 };
 
@@ -1662,7 +1662,7 @@ tabutils._bookmarkTabs = function() {
         $1.linkedBrowser.stop();
         tabutils._ss.setTabState($1, PlacesUtils.annotations.getItemAnnotation(aItemIds[$2], "bookmarkProperties/tabState"));
       }
-    }).toString().replace(/^.*{|}$/g, "").replace("$0", s).replace(new RegExp("$1", "g"), s1).replace(new RegExp("$2", "g"), s2)]
+    }).toString().replace(/^.*{|}$/g, "").replace("$0", s).replace(/$1/g, s1).replace(/$2/g, s2)]
   );
 };
 
@@ -2994,9 +2994,9 @@ tabutils._tabPrefObserver = {
           return;
 
         this.cssRules[prefName] = {
-          tab: tabutils.insertRule(this.tabSelector.replace(new RegExp('#Selector#', 'g'), selector) + '{}'),
-          text: tabutils.insertRule(this.textSelector.replace(new RegExp('#Selector#', 'g'), selector) + '{}'),
-          bg: tabutils.insertRule(this.bgSelector.replace(new RegExp('#Selector#', 'g'), selector) + '{}')
+          tab: tabutils.insertRule(this.tabSelector.replace(/#Selector#/g, selector) + '{}'),
+          text: tabutils.insertRule(this.textSelector.replace(/#Selector#/g, selector) + '{}'),
+          bg: tabutils.insertRule(this.bgSelector.replace(/#Selector#/g, selector) + '{}')
         };
       }
 
