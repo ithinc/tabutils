@@ -1902,7 +1902,9 @@ tabutils._multiTabHandler = function() {
     }
   }, true);
 
-  TU_hookCode("gBrowser.mTabContainer._setEffectAllowedForDataTransfer",
+  TU_hookCode(typeof gBrowser.mTabContainer._setEffectAllowedForDataTransfer === 'function' ? 
+    "gBrowser.mTabContainer._setEffectAllowedForDataTransfer" : // Firefox 43 and older
+    "gBrowser.mTabContainer._getDropEffectForTabDrag", // Firefox 44 and later
     ["dt.mozItemCount > 1", "false"]
   );
 

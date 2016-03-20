@@ -75,7 +75,7 @@ tabutils._multirowTabs = function() {
     if (TU_getPref("extensions.tabutils.disableTabMoveAnimation", true)) {
       TU_hookFunc(arguments.callee.caller.toString().match(/^.*{|var (ind|tabStrip|ltr).*|var pixelsToScroll[\s\S]*$/g).join("\n"),
         [/.*scrollByPixels.*/, ";"],
-        [/.*effects == "move"[\s\S]*?(?=var (newIndex|scrollRect|rect))/, ""]
+        [/.*effects == "move"[\s\S]*?(?=var (newIndex|scrollRect|rect))/, ""] // needs fix
       ).apply(this, arguments);
       return;
     }
