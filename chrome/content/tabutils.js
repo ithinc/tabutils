@@ -29,7 +29,15 @@ var tabutils = {
     window.addEventListener("load", this, false);
     window.addEventListener("unload", this, false);
 
-    if (gBrowser.mTabListeners.length > 0) { // Bug 463384 [Fx5]
+    if (typeof gBrowser._tabListeners === "object") { // Bug 1238685 [Fx46]
+      let tabListener = gBrowser._tabListeners.values().next().value;
+      gBrowser.browsers[0].webProgress.removeProgressListener(gBrowser._tabFilters.values().next().value);
+      gBrowser._tabFilters.values().next().value.removeProgressListener(gBrowser._tabListeners.values().next().value);
+      gBrowser._tabListeners.values().next().value = gBrowser.mTabProgressListener(tabListener.mTab, tabListener.mBrowser, tabListener.mBlank);
+      gBrowser._tabFilters.values().next().value.addProgressListener(gBrowser._tabListeners.values().next().value, Ci.nsIWebProgress.NOTIFY_ALL);
+      gBrowser.browsers[0].webProgress.addProgressListener(gBrowser._tabFilters.values().next().value, Ci.nsIWebProgress.NOTIFY_ALL);
+    }
+    else if (gBrowser.mTabListeners.length > 0) { // Bug 463384 [Fx5]
       let tabListener = gBrowser.mTabListeners[0];
       gBrowser.browsers[0].webProgress.removeProgressListener(gBrowser.mTabFilters[0]);
       gBrowser.mTabFilters[0].removeProgressListener(gBrowser.mTabListeners[0]);
