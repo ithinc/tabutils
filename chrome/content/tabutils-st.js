@@ -511,15 +511,15 @@ tabutils._stackTabs = function() {
   TU_hookCode("gBrowser.mTabContainer._selectNewTab", "aNewTab.hidden", "$& || aNewTab.collapsed");
 
   TU_hookCode("gBrowser.createTooltip", /(tab|tn).getAttribute\("label"\)/, function(s, s1) (function() {
-    $1.mOverTwisty ? $1.hasAttribute("group-collapsed") ?
+    a1.mOverTwisty ? a1.hasAttribute("group-collapsed") ?
                      document.getElementById("context_collapseStack").getAttribute("label_expand") :
                      document.getElementById("context_collapseStack").getAttribute("label_collapse")
-                   : this.isCollapsedStack($1) ?
+                   : this.isCollapsedStack(a1) ?
                      TU_getPref("extensions.tabutils.mouseHoverPopup", true) ?
                      event.preventDefault() :
-                     this.siblingTabsOf($1).map(function($1) ($1.hasAttribute("group-selected") ? "> " : "# ") + $0).join("\n") :
-                     $0
-  }).toString().replace(/^.*{|}$/g, "").replace(new RegExp("$0", "g"), s).replace(new RegExp("$1", "g"), s1));
+                     this.siblingTabsOf(a1).map(function(a1) (a1.hasAttribute("group-selected") ? "> " : "# ") + a0).join("\n") :
+                     a0
+  }).toString().replace(/^.*{|}$/g, "").replace(/a0/g, s).replace(/a1/g, s1));
 
   gBrowser._setMenuitemAttributes = function _setMenuitemAttributes(aItem, aTab) {
     ["label", "crop", "image"].forEach(function(aProp) {
