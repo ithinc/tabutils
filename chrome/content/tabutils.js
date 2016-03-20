@@ -2973,7 +2973,7 @@ tabutils._tabPrefObserver = {
     if (!aData.startsWith("extensions.tabutils."))
       return;
 
-    let name = aData.slice(20).replace(new RegExp("." ,"g"), "_");
+    let name = aData.slice(20).replace(/\./g, "_");
     if (name in this) {
       this[name]();
       return;
