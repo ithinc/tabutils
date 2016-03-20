@@ -1311,7 +1311,9 @@
       if(!aPane._inited)
         return;
 
-      aPane.setAttribute('lastSelected', [tabbox.selectedIndex for (tabbox of aPane.getElementsByTagName('tabbox'))].join());
+    let tabbox = aPane.getElementsByTagName('tabbox')[0];
+      if (tabbox)
+        aPane.setAttribute('lastSelected', tabbox.selectedIndex);
     }
   ]]>
   </script>
