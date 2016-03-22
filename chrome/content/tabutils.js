@@ -2403,10 +2403,14 @@ tabutils._miscFeatures = function() {
   TU_hookCode("openGMarkLabelInTabs",
     [/.*openUILinkIn.*/, ""],
     [/(?=.*(labelArray)(?![\s\S]*\1))/, function() {
-      var urls = [for (label of labelArray) label.url];
+      var urls = $1;
       var loadInBackground = TU_getPref("browser.tabs.loadBookmarksInBackground");
       gBrowser.loadTabs(urls, loadInBackground, false);
-    }]
+    }.toString().replace("$1",
+      tabutils.fxVersion >= 30.0 ?
+      "[for (label of labelArray) label.url]" : // Bug 979865 [Fx30] support
+      "[label.url for (label of labelArray)]" // Bug 1220564 [Fx46] removed
+    )]
   );
 
   TU_hookCode("BookmarkingUI" in window ? "BookmarkingUI._updateStar" : "PlacesStarButton._updateStateInternal", /(?=.*this._itemIds.*)/, function() { //Bug 650527
