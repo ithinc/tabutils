@@ -2070,15 +2070,16 @@ tabutils._tabClickingOptions = function() {
   };
 
   //浏览历史菜单
-  TU_hookCode("FillHistoryMenu",
-    ["count <= 1", "count == 0"],
-    [/(?=var webNav)/, function() {
+  TU_hookCode("FillHistoryMenu", // Fillin the history menu
+    ["count <= 1", "count == 0"], // Always show the menu
+    ["gBrowser.selectedTab", "tab", "g"], // since Bug 1148505 [Fx43].
+    [FillHistoryMenu.toString().indexOf("var webNav")>0 ? /(?=var webNav)/ : /(?=let sessionHistory)/, function() { // Bug 1148505 [Fx43].
       var tab = document.popupNode;
       if (!tab || tab.localName != 'tab')
         tab = gBrowser.selectedTab;
       aParent.value = tab._tPos;
     }],
-    ["gBrowser.webNavigation", "tab.linkedBrowser.webNavigation"]
+    ["gBrowser.webNavigation", "tab.linkedBrowser.webNavigation"] // Is no longer valid since Bug 1148505 [Fx43].
   );
   TU_hookCode("gotoHistoryIndex",
     ["gBrowser.selectedTab", "tab", "g"],
