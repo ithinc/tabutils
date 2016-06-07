@@ -3099,7 +3099,8 @@ tabutils._tabPrefObserver = {
       if (!button) {
         button = document.getElementById("nav-bar").appendChild(document.createElement("toolbarbutton"));
         button.id = RegExp.$1;
-        button.image = gBrowser.mFaviconService.defaultFavicon.spec;
+        const FaviconService = Cc["@mozilla.org/browser/favicon-service;1"].            getService(Ci.nsIFaviconService);        
+        button.image = FaviconService.defaultFavicon.spec;
         button.className = "toolbarbutton-1 chromeclass-toolbar-additional";
         button.collapsed = !TU_getPref("extensions.tabutils.button." + RegExp.$1);
       }
