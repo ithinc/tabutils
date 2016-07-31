@@ -226,6 +226,10 @@ tabutils._stackTabs = function() {
     let tabs = this.siblingTabsOf(aTab);
     if (tabs.length == 0)
       return;
+    if (tabs.length == 1 && TU_getPref("extensions.tabutils.autoCleanupStack", false)) {
+      gBrowser.detachTab(aTab);
+      return;
+    }
 
     if (typeof aTab == "string") {
       aTab = tabs[0];
