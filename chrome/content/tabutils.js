@@ -2350,9 +2350,12 @@ tabutils._tabClickingOptions = function() {
   }, false);
 
   //Mouse scroll to select
-  tabutils.addEventListener(gBrowser.mTabContainer, 'DOMMouseScroll', function(event) {
+  tabutils.addEventListener(gBrowser.mTabContainer, 'wheel', function(event) {
+    let isVertical = Math.abs(event.deltaY) > Math.abs(event.deltaX);
+    let delta = isVertical ? event.deltaY : event.deltaX;
+    let scrollByDelta = isVertical && this._isRTLScrollbox ? -delta : delta;
     if (event.ctrlKey) {
-      document.getElementById(event.detail < 0 ? "cmd_prevGroup" : "cmd_nextGroup").doCommand();
+      document.getElementById(scrollByDelta < 0 ? "cmd_prevGroup" : "cmd_nextGroup").doCommand();
       event.stopPropagation();
       return;
     }
@@ -2360,7 +2363,7 @@ tabutils._tabClickingOptions = function() {
     if (event.originalTarget != this.mTabstrip._scrollButtonUp &&
         event.originalTarget != this.mTabstrip._scrollButtonDown &&
         TU_getPref("extensions.tabutils.mouseScrollSelect", false)) {
-      let scrollDir = event.detail < 0 ^ TU_getPref("extensions.tabutils.mouseScrollSelectDir", false) ? -1 : 1;
+      let scrollDir = scrollByDelta < 0 ^ TU_getPref("extensions.tabutils.mouseScrollSelectDir", false) ? -1 : 1;
       this.advanceSelectedTab(scrollDir, TU_getPref("extensions.tabutils.mouseScrollSelectWrap", false));
       event.stopPropagation();
     }
