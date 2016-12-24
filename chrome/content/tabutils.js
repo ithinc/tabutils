@@ -325,7 +325,7 @@ tabutils._openUILinkInTab = function() {
 
   //地址栏回车键
   TU_hookCode("gURLBar.handleCommand",
-    [/(let altEnter\s*=.+)((aTriggeringEvent)\s*&&\s*(aTriggeringEvent\.altKey)).*;/, function() {
+    [/(let altEnter\s*=.+)\s*((aTriggeringEvent|event)\s*&&\s*(aTriggeringEvent\.altKey|event\.altKey))\s*&&\s*.*isTabEmpty.*;/, function() {
       let newTabPref = TU_getPref('extensions.tabutils.openUrlInTab', true);
       let TU_altEnter = ($2 || newTabPref) && !(($3 ? $4 : false) && newTabPref && TU_getPref('extensions.tabutils.invertAlt', true));
       $1TU_altEnter;
