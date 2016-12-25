@@ -7,7 +7,7 @@
       ['this._strings.getString("bookmarkAllTabsDefault")', "dialogInfo.URIList[0] instanceof Ci.nsIURI ? $& : new Date().toLocaleString()"]
     );*/
     TU_hookCode("BookmarkPropertiesPanel._getTransactionsForURIList",
-      [/(?=.*_getURITitleFromHistory.*)/, "var annos; if (!(uri instanceof Ci.nsIURI)) [uri, annos] = uri;"],
+      [/(?=.*(uri\s*instanceof\s*Ci\.nsIURI|_getURITitleFromHistory).*)/, "var annos; if (!(uri instanceof Ci.nsIURI)) [uri, annos] = uri;"],
       [/title(?=\))/, "$&, null, annos"]
     );
   ]]>
