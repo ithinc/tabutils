@@ -703,10 +703,11 @@ tabutils._tabOpeningOptions = function() {
   if (BrowserOpenTab.name == "BrowserOpenTab") { //Compatibility with Speed Dial
     TU_hookCode("BrowserOpenTab",
       [/.*openUILinkIn\((.*)\)/, function(s, s1) s.replace(s1, (
+        s1 = s1.replace(/,\s*\{\s*relatedToCurrent\s*\}/, ""),
         s1 = s1.split(","),
         s1.push("{inBackground: TU_getPref('extensions.tabutils.loadNewInBackground', false)}"),
         s1.push("{relatedToCurrent: TU_getPref('extensions.tabutils.openTabNext', 1) == 1}"),
-        s1.join().replace("},{", ",")
+        s1.join().replace(/\}\s*,\s*\{/, ",")
       ))] // Bug 490225 [Fx11]
     );
   }
