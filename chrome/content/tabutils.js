@@ -485,7 +485,7 @@ tabutils._singleWindowMode = function() {
 
     if (win) {
       TU_hookFunc((gBrowserInit.onLoad + gBrowserInit._delayedStartup).toString().match(/^.*{|if \(uriToLoad.*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*}|}$/g).join("\n"), // Bug 756313 [Fx19]
-        ["{", "var uriToLoad = window.arguments && window.arguments[0];"],
+        ["{", "var uriToLoad = {window.arguments && window.arguments[0]};"],
         ["gBrowser.loadTabs(specs, false, true);", "this.gBrowser.loadTabs(specs, false, false);"],
         ["loadOneOrMoreURIs(uriToLoad);", "this.gBrowser.loadTabs(uriToLoad.split('|'), false, false);"],
         [/.*loadURI.*\n.*/, "this.gBrowser.loadOneTab(uriToLoad, window.arguments[2], window.arguments[1] && window.arguments[1].split('=')[1], window.arguments[3] || null, false, window.arguments[4] || false);"],
@@ -509,7 +509,8 @@ tabutils._singleWindowMode = function() {
   };
 
   TU_hookCode("OpenBrowserWindow", "{", function() {
-    if (TU_getPref("extensions.tabutils.singleWindowMode", false))
+    if (TU_getPref("extensions.tabutils.singleWindowMode", false)
+       && typeof options != "object") // .remote for non-e10s; .private (window)
       return BrowserOpenTab() || gBrowser.getLastOpenedTab();
   });
 
