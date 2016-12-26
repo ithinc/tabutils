@@ -6,11 +6,13 @@
     var target;
     switch (TMP_console.callerName()) {
       case "PUIU_openNodeWithEvent":  //Fx 4.0
-      case "PUIU__openTabset":
+      case "PUIU__openTabset": // e10s got "PUIU_openNodeWithEvent"
         target = "bookmarks";break;
       case "BrowserGoHome":
         target = "homepage";break;
-      case "handleLinkClick": //Fx 4.0
+      case "handleLinkClick": //Fx 4.0. Not applicable for e10s.
+        target = "links";break;
+      case "ContentClick.contentAreaClick": //for e10s. Need QA.
         target = "links";break;
       default:
         for (var node = e && e.originalTarget; node && !target; node = node.parentNode) {

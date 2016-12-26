@@ -650,7 +650,7 @@ tabutils._tabOpeningOptions = function() {
   //在当前标签页的右侧打开新标签页
   //连续打开后台标签时保持原有顺序
   TU_hookCode("gBrowser.addTab",
-    [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
+    [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"], // replace "getBoolPref("browser.tabs.insertRelatedAfterCurrent")"
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
       if (t.hasAttribute("opener")) {
         function shouldStack(tab) { let args = tab.arguments; return args.aReferrerURI || args.aRelatedToCurrent && args.aURI != "about:blank"; }
