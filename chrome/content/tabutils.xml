@@ -167,8 +167,6 @@
     <content>
       <xul:image class="tab-twisty" style="pointer-events: auto;"
                  role="presentation"/>
-      <children includes="image"/>
-      <children includes="label"/>
       <xul:label xbl:inherits="value=group-counter"
                  class="tab-text tab-counter"
                  role="presentation"/>
