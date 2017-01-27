@@ -1905,7 +1905,7 @@ tabutils._multiTabHandler = function() {
     }
   }, true);
 
-  TU_hookCode(typeof gBrowser.mTabContainer._setEffectAllowedForDataTransfer === 'function' ? 
+  TU_hookCode(typeof gBrowser.mTabContainer._setEffectAllowedForDataTransfer === 'function' ?
     "gBrowser.mTabContainer._setEffectAllowedForDataTransfer" : // Firefox 43 and older
     "gBrowser.mTabContainer._getDropEffectForTabDrag", // Firefox 44 and later
     ["dt.mozItemCount > 1", "false"]
@@ -2358,6 +2358,7 @@ tabutils._tabClickingOptions = function() {
     let scrollByDelta = isVertical && this._isRTLScrollbox ? -delta : delta;
     if (event.ctrlKey) {
       document.getElementById(scrollByDelta < 0 ? "cmd_prevGroup" : "cmd_nextGroup").doCommand();
+      event.preventDefault();
       event.stopPropagation();
       return;
     }
@@ -2367,6 +2368,7 @@ tabutils._tabClickingOptions = function() {
         TU_getPref("extensions.tabutils.mouseScrollSelect", false)) {
       let scrollDir = scrollByDelta < 0 ^ TU_getPref("extensions.tabutils.mouseScrollSelectDir", false) ? -1 : 1;
       this.advanceSelectedTab(scrollDir, TU_getPref("extensions.tabutils.mouseScrollSelectWrap", false));
+      event.preventDefault();
       event.stopPropagation();
     }
   }, true);
@@ -3104,7 +3106,7 @@ tabutils._tabPrefObserver = {
       if (!button) {
         button = document.getElementById("nav-bar").appendChild(document.createElement("toolbarbutton"));
         button.id = RegExp.$1;
-        const FaviconService = Cc["@mozilla.org/browser/favicon-service;1"].            getService(Ci.nsIFaviconService);        
+        const FaviconService = Cc["@mozilla.org/browser/favicon-service;1"].            getService(Ci.nsIFaviconService);
         button.image = FaviconService.defaultFavicon.spec;
         button.className = "toolbarbutton-1 chromeclass-toolbar-additional";
         button.collapsed = !TU_getPref("extensions.tabutils.button." + RegExp.$1);
