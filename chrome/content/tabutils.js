@@ -2520,7 +2520,7 @@ tabutils._mainContextMenu = function() {
   };
 
   nsContextMenu.prototype.openSelectedLinksInTab = function() {
-    this.LinksSelected.forEach(function(aURL) openNewTabWith(aURL, this.target.ownerDocument, null, null, false), this);
+    gBrowser.loadTabs(TUF_LinksSelected);
   };
 
   //TU_hookCode("nsContextMenu.prototype.initOpenItems", /.*openlinkincurrent.*/, function(s) s.replace("onPlainTextLink", "shouldShow"));
