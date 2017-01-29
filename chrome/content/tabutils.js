@@ -449,6 +449,22 @@ tabutils._openLinkInTab = function() {
       }
     }
   }).toString().replace(/^.*{|}$/g, "").replace("$0", s));
+  // For Fx51 and earlier
+  
+  // The following edition applies to bug 92737 [Fx52] changes and later.
+  TU_hookCode("handleDroppedLink", /.*urls\.push\([\s\S]*?postData.*/g, function(s) (function() {
+    {
+      switch (true) {
+        case /\.(xpi|user\.js)$/.test(data.url): // Bug 846635 [Fx25]
+        case !TU_getPref("extensions.tabutils.dragAndGo", true):
+          $0;break;
+        case event.ctrlKey != TU_getPref("extensions.tabutils.invertDrag", false):
+          BrowserSearch.loadSearch(name || link.url, true);break;
+        default:
+          openNewTabWith(data.url, null, data.postData, event, true);break; // ", event.target.ownerDocument.documentURIObject" will break for example drop an local file (file:///) to about:newtab page, blocked for security reasons.
+      }
+    }
+  }).toString().replace(/^.*{|}$/g, "").replace("$0", s));
 
   for (let b of gBrowser.browsers) {
     b.droppedLinkHandler = handleDroppedLink;
