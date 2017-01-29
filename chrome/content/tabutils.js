@@ -2496,35 +2496,36 @@ tabutils._miscFeatures = function() {
 
 //浏览区右键菜单
 tabutils._mainContextMenu = function() {
-  nsContextMenu.prototype.isLinkSelected = function() {
+  var TUF_LinksSelected = []; // due to an call in that "listener".
+  nsContextMenu.prototype.checkLinkSelected = function() {
     var focusedWindow = document.commandDispatcher.focusedWindow;
     if (!focusedWindow || focusedWindow == window)
       focusedWindow = window.content;
 
-    var links = focusedWindow.document.links;
     var selection = focusedWindow.getSelection();
-    if (!links || !selection)
-      return false;
-
-    this.linkURLs = [];
-    for (let link of links) {
-      if (selection.containsNode(link, true) && (link.offsetHeight > 0) && this.linkURLs.indexOf(link.href) == -1)
-        this.linkURLs.push(link.href);
+    //console.time('getLinkSelected');
+    messageManager.addMessageListener("tabutils-fixed:LinksSelected", listener);
+    function listener(message) {
+      //console.dir(message);
+      let linkURLs = message.data.links;
+      TUF_LinksSelected = linkURLs;
+      var item = document.getElementById("context-openselectedlinksintab");
+      item.setAttribute("label", item.getAttribute("label").replace(/\d*(?=])/, linkURLs.length));
+      item.setAttribute("hidden", linkURLs.length > 1 ? "" : "true");
+      //console.timeEnd('getLinkSelected');
     }
-
-    var item = document.getElementById("context-openselectedlinksintab");
-    item.setAttribute("label", item.getAttribute("label").replace(/\d*(?=])/, this.linkURLs.length));
-
-    return this.linkURLs.length > 1;
+    let browserMM = gBrowser.selectedBrowser.messageManager;
+    browserMM.loadFrameScript('chrome://tabutils/content/content.js', true);
+    return selection.isCollapsed; // via CPOW; todo delete
   };
 
   nsContextMenu.prototype.openSelectedLinksInTab = function() {
-    this.linkURLs.forEach(function(aURL) openNewTabWith(aURL, this.target.ownerDocument, null, null, false), this);
+    this.LinksSelected.forEach(function(aURL) openNewTabWith(aURL, this.target.ownerDocument, null, null, false), this);
   };
 
   //TU_hookCode("nsContextMenu.prototype.initOpenItems", /.*openlinkincurrent.*/, function(s) s.replace("onPlainTextLink", "shouldShow"));
   TU_hookCode("nsContextMenu.prototype.initOpenItems", "}", function() {
-    this.showItem("context-openselectedlinksintab", this.isLinkSelected());
+    this.checkLinkSelected();
   });
 };
 
