@@ -1418,7 +1418,7 @@ tabutils._renameTab = function() {
 
   TU_hookCode("gBrowser.loadTabs",
     ["{", "var lastArg = Object(arguments[arguments.length - 1]), aTitles = TU_getPref('extensions.tabutils.titleAsBookmark', false) ? lastArg.titles : null;"],
-    [/(\w+) = .*addTab.*\[(.*)\].*/g, function(s, s1, s2) (function() {
+    [/(\w+) = .*addTab.*\[(.*)\][\s\S]*?\}\);/g, function(s, s1, s2) (function() {
       $0
       if (aTitles && aTitles[$2])
         $1.setAttribute("title", aTitles[$2]);
@@ -1675,7 +1675,7 @@ tabutils._bookmarkTabs = function() {
 
   TU_hookCode("gBrowser.loadTabs",
     ["{", "var lastArg = Object(arguments[arguments.length - 1]), aItemIds = lastArg.itemIds;"],
-    [/(\w+) = .*addTab.*\[(.*)\].*/g, function(s, s1, s2) (function() {
+    [/(\w+) = .*addTab.*\[(.*)\][\s\S]*?\}\);/g, function(s, s1, s2) (function() {
       $0
       if (aItemIds && aItemIds[$2] && PlacesUtils.annotations.itemHasAnnotation(aItemIds[$2], "bookmarkProperties/tabState")) {
         $1.linkedBrowser.stop();
