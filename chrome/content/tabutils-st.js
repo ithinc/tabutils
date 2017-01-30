@@ -504,8 +504,8 @@ tabutils._stackTabs = function() {
   });
 
   TU_hookCode("gBrowser.loadTabs",
-    [/(?=var tabNum)/, "var tabs = [firstTabAdded || this.mCurrentTab];"],
-    [/(?=.*aReplace.*\n.*moveTabTo.*)/, "tabs.push(tab);"],
+    [/(?=(?:var|let) tabNum)/, "var tabs = [firstTabAdded || this.mCurrentTab];"],
+    [/(?=if\s*\(.*\n.*moveTabTo.*tab.*)/, "tabs.push(tab);"],
     [/(?=.*!aLoadInBackground.*)/, function() {
       if (tabs.length > 1 && TU_getPref("extensions.tabutils.autoStack", false))
         this.stackTabs(tabs);
