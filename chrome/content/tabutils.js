@@ -2500,11 +2500,6 @@ tabutils._miscFeatures = function() {
 tabutils._mainContextMenu = function() {
   var TUF_LinksSelected = []; // due to an call in that "listener".
   nsContextMenu.prototype.checkLinkSelected = function() {
-    var focusedWindow = document.commandDispatcher.focusedWindow;
-    if (!focusedWindow || focusedWindow == window)
-      focusedWindow = window.content;
-
-    var selection = focusedWindow.getSelection();
     //console.time('getLinkSelected');
     messageManager.addMessageListener("tabutils-fixed:LinksSelected", listener);
     function listener(message) {
@@ -2518,7 +2513,6 @@ tabutils._mainContextMenu = function() {
     }
     let browserMM = gBrowser.selectedBrowser.messageManager;
     browserMM.loadFrameScript('chrome://tabutils/content/content.js', true);
-    return selection.isCollapsed; // via CPOW; todo delete
   };
 
   nsContextMenu.prototype.openSelectedLinksInTab = function() {
