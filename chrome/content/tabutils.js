@@ -30,20 +30,22 @@ var tabutils = {
     window.addEventListener("unload", this, false);
 
     if (typeof gBrowser._tabListeners === "object") { // Bug 1238685 [Fx46]
+      let tabFilters = gBrowser._tabFilters.values().next().value;
       let tabListener = gBrowser._tabListeners.values().next().value;
-      gBrowser.browsers[0].webProgress.removeProgressListener(gBrowser._tabFilters.values().next().value);
-      gBrowser._tabFilters.values().next().value.removeProgressListener(gBrowser._tabListeners.values().next().value);
-      gBrowser._tabListeners.values().next().value = gBrowser.mTabProgressListener(tabListener.mTab, tabListener.mBrowser, tabListener.mBlank);
-      gBrowser._tabFilters.values().next().value.addProgressListener(gBrowser._tabListeners.values().next().value, Ci.nsIWebProgress.NOTIFY_ALL);
-      gBrowser.browsers[0].webProgress.addProgressListener(gBrowser._tabFilters.values().next().value, Ci.nsIWebProgress.NOTIFY_ALL);
+      gBrowser.browsers[0].webProgress.removeProgressListener(tabFilters);
+      tabFilters.removeProgressListener(tabListener);
+      tabListener = gBrowser.mTabProgressListener(tabListener.mTab, tabListener.mBrowser, tabListener.mBlank);
+      tabFilters.addProgressListener(tabListener, Ci.nsIWebProgress.NOTIFY_ALL);
+      gBrowser.browsers[0].webProgress.addProgressListener(tabFilters, Ci.nsIWebProgress.NOTIFY_ALL);
     }
     else if (gBrowser.mTabListeners.length > 0) { // Bug 463384 [Fx5]
+      let tabFilters = gBrowser.mTabFilters[0];
       let tabListener = gBrowser.mTabListeners[0];
-      gBrowser.browsers[0].webProgress.removeProgressListener(gBrowser.mTabFilters[0]);
-      gBrowser.mTabFilters[0].removeProgressListener(gBrowser.mTabListeners[0]);
-      gBrowser.mTabListeners[0] = gBrowser.mTabProgressListener(tabListener.mTab, tabListener.mBrowser, tabListener.mBlank);
-      gBrowser.mTabFilters[0].addProgressListener(gBrowser.mTabListeners[0], Ci.nsIWebProgress.NOTIFY_ALL);
-      gBrowser.browsers[0].webProgress.addProgressListener(gBrowser.mTabFilters[0], Ci.nsIWebProgress.NOTIFY_ALL);
+      gBrowser.browsers[0].webProgress.removeProgressListener(tabFilters);
+      tabFilters.removeProgressListener(tabListener);
+      tabListener = gBrowser.mTabProgressListener(tabListener.mTab, tabListener.mBrowser, tabListener.mBlank);
+      tabFilters.addProgressListener(tabListener, Ci.nsIWebProgress.NOTIFY_ALL);
+      gBrowser.browsers[0].webProgress.addProgressListener(tabFilters, Ci.nsIWebProgress.NOTIFY_ALL);
     }
 
     if (!("privateBrowsingEnabled" in gPrivateBrowsingUI)) { // Bug 799001 [Fx20]
