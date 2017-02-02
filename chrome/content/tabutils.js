@@ -2506,7 +2506,7 @@ tabutils._mainContextMenu = function() {
       //console.dir(message);
       let linkURLs = message.data.links;
       TUF_LinksSelected = linkURLs;
-      var item = document.getElementById("context-openselectedlinksintab");
+      let item = document.getElementById("context-openselectedlinksintab");
       item.setAttribute("label", item.getAttribute("label").replace(/\d*(?=])/, linkURLs.length));
       item.setAttribute("hidden", linkURLs.length > 1 ? "" : "true");
       //console.timeEnd('getLinkSelected');
@@ -2522,6 +2522,10 @@ tabutils._mainContextMenu = function() {
   //TU_hookCode("nsContextMenu.prototype.initOpenItems", /.*openlinkincurrent.*/, function(s) s.replace("onPlainTextLink", "shouldShow"));
   TU_hookCode("nsContextMenu.prototype.initOpenItems", "}", function() {
     this.checkLinkSelected();
+  });
+  TU_hookCode("nsContextMenu.prototype.hiding", "}", function() {
+    let item = document.getElementById("context-openselectedlinksintab");
+    item.setAttribute("hidden", true);
   });
 };
 

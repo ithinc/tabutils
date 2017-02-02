@@ -105,6 +105,7 @@
 
   <menupopup id="contentAreaContextMenu">
     <menuitem id="context-openselectedlinksintab"
+              hidden="true"
               label="&openSelectedLinksInTab.label;"
               accesskey="&openSelectedLinksInTab.accesskey;"
               oncommand="gContextMenu.openSelectedLinksInTab();"
