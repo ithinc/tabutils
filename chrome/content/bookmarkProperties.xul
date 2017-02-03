@@ -3,6 +3,7 @@
   <script type="application/javascript" src="tulib.js"/>
   <script type="application/javascript">
   <![CDATA[
+    ("abHere2" in window) ? return; : null; //Compatibility with Add Bookmark Here ²
     TU_hookCode("BookmarkPropertiesPanel._determineItemInfo",
       ["{", "var BOOKMARK_ITEM = 0;var BOOKMARK_FOLDER = 1;var LIVEMARK_CONTAINER = 2;var ACTION_EDIT = 0;var ACTION_ADD = 1;"],
       ['this._strings.getString("bookmarkAllTabsDefault")', "dialogInfo.URIList[0] instanceof Ci.nsIURI ? $& : new Date().toLocaleString()"]

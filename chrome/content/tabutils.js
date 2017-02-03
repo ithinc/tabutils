@@ -1644,6 +1644,7 @@ tabutils._bookmarkTabs = function() {
   );
   }
 
+  ("abHere2" in window) ? null : 
   TU_hookCode("PlacesCommandHook.bookmarkCurrentPages",
     ["this.uniqueCurrentPages", (function() {
       !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkAllWithHistory", true) ?
