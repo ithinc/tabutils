@@ -25,7 +25,7 @@ function TU_hookCode(aStr) {
     return object[method] = TU_hookFunc.apply(this, Array.concat(object[method], Array.slice(arguments, 1)));
   }
   catch (e) {
-    Components.utils.reportError("Failed to hook " + aStr + ": " + e.message);
+    Components.utils.reportError("Failed to hook " + aStr + "\n---\n"+(new Error()).stack);
   }
 }
 
@@ -55,7 +55,7 @@ function TU_hookSetter(aStr) {
     return mySetter;
   }
   catch (e) {
-    Components.utils.reportError("Failed to hook " + aStr + ": " + e.message);
+    Components.utils.reportError("Failed to hook " + aStr + "\n---\n"+(new Error()).stack);
   }
 }
 
