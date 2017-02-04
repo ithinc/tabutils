@@ -591,9 +591,10 @@ tabutils._tabOpeningOptions = function() {
         }
       }
     }).toString().replace(/^.*{|}$/g, "")],
-    [/(?=return t;)/, gBrowser.addTab.toString().match(/var (uriIsBlankPage|uriIsNotAboutBlank|uriIsAboutBlank).*|let (docShellsSwapped|usingPreloadedContent)[\s\S]*(?=\n.*(docShellsSwapped|usingPreloadedContent).*)|if \((uriIsNotAboutBlank|.*uriIsAboutBlank)\) {([^{}]|{[^{}]*})*}/g).join("\n")] // Bug 716108 [Fx16], Bug 1077652 [Fx37]
-  );
-
+    [/(?=return t;)/, gBrowser.addTab.toString().match(
+      /var (?:uriIsBlankPage|uriIsNotAboutBlank|uriIsAboutBlank).*|let (?:options|browserParams) = \{[\s\S]*?dispatchEvent.+;|if.+!usingPreloadedContent[\s\S]*catch[^}]+?\}[^}]+?\}|let (docShellsSwapped|usingPreloadedContent)[\s\S]*(?=\n.*(docShellsSwapped|usingPreloadedContent).*)|if \((uriIsNotAboutBlank|.*uriIsAboutBlank)\) {([^{}]|{[^{}]*})*}/g
+      ).join("\n").replace(/(?:var|let) b\s*=/, "b =")]
+  ); // Bug 716108 [Fx16], Bug 1077652 [Fx37], Bug 1243707 [Fx48], etc. Grab all about preload tab, open tab, barring select tab.
   gBrowser.getBlankTab = function getBlankTab() {
     var reuseBlank = TU_getPref("extensions.tabutils.reuseBlank", 1);
     return reuseBlank & 1 && this.isBlankTab(this.mCurrentTab) ? this.mCurrentTab :
