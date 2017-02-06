@@ -30,7 +30,7 @@
 <!ENTITY all.label "Alle">
 <!ENTITY allBut.label "Alle außer neuem Tab">
 <!ENTITY noneBut.label "Keine außer Links">
-<!ENTITY keepOrder.label "Keep the original order for continuous background tabs">
+<!ENTITY keepOrder.label "Ursprüngliche Reihenfolge für weitere Tabs im Hintergrund behalten">
 <!ENTITY reuseBlank.caption "Leere Tabs wiederverwenden">
 <!ENTITY reuseBlank.current.label "Aktiven Tab">
 <!ENTITY reuseBlank.last.label "Letzten Tab">
@@ -38,10 +38,10 @@
 <!ENTITY loadInBackground.caption "In Tabs im Vordergrund öffnen">
 <!ENTITY loadInBackground.label "Links">
 <!ENTITY loadDivertedInBackground.label "Umgeleitete Fenster">
-<!ENTITY loadUrlInBackground.label "Address bar">
-<!ENTITY loadSearchInBackground.label "Search bar">
-<!ENTITY loadNewInBackground.label "New Tab">
-<!ENTITY loadDuplicateInBackground.label "Duplicate Tab">
+<!ENTITY loadUrlInBackground.label "Addresszeile">
+<!ENTITY loadSearchInBackground.label "Suchzeile">
+<!ENTITY loadNewInBackground.label "Neuer Tab">
+<!ENTITY loadDuplicateInBackground.label "Tab duplizieren">
 <!ENTITY loadInNewTab.label "Beim Öffnen eines neuen Tabs anzeigen:">
 <!ENTITY loadInNewTab.0.label "eine leere Seite">
 <!ENTITY loadInNewTab.1.label "die Startseite">
@@ -101,8 +101,8 @@
 <!ENTITY loadURLFromClipboard.label "Adresse aus der Zwischenablage laden">
 <!ENTITY switchToLast.label "Zum zuletzt aktiven Tab wechseln">
 <!ENTITY sessionHistoryMenu.label "Tab-Chronik anzeigen">
-<!ENTITY tabContextMenu.label "Tab Context Menu">
-<!ENTITY toolbarContextMenu.label "Toolbar Context Menu">
+<!ENTITY tabContextMenu.label "Kontextmenü des Tabs">
+<!ENTITY toolbarContextMenu.label "Kontextmenü der Symbolleiste">
 <!ENTITY mouseReleaseSelect.label "Tab durch verzögerten Mausklick (drücken und loslassen) in den Vordergrund holen">
 <!ENTITY mouseHoverSelect.label "Mauszeiger über einem Tab holt diesen in den Vordergrund nach">
 <!ENTITY mouseScrollSelect.label "Tabs wechseln durch Scrollen mit dem Mausrad über der Tab-Leiste">
@@ -111,8 +111,8 @@
 <!ENTITY tabBarFeatures.caption "Eigenschaften der Tab-Leiste">
 <!ENTITY tabBarPosition.0.label "oben">
 <!ENTITY tabBarPosition.1.label "unten">
-<!ENTITY tabBarPosition.2.label "Left">
-<!ENTITY tabBarPosition.3.label "Right">
+<!ENTITY tabBarPosition.2.label "Links">
+<!ENTITY tabBarPosition.3.label "Rechts">
 <!ENTITY showOnTabBar.caption "In der Tab-Leiste anzeigen">
 <!ENTITY button.label1 "&quot;">
 <!ENTITY button.label2 "&quot;-Schaltfläche">
@@ -124,7 +124,7 @@
 <!ENTITY closeButtons.1.label "in allen Tabs breiter als">
 <!ENTITY closeButtons.2.label "nie">
 <!ENTITY closeButtons.3.label "nur in der Tab-Leiste">
-<!ENTITY closeButtons.10.label "Browser default">
+<!ENTITY closeButtons.10.label "Browser-Standard">
 <!ENTITY closeButtons.16.label "im aktiven Tab und bei Mauszeiger über einem Tab">
 <!ENTITY closeButtons.18.label "bei Mauszeiger über einem Tab">
 <!ENTITY closeButtons.33.label "in der Tab-Leiste und allen Tabs breiter als">
@@ -138,8 +138,8 @@
 <!ENTITY highlight.tab3.label "Gelesene Tabs">
 <!ENTITY highlight.tab4.label "Geschützte Tabs">
 <!ENTITY highlight.tab5.label "Gesperrte Tabs">
-<!ENTITY highlight.tab6.label "Unloaded">
-<!ENTITY highlight.tab7.label "Selected">
+<!ENTITY highlight.tab6.label "Nicht geladene">
+<!ENTITY highlight.tab7.label "Ausgewählt">
 <!ENTITY highlightEnabled.label "Aktivieren">
 <!ENTITY highlightBold.label "Fett">
 <!ENTITY highlightItalic.label "Kursiv">
