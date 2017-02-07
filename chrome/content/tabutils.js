@@ -1645,7 +1645,7 @@ tabutils._bookmarkTabs = function() {
   );
   }
 
-  ("abHere2" in window) ? null : 
+  if (!("abHere2" in window)) { // Compatibility with Add Bookmark Here ²
   TU_hookCode("PlacesCommandHook.bookmarkCurrentPages",
     ["this.uniqueCurrentPages", (function() {
       !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.bookmarkAllWithHistory", true) ?
@@ -1654,6 +1654,7 @@ tabutils._bookmarkTabs = function() {
     }).toString().replace(/^.*{|}$/g, "")],
     ["pages.length > 1", "true"]
   );
+  }
 
   //Highlight bookmarks with history
   TU_hookCode("PlacesViewBase.prototype._createMenuItemForPlacesNode", /(?=return element;)/, function() {
