@@ -2980,7 +2980,7 @@ tabutils._tabPrefObserver = {
     '.alltabs-item#Selector#'
   ].join(),
   textSelector: [
-    '.tabbrowser-tab#Selector# > * > .tab-content > .tab-text',
+    '.tabbrowser-tab#Selector# > * > .tab-content .tab-text',
     '.alltabs-item#Selector#'
   ].join(),
   bgSelector: [
