@@ -1,3 +1,8 @@
+[![Mozilla Add-on](https://img.shields.io/amo/v/tab-utilities-fixed.svg)](https://addons.mozilla.org/firefox/addon/tab-utilities-fixed/)
+[![Mozilla Add-on](https://img.shields.io/amo/d/tab-utilities-fixed.svg)]()
+[![Mozilla Add-on](https://img.shields.io/amo/users/tab-utilities-fixed.svg)]()
+[![GitHub release](https://img.shields.io/github/release/yfdyh000/tabutils/all.svg)]()
+
 # Tab Utilities Fixed (Deprecated)
 
 [Tab Utilities](https://addons.mozilla.org/firefox/addon/tab-utilities/)'s compatibility fixes release.
