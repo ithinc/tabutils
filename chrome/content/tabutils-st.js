@@ -514,7 +514,7 @@ tabutils._stackTabs = function() {
 
   TU_hookCode("gBrowser.mTabContainer._selectNewTab", "aNewTab.hidden", "$& || aNewTab.collapsed");
 
-  TU_hookCode("gBrowser.createTooltip", /(tab|tn).getAttribute\("label"\)/, function(s, s1) (function() {
+  TU_hookCode("gBrowser.createTooltip", /(?:tab\._.+)(tab|tn).getAttribute\("label"\)/, function(s, s1) (function() {
     a1.mOverTwisty ? a1.hasAttribute("group-collapsed") ?
                      document.getElementById("context_collapseStack").getAttribute("label_expand") :
                      document.getElementById("context_collapseStack").getAttribute("label_collapse")
