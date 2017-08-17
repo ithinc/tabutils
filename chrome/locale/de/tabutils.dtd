@@ -35,7 +35,7 @@
 <!ENTITY hideTab.accesskey "v">
 <!ENTITY renameTab.label "Tab umbenennen">
 <!ENTITY renameTab.accesskey "u">
-<!ENTITY restartTab.label "Restart Tab">
+<!ENTITY restartTab.label "Tab neustarten">
 <!ENTITY restartTab.accesskey "R">
 <!ENTITY closeLeftTabs.label "Linke Tabs schließen">
 <!ENTITY closeLeftTabs.accesskey "l">
@@ -50,7 +50,7 @@
 <!ENTITY selectTabs.label "Mehrere Tabs auswählen">
 <!ENTITY selectTabs.accesskey "M">
 <!ENTITY selectTabs2.label "Mehrere Tabs auswählen (+)">
-<!ENTITY selectSimilarTabs.label "Select Similar Tabs">
+<!ENTITY selectSimilarTabs.label "Ähnliche Tabs auswählen">
 <!ENTITY selectSimilarTabs.accesskey "S">
 <!ENTITY selectAllTabs.label "Alle Tabs auswählen">
 <!ENTITY selectAllTabs.accesskey "A">
@@ -67,7 +67,7 @@
 <!ENTITY faviconizeAllTabs.label "Alle Tabs auf Symbol reduzieren">
 <!ENTITY pegAllTabs.label "Alle Tabs anpinnen">
 <!ENTITY hideAllTabs.label "Alle Tabs verbergen">
-<!ENTITY restartAllTabs.label "Restart All Tabs">
+<!ENTITY restartAllTabs.label "Alle Tabs neustarten">
 <!ENTITY closeAllTabs.label "Alle Tabs schließen">
 <!ENTITY closeAllDuplicateTabs.label "Alle duplizierten Tabs schließen">
 <!ENTITY reloadEvery.label "Tab automatisch neu laden">
@@ -90,23 +90,23 @@
 <!ENTITY hide.label "Ausblenden">
 <!ENTITY tabsToolbarCmd.label "Tabs Toolbar">
 <!ENTITY tabsToolbarCmd.accesskey "T">
-<!ENTITY stackTab.label "Stack Tabs">
+<!ENTITY stackTab.label "Tabs stapeln">
 <!ENTITY stackTab.accesskey "S">
-<!ENTITY unstackTab.label "Unstack Tab">
+<!ENTITY unstackTab.label "Tab aus Stapel entnehmen">
 <!ENTITY unstackTab.accesskey "U">
-<!ENTITY tabStackMenu.label "Tab Stack">
+<!ENTITY tabStackMenu.label "Tab stapeln">
 <!ENTITY tabStackMenu.accesskey "S">
-<!ENTITY collapseStack.label "Collapse Stack">
+<!ENTITY collapseStack.label "Stapel einklappen">
 <!ENTITY collapseStack.accesskey "C">
-<!ENTITY expandStack.label "Expand Stack">
+<!ENTITY expandStack.label "Stapel aufklappen">
 <!ENTITY expandStack.accesskey "E">
-<!ENTITY colorStack.label "Recolor Stack...">
+<!ENTITY colorStack.label "Stapel neu einfärben...">
 <!ENTITY colorStack.accesskey "R">
-<!ENTITY bookmarkStack.label "Bookmark Stack...">
+<!ENTITY bookmarkStack.label "Stapel als Lesezeichen...">
 <!ENTITY bookmarkStack.accesskey "B">
-<!ENTITY splitStack.label "Split Stack">
+<!ENTITY splitStack.label "Stapel teilen">
 <!ENTITY splitStack.accesskey "S">
-<!ENTITY dismissStack.label "Dismiss Stack">
+<!ENTITY dismissStack.label "Stapel verwerfen">
 <!ENTITY dismissStack.accesskey "D">
-<!ENTITY closeStack.label "Close Stack">
+<!ENTITY closeStack.label "Stapel schließen">
 <!ENTITY closeStack.accesskey "C">

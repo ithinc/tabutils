@@ -1,20 +1,3 @@
-/* Tab Highlighting */
-window[OS="Linux"] .tabbrowser-tab[locked] .tab-throbber:not([busy]),
-window[OS="Linux"] .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url("chrome://browser/skin/Secure.png");
-  -moz-image-region: auto;
-}
-
-window[OS="Linux"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
-  list-style-image: url("chrome://browser/skin/Toolbar-small.png") !important;
-  -moz-image-region: rect(0px, 32px, 16px, 16px) !important;
-}
-
-window[OS="Linux"][v29="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
-  list-style-image: url("chrome://browser/skin/Toolbar.png") !important;
-  -moz-image-region: rect(1px, 179px, 17px, 163px) !important;
-}
-
 /* Toolbar buttons */
 window[OS="Linux"] #closetab-button {
   list-style-image: url("moz-icon://stock/gtk-close?size=toolbar");

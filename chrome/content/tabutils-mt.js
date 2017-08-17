@@ -42,8 +42,8 @@ tabutils._multirowTabs = function() {
   }, false);
 
   TU_hookCode("gBrowser.mTabContainer._getDropIndex",
-    [/event.screenX.*width \/ 2/g, function(s) s + " && " + s.replace("screenX", "screenY", "g").replace("width / 2", "height")
-                                                 + " || " + s.replace("screenX", "screenY", "g").replace("width / 2", "height * 0")]
+    [/event.screenX.*width \/ 2/g, function(s) s + " && " + s.replace(/screenX/g, "screenY").replace("width / 2", "height")
+                                                 + " || " + s.replace(/screenX/g, "screenY").replace("width / 2", "height * 0")]
   );
 
   tabutils.addEventListener(gBrowser.mTabContainer, "dragover", function(event) {
@@ -75,7 +75,7 @@ tabutils._multirowTabs = function() {
     if (TU_getPref("extensions.tabutils.disableTabMoveAnimation", true)) {
       TU_hookFunc(arguments.callee.caller.toString().match(/^.*{|var (ind|tabStrip|ltr).*|var pixelsToScroll[\s\S]*$/g).join("\n"),
         [/.*scrollByPixels.*/, ";"],
-        [/.*effects == "move"[\s\S]*?(?=var (newIndex|scrollRect|rect))/, ""]
+        [/.*effects == "move"[\s\S]*?(?=var (newIndex|scrollRect|rect))/, ""] // needs fix
       ).apply(this, arguments);
       return;
     }
@@ -95,7 +95,7 @@ tabutils._multirowTabs = function() {
   }, true);
 
   TU_hookCode("gBrowser.moveTabTo", "{", function() {
-    if (["onxbldrop", "ondrop"].indexOf(arguments.callee.caller.name) > -1) {
+    if (TMP_console.isCallerInList(["onxbldrop", "ondrop"])) {
       if (aTab.pinned) {
         if (aIndex >= this._numPinnedTabs)
           this.pinTab(aTab, false);

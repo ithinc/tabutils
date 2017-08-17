@@ -4,14 +4,14 @@
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx6.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx14.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx29.css" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx31.css" type="text/css"?>
+<?xml-stylesheet href="chrome://tabutils/skin/tabutils_fx45.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_mac.css" type="text/css"?>
 <?xml-stylesheet href="chrome://tabutils/skin/tabutils_linux.css" type="text/css"?>
 
 <!DOCTYPE overlay [
 <!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
 %browserDTD;
-<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
-%tabBrowserDTD;
 <!ENTITY % tabutilsDTD SYSTEM "chrome://tabutils/locale/tabutils.dtd">
 %tabutilsDTD;
 ]>
@@ -100,22 +100,12 @@
                onpopupshowing="try {BookmarksEventHandler.onPopupShowing(event);} catch (e) {this.parentNode._placesView || new PlacesMenu(event, this.getAttribute('place'));}"
                tooltip="bhTooltip" popupsinherittooltip="true"/>
 
-    <menupopup id="openInTabContext">
-      <menuitem label="&hide.label;" oncommand="TU_setPref('extensions.tabutils.hideOpenInTab', true);"/>
-    </menupopup>
-
-    <menupopup id="loadInBackgroundContext">
-      <menuitem label="&hide.label;" oncommand="TU_setPref('extensions.tabutils.hideLoadInBackground', true);"/>
-    </menupopup>
-
-    <menupopup id="loadInForegroundContext">
-      <menuitem label="&hide.label;" oncommand="TU_setPref('extensions.tabutils.hideLoadInForeground', true);"/>
-    </menupopup>
   </popupset>
   </window>
 
   <menupopup id="contentAreaContextMenu">
     <menuitem id="context-openselectedlinksintab"
+              hidden="true"
               label="&openSelectedLinksInTab.label;"
               accesskey="&openSelectedLinksInTab.accesskey;"
               oncommand="gContextMenu.openSelectedLinksInTab();"
@@ -418,34 +408,31 @@
            key="key_toggleTabsToolbar"/>
 
   <vbox id="browser-panel">
-    <hbox id="fullscr-toggler" collapsed="true" insertbefore="browser"/>
-    <hbox id="fullscr-toggler-bottom" collapsed="true" insertafter="browser"/>
+    <hbox id="fullscr-toggler" collapsed="true" hidden="true" insertbefore="browser"/>
+    <hbox id="fullscr-toggler-bottom" collapsed="true" hidden="true" insertafter="browser"/>
   </vbox>
 
   <hbox id="browser">
-    <vbox id="fullscr-toggler-left" collapsed="true" insertbefore="appcontent"/>
-    <vbox id="fullscr-toggler-right" collapsed="true" insertafter="appcontent"/>
+    <vbox id="fullscr-toggler-left" collapsed="true" hidden="true" insertbefore="appcontent"/>
+    <vbox id="fullscr-toggler-right" collapsed="true" hidden="true" insertafter="appcontent"/>
   </hbox>
 
-  <statusbar id="status-bar">
-    <statusbarpanel id="statusbar-openintab"
-                    class="statusbarpanel-iconic-text"
+  <toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton id="statusbar-openintab"
+                    class="toolbarbutton-iconic-text"
                     label="&openAllInTab.label;"
-                    context="openInTabContext"
                     oncommand="TU_setPref('extensions.tabutils.openLinkInTab', this.getAttribute('checked') != 'true');"
                     tooltiptext="&openLinkInTab.label;">
-    </statusbarpanel>
-    <statusbarpanel id="statusbar-loadinbackground"
-                    class="statusbarpanel-iconic-text"
+    </toolbarbutton>
+    <toolbarbutton id="statusbar-loadinbackground"
+                    class="toolbarbutton-iconic-text"
                     label="&loadAllInBackground.label;"
-                    context="loadInBackgroundContext"
                     oncommand="TU_setPref('extensions.tabutils.loadAllInBackground', this.getAttribute('checked') != 'true');"
                     tooltiptext="&loadAllInBackground.tooltip;"/>
-    <statusbarpanel id="statusbar-loadinforeground"
-                    class="statusbarpanel-iconic-text"
+    <toolbarbutton id="statusbar-loadinforeground"
+                    class="toolbarbutton-iconic-text"
                     label="&loadAllInForeground.label;"
-                    context="loadInForegroundContext"
                     oncommand="TU_setPref('extensions.tabutils.loadAllInForeground', this.getAttribute('checked') != 'true');"
                     tooltiptext="&loadAllInForeground.tooltip;"/>
-  </statusbar>
+  </toolbarpalette>
 </overlay>

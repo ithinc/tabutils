@@ -1,0 +1,9 @@
+/* Phantom Tabs */
+window[v31="true"] .tabbrowser-tab[pinned] .tab-background:not([fadein]),
+window[v31="true"] .tabbrowser-tab[pinned] .tab-close-button:not([fadein]),
+window[v31="true"] .tabbrowser-tab[pinned] .tab-label:not([fadein]) {
+  visibility: visible;
+}
+window[v31="true"] .tabbrowser-tab[pinned] .tab-icon-image:not([fadein]) {
+  display: -moz-box;
+}

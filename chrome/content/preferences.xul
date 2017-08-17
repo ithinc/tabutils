@@ -5,8 +5,6 @@
 <!DOCTYPE prefwindow [
 <!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
 %browserDTD;
-<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
-%tabBrowserDTD;
 <!ENTITY % tabsDTD SYSTEM "chrome://browser/locale/preferences/tabs.dtd">
 %tabsDTD;
 <!ENTITY % contentDTD SYSTEM "chrome://browser/locale/preferences/content.dtd">
@@ -21,8 +19,8 @@
 
 <prefwindow id="tabutils-preferences"
             title="&prefwindow.title;"
-            helpURI="http://addons.mozilla.org/addon/59961"
-            donateURI="https://addons.mozilla.org/addon/59961/developers"
+            helpURI="https://addons.mozilla.org/firefox/addon/tab-utilities-fixed/"
+            donateURI="https://addons.mozilla.org/firefox/addon/tab-utilities-fixed/developers"
             buttons="accept,cancel,extra1,extra2"
             buttonlabelcancel="&prefwindow.close;"
             buttonlabelextra1="&prefwindow.donate;"
@@ -480,7 +478,7 @@
   <prefpane id="pane4" label="&pane4.title;" helpTopic2="pane4" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
     <preferences>
       <preference id="tabBarPosition" name="extensions.tabutils.tabBarPosition" type="int" onchange="tabBarPosition();"/>
-      <preference id="closeButtons" name="extensions.tabutils.closeButtons" type="int" suggest="33" onchange="closeButtons();"/>
+      <preference id="closeButtons" name="extensions.tabutils.closeButtons" type="int" suggest="10" onchange="closeButtons();"/>
       <preference id="showTabCounter" name="extensions.tabutils.showTabCounter" type="bool" suggest="true"/>
       <preference id="showLeftSpace" name="extensions.tabutils.showLeftSpace" type="bool"/>
       <preference id="showRightSpace" name="extensions.tabutils.showRightSpace" type="bool"/>
@@ -575,16 +573,14 @@
                   <checkbox preference="closeButtons" label="&button.label1;&closeTab.label;&button.label2;"
                             onsyncfrompreference="return $('closeButtons').value != 2;"
                             onsynctopreference="return this.checked ? this.nextSibling.value : 2;"/>
-                  <menulist preference="closeButtons" value="1"
+                  <menulist id="c.closeButtons" preference="closeButtons" value="10"
                             onsyncfrompreference="return $('closeButtons').value == 2 ? this.value : $('closeButtons').value;">
                     <menupopup>
+                      <menuitem value="10" label="&closeButtons.10.label;"/>
                       <menuitem value="0" label="&closeButtons.0.label;"/>
+                      <menuitem value="1" label="&closeButtons.1.label;"/>
                       <menuitem value="18" label="&closeButtons.18.label;"/>
                       <menuitem value="16" label="&closeButtons.16.label;"/>
-                      <menuitem value="1" label="&closeButtons.1.label;"/>
-                      <menuitem value="3" label="&closeButtons.3.label;"/>
-                      <menuitem value="50" label="&closeButtons.50.label;"/>
-                      <menuitem value="33" label="&closeButtons.33.label;"/>
                       <menuitem value="2" label="&closeButtons.2.label;" hidden="true"/>
                     </menupopup>
                   </menulist>
@@ -1052,9 +1048,9 @@
       var preferences = document.getElementsByTagName("preference");
       for (let preference of preferences) {
         str += 'pref(';
-        str += preference.name.quote();
+        str += JSON.stringify(preference.name);
         str += ', ';
-        str += preference.type == typeof preference.value ? preference.value.quote() :
+        str += preference.type == typeof preference.value ? JSON.stringify(preference.value) :
                preference.inverted ? !preference.value : preference.value;
         str += ');\n';
       }
@@ -1155,7 +1151,9 @@
     }
 
     function closeButtons() {
-      $("tabClipWidth").disabled = ($("closeButtons").value & 0x0f) != 1;
+      var value = $("closeButtons").value;
+      $("tabClipWidth").disabled = (value != 1) && (value != 10);
+      $("c.closeButtons").disabled = value == 2;
     }
 
     function hideLoadInBackground() {
@@ -1313,7 +1311,9 @@
       if(!aPane._inited)
         return;
 
-      aPane.setAttribute('lastSelected', [tabbox.selectedIndex for (tabbox of aPane.getElementsByTagName('tabbox'))].join());
+    let tabbox = aPane.getElementsByTagName('tabbox')[0];
+      if (tabbox)
+        aPane.setAttribute('lastSelected', tabbox.selectedIndex);
     }
   ]]>
   </script>

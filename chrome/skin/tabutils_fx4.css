@@ -130,21 +130,9 @@ window[v4="true"] .tabbrowser-tabs[dontanimate="true"] > .tabbrowser-tab {
   -moz-transition: none !important;
 }
 
-/* Tab Highlighting */
-window[v4="true"] .tabbrowser-tab[locked] .tab-throbber:not([busy]),
-window[v4="true"] .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Secure24.png");
-  -moz-image-region: auto;
-}
-
 window[v4="true"] .tabbrowser-tab[protected] .tab-close-button > .toolbarbutton-icon {
   width: 16px;
   height: 16px;
-}
-
-window[v4="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
-  list-style-image: url("jar:resource://app/omni.jar!/chrome/browser/skin/classic/browser/Toolbar.png") !important;
-  -moz-image-region: rect(1px, 125px, 17px, 109px) !important;
 }
 
 window[v4="true"] .tabbrowser-tab[pinned][unread][rotate="true"] .tab-icon-image {

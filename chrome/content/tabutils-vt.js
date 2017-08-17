@@ -6,6 +6,8 @@ tabutils._verticalTabs = function() {
       var [start, end, size] = vertical ? ["top", "bottom", "height"]
                                         : ["left", "right", "width"];
     }],
+    ["left:", "[start]:", "g"], // Bug 971630 [Fx29]
+    ["right:", "[end]:", "g"],
     [".left", "[start]", "g"],
     [".right", "[end]", "g"],
     [".width", "[size]", "g"]
@@ -31,34 +33,48 @@ tabutils._verticalTabs = function() {
       gBrowser.mTabContainer.visible = aShow;
   });
 
-  TU_hookCode("FullScreen.toggle", /.*_expandCallback.*\n.*_expandCallback.*/, function() {
-    for (let fullScrToggler of this._fullScrTogglers) {
-      fullScrToggler.addEventListener("mouseover", this._expandCallback, false);
-      fullScrToggler.addEventListener("dragenter", this._expandCallback, false);
-    }
-  });
+  if (tabutils.fxVersion >= 35.0) { // Bug 1071821 [Fx35]
+      // I did not find a compatible approach
+      TU_hookCode("FullScreen.toggle", /.*if.*\(\!this\._fullScrToggler\).*\n.*\n.*\n.*\n.*\}/, function() {
+        if (!this._eventLoaded) { // the equivalent to "if (!this._fullScrToggler)"
+          for (let fullScrToggler of this._fullScrTogglers) {
+            fullScrToggler.addEventListener("mouseover", this._expandCallback, false);
+            fullScrToggler.addEventListener("dragenter", this._expandCallback, false);
+            fullScrToggler.collapsed = false;
+          }
+          this._eventLoaded = true;
+        }
+      });
 
-  TU_hookCode("FullScreen.enterDomFullscreen", /.*_expandCallback.*\n.*_expandCallback.*/, function() {
-    for (let fullScrToggler of this._fullScrTogglers) {
-      fullScrToggler.removeEventListener("mouseover", this._expandCallback, false);
-      fullScrToggler.removeEventListener("dragenter", this._expandCallback, false);
-    }
-  });
+  } else { // Earlier than Fx35
+      TU_hookCode("FullScreen.toggle", /.*_expandCallback.*\n.*_expandCallback.*/, function() {
+        for (let fullScrToggler of this._fullScrTogglers) {
+          fullScrToggler.addEventListener("mouseover", this._expandCallback, false);
+          fullScrToggler.addEventListener("dragenter", this._expandCallback, false);
+          fullScrToggler.hidden = false;
+        }
+      });
+      TU_hookCode("FullScreen.enterDomFullscreen", /.*_expandCallback.*\n.*_expandCallback.*/, function() {
+        for (let fullScrToggler of this._fullScrTogglers) {
+          fullScrToggler.removeEventListener("mouseover", this._expandCallback, false);
+          fullScrToggler.removeEventListener("dragenter", this._expandCallback, false);
+        }
+      });
 
-  TU_hookCode("FullScreen.cleanup", /.*_expandCallback.*\n.*_expandCallback.*/, function() {
-    for (let fullScrToggler of this._fullScrTogglers) {
-      fullScrToggler.removeEventListener("mouseover", this._expandCallback, false);
-      fullScrToggler.removeEventListener("dragenter", this._expandCallback, false);
-    }
-  });
-
-  TU_hookCode("FullScreen.mouseoverToggle", /.*collapsed = aShow.*/, function() {
+      TU_hookCode("FullScreen.cleanup", /.*_expandCallback.*\n.*_expandCallback.*/, function() {
+        for (let fullScrToggler of this._fullScrTogglers) {
+          fullScrToggler.removeEventListener("mouseover", this._expandCallback, false);
+          fullScrToggler.removeEventListener("dragenter", this._expandCallback, false);
+        }
+      });
+  }
+  TU_hookCode("FullScreen.mouseoverToggle", /.*(collapsed|hidden) = aShow.*/, function() {
     let tabBarPosition = TU_getPref("extensions.tabutils.tabBarPosition");
-    this._fullScrTogglers[0].collapsed = aShow;
-    this._fullScrTogglers[1].collapsed = aShow || tabBarPosition != 1;
-    this._fullScrTogglers[2].collapsed = aShow || tabBarPosition != 2;
-    this._fullScrTogglers[3].collapsed = aShow || tabBarPosition != 3;
-  });
+    this._fullScrTogglers[0].$1 = aShow;
+    this._fullScrTogglers[1].$1 = aShow || tabBarPosition != 1;
+    this._fullScrTogglers[2].$1 = aShow || tabBarPosition != 2;
+    this._fullScrTogglers[3].$1 = aShow || tabBarPosition != 3;
+  }); // Note: mozFullScreen is Fx9+. I did not add " || document.mozFullScreen" because it seems always return to false, unknown reason.
 
   TU_hookCode("FullScreen.showXULChrome",
     ['fullscreenctls.parentNode == navbar', 'document.getElementById("TabsToolbar").parentNode == gNavToolbox'],

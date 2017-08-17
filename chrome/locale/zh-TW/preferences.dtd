@@ -124,6 +124,7 @@
 <!ENTITY closeButtons.1.label "於分頁寬度超過">
 <!ENTITY closeButtons.2.label "不顯示">
 <!ENTITY closeButtons.3.label "於分頁列最後面">
+<!ENTITY closeButtons.10.label "Browser default">
 <!ENTITY closeButtons.16.label "於目前或滑鼠指到的分頁">
 <!ENTITY closeButtons.18.label "於滑鼠指到的分頁">
 <!ENTITY closeButtons.33.label "於分頁列及全部分頁">

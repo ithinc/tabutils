@@ -9,10 +9,19 @@ menuseparator:last-child {
 }
 
 /* Close Tab buttons */
-.tabbrowser-tabs[closeButtonOnPointedTab="true"] > .tabbrowser-tab:hover .tab-close-button,
-.tabbrowser-tabs[closebuttons="activetab"] > .tabbrowser-tab:only-child .tab-close-button,
-.tabbrowser-tabs[closebuttons="alltabs"] > .tabbrowser-tab:only-child .tab-close-button {
+.tabbrowser-tabs[closebuttons="pointedtab"] > .tabbrowser-tab:hover .tab-close-button,
+.tabbrowser-tabs[closebuttons="activepointedtab"] > .tabbrowser-tab:hover .tab-close-button,
+.tabbrowser-tabs[closebuttons="activetab"] > .tabbrowser-tab[selected] .tab-close-button,
+.tabbrowser-tabs[closebuttons="activepointedtab"] > .tabbrowser-tab[selected] .tab-close-button,
+.tabbrowser-tabs[closebuttons="alltabs"] > .tabbrowser-tab .tab-close-button {
   display: -moz-box;
+}
+
+.tabbrowser-tabs[closebuttons="pointedtab"] > .tabbrowser-tab:not(:hover) .tab-close-button,
+.tabbrowser-tabs[closebuttons="activetab"] > .tabbrowser-tab:not([selected]) .tab-close-button,
+.tabbrowser-tabs[closebuttons="activepointedtab"] > .tabbrowser-tab:not(:hover):not([selected]) .tab-close-button,
+.tabbrowser-tabs[closebuttons="hidden"] > .tabbrowser-tab .tab-close-button {
+  display: none;
 }
 
 /* All Tabs button */
@@ -47,12 +56,6 @@ menuseparator:last-child {
   -moz-box-flex: 0 !important;
 }
 
-.tabbrowser-tabs[tabfittitle="true"][closeButtonOnPointedTab="true"][closebuttons="activetab"] > .tabbrowser-tab:not([selected]):not(:hover) .tab-close-button,
-.tabbrowser-tabs[tabfittitle="true"][closeButtonOnPointedTab="true"]:not([closebuttons="activetab"]):not([closebuttons="alltabs"]) > .tabbrowser-tab:not(:hover) .tab-close-button {
-  display: -moz-box;
-  visibility: hidden;
-}
-
 /* Tab Highlighting */
 .tabbrowser-tab[locked] .tab-throbber:not([busy]),
 .tabbrowser-tab[locked] .tab-throbber:not([busy]) + .tab-icon-image,
@@ -78,18 +81,14 @@ menuseparator:last-child {
 
 .tabbrowser-tab[locked] .tab-throbber:not([busy]),
 .tabbrowser-tab[protected] .tab-close-button {
-  list-style-image: url(chrome://browser/skin/Secure.png);
-  -moz-image-region: rect(1px, 15px, 15px, 1px);
+  list-style-image: url("chrome://tabutils/skin/Secure24.png") !important;
+  -moz-image-region: auto !important;
 }
 
+/* Tab Highlighting */
 .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
-  list-style-image: url("jar:resource://app/chrome/classic.jar!/skin/classic/browser/Toolbar-small.png") !important;
-  -moz-image-region: rect(1px, 111px, 15px, 97px) !important;
-}
-
-.tabbrowser-tabs[closeButtonOnPointedTab="false"][closebuttons="activetab"] > .tabbrowser-tab[autoReload]:not([selected]):hover .tab-close-button,
-.tabbrowser-tabs[closeButtonOnPointedTab="false"]:not([closebuttons="activetab"]):not([closebuttons="alltabs"]) > .tabbrowser-tab[autoReload]:hover .tab-close-button {
-  visibility: hidden;
+  list-style-image: url("chrome://tabutils/skin/autoreload.png") !important;
+  -moz-image-region: auto !important;
 }
 
 /* Pinned Tab */
@@ -131,9 +130,9 @@ menuseparator:last-child {
   position: relative;
 }
 
-#PinnedTabsBar:empty > *,
-#PinnedTabsBarItems:empty > * {
-  display: none;
+#PinnedTabsBar:empty {
+  -moz-padding-end: 0;
+  -moz-padding-start: 0;
 }
 
 .tabbrowser-tabs[multirow]:not([showPhantom="true"]) #PinnedTabsBar,
@@ -200,12 +199,10 @@ menuseparator:last-child {
 }
 
 #undoclosetab-button {
-  list-style-image: url("chrome://tabutils/skin/toolbar.png");
-  -moz-image-region: rect(0px, 16px, 16px, 0px);
+  list-style-image: url("chrome://tabutils/skin/toolbar_Fx4.png");
 }
 
 #undoclosetab-button[disabled="true"] {
-  -moz-image-region: rect(16px, 16px, 32px, 0px);
 }
 
 #button_tuOptions .toolbarbutton-icon {
@@ -245,7 +242,7 @@ toolbar[iconsize="small"] #undoclosetab-button .toolbarbutton-icon {
 #statusbar-openintab,
 #statusbar-loadinbackground,
 #statusbar-loadinforeground {
-  list-style-image: url("jar:resource://app/chrome/classic.jar!/skin/classic/browser/Toolbar-small.png");
+  list-style-image: url("resource:///chrome/browser/skin/classic/browser/classic/browser/Toolbar-small.png");
   font-weight: bold;
   color: green;
 }

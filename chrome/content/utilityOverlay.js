@@ -4,13 +4,15 @@
 
   TU_hookCode("whereToOpenLink", "{", function() {
     var target;
-    switch (arguments.callee.caller.name) {
+    switch (TMP_console.callerName()) {
       case "PUIU_openNodeWithEvent":  //Fx 4.0
-      case "PUIU__openTabset":
+      case "PUIU__openTabset": // e10s got "PUIU_openNodeWithEvent"
         target = "bookmarks";break;
       case "BrowserGoHome":
         target = "homepage";break;
-      case "handleLinkClick": //Fx 4.0
+      case "handleLinkClick": //Fx 4.0. Not applicable for e10s.
+        target = "links";break;
+      case "ContentClick.contentAreaClick": //for e10s. Need QA.
         target = "links";break;
       default:
         for (var node = e && e.originalTarget; node && !target; node = node.parentNode) {
@@ -131,7 +133,7 @@
   //≤‡±ﬂ¿∏ È«©
   TU_hookCode("TU_openNodeWithEvent", /_openNodeIn\((.*)\)/, function(s, s1) s.replace(s1, (s1 = s1.split(","), s1.push("aEvent || {}"), s1.join())));
   TU_hookCode("TU__openNodeIn",
-    ["{", "var aEvent = arguments[arguments.callee.length];"],
+    ["{", "var aEvent = arguments[arguments.length - 1];"],
     ['aWhere == "current"', '(aEvent ? !aEvent.button && !aEvent.ctrlKey && !aEvent.altKey && !aEvent.shiftKey && !aEvent.metaKey : $&)']
   );
 
@@ -147,7 +149,7 @@
   );
 
   //Open internal links in current tab
-  TU_hookCode("TU__openNodeIn", /.*inBackground.*/, "$&, event: aEvent");
+  TU_hookCode("TU__openNodeIn", /(.*inBackground.*?\))(,?)/, "$1, event: aEvent$2");
 
   TU_hookCode("openUILinkIn",
     ["{", "var lastArg = Object(arguments[arguments.length - 1]);"],
@@ -176,7 +178,7 @@
   });
 
   //Open bookmarks with title/history
-  TU_hookCode("TU__openNodeIn", /.*inBackground.*/, "$&, title: aNode.title, itemId: aNode.itemId == -1 ? null : aNode.itemId");
+  TU_hookCode("TU__openNodeIn", /(.*inBackground.*aEvent)(,?)/, "$1, title: aNode.title, itemId: aNode.itemId == -1 ? null : aNode.itemId$2");
 
   TU_hookCode("openUILinkIn",
     ["{", "var lastArg = Object(arguments[arguments.length - 1]);"],

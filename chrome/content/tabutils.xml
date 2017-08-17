@@ -5,8 +5,6 @@
 %globalDTD;
 <!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
 %browserDTD;
-<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
-%tabBrowserDTD;
 ]>
 
 <bindings id="tabutils-bindings"
@@ -44,8 +42,8 @@
           </xul:toolbarbutton>
         </xul:hbox>
       </xul:hbox>
-      <xul:toolbarbutton class="scrollbutton-up" collapsed="true"
-                         xbl:inherits="orient"
+      <xul:toolbarbutton class="scrollbutton-up"
+                         xbl:inherits="orient,collapsed=notoverflowing,disabled=scrolledtostart"
                          anonid="scrollbutton-up"
                          onclick="_distanceScroll(event);"
                          onmousedown="if (event.button == 0) _startScroll(-1);"
@@ -53,14 +51,18 @@
                          onmouseover="_continueScroll(-1);"
                          onmouseout="_pauseScroll();"
                          chromedir="&locale.dir;"/>
+      <xul:spacer class="arrowscrollbox-overflow-start-indicator"
+                  xbl:inherits="collapsed=scrolledtostart"/>
       <xul:scrollbox class="arrowscrollbox-scrollbox"
                      anonid="scrollbox"
                      flex="1"
                      xbl:inherits="orient,align,pack,dir">
         <children/>
       </xul:scrollbox>
-      <xul:toolbarbutton class="scrollbutton-down" collapsed="true"
-                         xbl:inherits="orient"
+      <xul:spacer class="arrowscrollbox-overflow-end-indicator"
+                  xbl:inherits="collapsed=scrolledtoend"/>
+      <xul:toolbarbutton class="scrollbutton-down"
+                         xbl:inherits="orient,collapsed=notoverflowing,disabled=scrolledtoend"
                          anonid="scrollbutton-down"
                          onclick="_distanceScroll(event);"
                          onmousedown="if (event.button == 0) _startScroll(1);"
@@ -73,6 +75,9 @@
     <implementation>
       <constructor>
         <![CDATA[
+          this.setAttribute("notoverflowing", "true");
+          this._updateScrollButtonsDisabledState();
+
           PinnedTabsBar = TU_hookFunc(PlacesToolbar,
             ["PlacesToolbar", "PinnedTabsBar", "g"],
             ["PlacesChevron", "PinnedTabsBarChevron", "g"]
@@ -162,8 +167,6 @@
     <content>
       <xul:image class="tab-twisty" style="pointer-events: auto;"
                  role="presentation"/>
-      <children includes="image"/>
-      <children includes="label"/>
       <xul:label xbl:inherits="value=group-counter"
                  class="tab-text tab-counter"
                  role="presentation"/>
@@ -214,7 +217,7 @@
     <handlers>
       <handler event="dragover" group="system">
       <![CDATA[
-        if (!this.droppedLinkHandler || event.getPreventDefault())
+        if (!this.droppedLinkHandler || event.defaultPrevented)
           return;
 
         // For drags that appear to be internal text (for example, tab drags),

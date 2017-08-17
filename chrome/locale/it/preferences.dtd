@@ -124,6 +124,7 @@
 <!ENTITY closeButtons.1.label "Sulle Schede più larghe di">
 <!ENTITY closeButtons.2.label "NON USATO">
 <!ENTITY closeButtons.3.label "Solo sulla Barra delle schede">
+<!ENTITY closeButtons.10.label "Browser default">
 <!ENTITY closeButtons.16.label "Sulle attive/evidenziate dal Mouse">
 <!ENTITY closeButtons.18.label "Sulle schede evidenziate dal Mouse">
 <!ENTITY closeButtons.33.label "Sulla Barra/Tutte">

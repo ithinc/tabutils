@@ -1,0 +1,8 @@
+/* Tab Stacking */
+window[v45="true"] .tabbrowser-tab[group-selected]:not([group-counter="1"])[group-collapsed] .tab-twisty {
+  list-style-image: url("chrome://global/skin/tree/twisty.svg#clsd");
+}
+
+window[v45="true"] .tabbrowser-tab[group-first]:not([group-last]):not([group-collapsed]) .tab-twisty {
+  list-style-image: url("chrome://global/skin/tree/twisty.svg#open");
+}

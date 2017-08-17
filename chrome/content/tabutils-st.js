@@ -113,6 +113,11 @@ tabutils._stackTabs = function() {
     if (bTab.getAttribute("group-counter") == 1) {
       bTab.setAttribute("group-collapsed", !options.expand && TU_getPref("extensions.tabutils.autoCollapseNewStack", true));
       this.mTabContainer.mTabstrip.ensureElementIsVisible(bTab);
+      if (bTab.image && TU_getPref('extensions.tabutils.colorStackFromFavicon', false))
+      Services.mozIColorAnalyzer.findRepresentativeColor(makeURI(bTab.image), function(success, color) {
+        if (success)
+          this.updateStack(bTab, {color: "#" + ("000000" + color.toString(16)).slice(-6)});
+      }.bind(this));
     }
 
     //must happen after "group" is set to avoid bypassing stack, and
@@ -221,6 +226,10 @@ tabutils._stackTabs = function() {
     let tabs = this.siblingTabsOf(aTab);
     if (tabs.length == 0)
       return;
+    if (tabs.length == 1 && TU_getPref("extensions.tabutils.autoCleanupStack", false)) {
+      gBrowser.detachTab(aTab);
+      return;
+    }
 
     if (typeof aTab == "string") {
       aTab = tabs[0];
@@ -471,7 +480,7 @@ tabutils._stackTabs = function() {
       }
     }
 
-    let lastTab = this.getLastSelectedTab();
+    lastTab = this.getLastSelectedTab();
     if (lastTab && lastTab.hasAttribute("group") &&
         lastTab.getAttribute("group") != aTab.getAttribute("group") &&
         TU_getPref("extensions.tabutils.autoCollapseStackOnBlur", false))
@@ -495,8 +504,8 @@ tabutils._stackTabs = function() {
   });
 
   TU_hookCode("gBrowser.loadTabs",
-    [/(?=var tabNum)/, "var tabs = [firstTabAdded || this.mCurrentTab];"],
-    [/(?=.*aReplace.*\n.*moveTabTo.*)/, "tabs.push(tab);"],
+    [/(?=(?:var|let) tabNum)/, "var tabs = [firstTabAdded || this.mCurrentTab];"],
+    [/(?=if\s*\(.*\n.*moveTabTo.*tab.*)/, "tabs.push(tab);"],
     [/(?=.*!aLoadInBackground.*)/, function() {
       if (tabs.length > 1 && TU_getPref("extensions.tabutils.autoStack", false))
         this.stackTabs(tabs);
@@ -505,16 +514,16 @@ tabutils._stackTabs = function() {
 
   TU_hookCode("gBrowser.mTabContainer._selectNewTab", "aNewTab.hidden", "$& || aNewTab.collapsed");
 
-  TU_hookCode("gBrowser.createTooltip", /(tab|tn).getAttribute\("label"\)/, function(s, s1) (function() {
-    $1.mOverTwisty ? $1.hasAttribute("group-collapsed") ?
+  TU_hookCode("gBrowser.createTooltip", /(?:tab\._.+)(tab|tn).getAttribute\("label"\)/, function(s, s1) (function() {
+    a1.mOverTwisty ? a1.hasAttribute("group-collapsed") ?
                      document.getElementById("context_collapseStack").getAttribute("label_expand") :
                      document.getElementById("context_collapseStack").getAttribute("label_collapse")
-                   : this.isCollapsedStack($1) ?
+                   : this.isCollapsedStack(a1) ?
                      TU_getPref("extensions.tabutils.mouseHoverPopup", true) ?
                      event.preventDefault() :
-                     this.siblingTabsOf($1).map(function($1) ($1.hasAttribute("group-selected") ? "> " : "# ") + $0).join("\n") :
-                     $0
-  }).toString().replace(/^.*{|}$/g, "").replace("$0", s, "g").replace("$1", s1, "g"));
+                     this.siblingTabsOf(a1).map(function(a1) (a1.hasAttribute("group-selected") ? "> " : "# ") + a0).join("\n") :
+                     a0
+  }).toString().replace(/^.*{|}$/g, "").replace(/a0/g, s).replace(/a1/g, s1));
 
   gBrowser._setMenuitemAttributes = function _setMenuitemAttributes(aItem, aTab) {
     ["label", "crop", "image"].forEach(function(aProp) {

@@ -1,11 +1,17 @@
-/* Tab Highlighting */
-window[v29="true"] .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
-  -moz-image-region: rect(1px, 179px, 17px, 163px) !important;
-}
-
 /* Toolbar buttons */
 window[v29="true"]:not([OS="Linux"]) #nav-bar #button_tuOptions .toolbarbutton-icon,
 window[v29="true"]:not([OS="Linux"]) #nav-bar #closetab-button .toolbarbutton-icon {
   width: 32px;
   height: 24px;
+}
+
+/* Statusbar buttons */
+window[v29="true"] #statusbar-openintab {
+  -moz-image-region: rect(0px, 360px, 18px, 342px);
+}
+window[v29="true"] #statusbar-loadinbackground {
+  -moz-image-region: rect(0px, 54px, 18px, 36px);
+}
+window[v29="true"] #statusbar-loadinforeground {
+  -moz-image-region: rect(0px, 72px, 18px, 54px);
 }

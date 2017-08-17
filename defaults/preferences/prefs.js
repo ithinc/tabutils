@@ -1,4 +1,4 @@
-pref("extensions.tabutils@ithinc.cn.description", "chrome://tabutils/locale/tabutils.properties");
+pref("extensions.tabutilsfixed@addon.cn.description", "chrome://tabutils/locale/tabutils.properties");
 
 pref("extensions.tabutils.openBookmarksInTab", true);
 pref("extensions.tabutils.openHomepageInTab", true);
@@ -77,7 +77,7 @@ pref("extensions.tabutils.mouseScrollSelectDir", false);
 pref("extensions.tabutils.mouseScrollSelectWrap", false);
 
 pref("extensions.tabutils.tabBarPosition", 0);
-pref("extensions.tabutils.closeButtons", 1);
+pref("extensions.tabutils.closeButtons", 10);
 pref("extensions.tabutils.showTabCounter", false);
 pref("extensions.tabutils.showLeftSpace", false);
 pref("extensions.tabutils.showRightSpace", false);
@@ -172,7 +172,7 @@ pref("extensions.tabutils.button.undoclosetab-button.onclick", "");
 pref("extensions.tabutils.css.example", "");
 pref("extensions.tabutils.js.example", "");
 
-pref("extensions.tabutils.disableTabMoveAnimation", true);
+pref("extensions.tabutils.disableTabMoveAnimation", false);
 pref("extensions.tabutils.css.disableTabMoveAnimation", ".tabbrowser-tab[pinned] {-moz-transform: none !important;}");
 pref("extensions.tabutils.css.fixTabViewButton", "window[OS='WINNT']:not([v29='true']) #tabview-button > toolbarbutton > .toolbarbutton-icon:not(:-moz-lwtheme) {list-style-image: url('chrome://browser/skin/tabview/tabview-inverted.png') !important;} /* Bug 748894 [Fx23] */");
 
@@ -203,12 +203,14 @@ pref("extensions.tabutils.restartAfter", 0);
 pref("extensions.tabutils.autoStack", false);
 pref("extensions.tabutils.autoExpandStackOnDragover", false);
 pref("extensions.tabutils.autoExpandStackAndCollapseOthersOnSelect", true);
+pref("extensions.tabutils.autoCleanupStack", false);
 pref("extensions.tabutils.autoCollapseStackOnBlur", false);
 pref("extensions.tabutils.autoCollapseNewStack", true);
 pref("extensions.tabutils.dragToStack", false);
 pref("extensions.tabutils.mouseHoverPopup", true);
 pref("extensions.tabutils.mouseHoverPopupDelay", 750);
 
+pref("extensions.tabutils.colorStackFromFavicon", false);
 pref("extensions.tabutils.colorStack", true);
 pref("extensions.tabutils.colorStack.0", "#50C2F8 20%");
 pref("extensions.tabutils.colorStack.1", "#60FDC8 20%");
